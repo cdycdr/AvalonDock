@@ -1,0 +1,43 @@
+﻿<Window x:Class="AvalonDockTest.Window5"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Window5" Height="300" Width="300"
+    xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock">
+
+    <Grid>
+		<ad:DockingManager x:Name="dockingManager" Grid.Row="2">
+			<ad:ResizingPanel x:Name="resizingPanel" Orientation="Vertical">
+
+
+				<ad:DocumentPane x:Name="documentsHost">
+					<ad:DocumentContent>
+						<ad:DockingManager Name="dockingManager2">
+							<ad:ResizingPanel Name="resizingPanel2" Orientation="Horizontal">
+								<!-- My first DockablePane which encounters the overlap problem -->
+								<ad:DockablePane Name="treeDockablePane" ad:ResizingPanel.ResizeWidth="250">
+									<ad:DockableContent Name="treeDockableContent" Title="Equipment">
+										<TreeView DockPanel.Dock="Left" VerticalAlignment="Stretch"  />
+									</ad:DockableContent>
+								</ad:DockablePane>
+
+
+								<!-- Detail area -->
+								<StackPanel x:Name="detailPanel"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+									<Label Content="Test..." />
+								</StackPanel>
+							</ad:ResizingPanel>
+						</ad:DockingManager>
+					</ad:DocumentContent>
+				</ad:DocumentPane>
+
+
+				<!-- My second DockablePane which encounters the overlap problem -->
+				<ad:DockablePane x:Name="logPane" ad:ResizingPanel.ResizeHeight="200">
+					<ad:DockableContent x:Name="logDockableContent" Title="Logs">
+						
+					</ad:DockableContent>
+				</ad:DockablePane>
+			</ad:ResizingPanel>
+		</ad:DockingManager>
+	</Grid>
+</Window>

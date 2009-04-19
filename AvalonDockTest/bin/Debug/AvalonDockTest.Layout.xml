@@ -1,0 +1,24 @@
+<DockingManager>
+    <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,0" Orientation="Vertical">
+        <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="770.723333333333,270.361666666667" Orientation="Horizontal">
+            <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="383.361666666667,270.361666666667" Anchor="Left">
+                <DockableContent Name="_propertiesWindow" AutoHide="false" />
+            </DockablePane>
+            <DocumentPanePlaceHolder />
+            <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="261.333333333333,270.361666666667" Anchor="Right">
+                <DockableContent Name="_objectExplorerHost" AutoHide="true" />
+            </DockablePane>
+        </ResizingPanel>
+        <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="770.723333333333,270.361666666667" Anchor="Bottom">
+            <DockableContent Name="_errorList" AutoHide="false">
+                <Column Header="First Name" Width="100" />
+                <Column Header="Last Name" Width="100" />
+                <Column Header="Employee No." Width="100" />
+            </DockableContent>
+            <DockableContent Name="_eventsLogWindow" AutoHide="false" />
+            <DockableContent Name="_explorerWindow" AutoHide="false" />
+        </DockablePane>
+    </ResizingPanel>
+    <Hidden />
+    <Windows />
+</DockingManager>

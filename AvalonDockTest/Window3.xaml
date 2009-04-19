@@ -1,0 +1,17 @@
+﻿<Window x:Class="AvalonDockTest.Window3"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+    Title="AvalonDockTest3" Height="500" Width="500">
+    <Grid>
+		<ad:DockingManager >
+			<ad:ResizingPanel>
+				<ad:DockablePane >
+					<ad:DockableContent Title="Buttons" DockableStyle="DockableToBorders">
+						<Button>Button1</Button>
+					</ad:DockableContent>
+				</ad:DockablePane>
+			</ad:ResizingPanel>
+		</ad:DockingManager>
+	</Grid>
+</Window>

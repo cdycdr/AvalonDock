@@ -1,0 +1,24 @@
+﻿<Window x:Class="AvalonDockTest.Window2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:my="clr-namespace:AvalonDock;assembly=AvalonDock"
+    
+    Title="Njorl's Saga Manager" Height="600" Width="800" >
+    <DockPanel Name="dockPanel1">
+        <Menu Height="30.006" Name="MainMenu" DockPanel.Dock="Top" VerticalContentAlignment="Center">
+            <MenuItem Header="File" Name="MainMenuFileItem" />
+        </Menu>
+        <my:DockingManager Name="mainDockingManager" >
+            <my:ResizingPanel Name="verticalResizingPanel" Orientation="Vertical" >
+                <my:ResizingPanel x:Name="horizontalResizingPanel" Orientation="Horizontal">
+                    <my:DockablePane x:Name="LeftDockablePane">
+                        <my:DockableContent Title="Skill"></my:DockableContent>
+                    </my:DockablePane>
+                    <my:DocumentPane x:Name="CenterDocumentPane"></my:DocumentPane>
+                    <!--<my:DockablePane x:Name="RightDockablePane"></my:DockablePane>-->
+                </my:ResizingPanel>
+                <my:DockablePane x:Name="BottomDockablePane"></my:DockablePane>
+            </my:ResizingPanel>
+        </my:DockingManager>
+    </DockPanel>
+</Window>
