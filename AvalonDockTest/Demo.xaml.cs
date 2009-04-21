@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AvalonDock;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
@@ -17,6 +16,10 @@ using System.Xml;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Diagnostics;
+using System.Linq;
+
+using AvalonDock;
+using System.Collections.Generic;
 
 namespace AvalonDockTest
 {
@@ -112,7 +115,8 @@ namespace AvalonDockTest
         {
             int i = 1;
 
-
+            IEnumerable<DemoDocument> docs = _dockingManager.Documents.Cast<DemoDocument>().Where<DemoDocument>(d => d.IsChanged);
+            
 
             int baseCount = _dockingManager.Documents.Length;
             while (i <= 4)
@@ -221,12 +225,16 @@ namespace AvalonDockTest
 
         void _dockingManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            
+
             if (e.PropertyName == "ActiveContent" && _dockingManager.ActiveContent != null)
             {
                 if (_dockingManager.ActiveContent != null)
                 {
+
+                    DockablePane containerPane = _dockingManager.ActiveContent.ContainerPane as DockablePane;
                     _txtLog.AppendText(
-                       string.Format("[{0}] '{1}' is the active content", DateTime.Now.ToLongTimeString(), _dockingManager.ActiveContent.Title, _dockingManager.ActiveContent));
+                        string.Format("[{0}] '{1}' is the active content (Anchor = {2})", DateTime.Now.ToLongTimeString(), _dockingManager.ActiveContent.Title, containerPane != null ? containerPane.Anchor.ToString() : "Document!"));
                     _txtLog.AppendText(Environment.NewLine);
                     _txtLog.ScrollToEnd();
                 }

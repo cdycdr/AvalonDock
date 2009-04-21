@@ -43,6 +43,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Forms.Integration;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Threading;
 
 namespace AvalonDock
 {
@@ -516,16 +517,16 @@ namespace AvalonDock
             else if (CorrectedAnchor == AnchorStyle.Right && FlowDirection == FlowDirection.RightToLeft)
                 CorrectedAnchor = AnchorStyle.Left;
 
-            double wnd_Width = this.ActualWidth;
-            double wnd_Height = this.ActualHeight;
-            double wnd_Left = this.Left;
-            double wnd_Top = this.Top;
+                double wnd_Width = this.ActualWidth;
+                double wnd_Height = this.ActualHeight;
+                double wnd_Left = this.Left;
+                double wnd_Top = this.Top;
 
-            int wnd_TrimWidth = (int)wnd_Width;
-            int wnd_TrimHeight = (int)wnd_Height;
+                int wnd_TrimWidth = (int)wnd_Width;
+                int wnd_TrimHeight = (int)wnd_Height;
 
-            int stepWidth = (int)(wnd_Width / 20);
-            int stepHeight = (int)(wnd_Height / 20);
+                int stepWidth = (int)(wnd_Width / 20);
+                int stepHeight = (int)(wnd_Height / 20);    
 
             DispatcherTimer animTimer = new DispatcherTimer();
             animTimer.Interval = TimeSpan.FromMilliseconds(1);
@@ -549,6 +550,7 @@ namespace AvalonDock
                         {
                             newLeft += stepWidth;
                             wnd_TrimWidth -= stepWidth;
+                            wnd_TrimWidth = Math.Max(wnd_TrimWidth, 0);
                         }
 
                         //SetWindowRgn(new WindowInteropHelper(this).Handle, CreateRectRgn(0, 0, wnd_TrimWidth, wnd_TrimHeight), true);
@@ -567,6 +569,7 @@ namespace AvalonDock
                         {
                             newLeft -= stepWidth;
                             wnd_TrimWidth -= stepWidth;
+                            wnd_TrimWidth = Math.Max(wnd_TrimWidth, 0);
                         }
 
                         this.Left = newLeft;
@@ -586,6 +589,7 @@ namespace AvalonDock
                         {
                             newTop += stepHeight;
                             wnd_TrimHeight -= stepHeight;
+                            wnd_TrimHeight = Math.Max(wnd_TrimHeight, 0);
                         }
 
                         //SetWindowRgn(new WindowInteropHelper(this).Handle, CreateRectRgn(0, 0, wnd_TrimWidth, wnd_TrimHeight), true);
@@ -605,6 +609,7 @@ namespace AvalonDock
                         {
                             newTop -= stepHeight;
                             wnd_TrimHeight -= stepHeight;
+                            wnd_TrimHeight = Math.Max(wnd_TrimWidth, 0);
                         }
 
                         this.Top = newTop;

@@ -117,10 +117,10 @@
 								<FlowDocumentScrollViewer>
 									<FlowDocument FontFamily="Segoue">
 										<Paragraph>
-											<Bold>AvalonDock 1.1</Bold>
+											<Bold>AvalonDock 1.2</Bold>
 										</Paragraph>
 										<Paragraph>
-											Welcome to AvalonDock version 1.1. AvalonDock is a set WPF controls that you can use to enable the Visual Studio environment into your applications.
+											Welcome to AvalonDock version 1.2. AvalonDock is a set WPF controls that you can use to enable the Visual Studio environment into your applications.
 										</Paragraph>
 										<Paragraph>
 											AvalonDock is composed of seven controls:

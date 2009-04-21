@@ -37,6 +37,8 @@ namespace AvalonDockTest
             //e.CanExecute = false;
         }
 
+        public bool IsChanged { get; set; }
+
         public static readonly RoutedCommand ViewCommand = new RoutedCommand();
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {

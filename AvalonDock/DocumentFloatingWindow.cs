@@ -220,100 +220,122 @@ namespace AvalonDock
 
         
         #endregion
-        #region Drag
-        protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        //#region Drag
+        //protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        //{
+        //    handled = false;
+
+        //    if (!IsDocumentFloatingAllowed)
+        //        return IntPtr.Zero;
+
+        //    switch (msg)
+        //    {
+        //        case WM_SIZE:
+        //        case WM_MOVE:
+        //            //HostedPane.ReferencedPane.SaveFloatingWindowSizeAndPosition(this);
+        //            break;
+        //        case WM_NCLBUTTONDOWN:
+        //            if (IsDockableWindow && wParam.ToInt32() == HTCAPTION)
+        //            {
+        //                short x = (short)((lParam.ToInt32() & 0xFFFF));
+        //                short y = (short)((lParam.ToInt32() >> 16));
+
+        //                Point clickPoint = this.TransformToDeviceDPI(new Point(x, y));
+        //                Manager.Drag(this, clickPoint, new Point(clickPoint.X - Left, clickPoint.Y - Top));
+
+        //                handled = true;
+        //            }
+        //            break;
+        //        case WM_NCLBUTTONDBLCLK:
+        //            if (IsDockableWindow && wParam.ToInt32() == HTCAPTION)
+        //            {
+        //                if (IsDockableWindow)
+        //                {
+        //                    if (_previousPane != null)
+        //                    {
+        //                        if (_previousPane.GetManager() == null)
+        //                        {
+        //                            DockablePane newContainerPane = new DockablePane();
+        //                            newContainerPane.Items.Add(HostedPane.RemoveContent(0));
+        //                            newContainerPane.SetValue(ResizingPanel.ResizeWidthProperty, _previousPane.GetValue(ResizingPanel.ResizeWidthProperty));
+        //                            newContainerPane.SetValue(ResizingPanel.ResizeHeightProperty, _previousPane.GetValue(ResizingPanel.ResizeHeightProperty));
+        //                            Manager.Anchor(newContainerPane, ((DockablePane)_previousPane).Anchor);
+        //                        }
+        //                        else
+        //                        {
+        //                            if (_arrayIndexPreviousPane > _previousPane.Items.Count)
+        //                                _arrayIndexPreviousPane = _previousPane.Items.Count;
+
+        //                            DockableContent currentContent = HostedPane.Items[0] as DockableContent;
+        //                            _previousPane.Items.Insert(_arrayIndexPreviousPane, HostedPane.RemoveContent(0));
+        //                            _previousPane.SelectedIndex = _arrayIndexPreviousPane;
+        //                            currentContent.SetStateToDock();
+
+        //                        }
+        //                        this.Close();
+        //                    }
+
+        //                    handled = true;
+        //                }
+        //            }
+        //            break;
+        //        case WM_NCRBUTTONDOWN:
+        //            if (wParam.ToInt32() == HTCAPTION)
+        //            {
+        //                short x = (short)((lParam.ToInt32() & 0xFFFF));
+        //                short y = (short)((lParam.ToInt32() >> 16));
+
+        //                ContextMenu cxMenu = FindResource(new ComponentResourceKey(typeof(DockingManager), ContextMenuElement.FloatingWindow)) as ContextMenu;
+        //                if (cxMenu != null)
+        //                {
+        //                    foreach (MenuItem menuItem in cxMenu.Items)
+        //                        menuItem.CommandTarget = this;
+
+        //                    cxMenu.Placement = PlacementMode.AbsolutePoint;
+        //                    cxMenu.PlacementRectangle = new Rect(new Point(x, y), new Size(0, 0));
+        //                    cxMenu.PlacementTarget = this;
+        //                    cxMenu.IsOpen = true;
+        //                }
+
+        //                handled = true;
+        //            }
+        //            break;
+        //        case WM_NCRBUTTONUP:
+        //            if (wParam.ToInt32() == HTCAPTION)
+        //            {
+
+        //                handled = true;
+        //            }
+        //            break;
+
+        //    }
+
+
+        //    return IntPtr.Zero;
+        //}
+        //#endregion
+
+        protected override void Redock()
         {
-            handled = false;
-
-            if (!IsDocumentFloatingAllowed)
-                return IntPtr.Zero;
-
-            switch (msg)
+            if (_previousPane != null)
             {
-                case WM_SIZE:
-                case WM_MOVE:
-                    //HostedPane.ReferencedPane.SaveFloatingWindowSizeAndPosition(this);
-                    break;
-                case WM_NCLBUTTONDOWN:
-                    if (IsDockableWindow && wParam.ToInt32() == HTCAPTION)
-                    {
-                        short x = (short)((lParam.ToInt32() & 0xFFFF));
-                        short y = (short)((lParam.ToInt32() >> 16));
+                if (_previousPane.GetManager() == null)
+                {
+                     Manager.MainDocumentPane.Items.Insert(0, HostedPane.RemoveContent(0));
+                }
+                else
+                {
+                    if (_arrayIndexPreviousPane > _previousPane.Items.Count)
+                        _arrayIndexPreviousPane = _previousPane.Items.Count;
 
-                        Point clickPoint = this.TransformToDeviceDPI(new Point(x, y));
-                        Manager.Drag(this, clickPoint, new Point(clickPoint.X - Left, clickPoint.Y - Top));
-
-                        handled = true;
-                    }
-                    break;
-                case WM_NCLBUTTONDBLCLK:
-                    if (IsDockableWindow && wParam.ToInt32() == HTCAPTION)
-                    {
-                        if (IsDockableWindow)
-                        {
-                            if (_previousPane != null)
-                            {
-                                if (_previousPane.GetManager() == null)
-                                {
-                                    DockablePane newContainerPane = new DockablePane();
-                                    newContainerPane.Items.Add(HostedPane.RemoveContent(0));
-                                    newContainerPane.SetValue(ResizingPanel.ResizeWidthProperty, _previousPane.GetValue(ResizingPanel.ResizeWidthProperty));
-                                    newContainerPane.SetValue(ResizingPanel.ResizeHeightProperty, _previousPane.GetValue(ResizingPanel.ResizeHeightProperty));
-                                    Manager.Anchor(newContainerPane, ((DockablePane)_previousPane).Anchor);
-                                }
-                                else
-                                {
-                                    if (_arrayIndexPreviousPane > _previousPane.Items.Count)
-                                        _arrayIndexPreviousPane = _previousPane.Items.Count;
-
-                                    DockableContent currentContent = HostedPane.Items[0] as DockableContent;
-                                    _previousPane.Items.Insert(_arrayIndexPreviousPane, HostedPane.RemoveContent(0));
-                                    _previousPane.SelectedIndex = _arrayIndexPreviousPane;
-                                    currentContent.SetStateToDock();
-
-                                }
-                                this.Close();
-                            }
-
-                            handled = true;
-                        }
-                    }
-                    break;
-                case WM_NCRBUTTONDOWN:
-                    if (wParam.ToInt32() == HTCAPTION)
-                    {
-                        short x = (short)((lParam.ToInt32() & 0xFFFF));
-                        short y = (short)((lParam.ToInt32() >> 16));
-
-                        ContextMenu cxMenu = FindResource(new ComponentResourceKey(typeof(DockingManager), ContextMenuElement.FloatingWindow)) as ContextMenu;
-                        if (cxMenu != null)
-                        {
-                            foreach (MenuItem menuItem in cxMenu.Items)
-                                menuItem.CommandTarget = this;
-
-                            cxMenu.Placement = PlacementMode.AbsolutePoint;
-                            cxMenu.PlacementRectangle = new Rect(new Point(x, y), new Size(0, 0));
-                            cxMenu.PlacementTarget = this;
-                            cxMenu.IsOpen = true;
-                        }
-
-                        handled = true;
-                    }
-                    break;
-                case WM_NCRBUTTONUP:
-                    if (wParam.ToInt32() == HTCAPTION)
-                    {
-
-                        handled = true;
-                    }
-                    break;
-
+                    _previousPane.Items.Insert(_arrayIndexPreviousPane, HostedPane.RemoveContent(0));
+                    _previousPane.SelectedIndex = _arrayIndexPreviousPane;
+                }
+                this.Close();
             }
 
-
-            return IntPtr.Zero;
+            base.Redock();
         }
-        #endregion
 
     }
 }

@@ -17,23 +17,17 @@
                     <Border 
                         Background="{TemplateBinding Background}">
                         <ContentPresenter
+							x:Name="PART_ContentPresenter"
                             Margin="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                             />
+						
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <!--<Style TargetType="{x:Type ad:DockableContent}" BasedOn="{StaticResource {x:Type ad:ManagedContent}}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-    </Style>
-
-
-    <Style TargetType="{x:Type ad:DocumentContent}" BasedOn="{StaticResource {x:Type ad:ManagedContent}}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-    </Style>-->
     
 
 

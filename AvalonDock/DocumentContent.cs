@@ -65,6 +65,8 @@ namespace AvalonDock
             base.PropertyChanged += new PropertyChangedEventHandler(DocumentContent_PropertyChanged);
         }
 
+
+
         DateTime _lastActivation = DateTime.MinValue;
 
         internal DateTime LastActivation
@@ -88,8 +90,6 @@ namespace AvalonDock
         {
             return double.NaN;
         }
-
-
 
         string _infoTip;
         

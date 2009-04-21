@@ -40,6 +40,7 @@ using System.Windows.Interop;
 using System.ComponentModel;
 using System.IO;
 using System.Xml;
+using System.Linq;
 
 namespace AvalonDock
 {
@@ -91,6 +92,8 @@ namespace AvalonDock
         {
             //cleanup pending resources
             HideAutoHideWindow();
+            
+
             if (_wndInteropWrapper != null)
             {
                 _wndInteropWrapper.OnWindowPosChanging -= new EventHandler(_wndInteropWrapper_OnWindowPosChanging);
@@ -107,12 +110,20 @@ namespace AvalonDock
             foreach (FloatingWindow floatingWindow in _floatingWindows)
                 floatingWindow.Hide();
 
-            
-            if (navigatorWindow != null)
-            {
-                navigatorWindow.Close();
-                navigatorWindow = null;
-            }
+            //navigator windows are now automatically disposed when 
+            //no longer used. In this way we avoid WPF bug:
+            //http://social.msdn.microsoft.com/forums/en/wpf/thread/f3fc5b7e-e035-4821-908c-b6c07e5c7042/
+            //if (navigatorWindow != null)
+            //{
+            //    navigatorWindow.Close();
+            //    navigatorWindow = null;
+            //}
+
+            //if (documentNavigatorWindow != null)
+            //{
+            //    documentNavigatorWindow.Close();
+            //    documentNavigatorWindow = null;
+            //}
 
             DragPaneServices.Unregister(this);
 
@@ -307,7 +318,7 @@ namespace AvalonDock
         {
             get
             {
-                return FindContents<DocumentContent>().ToArray();
+                return FindContents<DocumentContent>().ToArray<DocumentContent>();
             }
         }
 
@@ -629,7 +640,7 @@ namespace AvalonDock
         {
             HideDocumentNavigatorWindow();
 
-            if (documentNavigatorWindow == null)
+            //if (documentNavigatorWindow == null)
             {
                 documentNavigatorWindow = new DocumentNavigatorWindow(this);
                 documentNavigatorWindow.Owner = Window.GetWindow(this);
@@ -649,14 +660,14 @@ namespace AvalonDock
 
         void HideDocumentNavigatorWindow()
         {
-            if (documentNavigatorWindow != null)
-            {
-                documentNavigatorWindow.Hide();
+            //if (documentNavigatorWindow != null)
+            //{
+            //    documentNavigatorWindow.Hide();
                 
-                //don't close this window to be more responsive
-                //documentNavigatorWindow.Close();
-                //documentNavigatorWindow = null;
-            }
+            //    //don't close this window to be more responsive
+            //    documentNavigatorWindow.Close();
+            //    documentNavigatorWindow = null;
+            //}
         }
 
 
@@ -2011,10 +2022,13 @@ namespace AvalonDock
                 {
                     if (!_flyoutWindow.IsOpening && !_flyoutWindow.IsClosing)
                         _flyoutWindow.Top = locDockingManager.Y + this.ActualHeight - bottomTabsHeight - _flyoutWindow.Height;
+                    if (_flyoutWindow.IsClosing)
+                        _flyoutWindow.Top = locDockingManager.Y + this.ActualHeight - bottomTabsHeight - _flyoutWindow.Height; 
                 }
             }
 
-            _flyoutWindow.UpdateClipRegion();
+            if (_flyoutWindow != null && !_flyoutWindow.IsClosing)
+                _flyoutWindow.UpdateClipRegion();
         }
 
         void  _wndInteropWrapper_OnWindowPosChanging(object sender, EventArgs e)

@@ -166,6 +166,9 @@ namespace AvalonDock
         {
             handled = false;
 
+            if (Manager == null)
+                return IntPtr.Zero;
+
             switch (msg)
             {
                 case WM_SIZE:

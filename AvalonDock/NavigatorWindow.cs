@@ -141,7 +141,7 @@ namespace AvalonDock
         void OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Tab)
-                Hide();
+                Close();//Hide();
             else
             {
                 e.Handled = true;
@@ -152,7 +152,7 @@ namespace AvalonDock
         void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Tab)
-                Hide();
+                Close();//Hide();
             else
             {
                 e.Handled = true;
@@ -227,7 +227,9 @@ namespace AvalonDock
                     }
                 }
             }
-            Hide();
+            
+            if (!_isClosing)
+                Close();//Hide();
 
             base.OnDeactivated(e);
         }
@@ -292,7 +294,7 @@ namespace AvalonDock
                     NotifyPropertyChanged("SelectedToolWindow");
 
                     SelectedContent = null;
-                    Hide();
+                    Close();// Hide();
                 }
             }
         }
@@ -315,6 +317,24 @@ namespace AvalonDock
 
                 SelectedContent = Documents[indexOfSelecteContent];
             }
+        }
+
+        bool _isClosing = false;
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            _isClosing = true;
+
+            base.OnClosing(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            //reset documents list to avoid WPF Bug:
+            //http://social.msdn.microsoft.com/forums/en/wpf/thread/f3fc5b7e-e035-4821-908c-b6c07e5c7042/
+            //http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=321955
+            Documents = new List<NavigatorWindowDocumentItem>();
+
+            base.OnClosed(e);
         }
 
         #region INotifyPropertyChanged Members
