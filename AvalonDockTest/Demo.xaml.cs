@@ -231,7 +231,6 @@ namespace AvalonDockTest
             {
                 if (_dockingManager.ActiveContent != null)
                 {
-
                     DockablePane containerPane = _dockingManager.ActiveContent.ContainerPane as DockablePane;
                     _txtLog.AppendText(
                         string.Format("[{0}] '{1}' is the active content (Anchor = {2})", DateTime.Now.ToLongTimeString(), _dockingManager.ActiveContent.Title, containerPane != null ? containerPane.Anchor.ToString() : "Document!"));
@@ -283,6 +282,16 @@ namespace AvalonDockTest
                 + @"\AvalonDockTest.Layout.xml";
             if (!File.Exists(path))
                 return;
+
+            _dockingManager.DeserializationCallback = (s, e_args) =>
+                {
+                    if (e_args.Name == "_contentDummy")
+                    {
+                        e_args.Content = new DockableContent();
+                        e_args.Content.Title = "Dummy Content";
+                        e_args.Content.Content = new TextBlock() { Text = "Content Loaded On Demand!"};
+                    }
+                };
 
             FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             _dockingManager.RestoreLayout(fs);

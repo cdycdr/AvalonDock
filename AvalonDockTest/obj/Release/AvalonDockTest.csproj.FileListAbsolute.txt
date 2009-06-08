@@ -96,3 +96,4 @@ C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDockTest\obj
 C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDockTest\obj\Release\AvalonDockTest.Properties.Resources.resources
 C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDockTest\obj\Release\AvalonDockTest.csproj.GenerateResource.Cache
 C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDockTest\obj\Release\AvalonDockTest.exe
+C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDockTest\bin\Release\AvalonDock.xml

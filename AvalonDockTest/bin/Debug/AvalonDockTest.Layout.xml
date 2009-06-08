@@ -1,24 +1,28 @@
 <DockingManager>
     <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,0" Orientation="Vertical">
-        <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="792,302.446666666667" Orientation="Horizontal">
-            <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="261.333333333333,302.446666666667" Anchor="Left">
+        <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="792,274.361666666667" Orientation="Horizontal">
+            <DockablePane ResizeWidth="0.605867346938775*" ResizeHeight="*" EffectiveSize="154.298736275119,274.361666666667" Anchor="Left">
                 <DockableContent Name="_propertiesWindow" AutoHide="false" />
             </DockablePane>
             <DocumentPanePlaceHolder />
-            <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="261.333333333333,302.446666666667" Anchor="Right">
+            <DockablePane ResizeWidth="1.19706632653061*" ResizeHeight="*" EffectiveSize="304.861818935156,274.361666666667" Anchor="Right">
                 <DockableContent Name="_objectExplorerHost" AutoHide="false" />
             </DockablePane>
         </ResizingPanel>
-        <DockablePane ResizeWidth="792" ResizeHeight="270.361666666667" EffectiveSize="792,270.361666666667" Anchor="Bottom">
-            <DockableContent Name="_errorList" AutoHide="true">
+        <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="792,274.361666666667" Anchor="Bottom">
+            <DockableContent Name="_errorList" AutoHide="false">
                 <Column Header="First Name" Width="100" />
                 <Column Header="Last Name" Width="100" />
                 <Column Header="Employee No." Width="100" />
             </DockableContent>
-            <DockableContent Name="_eventsLogWindow" AutoHide="true" />
-            <DockableContent Name="_explorerWindow" AutoHide="true" />
+            <DockableContent Name="_eventsLogWindow" AutoHide="false" />
+            <DockableContent Name="_explorerWindow" AutoHide="false" />
         </DockablePane>
     </ResizingPanel>
     <Hidden />
-    <Windows />
+    <Windows>
+        <FloatingWinfow IsDockableWindow="true" Top="505" Left="584" Width="533" Height="211">
+            <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="533,211" Anchor="None" />
+        </FloatingWinfow>
+    </Windows>
 </DockingManager>

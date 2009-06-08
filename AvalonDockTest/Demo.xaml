@@ -248,7 +248,13 @@
 							</ad:DockableContent.Icon>
 							<TextBox x:Name="_txtLog" VerticalScrollBarVisibility="Auto" Margin="10" />
 						</ad:DockableContent>
-                        <ad:DockableContent x:Name="_explorerWindow" Title="Server Explorer" DockableStyle="DockableToBorders">
+						<!--<ad:DockableContent x:Name="_contentDummy" Title="Events log">
+							<ad:DockableContent.Icon>
+								<Image Width="16" Height="16" Source="Images\demo.png"/>
+							</ad:DockableContent.Icon>
+							<TextBlock x:Name="_txtLDummy" Margin="10" Text="Content Dummy"/>
+						</ad:DockableContent>-->
+						<ad:DockableContent x:Name="_explorerWindow" Title="Server Explorer" DockableStyle="DockableToBorders">
                             <ad:DockableContent.Icon>
                                 <Image Width="16" Height="16" Source="Images\database.png"/>
                             </ad:DockableContent.Icon>
@@ -263,19 +269,6 @@
                                     </StackPanel>
                                 </TabItem>
                             </TabControl>
-                            <!--<TreeView>
-                                    <TreeViewItem Header="Server1">
-                                        <TreeViewItem Header="Databases">
-                                            <TreeViewItem Header="Database1"/>
-                                            <TreeViewItem Header="Database2"/>
-                                            <TreeViewItem Header="Database3"/>
-                                        </TreeViewItem>
-                                    </TreeViewItem>
-                                    <TreeViewItem Header="Server2">
-                                    </TreeViewItem>
-                                    <TreeViewItem Header="Server3">
-                                    </TreeViewItem>
-                                </TreeView>-->
                         </ad:DockableContent>
                     </ad:DockablePane>
 				</ad:ResizingPanel>
