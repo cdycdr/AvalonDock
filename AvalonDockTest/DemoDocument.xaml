@@ -3,19 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
     xmlns:local="clr-namespace:AvalonDockTest"
-     Foreground="Green" IsLocked="True" IsFloatingAllowed="True" Width="200" Height="200" Loaded="DocumentContent_Loaded" >
+    Foreground="Green" Background="AliceBlue"  IsLocked="True" IsFloatingAllowed="True" Width="637" Height="378" Loaded="DocumentContent_Loaded" >
+	
     <ad:DocumentContent.CommandBindings>
         <CommandBinding Command="{x:Static local:DemoDocument.ViewCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
     </ad:DocumentContent.CommandBindings>
-
-    <!--<Button>
-        <Button.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Click me" Command="{x:Static local:DemoDocument.ViewCommand}"/>
-            </ContextMenu>
-        </Button.ContextMenu>
-    </Button>-->
-    <!--<Grid Background="Red">-->
         <FlowDocumentReader>
         <FlowDocumentReader.ContextMenu>
             <ContextMenu>
@@ -40,5 +32,4 @@
                 </Paragraph>
             </FlowDocument>
          </FlowDocumentReader>
-    <!--</Grid>-->
 </ad:DocumentContent>

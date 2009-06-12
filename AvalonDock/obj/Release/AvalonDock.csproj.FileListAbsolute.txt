@@ -84,3 +84,4 @@ C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\Avalon
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\aero.normalcolor.baml
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\classic2.baml
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\classic.brushes.baml
+C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\bin\Release\AvalonDock.XML

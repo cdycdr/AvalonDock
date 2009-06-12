@@ -32,11 +32,28 @@
         </MenuItem>
     </ContextMenu>
 
+	<!--ManagedContent-->
+	<Style TargetType="{x:Type ad:ManagedContent}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ad:ManagedContent}">
+					<Border
+						Background="{TemplateBinding Background}"
+					    Margin="{TemplateBinding Padding}"
+						>
+						<ContentPresenter/>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
 	<!--DocumentTabItemStyle-->
     <Style x:Key="DocumentTabItemStyle" TargetType="{x:Type ad:ManagedContent}">
         <Setter Property="Background"
                 Value="Transparent"/>
-        <Setter Property="Template">
+		<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ad:ManagedContent}">
                     <Border 

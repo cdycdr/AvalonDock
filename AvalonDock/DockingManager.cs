@@ -168,6 +168,29 @@ namespace AvalonDock
 
         bool _OnApplyTemplateFlag = false;
 
+
+        Panel ReplaceAnchorTabPanel(Panel oldPanel, Panel newPanel)
+        {
+            if (oldPanel == null)
+            {
+                _anchorTabPanels.Add(newPanel);
+                return newPanel;
+            }
+            else
+            {
+                _anchorTabPanels.Remove(oldPanel);
+                while (oldPanel.Children.Count > 0)
+                {
+                    UIElement tabToTransfer = oldPanel.Children[0];
+                    oldPanel.Children.RemoveAt(0);
+
+                    newPanel.Children.Add(tabToTransfer);
+                }
+                _anchorTabPanels.Add(newPanel);
+
+                return newPanel;
+            }
+        }
         
         /// <summary>
         /// Overriden to get a reference to underlying template elements
@@ -176,24 +199,28 @@ namespace AvalonDock
         {
             base.OnApplyTemplate();
 
-            _leftAnchorTabPanel = GetTemplateChild("PART_LeftAnchorTabPanel") as Panel;
-            _rightAnchorTabPanel = GetTemplateChild("PART_RightAnchorTabPanel") as Panel;
-            _topAnchorTabPanel = GetTemplateChild("PART_TopAnchorTabPanel") as Panel;
-            _bottomAnchorTabPanel = GetTemplateChild("PART_BottomAnchorTabPanel") as Panel;
+            Panel leftPanel = GetTemplateChild("PART_LeftAnchorTabPanel") as Panel;
+            if (leftPanel == null)
+                throw new ArgumentException("PART_LeftAnchorTabPanel template child element not fount!");
 
-            if (_leftAnchorTabPanel != null)
-                _anchorTabPanels.Add(_leftAnchorTabPanel);
-            if (_rightAnchorTabPanel != null)
-                _anchorTabPanels.Add(_rightAnchorTabPanel);
-            if (_topAnchorTabPanel != null)
-                _anchorTabPanels.Add(_topAnchorTabPanel);
-            if (_bottomAnchorTabPanel != null)
-                _anchorTabPanels.Add(_bottomAnchorTabPanel);
+            Panel rightPanel = GetTemplateChild("PART_RightAnchorTabPanel") as Panel;
+            if (rightPanel == null)
+                throw new ArgumentException("PART_RightAnchorTabPanel template child element not fount!");
 
-            System.Diagnostics.Debug.Assert(_leftAnchorTabPanel != null);
-            System.Diagnostics.Debug.Assert(_rightAnchorTabPanel != null);
-            System.Diagnostics.Debug.Assert(_topAnchorTabPanel != null);
-            System.Diagnostics.Debug.Assert(_bottomAnchorTabPanel != null);
+            Panel topPanel = GetTemplateChild("PART_TopAnchorTabPanel") as Panel;
+            if (topPanel == null)
+                throw new ArgumentException("PART_TopAnchorTabPanel template child element not fount!");
+
+            Panel bottomPanel = GetTemplateChild("PART_BottomAnchorTabPanel") as Panel;
+            if (bottomPanel == null)
+                throw new ArgumentException("PART_BottomAnchorTabPanel template child element not fount!");
+
+
+            _leftAnchorTabPanel = ReplaceAnchorTabPanel(_leftAnchorTabPanel, leftPanel);
+            _rightAnchorTabPanel = ReplaceAnchorTabPanel(_rightAnchorTabPanel, rightPanel);
+            _topAnchorTabPanel = ReplaceAnchorTabPanel(_topAnchorTabPanel, topPanel);
+            _bottomAnchorTabPanel = ReplaceAnchorTabPanel(_bottomAnchorTabPanel, bottomPanel);
+            
             _OnApplyTemplateFlag = true;
         }
 
@@ -213,9 +240,21 @@ namespace AvalonDock
             }
             set
             {
+                //Debug.WriteLine(string.Format("SetActiveDocument to '{0}'", value != null ? value.Name : "null"));
+
                 if (_activeDocument != value/* &&
                     value.ContainerPane is DocumentPane*/)
                 {
+                    if (value != null &&
+                        (value.FindVisualAncestor<DocumentPane>(false) == null &&
+                        !(value is DocumentContent))
+                        )
+                    { 
+                        //value is not contained in a document pane/ documentfloatingwindow so cant be the active document!
+                        return;
+                    }
+
+
                     List<ManagedContent> listOfAllDocuments = FindContents<ManagedContent>();
                     listOfAllDocuments.ForEach((ManagedContent cnt) =>
                         {
@@ -242,6 +281,7 @@ namespace AvalonDock
             }
             internal set
             {
+                //Debug.WriteLine(string.Format("SetActiveContent to '{0}'", value != null ? value.Name : "null"));
                 ActiveDocument = value;
 
                 if (_activeContent != value)
@@ -1497,8 +1537,11 @@ namespace AvalonDock
                 _hiddenContents.Add(content);
             }
 
-            //if (ActiveContent == content)
-            //    ActiveContent = null;
+            if (ActiveDocument == content)
+                ActiveDocument = null;
+
+            if (ActiveContent == content)
+                ActiveContent = null;
         }
 
         /// <summary>
@@ -1923,7 +1966,7 @@ namespace AvalonDock
             _flyoutWindow = new FlyoutPaneWindow(this, content);
             _flyoutWindow.Owner = parentWindow;
             _flyoutWindow.FlowDirection = this.FlowDirection;
-            
+
             UpdateFlyoutWindowPosition(true);
 
             _flyoutWindow.Closing += new System.ComponentModel.CancelEventHandler(_flyoutWindow_Closing);
@@ -1955,6 +1998,8 @@ namespace AvalonDock
         {
             if (_flyoutWindow == null)
                 return;
+
+            Debug.WriteLine("_leftAnchorTabPanel " + _leftAnchorTabPanel.ActualWidth + " - " + _leftAnchorTabPanel.Children.Count);
 
             double leftTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _leftAnchorTabPanel.ActualWidth : _rightAnchorTabPanel.ActualWidth;
             double rightTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _rightAnchorTabPanel.ActualWidth : _leftAnchorTabPanel.ActualWidth;
@@ -2938,5 +2983,7 @@ namespace AvalonDock
         }
 
         #endregion
+
+
     }
 }

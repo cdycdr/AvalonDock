@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -225,8 +224,6 @@ namespace AvalonDockTest
 
         void _dockingManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            
-
             if (e.PropertyName == "ActiveContent" && _dockingManager.ActiveContent != null)
             {
                 if (_dockingManager.ActiveContent != null)
@@ -249,6 +246,10 @@ namespace AvalonDockTest
                     _txtLog.ScrollToEnd();
                 }
             }
+
+            Debug.WriteLine(string.Format ("ActiveContent = {0} ActiveDocument = {1}"
+                , _dockingManager.ActiveContent == null ? "null" : _dockingManager.ActiveContent.Title
+                , _dockingManager.ActiveDocument == null ? "null" : _dockingManager.ActiveDocument.Title));
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -323,6 +324,40 @@ namespace AvalonDockTest
         }
 
 
+        private void ChangeColor_Clicked(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = sender as MenuItem;
 
+            switch (item.Tag.ToString())
+            {
+                case "red":
+                    ColorFactory.ChangeColors(Colors.Red);
+                    break;
+                case "green":
+                    ColorFactory.ChangeColors(Colors.DarkGreen);
+                    break;
+                case "blue":
+                    ColorFactory.ChangeColors(Color.FromRgb(93, 136, 230));
+                    break;
+                case "gray":
+                    ColorFactory.ChangeColors(Colors.Black);
+                    break;
+                case "orange":
+                    ColorFactory.ChangeColors(Colors.DarkOrange);
+                    break;
+                case "lime":
+                    ColorFactory.ChangeColors(Colors.Lime);
+                    break;
+                case "magenta":
+                    ColorFactory.ChangeColors(Colors.Magenta);
+                    break;
+            }
+        }
+
+
+        private void ResetColors_Clicked(object sender, RoutedEventArgs e)
+        {
+            ColorFactory.ResetColors();
+        }
     }
 }

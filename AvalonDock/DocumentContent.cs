@@ -52,12 +52,12 @@ namespace AvalonDock
 
         static DocumentContent()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DocumentContent), new FrameworkPropertyMetadata(typeof(DocumentContent)));
+            //DefaultStyleKeyProperty.OverrideMetadata(typeof(DocumentContent), new FrameworkPropertyMetadata(typeof(DocumentContent)));
 
-            Control.WidthProperty.OverrideMetadata(typeof(DocumentContent),
-                new FrameworkPropertyMetadata(new PropertyChangedCallback(OnSizePropertyChanged), new CoerceValueCallback(CourceSizeToNaN)));
-            Control.HeightProperty.OverrideMetadata(typeof(DocumentContent),
-                new FrameworkPropertyMetadata(new PropertyChangedCallback(OnSizePropertyChanged), new CoerceValueCallback(CourceSizeToNaN)));
+            //Control.WidthProperty.OverrideMetadata(typeof(DocumentContent),
+            //    new FrameworkPropertyMetadata(new PropertyChangedCallback(OnSizePropertyChanged), new CoerceValueCallback(CourceSizeToNaN)));
+            //Control.HeightProperty.OverrideMetadata(typeof(DocumentContent),
+            //    new FrameworkPropertyMetadata(new PropertyChangedCallback(OnSizePropertyChanged), new CoerceValueCallback(CourceSizeToNaN)));
         }
 
         public DocumentContent()
@@ -88,7 +88,8 @@ namespace AvalonDock
 
         static object CourceSizeToNaN(DependencyObject sender, object value)
         {
-            return double.NaN;
+            //return double.NaN;
+            return value;
         }
 
         string _infoTip;
@@ -225,6 +226,12 @@ namespace AvalonDock
 
             if (Manager != null)
                 Manager.FireDocumentClosedEvent();
+
+            if (Manager.ActiveDocument == this)
+                Manager.ActiveDocument = null;
+            
+            if (Manager.ActiveContent == this)
+                Manager.ActiveContent = null;
         }
      
    
