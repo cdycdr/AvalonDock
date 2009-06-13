@@ -214,6 +214,7 @@ namespace AvalonDock
                 return;
 
             DocumentPane parentPane = ContainerPane as DocumentPane;
+            DockingManager manager = Manager;
 
             if (parentPane != null)
             {
@@ -222,16 +223,20 @@ namespace AvalonDock
                 parentPane.CheckContentsEmpty();
             }
 
+
+            if (manager != null)
+            {
+                if (manager.ActiveDocument == this)
+                    manager.ActiveDocument = null;
+
+                if (manager.ActiveContent == this)
+                    manager.ActiveContent = null;
+            }
+
             OnClosed();
 
-            if (Manager != null)
-                Manager.FireDocumentClosedEvent();
-
-            if (Manager.ActiveDocument == this)
-                Manager.ActiveDocument = null;
-            
-            if (Manager.ActiveContent == this)
-                Manager.ActiveContent = null;
+            if (manager != null)
+                manager.FireDocumentClosedEvent();
         }
      
    
