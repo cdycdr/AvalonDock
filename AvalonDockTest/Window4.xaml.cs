@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using AvalonDock;
+using System.IO;
 
 namespace AvalonDockTest
 {
@@ -22,56 +23,26 @@ namespace AvalonDockTest
         {
             InitializeComponent();
 
-           // DockingManager mng = new DockingManager();
-           //// this.Content = mng;
-
-           // DockableContent ccnt = new DockableContent();
-
-            //System.Windows.Forms.Integration.WindowsFormsHost _PropGridHost = new System.Windows.Forms.Integration.WindowsFormsHost();
-
-            //System.Windows.Forms.PropertyGrid _PropGrid = new System.Windows.Forms.PropertyGrid();
-
-            //_PropGrid.Name = "_PropertyGrid";
-
-            //_PropGridHost.Child = _PropGrid;
-
-            //this.Content = _PropGridHost;
-
-            //ccnt.Content = _PropGridHost;
-
-
-            //DockablePane pane = new DockablePane();
-            //pane.Items.Add(ccnt);
-            //ResizingPanel.SetResizeWidth(pane, 200);
-            //ResizingPanel.SetResizeHeight(pane, 200);
-
-            //ResizingPanel panel = new ResizingPanel();
-            //panel.Children.Add(pane);
-            //panel.Children.Add(new Border());
-
-            //mng.Content = pane;
-
-            //FlyoutPaneWindow wnd = new FlyoutPaneWindow();
-            //wnd.Content = pane;
-            //wnd.Show();
-
-            //Window testWindow = new Window();
-            ////testWindow.AllowsTransparency = true;
-            //testWindow.Background = Brushes.Transparent;
-            //testWindow.WindowStyle = WindowStyle.None;
-            //testWindow.BorderThickness = new Thickness(0);
-            //testWindow.ShowInTaskbar = false;
-            //testWindow.Content = panel;
-            //testWindow.Show();
-
-
         }
 
-        Dock _dock = Dock.Top;
-        public Dock Dock
+        private void dockingManager_Loaded(object sender, RoutedEventArgs e)
         {
-            get { return _dock; }
-            set { _dock = value; }
+            string xmlLayout =
+                "<DockingManager>" +
+                  "<ResizingPanel Orientation=\"Horizontal\">" +
+                  "  <DockablePane ResizeWidth=\"0.2125\" Anchor=\"Left\">" +
+                  "    <DockableContent Name=\"MyUserControl1\" AutoHide=\"false\" />" +
+                  "  </DockablePane>" +
+                  "  <DockablePane Anchor=\"Left\">" +
+                  "    <DockableContent Name=\"MyUserControl2\" AutoHide=\"false\" />" +
+                  "  </DockablePane>" +
+                  "</ResizingPanel>" +
+                  "<Hidden />" +
+                  "<Windows />" +
+                "</DockingManager>";
+
+            StringReader sr = new StringReader(xmlLayout);
+            dockingManager.RestoreLayout(sr);
         }
 
     }

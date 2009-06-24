@@ -357,6 +357,8 @@ namespace AvalonDockTest
 
         private void ResetColors_Clicked(object sender, RoutedEventArgs e)
         {
+            ((DocumentContent)_dockingManager.ActiveDocument).Close();
+
             ColorFactory.ResetColors();
         }
     }

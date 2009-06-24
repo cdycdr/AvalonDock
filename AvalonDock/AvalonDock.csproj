@@ -195,9 +195,6 @@
     <Resource Include="Resources\images\DockTop.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\DocumentHS.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\images\PinClose.png" />
   </ItemGroup>
   <ItemGroup>

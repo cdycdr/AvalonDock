@@ -337,5 +337,17 @@ namespace AvalonDock
             base.Redock();
         }
 
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (this.HostedPane.Items.Count > 0)
+            {
+                DocumentContent docContent = this.HostedPane.Items[0] as DocumentContent;
+                if (!docContent.Close())
+                    e.Cancel = true;
+            }
+            
+            base.OnClosing(e);
+        }
     }
 }

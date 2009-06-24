@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Reflection;
+using AvalonDock;
+using System.IO;
 
 namespace AvalonDockTest
 {
@@ -23,12 +25,23 @@ namespace AvalonDockTest
             InitializeComponent();
         }
 
-        private void SaveLayout_Click(object sender, RoutedEventArgs e)
-        {
-            string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-     + @"\AvalonDockTest.Layout.xml";
+        MemoryStream savedLayout = new MemoryStream();
 
-            //_dockingManager.SaveLayout(path);
+        private void ShowDockingManager_Click(object sender, RoutedEventArgs e)
+        {
+            savedLayout.Position = 0;
+            _dockingManager.RestoreLayout(savedLayout);
+            _dockingManager.Hide(ShowMeFirst);
+            savedLayout.Close();
+        }
+
+
+        private void _dockingManager_Loaded(object sender, RoutedEventArgs e)
+        {
+            _dockingManager.SaveLayout(savedLayout);
+
+            _dockingManager.Hide(ShowMeSecond);
+            _dockingManager.Hide(AlsoShowMeSecond);
 
         }
     }

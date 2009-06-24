@@ -626,7 +626,8 @@ namespace AvalonDock
         {
             if (navigatorWindow != null)
             {
-                navigatorWindow.Hide();
+                navigatorWindow.Close();
+                navigatorWindow = null;
             }
         }
 

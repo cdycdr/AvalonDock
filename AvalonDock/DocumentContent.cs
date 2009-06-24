@@ -199,19 +199,19 @@ namespace AvalonDock
         /// Note:<see cref="DockableContent"/> cannot be closed: AvalonDock simply hide a <see cref="DockableContent"/> removing all the reference to it.
         /// </para>
         /// </remarks>
-        public void Close()
+        public bool Close()
         {
             CancelEventArgs e = new CancelEventArgs(false);
             OnClosing(e);
             
             if (e.Cancel)
-                return;
+                return false;
 
             if (Manager != null)
                 Manager.FireDocumentClosingEvent(e);
 
             if (e.Cancel)
-                return;
+                return false;
 
             DocumentPane parentPane = ContainerPane as DocumentPane;
             DockingManager manager = Manager;
@@ -237,6 +237,8 @@ namespace AvalonDock
 
             if (manager != null)
                 manager.FireDocumentClosedEvent();
+
+            return true;
         }
      
    
