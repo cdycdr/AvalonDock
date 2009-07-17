@@ -115,6 +115,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestDocumentCloseEventArgs.cs" />
     <Compile Include="ResizingPanel.cs" />
     <Compile Include="ResizingPanelSplitter.cs" />
     <Compile Include="WindowInteropWrapper.cs" />

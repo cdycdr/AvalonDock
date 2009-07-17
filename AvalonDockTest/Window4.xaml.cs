@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using AvalonDock;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace AvalonDockTest
 {
@@ -21,28 +22,66 @@ namespace AvalonDockTest
     {
         public Window4()
         {
+            MyDocs = new ObservableCollection<DocumentContent>();
+            this.DataContext = this;
+
             InitializeComponent();
+
+
 
         }
 
+        public ObservableCollection<DocumentContent> MyDocs { get; set; }
+
         private void dockingManager_Loaded(object sender, RoutedEventArgs e)
         {
-            string xmlLayout =
-                "<DockingManager>" +
-                  "<ResizingPanel Orientation=\"Horizontal\">" +
-                  "  <DockablePane ResizeWidth=\"0.2125\" Anchor=\"Left\">" +
-                  "    <DockableContent Name=\"MyUserControl1\" AutoHide=\"false\" />" +
-                  "  </DockablePane>" +
-                  "  <DockablePane Anchor=\"Left\">" +
-                  "    <DockableContent Name=\"MyUserControl2\" AutoHide=\"false\" />" +
-                  "  </DockablePane>" +
-                  "</ResizingPanel>" +
-                  "<Hidden />" +
-                  "<Windows />" +
-                "</DockingManager>";
+            //string xmlLayout =
+            //    "<DockingManager>" +
+            //      "<ResizingPanel Orientation=\"Horizontal\">" +
+            //      "  <DockablePane ResizeWidth=\"0.2125\" Anchor=\"Left\">" +
+            //      "    <DockableContent Name=\"MyUserControl1\" AutoHide=\"false\" />" +
+            //      "  </DockablePane>" +
+            //      "  <DockablePane Anchor=\"Left\">" +
+            //      "    <DockableContent Name=\"MyUserControl2\" AutoHide=\"false\" />" +
+            //      "  </DockablePane>" +
+            //      "</ResizingPanel>" +
+            //      "<Hidden />" +
+            //      "<Windows />" +
+            //    "</DockingManager>";
 
-            StringReader sr = new StringReader(xmlLayout);
-            dockingManager.RestoreLayout(sr);
+            //StringReader sr = new StringReader(xmlLayout);
+            //dockingManager.RestoreLayout(sr);
+
+
+        }
+
+        void doc_Closed(object sender, EventArgs e)
+        {
+            
+        }
+
+        void doc_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                DemoDocument doc = new DemoDocument();
+                doc.Title = "Document " + (i);
+                doc.InfoTip = "Info tipo for " + doc.Title;
+                doc.ContentTypeDescription = "Sample document";
+                doc.Closing += new EventHandler<System.ComponentModel.CancelEventArgs>(doc_Closing);
+                doc.Closed += new EventHandler(doc_Closed);
+                MyDocs.Add(doc);
+            }
+        }
+
+        private void dockingManager_RequestDocumentClose(object sender, RequestDocumentCloseEventArgs e)
+        {
+            MyDocs.Remove(e.DocumentToClose);
         }
 
     }

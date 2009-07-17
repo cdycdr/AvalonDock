@@ -190,29 +190,10 @@ namespace AvalonDock
         }
 
         /// <summary>
-        /// Close this document removing it from its parent container
+        /// Close this content without notifications
         /// </summary>
-        /// <remarks>Use this function to close a document and remove it from its parent container. Please note
-        /// that if you simply remove it from its parent <see cref="DocumentPane"/> without call this method, events like
-        /// <see cref="OnClosing"/>/<see cref="OnClosed"/> are not called.
-        /// <para>
-        /// Note:<see cref="DockableContent"/> cannot be closed: AvalonDock simply hide a <see cref="DockableContent"/> removing all the reference to it.
-        /// </para>
-        /// </remarks>
-        public bool Close()
+        internal void InternalClose()
         {
-            CancelEventArgs e = new CancelEventArgs(false);
-            OnClosing(e);
-            
-            if (e.Cancel)
-                return false;
-
-            if (Manager != null)
-                Manager.FireDocumentClosingEvent(e);
-
-            if (e.Cancel)
-                return false;
-
             DocumentPane parentPane = ContainerPane as DocumentPane;
             DockingManager manager = Manager;
 
@@ -232,11 +213,48 @@ namespace AvalonDock
                 if (manager.ActiveContent == this)
                     manager.ActiveContent = null;
             }
+        }
+
+        /// <summary>
+        /// Close this document removing it from its parent container
+        /// </summary>
+        /// <remarks>Use this function to close a document and remove it from its parent container. Please note
+        /// that if you simply remove it from its parent <see cref="DocumentPane"/> without call this method, events like
+        /// <see cref="OnClosing"/>/<see cref="OnClosed"/> are not called.
+        /// <para>
+        /// Note:<see cref="DockableContent"/> cannot be closed: AvalonDock simply hide a <see cref="DockableContent"/> removing all the reference to it.
+        /// </para>
+        /// </remarks>
+        public bool Close()
+        {
+            //if documents are attached to an external source via DockingManager.DocumentsSource
+            //let application host handle the document closing by itself
+            if (Manager.DocumentsSource != null)
+            {
+                return Manager.FireRequestDocumentCloseEvent(this);
+            }
+
+
+            CancelEventArgs e = new CancelEventArgs(false);
+            OnClosing(e);
+            
+            if (e.Cancel)
+                return false;
+
+            DockingManager oldManager = Manager;
+
+            if (Manager != null)
+                Manager.FireDocumentClosingEvent(e);
+
+            if (e.Cancel)
+                return false;
+
+            InternalClose();
 
             OnClosed();
 
-            if (manager != null)
-                manager.FireDocumentClosedEvent();
+            if (oldManager != null)
+                oldManager.FireDocumentClosedEvent();
 
             return true;
         }

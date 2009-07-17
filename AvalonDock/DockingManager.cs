@@ -41,6 +41,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Xml;
 using System.Linq;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace AvalonDock
 {
@@ -362,6 +364,85 @@ namespace AvalonDock
             }
         }
 
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Bindable(true)]
+        public IEnumerable DocumentsSource
+        {
+            get { return (IEnumerable)GetValue(DocumentsSourceProperty); }
+            set { SetValue(DocumentsSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DocumentsSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DocumentsSourceProperty =
+            DependencyProperty.Register("DocumentsSource", typeof(IEnumerable), typeof(DockingManager), new UIPropertyMetadata(null, new PropertyChangedCallback((s, e) => ((DockingManager)s).OnDocumentsSourceChanged(e.OldValue as IEnumerable, e.NewValue as IEnumerable))));
+
+
+        void OnDocumentsSourceChanged(IEnumerable oldSource, IEnumerable newSource)
+        {
+            if (oldSource != null)
+            {
+                INotifyCollectionChanged oldSourceNotityIntf = oldSource as INotifyCollectionChanged;
+                if (oldSourceNotityIntf != null)
+                    oldSourceNotityIntf.CollectionChanged -= new NotifyCollectionChangedEventHandler(DocumentsSourceCollectionChanged);
+            }
+
+            if (newSource != null)
+            {
+                INotifyCollectionChanged newSourceNotityIntf = newSource as INotifyCollectionChanged;
+                if (newSourceNotityIntf != null)
+                    newSourceNotityIntf.CollectionChanged += new NotifyCollectionChangedEventHandler(DocumentsSourceCollectionChanged);
+            }
+        }
+
+        void DocumentsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                DocumentContent[] docs = this.Documents;
+
+                foreach (DocumentContent doc in docs)
+                    doc.Close();
+            }
+
+            if (MainDocumentPane == null)
+                return;
+
+            if (e.Action == NotifyCollectionChangedAction.Remove ||
+                e.Action == NotifyCollectionChangedAction.Replace)
+            {
+                foreach (object newDoc in e.OldItems)
+                {
+                    if (newDoc is DocumentContent)
+                        (newDoc as DocumentContent).InternalClose();
+                    else if (newDoc is FrameworkElement)
+                    {
+                        DocumentContent docContainer = ((FrameworkElement)newDoc).Parent as DocumentContent;
+                        if (docContainer != null)
+                            docContainer.InternalClose();
+                    }
+                }
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Add ||
+                e.Action == NotifyCollectionChangedAction.Replace)
+            {
+                foreach (object newDoc in e.NewItems)
+                {
+                    if (newDoc is DocumentContent)
+                        MainDocumentPane.Items.Add(newDoc);
+                    else if (newDoc is FrameworkElement) //limit objects to be at least framework elements
+                    {
+                        DocumentContent docContainer = new DocumentContent();
+                        docContainer.Content = newDoc;
+
+                        MainDocumentPane.Items.Add(docContainer);
+                    }
+                }
+            }
+        }
+
+
+
         /// <summary>
         /// Returns the main document pane
         /// </summary>
@@ -443,7 +524,25 @@ namespace AvalonDock
             internal set
             {
                 if (_mainDocumentPane == null)
+                {
                     _mainDocumentPane = value;
+
+                    if (DocumentsSource != null)
+                    {
+                        foreach (object newDoc in DocumentsSource)
+                        {
+                            if (newDoc is DocumentContent)
+                                MainDocumentPane.Items.Add(newDoc);
+                            else if (newDoc is FrameworkElement) //limit objects to be at least framework elements
+                            {
+                                DocumentContent docContainer = new DocumentContent();
+                                docContainer.Content = newDoc;
+
+                                MainDocumentPane.Items.Add(docContainer);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -2384,6 +2483,7 @@ namespace AvalonDock
         void SaveLayout(XmlWriter xmlWriter, DockableContent content)
         {
             Debug.Assert(!string.IsNullOrEmpty(content.Name));
+
             if (!string.IsNullOrEmpty(content.Name))
             {
                 xmlWriter.WriteStartElement("DockableContent");
@@ -2982,6 +3082,24 @@ namespace AvalonDock
         {
             OnDocumentClosed();
         }
+
+
+        public event EventHandler<RequestDocumentCloseEventArgs> RequestDocumentClose;
+
+        internal bool FireRequestDocumentCloseEvent(DocumentContent doc)
+        {
+            bool res = false;
+
+            if (RequestDocumentClose != null)
+            {
+                RequestDocumentCloseEventArgs args = new RequestDocumentCloseEventArgs(doc);
+                RequestDocumentClose(this, args);
+                res = !args.Cancel;
+            }
+
+            return res;
+        }
+
 
         #endregion
 

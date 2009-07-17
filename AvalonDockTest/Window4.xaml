@@ -2,6 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
-    Title="Njorl's Saga Manager" Height="600" Width="800" >
-	<ad:DockingManager x:Name="dockingManager" Loaded="dockingManager_Loaded"/>
+    Title="Text Document Source" Height="600" Width="800" >
+	<DockPanel>
+		<ToolBar DockPanel.Dock="Top">
+			<Button Content="Add Documents" Click="Button_Click"/>
+		</ToolBar>
+		<ad:DockingManager x:Name="dockingManager" Loaded="dockingManager_Loaded"> <!--DocumentsSource="{Binding Path=MyDocs}" RequestDocumentClose="dockingManager_RequestDocumentClose">-->
+			<ad:DocumentPane x:Name="_documentHost" ItemsSource="{Binding Path=MyDocs}"/>
+		</ad:DockingManager>
+	</DockPanel>
 </Window> 

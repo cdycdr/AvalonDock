@@ -209,9 +209,12 @@ namespace AvalonDock
             }
             else if (e.Command == CloseCommand)
             {
-                HostedPane.RemoveContent(0);
-                if (HostedPane.Items.Count == 0)
-                    this.Close();
+                DocumentContent docContent = this.HostedPane.Items[0] as DocumentContent;
+                if (docContent.Close())
+                {
+                    HostedPane.RemoveContent(0);
+                    Close();
+                }
                 e.Handled = true;
             }
 
