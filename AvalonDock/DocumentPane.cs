@@ -88,7 +88,6 @@ namespace AvalonDock
                 new CommandBinding(ShowDocumentsListMenuCommand, ExecutedShowDocumentsListMenuCommand, CanExecuteShowDocumentsListMenuCommand));
             this.CommandBindings.Add(
                 new CommandBinding(ApplicationCommands.Close, ExecutedCloseCommand, CanExecuteCloseCommand));
-            ApplicationCommands.Close.InputGestures.Add(new MouseGesture(MouseAction.MiddleClick));
 
             this.CommandBindings.Add(
                 new CommandBinding(CloseAllButThisCommand, this.OnExecuteCommand, this.OnCanExecuteCommand));
@@ -331,6 +330,8 @@ namespace AvalonDock
         public override void OnApplyTemplate()
         {
             _optionsContextMenuPlacementTarget = GetTemplateChild("PART_ShowContextMenuButton") as UIElement;
+
+            
 
             base.OnApplyTemplate();
         }

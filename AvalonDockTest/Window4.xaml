@@ -7,8 +7,8 @@
 		<ToolBar DockPanel.Dock="Top">
 			<Button Content="Add Documents" Click="Button_Click"/>
 		</ToolBar>
-		<ad:DockingManager x:Name="dockingManager" Loaded="dockingManager_Loaded"> <!--DocumentsSource="{Binding Path=MyDocs}" RequestDocumentClose="dockingManager_RequestDocumentClose">-->
-			<ad:DocumentPane x:Name="_documentHost" ItemsSource="{Binding Path=MyDocs}"/>
+		<ad:DockingManager x:Name="dockingManager" Loaded="dockingManager_Loaded" DocumentsSource="{Binding Path=MyDocs}" RequestDocumentClose="dockingManager_RequestDocumentClose">
+			<ad:DocumentPane x:Name="_documentHost" />
 		</ad:DockingManager>
 	</DockPanel>
 </Window> 
