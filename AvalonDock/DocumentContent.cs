@@ -215,6 +215,7 @@ namespace AvalonDock
             }
 
 
+
             if (manager != null)
             {
                 if (manager.ActiveDocument == this)

@@ -131,7 +131,8 @@ namespace AvalonDockTest
                 doc.ContentTypeDescription = "Sample document";
                 doc.Closing += new EventHandler<CancelEventArgs>(doc_Closing);
                 doc.Closed += new EventHandler(doc_Closed);
-                _documentsHost.Items.Add(doc);
+                //_documentsHost.Items.Add(doc);
+                _dockingManager.MainDocumentPane.Items.Add(doc);
 
                 i++;
             }

@@ -177,8 +177,5 @@
   <ItemGroup>
     <Resource Include="Images\alert.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\GranSasso.jpg" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
