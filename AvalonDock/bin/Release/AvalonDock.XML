@@ -4,6 +4,11 @@
         <name>AvalonDock</name>
     </assembly>
     <members>
+        <member name="P:AvalonDock.RequestDocumentCloseEventArgs.DocumentToClose">
+            <summary>
+            Document content that user wants to close
+            </summary>
+        </member>
         <member name="F:AvalonDock.ResizingPanel.OrientationProperty">
             <summary>
             Give access to Orientation attached property
@@ -389,7 +394,6 @@
             </summary>
             <remarks>Note that when a document is closed, property like <see cref="P:AvalonDock.ManagedContent.ContainerPane"/> or <see cref="P:AvalonDock.ManagedContent.Manager"/> returns null.</remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AvalonDock.DockablePaneAnchorTab" -->
         <member name="T:AvalonDock.ContextMenuElement">
             <summary>
             Defines a list of context menu resources
@@ -643,6 +647,11 @@
             Ovveride this method to handle <see cref="!:DocumentContent.OnClose"/> event.
             </summary>
         </member>
+        <member name="M:AvalonDock.DocumentContent.InternalClose">
+            <summary>
+            Close this content without notifications
+            </summary>
+        </member>
         <member name="M:AvalonDock.DocumentContent.Close">
             <summary>
             Close this document removing it from its parent container
@@ -833,7 +842,58 @@
             Gets/Sets the content manually deserialized
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AvalonDock.DockablePaneAnchorTabGroup" -->
+        <member name="T:AvalonDock.ColorFactory">
+            <summary>
+            Is used for color-support to change the colors depending on a base theme.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:AvalonDock.ColorFactory.ChangeTheme(System.String)" -->
+        <member name="M:AvalonDock.ColorFactory.ChangeColors(System.Windows.Media.Color)">
+            <summary>
+            Change the colors based on the aero-theme from AvalonDock.
+            <para>
+            <example>Example: ChangeColors(Colors.DarkGreen)</example>
+            </para>
+            </summary>
+            <param name="color">the new Color</param>
+        </member>
+        <member name="M:AvalonDock.ColorFactory.ChangeColors(System.String,System.Windows.Media.Color)">
+            <summary>
+            Change the colors based on a theme-name from AvalonDock.
+            <para>
+            <example>Example: ChangeColors("classic", Colors.DarkGreen)</example>
+            </para>
+            </summary>
+            <param name="baseTheme">the string of the base theme we want to change</param>
+            <param name="color">the new Color</param>
+        </member>
+        <member name="M:AvalonDock.ColorFactory.ResetColors">
+            <summary>
+            Reset custom colors to theme defaults
+            </summary>
+        </member>
+        <member name="M:AvalonDock.ColorFactory.ChangeBrush(AvalonDock.AvalonDockBrushes,System.Windows.Media.Brush)">
+            <summary>
+            Change a specified brush inside the actual theme.
+            Look at AvalonDockBrushes.cs for possible values.
+            </summary>
+            <param name="brushName">an AvalonDockBrushes value</param>
+            <param name="brush">The new brush. It can be every brush type that is derived from Brush-class.</param>
+        </member>
+        <member name="M:AvalonDock.ColorFactory.ChangeBrush(System.String,System.Windows.Media.Brush)">
+            <summary>
+            Change a specified brush inside the actual theme.
+            </summary>
+            <param name="brushName">a brush name</param>
+            <param name="brush">The new brush. It can be every brush type that is derived from Brush-class.</param>
+        </member>
+        <member name="M:AvalonDock.ColorFactory.ChangeKeysInResourceDictionary(System.Windows.ResourceDictionary,System.Windows.Media.Color)">
+            <summary>
+            Searches for keys in the ResourceDictionary for brushes and changes the color-values
+            </summary>
+            <param name="rd">the ResourceDictionary</param>
+            <param name="color">the new Color</param>
+        </member>
         <member name="T:AvalonDock.WpfApplication">
             <summary>
             Designates a Windows Presentation Foundation application model with added functionalities.
@@ -842,6 +902,16 @@
         <member name="M:AvalonDock.WpfApplication.DoEvents">
             <summary>
             Processes all UI messages currently in the message queue.
+            </summary>
+        </member>
+        <member name="T:AvalonDock.themes.aeroBrushes">
+            <summary>
+            aeroBrushes
+            </summary>
+        </member>
+        <member name="M:AvalonDock.themes.aeroBrushes.InitializeComponent">
+            <summary>
+            InitializeComponent
             </summary>
         </member>
         <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">

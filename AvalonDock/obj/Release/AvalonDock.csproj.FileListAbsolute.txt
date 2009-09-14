@@ -82,6 +82,7 @@ C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDock\bin\Rel
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\Resources\DocumentNavigatorWindowStyle.baml
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\aero.normalcolor.brushes.baml
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\aero.normalcolor.baml
-C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\classic2.baml
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\classic.brushes.baml
-C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\bin\Release\AvalonDock.XML
+C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\aero.normalcolor.brushes.g.cs
+C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\classic.baml
+C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\luna.normalcolor.baml

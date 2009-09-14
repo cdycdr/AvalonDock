@@ -61,5 +61,12 @@ namespace AvalonDockTest
             base.OnInitialized(e);
         }
 
+
+
+        private void bntClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
     }
 }

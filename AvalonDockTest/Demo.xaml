@@ -121,7 +121,7 @@
               </ad:DockableContent>
             </ad:DockablePane>
             <ad:DocumentPane x:Name="_documentsHost">
-              <ad:DocumentContent Title="Home" InfoTip="C:\Program files\Italy\Converters\AvalanDock\AvalonDock.xps  Here your infos..etc.." ContentTypeDescription="XPS document" IsFloatingAllowed="True" Closing="doc_Closing">
+              <ad:DocumentContent x:Name="docHome" Title="Home" InfoTip="C:\Program files\Italy\Converters\AvalanDock\AvalonDock.xps  Here your infos..etc.." ContentTypeDescription="XPS document" IsFloatingAllowed="True" Closing="doc_Closing">
                 <FlowDocumentScrollViewer>
                   <FlowDocument FontFamily="Segoue" Background="White">
                     <Paragraph>

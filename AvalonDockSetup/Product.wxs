@@ -2,8 +2,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
   <?define ProductShortName = "AvalonDock" ?>
-  <?define ProductVersion = "1.2.2083" ?>
-  <?define ProductVersionText = "1.2 (Build 2083)" ?>
+  <?define ProductVersion = "1.2.2641" ?>
+  <?define ProductVersionText = "1.2 (Build 2641)" ?>
   <?define Manufacturer = "Adolfo Marinucci" ?>
   <?define UpgradeCode = "2A6BB7EF-1411-4104-972F-ED81CBEA73C4" ?>
   <?define ToolboxControlsInstallerPackageGuid = "{2c298b35-07da-45f1-96a3-be55d91c8d7a}" ?>

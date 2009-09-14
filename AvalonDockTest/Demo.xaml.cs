@@ -322,6 +322,7 @@ namespace AvalonDockTest
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Button Clicked");
+            _dockingManager.Show(docHome);
         }
 
 

@@ -4,7 +4,6 @@
     xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
     xmlns:local="clr-namespace:AvalonDockTest"
     Foreground="Green" Background="AliceBlue"  IsLocked="True" IsFloatingAllowed="True" Width="637" Height="378" Loaded="DocumentContent_Loaded" >
-	
     <ad:DocumentContent.CommandBindings>
         <CommandBinding Command="{x:Static local:DemoDocument.ViewCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
     </ad:DocumentContent.CommandBindings>
@@ -12,6 +11,7 @@
         <FlowDocumentReader.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Click me" Command="{x:Static local:DemoDocument.ViewCommand}"/>
+				<MenuItem Header="Close me" Click="bntClose_Click" />
             </ContextMenu>
         </FlowDocumentReader.ContextMenu>
             <FlowDocument>
