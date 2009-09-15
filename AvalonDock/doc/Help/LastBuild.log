@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder GUI" version="1.7.0.0" projectFile="C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\AvalonDock.shfb" started="14/09/2009 10.23.47">
+<shfbBuild product="Sandcastle Help File Builder GUI" version="1.7.0.0" projectFile="C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\AvalonDock.shfb" started="15/09/2009 12.55.34">
 <buildStep step="Initializing">
 </buildStep>
 <buildStep step="FindingTools">
@@ -14,16 +14,16 @@ Validating and copying documentation assembly information...
 </buildStep>
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, Inglese (Stati Uniti))...
-    Last step completed in 00:00:00.1719
+    Last step completed in 00:00:00.1563
 </buildStep>
 <buildStep step="CopyDependencies">
 Copying documentation assembly dependencies...
 No dependencies to copy
-    Last step completed in 00:00:00.0156
+    Last step completed in 00:00:00.0469
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="GenerateReflectionInfo">
 Generating reflection information...
@@ -31,23 +31,23 @@ Generating reflection information...
 MrefBuilder (v2.4.10520.1)
 Copyright &#184; Microsoft 2006
 Info: Loaded 1 assemblies for reflection and 0 dependency assemblies.
-Info: Wrote information on 3 namespaces, 40 types, and 418 members
+Info: Wrote information on 3 namespaces, 40 types, and 420 members
         1 file copiati.
 XslTransform (v2.4.10520.1)
 Copyright &#184; Microsoft 2005-2006
 Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\MergeDuplicates.xsl'.
-    Last step completed in 00:00:16.9219
+    Last step completed in 00:00:17.1719
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.0313
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="ApplyVisibilityProperties">
 Applying visibility properties to reflection information file
     7 attribute nodes removed
     1 explicit interface implementations removed
     51 local and base class EII elements removed
-    Last step completed in 00:00:03.5469
+    Last step completed in 00:00:00.7344
 </buildStep>
 <buildStep step="TransformReflectionInfo">
 Transforming reflection output...
@@ -59,7 +59,7 @@ Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\
 XslTransform (v2.4.10520.1)
 Copyright &#184; Microsoft 2005-2006
 Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\ReflectionToManifest.xsl'.
-    Last step completed in 00:00:08.3438
+    Last step completed in 00:00:16.4375
 </buildStep>
 <buildStep step="ModifyHelpTopicFilenames">
 Modifying help topic filenames in reflection information file
@@ -120,28 +120,28 @@ C:\Programmi\Sandcastle\Presentation\Prototype\scripts\script_prototype.js -&gt;
 C:\Programmi\Sandcastle\Presentation\Prototype\scripts\SplitScreen.js -&gt; C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\scripts\SplitScreen.js
 C:\Programmi\Sandcastle\Presentation\Prototype\scripts\StyleUtilities.js -&gt; C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\scripts\StyleUtilities.js
 C:\Programmi\Sandcastle\Presentation\Prototype\styles\presentation.css -&gt; C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\styles\presentation.css
-    Last step completed in 00:00:01.0469
+    Last step completed in 00:00:02.1719
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
 No additional content to copy
-    Last step completed in 00:00:00.0156
+    Last step completed in 00:00:00.0000
 </buildStep>
 <buildStep step="MergeTablesOfContent">
 Merging conceptual and additional tables of content...
-    Last step completed in 00:00:01.8281
+    Last step completed in 00:00:01.0938
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
     sandcastle.config
     conceptual.config
-    Last step completed in 00:00:00.1094
+    Last step completed in 00:00:00.1406
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\sandcastle.config
     No additional help attributes defined.  The 'HTML Help 2 Attributes' component was not added.
-    Last step completed in 00:00:01.2813
+    Last step completed in 00:00:00.5313
 </buildStep>
 <buildStep step="BuildReferenceTopics">
 Building reference help topics...
@@ -153,7 +153,7 @@ Info: CopyFromFileComponent: Loading data file 'C:\Programmi\Sandcastle\Presenta
 Info: CopyFromIndexComponent: Instantiating component.
 Info: CopyFromIndexComponent: Searching for files that match '*.xml'.
 Info: CopyFromIndexComponent: Searching for files that match 'reflection.xml'.
-Info: CopyFromIndexComponent: Indexed 170779 elements in 107 files.
+Info: CopyFromIndexComponent: Indexed 170781 elements in 107 files.
 Info: CopyFromIndexComponent: Loaded 0 copy components.
 Info: CopyFromIndexComponent: Instantiating component.
 Info: CopyFromIndexComponent: Loaded 0 copy components.
@@ -817,7 +817,7 @@ Info: ResolveReferenceLinksComponent2: Instantiating component.
 Info: ResolveReferenceLinksComponent2: Creating MSDN URL resolver.
 Info: ResolveReferenceLinksComponent2: Searching directory 'C:\Programmi\Sandcastle\Data\Reflection' for targets files of the form '*.xml'.
 Info: ResolveReferenceLinksComponent2: Searching directory 'C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working' for targets files of the form 'reflection.xml'.
-Info: ResolveReferenceLinksComponent2: Loaded 170837 reference targets.
+Info: ResolveReferenceLinksComponent2: Loaded 170839 reference targets.
 Info: SaveComponent: Instantiating component.
 Info: BuildAssembler: Building topic R:Project
 Warn: SharedContentComponent: Missing shared content item. Tag:'include'; Id:'topictitle'.
@@ -2664,6 +2664,12 @@ Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnCanExecuteCom
 Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
+Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnClosed(System.EventArgs)
+Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnClosed(System.EventArgs)
+Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnClosed(System.EventArgs)
+Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
+Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
+Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnDeactivated(System.EventArgs)
 Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnDeactivated(System.EventArgs)
 Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnDeactivated(System.EventArgs)
@@ -3750,8 +3756,8 @@ Info: BuildAssembler: Building topic T:XamlGeneratedNamespace.GeneratedInternalT
 Info: ShowMissingComponent: Auto-documenting constructor M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.#ctor
 Info: BuildAssembler: Building topic M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.#ctor
-Info: Processed 688 topics
-    Last step completed in 00:11:57.5156
+Info: Processed 690 topics
+    Last step completed in 00:12:05.0625
 </buildStep>
 <buildStep step="GenerateIntermediateTableOfContent">
 Generating intermediate table of content file...
@@ -3759,7 +3765,7 @@ Generating intermediate table of content file...
 XslTransform (v2.4.10520.1)
 Copyright &#184; Microsoft 2005-2006
 Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\CreatePrototypeToc.xsl'.
-    Last step completed in 00:00:05.1250
+    Last step completed in 00:00:03.4531
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for Help 1.x and/or website...
@@ -3769,11 +3775,11 @@ Copyright &#184; 2008, Eric Woodruff, All Rights Reserved
 E-Mail: Eric@EWoodruff.us
 
 Using LCID '1033', code page '65001', encoding charset 'UTF-8'.
-Processed 688 HTML files
+Processed 690 HTML files
 Sorting keywords and generating See Also indices
 Saving Help 1.x keyword index to C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\AvalonDock.hhk
 Saving Help 1.x table of content to C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\AvalonDock.hhc
-    Last step completed in 00:00:02.2656
+    Last step completed in 00:00:03.5625
 </buildStep>
 <buildStep step="GenerateHelpFormatTableOfContent">
 Generating HTML Help 1.x table of content file...
@@ -3804,13 +3810,13 @@ Compiling c:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Proje
 
 
 
-Compile time: 0 minutes, 17 seconds
+Compile time: 0 minutes, 19 seconds
 
-690	Topics
+692	Topics
 
-6,857	Local links
+6,885	Local links
 
-27,385	Internet links
+27,383	Internet links
 
 0	Graphics
 
@@ -3818,19 +3824,19 @@ Compile time: 0 minutes, 17 seconds
 
 
 
-Created c:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\AvalonDock.chm, 1,343,371 bytes
+Created c:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\AvalonDock.chm, 1,347,521 bytes
 
-Compression decreased file by 9,246,047 bytes.
+Compression decreased file by 9,255,855 bytes.
 
-    Last step completed in 00:00:20.4688
+    Last step completed in 00:00:23.7500
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.5313
+    Last step completed in 00:00:00.5625
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully.  Total time: 00:12:59,4688
+Build completed successfully.  Total time: 00:13:15,4688
 
 </buildStep>
 </shfbBuild>
