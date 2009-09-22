@@ -105,14 +105,19 @@
             Gets the sensible area for drop a pane
             </summary>
         </member>
+        <member name="M:AvalonDock.Pane.CloseOrHide(AvalonDock.DockableContent)">
+            <summary>
+            Closes or hides provided content depending on HideOnClose property
+            </summary>
+        </member>
         <member name="M:AvalonDock.DockablePane.ToggleAutoHide">
             <summary>
             Show/Hide a flyout window containing this pane
             </summary>
         </member>
-        <member name="M:AvalonDock.DockablePane.Close">
+        <member name="M:AvalonDock.DockablePane.CloseOrHide">
             <summary>
-            Close current content
+            Closes or hides current content depending on HideOnClose property
             </summary>
         </member>
         <member name="T:AvalonDock.DockingManager">

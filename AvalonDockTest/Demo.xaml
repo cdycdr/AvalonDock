@@ -104,7 +104,7 @@
         <ad:ResizingPanel Orientation="Vertical">
           <ad:ResizingPanel Orientation="Horizontal">
             <ad:DockablePane>
-              <ad:DockableContent x:Name="_propertiesWindow" Title="Properties" DockableStyle="Dockable" >
+              <ad:DockableContent x:Name="_propertiesWindow" Title="Properties" DockableStyle="Dockable" HideOnClose="False" >
                 <ad:DockableContent.Icon>
                   <Image Source="Images\display.png" Height="16" Width="16"/>
                 </ad:DockableContent.Icon>
@@ -228,7 +228,7 @@
             </ad:DockablePane>
           </ad:ResizingPanel>
           <ad:DockablePane  >
-            <local:ErrorListContent x:Name="_errorList" Title="ErrorList" >
+            <local:ErrorListContent x:Name="_errorList" Title="ErrorList" HideOnClose="False"  >
               <local:ErrorListContent.Icon>
                 <Image Width="16" Height="16" Source="Images\alert.png"/>
               </local:ErrorListContent.Icon>

@@ -204,9 +204,20 @@ namespace AvalonDock
         /// </summary>
         internal void InternalClose()
         {
+
+
             DocumentPane parentPane = ContainerPane as DocumentPane;
             DockingManager manager = Manager;
 
+            if (manager != null)
+            {
+                if (manager.ActiveContent == this)
+                    manager.ActiveContent = null;
+
+                if (manager.ActiveDocument == this)
+                    manager.ActiveDocument = null;
+            }           
+            
             if (parentPane != null)
             {
                 parentPane.Items.Remove(this);
@@ -227,14 +238,7 @@ namespace AvalonDock
 
 
 
-            if (manager != null)
-            {
-                if (manager.ActiveDocument == this)
-                    manager.ActiveDocument = null;
 
-                if (manager.ActiveContent == this)
-                    manager.ActiveContent = null;
-            }
         }
 
         /// <summary>
