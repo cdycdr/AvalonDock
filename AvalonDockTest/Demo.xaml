@@ -121,7 +121,7 @@
               </ad:DockableContent>
             </ad:DockablePane>
             <ad:DocumentPane x:Name="_documentsHost">
-              <ad:DocumentContent x:Name="docHome" Title="Home" InfoTip="C:\Program files\Italy\Converters\AvalanDock\AvalonDock.xps  Here your infos..etc.." ContentTypeDescription="XPS document" IsFloatingAllowed="True" Closing="doc_Closing">
+              <ad:DocumentContent x:Name="docHome" Title="Home" InfoTip="C:\Program files\Italy\Converters\AvalanDock\AvalonDock.xps  Here your infos..etc.." ContentTypeDescription="XPS document" IsFloatingAllowed="True" Closing="doc_Closing" IsCloseable="False" >
                 <FlowDocumentScrollViewer>
                   <FlowDocument FontFamily="Segoue" Background="White">
                     <Paragraph>
@@ -220,7 +220,7 @@
               </ad:DocumentContent>
             </ad:DocumentPane>
             <ad:DockablePane  Padding="5">
-              <ad:DockableContent x:Name="_objectExplorerHost" Title="Object explorer" Padding="5">
+              <ad:DockableContent x:Name="_objectExplorerHost" Title="Object explorer" Padding="5" IsCloseable="False">
                 <ad:DockableContent.Icon>
                   <Image Width="16" Height="16" Source="Images\date.png"/>
                 </ad:DockableContent.Icon>
