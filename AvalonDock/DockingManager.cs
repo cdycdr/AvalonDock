@@ -458,6 +458,16 @@ namespace AvalonDock
             {
                 if (child is DocumentPane)
                     return child as DocumentPane;
+				if (child is DockablePane)
+				{
+					DocumentPane doc = new DocumentPane();
+					DockablePane dockablePane = child as DockablePane;
+					while (dockablePane.Items.Count > 0)
+					{
+						doc.Items.Add((dockablePane.Items[0] as DockableContent).DetachFromContainerPane());
+					}
+					return doc;
+				}
                 if (child is ResizingPanel)
                 {
                     DocumentPane foundDocPane = GetMainDocumentPane(child as ResizingPanel);
@@ -1707,7 +1717,10 @@ namespace AvalonDock
         /// <param name="content">Content to show</param>
         public void Show(DockableContent content)
         {
-            Show(content, DockableContentState.Docked);
+            if (content.SavedStateAndPosition != null)
+                Show(content, content.SavedStateAndPosition.State);
+            else
+                Show(content, DockableContentState.Docked);
         }
 
         /// <summary>
@@ -2743,7 +2756,14 @@ namespace AvalonDock
         void RestoreDocumentPaneLayout(XmlElement childElement, out DocumentPane mainExistingDocumentPane, out DocumentPaneResizingPanel existingDocumentPanel, DockableContent[] dockableContents)
         {
             mainExistingDocumentPane = (Content is DocumentPane) ? Content as DocumentPane : GetMainDocumentPane(Content as ResizingPanel);
-            existingDocumentPanel = mainExistingDocumentPane.GetParentDocumentPaneResizingPanel();
+			if (mainExistingDocumentPane != null)
+			{
+				existingDocumentPanel = mainExistingDocumentPane.GetParentDocumentPaneResizingPanel();
+			}
+			else
+			{
+				existingDocumentPanel = null;
+			}
 
             if (existingDocumentPanel != null)
             {

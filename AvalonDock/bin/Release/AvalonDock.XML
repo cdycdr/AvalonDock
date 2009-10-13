@@ -110,6 +110,11 @@
             Closes or hides provided content depending on HideOnClose property
             </summary>
         </member>
+        <member name="M:AvalonDock.Pane.CloseOrHide(AvalonDock.DockableContent,System.Boolean)">
+            <summary>
+            Closes or hides provided content depending on HideOnClose property
+            </summary>
+        </member>
         <member name="M:AvalonDock.DockablePane.ToggleAutoHide">
             <summary>
             Show/Hide a flyout window containing this pane
@@ -759,6 +764,11 @@
         <member name="M:AvalonDock.GreyableImage.SetSources">
             <summary>
             Cashes original ImageSource, creates and caches greyscale ImageSource and greyscale opacity mask
+            </summary>
+        </member>
+        <member name="T:AvalonDock.BoolToVisibilityConverter">
+            <summary>
+            Converter from boolean values to visibility (inverse mode)
             </summary>
         </member>
         <member name="T:AvalonDock.AvalonDockBrushes">

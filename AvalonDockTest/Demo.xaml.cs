@@ -201,7 +201,7 @@ namespace AvalonDockTest
                 _dockingManager.Show(contentToShow, desideredState);
             }
             else
-                _dockingManager.Show(contentToShow, DockableContentState.Docked);
+                _dockingManager.Show(contentToShow);
         }
 
 

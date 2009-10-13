@@ -80,6 +80,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CustomContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Demo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -118,6 +122,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomContent.xaml.cs">
+      <DependentUpon>CustomContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeInfoCollection.cs" />
     <Compile Include="ErrorListContent.cs" />
     <Compile Include="Demo.xaml.cs">

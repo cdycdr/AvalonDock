@@ -2,8 +2,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
   <?define ProductShortName = "AvalonDock" ?>
-  <?define ProductVersion = "1.2.2643" ?>
-  <?define ProductVersionText = "1.2 (Build 2643)" ?>
+  <?define ProductVersion = "1.2.2681" ?>
+  <?define ProductVersionText = "1.2 (Build 2681)" ?>
   <?define Manufacturer = "Adolfo Marinucci" ?>
   <?define UpgradeCode = "2A6BB7EF-1411-4104-972F-ED81CBEA73C4" ?>
   <?define ToolboxControlsInstallerPackageGuid = "{2c298b35-07da-45f1-96a3-be55d91c8d7a}" ?>
@@ -78,6 +78,8 @@
                 <File Id="file17" Name="EmployeeInfoCollection.cs" src="$(var.AvalonDockTest.ProjectDir)EmployeeInfoCollection.cs" />
                 <File Id="file18" Name="ErrorListContent.cs" src="$(var.AvalonDockTest.ProjectDir)ErrorListContent.cs" />
                 <File Id="file19" Name="Settings.cs" src="$(var.AvalonDockTest.ProjectDir)Settings.cs" />
+                <File Id="file20" Name="CustomContent.xaml" src="$(var.AvalonDockTest.ProjectDir)CustomContent.xaml" />
+                <File Id="file21" Name="CustomContent.xaml.cs" src="$(var.AvalonDockTest.ProjectDir)CustomContent.xaml.cs" />
                 <RemoveFolder Id="ProgramMenuDir_removal" Directory="ProgramMenuDir" On="uninstall" />
               </Component>
               <Directory Id="AvalonDockTest_ImagesDir" Name="Images">
