@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder GUI" version="1.7.0.0" projectFile="C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\AvalonDock.shfb" started="12/10/2009 13.01.40">
+<shfbBuild product="Sandcastle Help File Builder GUI" version="1.7.0.0" projectFile="C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\AvalonDock.shfb" started="29/10/2009 17.48.55">
 <buildStep step="Initializing">
 </buildStep>
 <buildStep step="FindingTools">
@@ -14,7 +14,7 @@ Validating and copying documentation assembly information...
 </buildStep>
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, Inglese (Stati Uniti))...
-    Last step completed in 00:00:00.1094
+    Last step completed in 00:00:00.0938
 </buildStep>
 <buildStep step="CopyDependencies">
 Copying documentation assembly dependencies...
@@ -31,23 +31,23 @@ Generating reflection information...
 MrefBuilder (v2.4.10520.1)
 Copyright &#184; Microsoft 2006
 Info: Loaded 1 assemblies for reflection and 0 dependency assemblies.
-Info: Wrote information on 3 namespaces, 43 types, and 431 members
+Info: Wrote information on 3 namespaces, 43 types, and 432 members
         1 file copiati.
 XslTransform (v2.4.10520.1)
 Copyright &#184; Microsoft 2005-2006
 Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\MergeDuplicates.xsl'.
-    Last step completed in 00:00:19.0313
+    Last step completed in 00:00:10.7500
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.0156
+    Last step completed in 00:00:00.0469
 </buildStep>
 <buildStep step="ApplyVisibilityProperties">
 Applying visibility properties to reflection information file
     8 attribute nodes removed
     1 explicit interface implementations removed
     51 local and base class EII elements removed
-    Last step completed in 00:00:01.5625
+    Last step completed in 00:00:01.3750
 </buildStep>
 <buildStep step="TransformReflectionInfo">
 Transforming reflection output...
@@ -59,7 +59,7 @@ Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\
 XslTransform (v2.4.10520.1)
 Copyright &#184; Microsoft 2005-2006
 Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\ReflectionToManifest.xsl'.
-    Last step completed in 00:00:08.7500
+    Last step completed in 00:00:06.9531
 </buildStep>
 <buildStep step="ModifyHelpTopicFilenames">
 Modifying help topic filenames in reflection information file
@@ -120,28 +120,28 @@ C:\Programmi\Sandcastle\Presentation\Prototype\scripts\script_prototype.js -&gt;
 C:\Programmi\Sandcastle\Presentation\Prototype\scripts\SplitScreen.js -&gt; C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\scripts\SplitScreen.js
 C:\Programmi\Sandcastle\Presentation\Prototype\scripts\StyleUtilities.js -&gt; C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\scripts\StyleUtilities.js
 C:\Programmi\Sandcastle\Presentation\Prototype\styles\presentation.css -&gt; C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\styles\presentation.css
-    Last step completed in 00:00:01.9688
+    Last step completed in 00:00:00.8438
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
 No additional content to copy
-    Last step completed in 00:00:00.0000
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="MergeTablesOfContent">
 Merging conceptual and additional tables of content...
-    Last step completed in 00:00:00.4844
+    Last step completed in 00:00:00.4375
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
     sandcastle.config
     conceptual.config
-    Last step completed in 00:00:00.0469
+    Last step completed in 00:00:00.0625
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\sandcastle.config
     No additional help attributes defined.  The 'HTML Help 2 Attributes' component was not added.
-    Last step completed in 00:00:00.5156
+    Last step completed in 00:00:00.2813
 </buildStep>
 <buildStep step="BuildReferenceTopics">
 Building reference help topics...
@@ -153,7 +153,7 @@ Info: CopyFromFileComponent: Loading data file 'C:\Programmi\Sandcastle\Presenta
 Info: CopyFromIndexComponent: Instantiating component.
 Info: CopyFromIndexComponent: Searching for files that match '*.xml'.
 Info: CopyFromIndexComponent: Searching for files that match 'reflection.xml'.
-Info: CopyFromIndexComponent: Indexed 170798 elements in 107 files.
+Info: CopyFromIndexComponent: Indexed 170799 elements in 107 files.
 Info: CopyFromIndexComponent: Loaded 0 copy components.
 Info: CopyFromIndexComponent: Instantiating component.
 Info: CopyFromIndexComponent: Loaded 0 copy components.
@@ -817,16 +817,14 @@ Info: ResolveReferenceLinksComponent2: Instantiating component.
 Info: ResolveReferenceLinksComponent2: Creating MSDN URL resolver.
 Info: ResolveReferenceLinksComponent2: Searching directory 'C:\Programmi\Sandcastle\Data\Reflection' for targets files of the form '*.xml'.
 Info: ResolveReferenceLinksComponent2: Searching directory 'C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working' for targets files of the form 'reflection.xml'.
-Info: ResolveReferenceLinksComponent2: Loaded 170856 reference targets.
+Info: ResolveReferenceLinksComponent2: Loaded 170857 reference targets.
 Info: SaveComponent: Instantiating component.
 Info: BuildAssembler: Building topic R:Project
 Warn: SharedContentComponent: Missing shared content item. Tag:'include'; Id:'topictitle'.
 Warn: SharedContentComponent: Missing shared content item. Tag:'include'; Id:'topictitle'.
 Info: BuildAssembler: Building topic N:AvalonDock
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for N:AvalonDock
 Info: BuildAssembler: Building topic T:AvalonDock.AlignedImage
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.AlignedImage.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.AlignedImage
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.UIElement.Effect'.
@@ -902,13 +900,7 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.AlignedImage.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.AlignedImage.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.AlignedImage.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.AlignedImage.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.AlignedImage.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.AlignedImage.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;arrangeBounds&quot;/&gt; documentation for M:AvalonDock.AlignedImage.ArrangeOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic M:AvalonDock.AlignedImage.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.AlignedImage.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.AlignedImage.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;constraint&quot;/&gt; documentation for M:AvalonDock.AlignedImage.MeasureOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic T:AvalonDock.AnchorStyle
 Info: BuildAssembler: Building topic T:AvalonDock.AvalonDockBrushes
 Info: BuildAssembler: Building topic T:AvalonDock.BoolToVisibilityConverter
@@ -916,19 +908,7 @@ Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.BoolToVisi
 Info: BuildAssembler: Building topic M:AvalonDock.BoolToVisibilityConverter.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.BoolToVisibilityConverter.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;targetType&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;parameter&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;culture&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
 Info: BuildAssembler: Building topic M:AvalonDock.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;targetType&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;parameter&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;culture&quot;/&gt; documentation for M:AvalonDock.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
 Info: BuildAssembler: Building topic T:AvalonDock.ColorFactory
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.ColorFactory.#ctor
 Info: BuildAssembler: Building topic Overload:AvalonDock.ColorFactory.ChangeColors
@@ -940,20 +920,14 @@ Info: BuildAssembler: Building topic M:AvalonDock.ColorFactory.ChangeBrush(Syste
 Info: BuildAssembler: Building topic M:AvalonDock.ColorFactory.ChangeColors(System.String,System.Windows.Media.Color)
 Info: BuildAssembler: Building topic M:AvalonDock.ColorFactory.ChangeColors(System.Windows.Media.Color)
 Info: BuildAssembler: Building topic M:AvalonDock.ColorFactory.ChangeTheme(System.String)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ColorFactory.ChangeTheme(System.String)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;theme&quot;/&gt; documentation for M:AvalonDock.ColorFactory.ChangeTheme(System.String)
 Info: BuildAssembler: Building topic M:AvalonDock.ColorFactory.ResetColors
 Info: BuildAssembler: Building topic T:AvalonDock.ContextMenuElement
 Info: BuildAssembler: Building topic T:AvalonDock.Converters
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.Converters
 Info: BuildAssembler: Building topic P:AvalonDock.Converters.BoolToVisibilityConverter
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.Converters.BoolToVisibilityConverter
 Info: BuildAssembler: Building topic T:AvalonDock.DeserializationCallbackEventArgs
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DeserializationCallbackEventArgs.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DeserializationCallbackEventArgs
 Info: BuildAssembler: Building topic M:AvalonDock.DeserializationCallbackEventArgs.#ctor(System.String)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DeserializationCallbackEventArgs.#ctor(System.String)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;contentName&quot;/&gt; documentation for M:AvalonDock.DeserializationCallbackEventArgs.#ctor(System.String)
 Info: BuildAssembler: Building topic P:AvalonDock.DeserializationCallbackEventArgs.Content
 Info: BuildAssembler: Building topic P:AvalonDock.DeserializationCallbackEventArgs.Name
 Info: BuildAssembler: Building topic T:AvalonDock.DockableContent
@@ -1032,45 +1006,23 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DockableContent.ClearVa
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableContent.#ctor
 Info: BuildAssembler: Building topic P:AvalonDock.DockableContent.DockableCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockableContent.DockableCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DockableContent.DockableStyle
 Info: BuildAssembler: Building topic P:AvalonDock.DockableContent.FloatingCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockableContent.FloatingCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DockableContent.HideCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockableContent.HideCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DockableContent.HideOnClose
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockableContent.HideOnClose
 Info: BuildAssembler: Building topic F:AvalonDock.DockableContent.HideOnCloseKey
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockableContent.HideOnCloseKey
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableContent.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockableContent.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockableContent.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockableContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockableContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;ptMouse&quot;/&gt; documentation for M:AvalonDock.DockableContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;ptRelativeMouse&quot;/&gt; documentation for M:AvalonDock.DockableContent.OnDragStart(System.Windows.Point,System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableContent.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockableContent.OnInitialized(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.ResetSavedStateAndPosition
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.RestoreLayout(System.Xml.XmlElement)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;contentElement&quot;/&gt; documentation for M:AvalonDock.DockableContent.RestoreLayout(System.Xml.XmlElement)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableContent.SaveLayout(System.Xml.XmlWriter)
 Info: BuildAssembler: Building topic P:AvalonDock.DockableContent.ShowAsDocumentCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockableContent.ShowAsDocumentCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DockableContent.State
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockableContent.State
 Info: BuildAssembler: Building topic E:AvalonDock.DockableContent.StateChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.DockableContent.StateChanged
 Info: BuildAssembler: Building topic F:AvalonDock.DockableContent.StatePropertyKey
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockableContent.StatePropertyKey
 Info: BuildAssembler: Building topic T:AvalonDock.DockableContent.DockableContentStateHandler
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DockableContent.DockableContentStateHandler
 Info: BuildAssembler: Building topic T:AvalonDock.DockableContentState
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:DocmumentPane'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:DocmumentPane'.
@@ -1078,7 +1030,6 @@ Info: BuildAssembler: Building topic T:AvalonDock.DockableFloatingWindow
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableFloatingWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableFloatingWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableFloatingWindow.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DockableFloatingWindow
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -1162,33 +1113,17 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DockableFloatingWindow.
 Info: BuildAssembler: Building topic Overload:AvalonDock.DockableFloatingWindow.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;content&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockablePane)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockablePane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockablePane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;dockablePane&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockablePane)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.ClonePane
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableFloatingWindow.ClonePane
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DockableFloatingWindow.ClonePane
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableFloatingWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.OnClosed(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableFloatingWindow.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockableFloatingWindow.OnInitialized(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableFloatingWindow.Redock
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableFloatingWindow.Redock
 Info: BuildAssembler: Building topic T:AvalonDock.DockablePane
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockablePane.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DockablePane
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ItemsControl.AlternationCount'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
@@ -1281,76 +1216,32 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DockablePane.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockablePane.#ctor
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.Anchor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.Anchor
 Info: BuildAssembler: Building topic F:AvalonDock.DockablePane.AnchorPropertyKey
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockablePane.AnchorPropertyKey
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.CheckItems(System.Collections.IList)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.CheckItems(System.Collections.IList)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;newItems&quot;/&gt; documentation for M:AvalonDock.DockablePane.CheckItems(System.Collections.IList)
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.CloseCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.CloseCommand
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.GetCumulativeDockableStyle
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.GetCumulativeDockableStyle
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DockablePane.GetCumulativeDockableStyle
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.IsDocked
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.IsDocked
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.IsOptionsMenuOpened
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.IsOptionsMenuOpened
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.IsSurfaceVisible
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.IsSurfaceVisible
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnHeaderMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnHeaderMouseEnter(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseEnter(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseEnter(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseEnter(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnHeaderMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnHeaderMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnHeaderMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnHeaderMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnInitialized(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.OpenOptionsContextMenu
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.OpenOptionsContextMenu
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePane.RemoveContent(System.Int32)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePane.RemoveContent(System.Int32)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DockablePane.RemoveContent(System.Int32)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;index&quot;/&gt; documentation for M:AvalonDock.DockablePane.RemoveContent(System.Int32)
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.ShowHeader
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.ShowHeader
 Info: BuildAssembler: Building topic F:AvalonDock.DockablePane.ShowHeaderProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockablePane.ShowHeaderProperty
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.ShowOptionsCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.ShowOptionsCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.ShowTabs
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.ShowTabs
 Info: BuildAssembler: Building topic F:AvalonDock.DockablePane.ShowTabsProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockablePane.ShowTabsProperty
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePane.ToggleAutoHideCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePane.ToggleAutoHideCommand
 Info: BuildAssembler: Building topic T:AvalonDock.DockablePaneAnchorTab
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockablePaneAnchorTab.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DockablePaneAnchorTab
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.UIElement.Effect'.
@@ -1425,25 +1316,15 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DockablePaneAnchorTab.C
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePaneAnchorTab.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockablePaneAnchorTab.#ctor
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePaneAnchorTab.Anchor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePaneAnchorTab.Anchor
 Info: BuildAssembler: Building topic F:AvalonDock.DockablePaneAnchorTab.AnchorPropertyKey
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockablePaneAnchorTab.AnchorPropertyKey
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePaneAnchorTab.Icon
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePaneAnchorTab.Icon
 Info: BuildAssembler: Building topic F:AvalonDock.DockablePaneAnchorTab.IconProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockablePaneAnchorTab.IconProperty
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePaneAnchorTab.OnMouseMove(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePaneAnchorTab.OnMouseMove(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockablePaneAnchorTab.OnMouseMove(System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic E:AvalonDock.DockablePaneAnchorTab.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.DockablePaneAnchorTab.PropertyChanged
 Info: BuildAssembler: Building topic P:AvalonDock.DockablePaneAnchorTab.ReferencedContent
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockablePaneAnchorTab.ReferencedContent
 Info: BuildAssembler: Building topic F:AvalonDock.DockablePaneAnchorTab.ReferencedContentPropertyKey
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockablePaneAnchorTab.ReferencedContentPropertyKey
 Info: BuildAssembler: Building topic T:AvalonDock.DockablePaneAnchorTabGroup
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockablePaneAnchorTabGroup.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DockablePaneAnchorTabGroup
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.UIElement.Effect'.
@@ -1519,15 +1400,11 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DockablePaneAnchorTabGr
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePaneAnchorTabGroup.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockablePaneAnchorTabGroup.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.DockablePaneAnchorTabGroup.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockablePaneAnchorTabGroup.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;visualAdded&quot;/&gt; documentation for M:AvalonDock.DockablePaneAnchorTabGroup.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;visualRemoved&quot;/&gt; documentation for M:AvalonDock.DockablePaneAnchorTabGroup.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic T:AvalonDock.DockableStyle
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:DockableContet'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:DockableContet'.
 Info: BuildAssembler: Building topic T:AvalonDock.DockableTabPanel
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableTabPanel.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DockableTabPanel
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.UIElement.Effect'.
@@ -1603,13 +1480,7 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DockableTabPanel.ClearV
 Info: BuildAssembler: Building topic M:AvalonDock.DockableTabPanel.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockableTabPanel.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.DockableTabPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableTabPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DockableTabPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;finalSize&quot;/&gt; documentation for M:AvalonDock.DockableTabPanel.ArrangeOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic M:AvalonDock.DockableTabPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockableTabPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DockableTabPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;availableSize&quot;/&gt; documentation for M:AvalonDock.DockableTabPanel.MeasureOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic T:AvalonDock.DockingManager
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DockingManager.#ctor
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
@@ -1704,103 +1575,49 @@ Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.ActiveContent
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.ActiveDockableContent
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.ActiveDocument
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Anchor(AvalonDock.DockablePane,AvalonDock.DockablePane,AvalonDock.AnchorStyle)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;anchor&quot;/&gt; documentation for M:AvalonDock.DockingManager.Anchor(AvalonDock.DockablePane,AvalonDock.DockablePane,AvalonDock.AnchorStyle)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Anchor(AvalonDock.DockablePane,AvalonDock.DocumentPane,AvalonDock.AnchorStyle)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;anchor&quot;/&gt; documentation for M:AvalonDock.DockingManager.Anchor(AvalonDock.DockablePane,AvalonDock.DocumentPane,AvalonDock.AnchorStyle)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Anchor(AvalonDock.DocumentPane,AvalonDock.DocumentPane,AvalonDock.AnchorStyle)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;anchor&quot;/&gt; documentation for M:AvalonDock.DockingManager.Anchor(AvalonDock.DocumentPane,AvalonDock.DocumentPane,AvalonDock.AnchorStyle)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Anchor(AvalonDock.Pane,AvalonDock.AnchorStyle)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneToAnchor&quot;/&gt; documentation for M:AvalonDock.DockingManager.Anchor(AvalonDock.Pane,AvalonDock.AnchorStyle)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;anchor&quot;/&gt; documentation for M:AvalonDock.DockingManager.Anchor(AvalonDock.Pane,AvalonDock.AnchorStyle)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Anchor(AvalonDock.Pane,AvalonDock.Pane,AvalonDock.AnchorStyle)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;anchor&quot;/&gt; documentation for M:AvalonDock.DockingManager.Anchor(AvalonDock.Pane,AvalonDock.Pane,AvalonDock.AnchorStyle)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DockingManager.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;arrangeBounds&quot;/&gt; documentation for M:AvalonDock.DockingManager.ArrangeOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.DeserializationCallback
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockingManager.DeserializationCallback
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Dispose
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Dispose(System.Boolean)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.Dispose(System.Boolean)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;disposing&quot;/&gt; documentation for M:AvalonDock.DockingManager.Dispose(System.Boolean)
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.DockableContents
 Info: BuildAssembler: Building topic E:AvalonDock.DockingManager.DocumentClosed
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:AvalonDock.ManagedContent.Manager'.
 Info: BuildAssembler: Building topic E:AvalonDock.DockingManager.DocumentClosing
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.Documents
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.DocumentsSource
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockingManager.DocumentsSource
 Info: BuildAssembler: Building topic F:AvalonDock.DockingManager.DocumentsSourceProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DockingManager.DocumentsSourceProperty
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DockablePane)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DockablePane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneDragged&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DockablePane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneToDropInto&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DockablePane)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DocumentPane)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DocumentPane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneDragged&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DocumentPane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneToDropInto&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DockablePane,AvalonDock.DocumentPane)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.DropInto(AvalonDock.DocumentPane,AvalonDock.DocumentPane)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DocumentPane,AvalonDock.DocumentPane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneDragged&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DocumentPane,AvalonDock.DocumentPane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneToDropInto&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.DocumentPane,AvalonDock.DocumentPane)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.DropInto(AvalonDock.Pane,AvalonDock.Pane)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.Pane,AvalonDock.Pane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneDragged&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.Pane,AvalonDock.Pane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;paneToDropInto&quot;/&gt; documentation for M:AvalonDock.DockingManager.DropInto(AvalonDock.Pane,AvalonDock.Pane)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Finalize
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.Finalize
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.FloatingWindows
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockingManager.FloatingWindows
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.Hide(AvalonDock.DockableContent)
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.IsSurfaceVisible
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DockingManager.IsSurfaceVisible
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.MainDocumentPane
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnDocumentClosed
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnDocumentClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnDocumentClosing(System.ComponentModel.CancelEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnDragEnter(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnDragLeave(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;point&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnDragLeave(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnDragOver(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;point&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnDragOver(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnDrop(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnInitialized(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnMouseLeave(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.OnMouseLeave(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnMouseLeave(System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnMouseMove(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.OnMouseMove(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnMouseMove(System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnMouseUp(System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.OnMouseUp(System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnMouseUp(System.Windows.Input.MouseButtonEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.OnRenderSizeChanged(System.Windows.SizeChangedInfo)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.OnRenderSizeChanged(System.Windows.SizeChangedInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sizeInfo&quot;/&gt; documentation for M:AvalonDock.DockingManager.OnRenderSizeChanged(System.Windows.SizeChangedInfo)
 Info: BuildAssembler: Building topic E:AvalonDock.DockingManager.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.DockingManager.PropertyChanged
 Info: BuildAssembler: Building topic E:AvalonDock.DockingManager.RequestDocumentClose
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.DockingManager.RequestDocumentClose
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.RestoreLayout(System.IO.Stream)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.IO.Stream)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;backendStream&quot;/&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.IO.Stream)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.RestoreLayout(System.IO.TextReader)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.IO.TextReader)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;reader&quot;/&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.IO.TextReader)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.RestoreLayout(System.String)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.String)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;filename&quot;/&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.String)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.RestoreLayout(System.Xml.XmlReader)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.Xml.XmlReader)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;reader&quot;/&gt; documentation for M:AvalonDock.DockingManager.RestoreLayout(System.Xml.XmlReader)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.SaveLayout(System.IO.Stream)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.SaveLayout(System.IO.TextWriter)
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.SaveLayout(System.String)
@@ -1816,7 +1633,6 @@ Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.ShowNavigatorWi
 Info: BuildAssembler: Building topic P:AvalonDock.DockingManager.SurfaceRectangle
 Info: BuildAssembler: Building topic M:AvalonDock.DockingManager.ToggleAutoHide(AvalonDock.DockablePane)
 Info: BuildAssembler: Building topic T:AvalonDock.DockingManager.DeserializationCallbackHandler
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DockingManager.DeserializationCallbackHandler
 Info: BuildAssembler: Building topic T:AvalonDock.DocumentContent
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentContent.#ctor
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
@@ -1895,7 +1711,6 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DocumentContent.ClearVa
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentContent.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.Close
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DocumentContent.Close
 Info: BuildAssembler: Building topic E:AvalonDock.DocumentContent.Closed
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:AvalonDock.ManagedContent.Manager'.
 Info: BuildAssembler: Building topic E:AvalonDock.DocumentContent.Closing
@@ -1903,28 +1718,16 @@ Info: BuildAssembler: Building topic P:AvalonDock.DocumentContent.ContentTypeDes
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentContent.InfoTip
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentContent.IsFloatingAllowed
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentContent.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.OnClosed
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:DocumentContent.OnClose'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:DocumentContent.OnClose'.
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentContent.OnClosing(System.ComponentModel.CancelEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;ptMouse&quot;/&gt; documentation for M:AvalonDock.DocumentContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;ptRelativeMouse&quot;/&gt; documentation for M:AvalonDock.DocumentContent.OnDragStart(System.Windows.Point,System.Windows.Point)
 Info: BuildAssembler: Building topic T:AvalonDock.DocumentFloatingWindow
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentFloatingWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentFloatingWindow.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DocumentFloatingWindow
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -2007,32 +1810,17 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DocumentFloatingWindow.
 Info: BuildAssembler: Building topic Overload:AvalonDock.DocumentFloatingWindow.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentFloatingWindow.#ctor(AvalonDock.DockingManager)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentFloatingWindow.#ctor(AvalonDock.DockingManager)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.DocumentFloatingWindow.#ctor(AvalonDock.DockingManager)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DocumentContent)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DocumentContent)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.DocumentFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DocumentContent)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;content&quot;/&gt; documentation for M:AvalonDock.DocumentFloatingWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DocumentContent)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentFloatingWindow.ClonePane
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentFloatingWindow.ClonePane
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DocumentFloatingWindow.ClonePane
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentFloatingWindow.IsDocumentFloatingAllowed
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentFloatingWindow.IsDocumentFloatingAllowed
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentFloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentFloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentFloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentFloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentFloatingWindow.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentFloatingWindow.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentFloatingWindow.OnInitialized(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentFloatingWindow.Redock
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentFloatingWindow.Redock
 Info: BuildAssembler: Building topic T:AvalonDock.DocumentNavigatorWindow
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentNavigatorWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentNavigatorWindow.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DocumentNavigatorWindow
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -2116,32 +1904,17 @@ Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentNavigatorWindow.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.#ctor(AvalonDock.DockingManager)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentNavigatorWindow.#ctor(AvalonDock.DockingManager)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.#ctor(AvalonDock.DockingManager)
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentNavigatorWindow.Documents
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentNavigatorWindow.Documents
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.MoveNextSelectedContent
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.MoveNextSelectedContent
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnActivated(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnClosed(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnClosing(System.ComponentModel.CancelEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentNavigatorWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentNavigatorWindow.OnDeactivated(System.EventArgs)
 Info: BuildAssembler: Building topic E:AvalonDock.DocumentNavigatorWindow.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.DocumentNavigatorWindow.PropertyChanged
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentNavigatorWindow.SelectedContent
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentNavigatorWindow.SelectedContent
 Info: BuildAssembler: Building topic T:AvalonDock.DocumentPane
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentPane.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DocumentPane
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ItemsControl.AlternationCount'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
@@ -2233,68 +2006,28 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DocumentPane.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentPane.#ctor
 Info: BuildAssembler: Building topic F:AvalonDock.DocumentPane.ActivateDocumentCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DocumentPane.ActivateDocumentCommand
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.CanExecuteActivateDocumentCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteActivateDocumentCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteActivateDocumentCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteActivateDocumentCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.CanExecuteCloseCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteCloseCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteCloseCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteCloseCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.CanExecuteShowDocumentsListMenuCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteShowDocumentsListMenuCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteShowDocumentsListMenuCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.CanExecuteShowDocumentsListMenuCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentPane.CloseAllButThisCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentPane.CloseAllButThisCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentPane.CloseCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentPane.CloseCommand
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.ExecutedActivateDocumentCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.ExecutedActivateDocumentCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentPane.ExecutedActivateDocumentCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.ExecutedActivateDocumentCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.ExecutedCloseCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.ExecutedCloseCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentPane.ExecutedCloseCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.ExecutedCloseCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.ExecutedShowDocumentsListMenuCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.ExecutedShowDocumentsListMenuCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentPane.ExecutedShowDocumentsListMenuCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.ExecutedShowDocumentsListMenuCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentPane.IsMainDocumentPane
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentPane.IsMainDocumentPane
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentPane.IsSurfaceVisible
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentPane.IsSurfaceVisible
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentPane.NewHorizontalTabGroupCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentPane.NewHorizontalTabGroupCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentPane.NewVerticalTabGroupCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentPane.NewVerticalTabGroupCommand
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.DocumentPane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.OnInitialized(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentPane.OnSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentPane.OnSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.DocumentPane.OnSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs)
 Info: BuildAssembler: Building topic F:AvalonDock.DocumentPane.ShowDocumentsListMenuCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DocumentPane.ShowDocumentsListMenuCommand
 Info: BuildAssembler: Building topic P:AvalonDock.DocumentPane.SurfaceRectangle
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.DocumentPane.SurfaceRectangle
 Info: BuildAssembler: Building topic T:AvalonDock.DocumentPaneResizingPanel
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentPaneResizingPanel.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DocumentPaneResizingPanel
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:SplitSize'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:SplitSize'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
@@ -2373,7 +2106,6 @@ Info: BuildAssembler: Building topic M:AvalonDock.DocumentPaneResizingPanel.#cto
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentPaneResizingPanel.#ctor
 Info: BuildAssembler: Building topic T:AvalonDock.DocumentTabPanel
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentTabPanel.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.DocumentTabPanel
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.UIElement.Effect'.
@@ -2449,45 +2181,18 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.DocumentTabPanel.ClearV
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentTabPanel.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.DocumentTabPanel.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentTabPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentTabPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DocumentTabPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;finalSize&quot;/&gt; documentation for M:AvalonDock.DocumentTabPanel.ArrangeOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentTabPanel.GetIsHeaderVisible(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentTabPanel.GetIsHeaderVisible(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DocumentTabPanel.GetIsHeaderVisible(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.DocumentTabPanel.GetIsHeaderVisible(System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic F:AvalonDock.DocumentTabPanel.IsHeaderVisibleProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.DocumentTabPanel.IsHeaderVisibleProperty
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentTabPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentTabPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.DocumentTabPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;availableSize&quot;/&gt; documentation for M:AvalonDock.DocumentTabPanel.MeasureOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic M:AvalonDock.DocumentTabPanel.SetIsHeaderVisible(System.Windows.DependencyObject,System.Boolean)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.DocumentTabPanel.SetIsHeaderVisible(System.Windows.DependencyObject,System.Boolean)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.DocumentTabPanel.SetIsHeaderVisible(System.Windows.DependencyObject,System.Boolean)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.DocumentTabPanel.SetIsHeaderVisible(System.Windows.DependencyObject,System.Boolean)
 Info: BuildAssembler: Building topic T:AvalonDock.FindResourcePathConverter
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FindResourcePathConverter.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.FindResourcePathConverter
 Info: BuildAssembler: Building topic M:AvalonDock.FindResourcePathConverter.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FindResourcePathConverter.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.FindResourcePathConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FindResourcePathConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.FindResourcePathConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;targetType&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;parameter&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;culture&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
 Info: BuildAssembler: Building topic M:AvalonDock.FindResourcePathConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FindResourcePathConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.FindResourcePathConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;targetType&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;parameter&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;culture&quot;/&gt; documentation for M:AvalonDock.FindResourcePathConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)
 Info: BuildAssembler: Building topic T:AvalonDock.FloatingDockablePane
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FloatingDockablePane.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.FloatingDockablePane
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ItemsControl.AlternationCount'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
@@ -2579,19 +2284,12 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.FloatingDockablePane.Se
 Info: BuildAssembler: Building topic Overload:AvalonDock.FloatingDockablePane.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingDockablePane.#ctor(AvalonDock.FloatingWindow)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FloatingDockablePane.#ctor(AvalonDock.FloatingWindow)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;floatingWindow&quot;/&gt; documentation for M:AvalonDock.FloatingDockablePane.#ctor(AvalonDock.FloatingWindow)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingDockablePane.CheckItems(System.Collections.IList)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingDockablePane.CheckItems(System.Collections.IList)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;newItems&quot;/&gt; documentation for M:AvalonDock.FloatingDockablePane.CheckItems(System.Collections.IList)
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingDockablePane.FloatingWindow
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingDockablePane.FloatingWindow
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingDockablePane.GetManager
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingDockablePane.GetManager
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.FloatingDockablePane.GetManager
 Info: BuildAssembler: Building topic T:AvalonDock.FloatingWindow
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FloatingWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FloatingWindow.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.FloatingWindow
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -2676,100 +2374,43 @@ Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FloatingWindow.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.#ctor(AvalonDock.DockingManager)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FloatingWindow.#ctor(AvalonDock.DockingManager)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.#ctor(AvalonDock.DockingManager)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.ClonePane
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.ClonePane
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.FloatingWindow.ClonePane
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.Close(System.Boolean)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.Close(System.Boolean)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;force&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.Close(System.Boolean)
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.CloseCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.CloseCommand
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;hwnd&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;msg&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;wParam&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;lParam&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;handled&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.FilterMessage(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.ForcedClosing
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.ForcedClosing
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.HostedPane
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.HostedPane
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.HTCAPTION
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.HTCAPTION
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.IsDockableWindow
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.IsDockableWindow
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.IsFloatingWindow
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.IsFloatingWindow
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.NotifyPropertyChanged(System.String)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.NotifyPropertyChanged(System.String)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;propertyName&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.NotifyPropertyChanged(System.String)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnActivated(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnCanExecuteCommand(System.Object,System.Windows.Input.CanExecuteRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnClosed(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnClosing(System.ComponentModel.CancelEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnDeactivated(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnExecuteCommand(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnLoaded(System.Object,System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnLoaded(System.Object,System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnLoaded(System.Object,System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnLoaded(System.Object,System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.OnUnloaded(System.Object,System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.OnUnloaded(System.Object,System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnUnloaded(System.Object,System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FloatingWindow.OnUnloaded(System.Object,System.EventArgs)
 Info: BuildAssembler: Building topic E:AvalonDock.FloatingWindow.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.FloatingWindow.PropertyChanged
 Info: BuildAssembler: Building topic M:AvalonDock.FloatingWindow.Redock
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FloatingWindow.Redock
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.ReferencedPaneProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.ReferencedPaneProperty
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.SC_MOVE
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.SC_MOVE
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.SetAsDockableWindowCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.SetAsDockableWindowCommand
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.SetAsFloatingWindowCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.SetAsFloatingWindowCommand
 Info: BuildAssembler: Building topic P:AvalonDock.FloatingWindow.TabbedDocumentCommand
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FloatingWindow.TabbedDocumentCommand
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_MOVE
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_MOVE
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_NCLBUTTONDBLCLK
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_NCLBUTTONDBLCLK
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_NCLBUTTONDOWN
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_NCLBUTTONDOWN
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_NCLBUTTONUP
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_NCLBUTTONUP
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_NCMOUSEMOVE
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_NCMOUSEMOVE
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_NCRBUTTONDOWN
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_NCRBUTTONDOWN
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_NCRBUTTONUP
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_NCRBUTTONUP
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_SIZE
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_SIZE
 Info: BuildAssembler: Building topic F:AvalonDock.FloatingWindow.WM_SYSCOMMAND
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.FloatingWindow.WM_SYSCOMMAND
 Info: BuildAssembler: Building topic T:AvalonDock.FlyoutPaneWindow
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FlyoutPaneWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FlyoutPaneWindow.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.FlyoutPaneWindow
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -2849,43 +2490,19 @@ Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FlyoutPaneWindow.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.FlyoutPaneWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;content&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.#ctor(AvalonDock.DockingManager,AvalonDock.DockableContent)
 Info: BuildAssembler: Building topic P:AvalonDock.FlyoutPaneWindow.Anchor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FlyoutPaneWindow.Anchor
 Info: BuildAssembler: Building topic P:AvalonDock.FlyoutPaneWindow.IsClosing
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FlyoutPaneWindow.IsClosing
 Info: BuildAssembler: Building topic P:AvalonDock.FlyoutPaneWindow.IsOpening
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.FlyoutPaneWindow.IsOpening
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnActivated(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnClosed(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnGotFocus(System.Windows.RoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnGotFocus(System.Windows.RoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnGotFocus(System.Windows.RoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnInitialized(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnInitialized(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnLostFocus(System.Windows.RoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnLostFocus(System.Windows.RoutedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnLostFocus(System.Windows.RoutedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnMouseLeave(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnMouseLeave(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnMouseLeave(System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.FlyoutPaneWindow.OnMouseMove(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnMouseMove(System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.FlyoutPaneWindow.OnMouseMove(System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic T:AvalonDock.GreyableImage
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.GreyableImage.#ctor
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
@@ -2963,10 +2580,8 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.GreyableImage.ClearValu
 Info: BuildAssembler: Building topic M:AvalonDock.GreyableImage.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.GreyableImage.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.GreyableImage.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.GreyableImage.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)
 Info: BuildAssembler: Building topic T:AvalonDock.ManagedContent
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.ManagedContent.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.ManagedContent
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -3041,79 +2656,41 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.ManagedContent.ClearVal
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.ManagedContent.#ctor
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.ContainerPane
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ManagedContent.ContainerPane
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.DefaultElement
 Info: BuildAssembler: Building topic F:AvalonDock.ManagedContent.DefaultFocusedElementProperty
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.DragEnabledArea
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ManagedContent.DragEnabledArea
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.FloatingResizeMode
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ManagedContent.FloatingResizeMode
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.FloatingWindowSize
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.Icon
 Info: BuildAssembler: Building topic F:AvalonDock.ManagedContent.IconProperty
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.IsActiveContent
 Info: BuildAssembler: Building topic E:AvalonDock.ManagedContent.IsActiveContentChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.ManagedContent.IsActiveContentChanged
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.IsActiveDocument
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.IsCloseable
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ManagedContent.IsCloseable
 Info: BuildAssembler: Building topic F:AvalonDock.ManagedContent.IsCloseableProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.ManagedContent.IsCloseableProperty
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.IsLocked
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.IsMouseDown
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ManagedContent.IsMouseDown
+Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.ManagedContent_LayoutUpdated(System.Object,System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.NotifyPropertyChanged(System.String)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.NotifyPropertyChanged(System.String)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;propertyName&quot;/&gt; documentation for M:AvalonDock.ManagedContent.NotifyPropertyChanged(System.String)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnDragMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseMove(System.Object,System.Windows.Input.MouseEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnDragMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;sender&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;ptMouse&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragStart(System.Windows.Point,System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;ptrelativeMouse&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnDragStart(System.Windows.Point,System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnKeyDown(System.Windows.Input.KeyEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnKeyDown(System.Windows.Input.KeyEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnKeyDown(System.Windows.Input.KeyEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnLostKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.ManagedContent.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)
 Info: BuildAssembler: Building topic E:AvalonDock.ManagedContent.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.ManagedContent.PropertyChanged
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.ResetIsMouseDownFlag
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ManagedContent.ResetIsMouseDownFlag
 Info: BuildAssembler: Building topic M:AvalonDock.ManagedContent.SetAsActive
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.StartDragPoint
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ManagedContent.StartDragPoint
 Info: BuildAssembler: Building topic P:AvalonDock.ManagedContent.Title
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ManagedContent.Title
 Info: BuildAssembler: Building topic F:AvalonDock.ManagedContent.TitleProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.ManagedContent.TitleProperty
 Info: BuildAssembler: Building topic T:AvalonDock.NavigatorWindow
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.NavigatorWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.NavigatorWindow.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.NavigatorWindow
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -3197,55 +2774,29 @@ Info: BuildAssembler: Building topic M:AvalonDock.NavigatorWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.NavigatorWindow.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.NavigatorWindow.#ctor(AvalonDock.DockingManager)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.NavigatorWindow.#ctor(AvalonDock.DockingManager)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.NavigatorWindow.#ctor(AvalonDock.DockingManager)
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindow.DockableContents
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindow.DockableContents
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindow.Documents
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindow.Documents
 Info: BuildAssembler: Building topic M:AvalonDock.NavigatorWindow.MoveNextSelectedContent
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.NavigatorWindow.MoveNextSelectedContent
 Info: BuildAssembler: Building topic M:AvalonDock.NavigatorWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.NavigatorWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.NavigatorWindow.OnActivated(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.NavigatorWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.NavigatorWindow.OnClosed(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.NavigatorWindow.OnClosed(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.NavigatorWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.NavigatorWindow.OnClosing(System.ComponentModel.CancelEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.NavigatorWindow.OnClosing(System.ComponentModel.CancelEventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.NavigatorWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.NavigatorWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.NavigatorWindow.OnDeactivated(System.EventArgs)
 Info: BuildAssembler: Building topic E:AvalonDock.NavigatorWindow.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.NavigatorWindow.PropertyChanged
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindow.SelectedContent
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindow.SelectedContent
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindow.SelectedToolWindow
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindow.SelectedToolWindow
 Info: BuildAssembler: Building topic T:AvalonDock.NavigatorWindowDocumentItem
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.NavigatorWindowDocumentItem
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindowDocumentItem.ContentTypeDescription
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindowDocumentItem.ContentTypeDescription
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindowDocumentItem.InfoTip
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindowDocumentItem.InfoTip
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindowDocumentItem.LastActivation
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindowDocumentItem.LastActivation
 Info: BuildAssembler: Building topic T:AvalonDock.NavigatorWindowItem
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.NavigatorWindowItem
 Info: BuildAssembler: Building topic F:AvalonDock.NavigatorWindowItem._content
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.NavigatorWindowItem._content
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindowItem.Icon
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindowItem.Icon
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindowItem.ItemContent
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindowItem.ItemContent
 Info: BuildAssembler: Building topic P:AvalonDock.NavigatorWindowItem.Title
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.NavigatorWindowItem.Title
 Info: BuildAssembler: Building topic T:AvalonDock.OverlayButtonHover
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.OverlayButtonHover
 Info: BuildAssembler: Building topic T:AvalonDock.OverlayWindow
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.OverlayWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.OverlayWindow.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.OverlayWindow
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ContentControl.ContentStringFormat'.
@@ -3329,28 +2880,15 @@ Info: BuildAssembler: Building topic M:AvalonDock.OverlayWindow.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.OverlayWindow.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.OverlayWindow.#ctor(AvalonDock.DockingManager)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.OverlayWindow.#ctor(AvalonDock.DockingManager)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;manager&quot;/&gt; documentation for M:AvalonDock.OverlayWindow.#ctor(AvalonDock.DockingManager)
 Info: BuildAssembler: Building topic M:AvalonDock.OverlayWindow.HideOverlayPaneDockingOptions(AvalonDock.Pane)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.OverlayWindow.HideOverlayPaneDockingOptions(AvalonDock.Pane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;surfaceElement&quot;/&gt; documentation for M:AvalonDock.OverlayWindow.HideOverlayPaneDockingOptions(AvalonDock.Pane)
 Info: BuildAssembler: Building topic M:AvalonDock.OverlayWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.OverlayWindow.OnActivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.OverlayWindow.OnActivated(System.EventArgs)
 Info: BuildAssembler: Building topic M:AvalonDock.OverlayWindow.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.OverlayWindow.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.OverlayWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.OverlayWindow.OnDeactivated(System.EventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.OverlayWindow.OnDeactivated(System.EventArgs)
 Info: BuildAssembler: Building topic P:AvalonDock.OverlayWindow.OverlayButtonHover
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.OverlayWindow.OverlayButtonHover
 Info: BuildAssembler: Building topic E:AvalonDock.OverlayWindow.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.OverlayWindow.PropertyChanged
 Info: BuildAssembler: Building topic M:AvalonDock.OverlayWindow.ShowOverlayPaneDockingOptions(AvalonDock.Pane)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.OverlayWindow.ShowOverlayPaneDockingOptions(AvalonDock.Pane)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;pane&quot;/&gt; documentation for M:AvalonDock.OverlayWindow.ShowOverlayPaneDockingOptions(AvalonDock.Pane)
 Info: BuildAssembler: Building topic T:AvalonDock.Pane
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.Pane.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.Pane
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.Controls.ItemsControl.AlternationCount'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
@@ -3443,54 +2981,25 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.Pane.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.Pane.#ctor
 Info: BuildAssembler: Building topic F:AvalonDock.Pane._partHeader
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.Pane._partHeader
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.AddDragPaneReferences
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.AddDragPaneReferences
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.GetManager
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.GetManager
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.Pane.GetManager
 Info: BuildAssembler: Building topic P:AvalonDock.Pane.HasSingleItem
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.Pane.HasSingleItem
 Info: BuildAssembler: Building topic F:AvalonDock.Pane.HasSingleItemProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.Pane.HasSingleItemProperty
 Info: BuildAssembler: Building topic P:AvalonDock.Pane.IsDocked
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.Pane.IsDocked
 Info: BuildAssembler: Building topic P:AvalonDock.Pane.IsSurfaceVisible
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.Pane.IsSurfaceVisible
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.NotifyPropertyChanged(System.String)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.NotifyPropertyChanged(System.String)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;propertyName&quot;/&gt; documentation for M:AvalonDock.Pane.NotifyPropertyChanged(System.String)
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.OnApplyTemplate
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.OnApplyTemplate
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.OnDragEnter(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.OnDragEnter(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;point&quot;/&gt; documentation for M:AvalonDock.Pane.OnDragEnter(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.OnDragLeave(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.OnDragLeave(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;point&quot;/&gt; documentation for M:AvalonDock.Pane.OnDragLeave(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.OnDragOver(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.OnDragOver(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;point&quot;/&gt; documentation for M:AvalonDock.Pane.OnDragOver(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.OnDrop(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.OnDrop(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.Pane.OnDrop(System.Windows.Point)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;point&quot;/&gt; documentation for M:AvalonDock.Pane.OnDrop(System.Windows.Point)
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;e&quot;/&gt; documentation for M:AvalonDock.Pane.OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)
 Info: BuildAssembler: Building topic E:AvalonDock.Pane.PropertyChanged
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for E:AvalonDock.Pane.PropertyChanged
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.RemoveContent(System.Int32)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.RemoveContent(System.Int32)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.Pane.RemoveContent(System.Int32)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;index&quot;/&gt; documentation for M:AvalonDock.Pane.RemoveContent(System.Int32)
 Info: BuildAssembler: Building topic M:AvalonDock.Pane.RemoveDragPaneReferences
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.Pane.RemoveDragPaneReferences
 Info: BuildAssembler: Building topic P:AvalonDock.Pane.SurfaceRectangle
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.Pane.SurfaceRectangle
 Info: BuildAssembler: Building topic T:AvalonDock.PaneTabPanel
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.PaneTabPanel.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.PaneTabPanel
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.UIElement.Effect'.
@@ -3566,23 +3075,15 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.PaneTabPanel.ClearValue
 Info: BuildAssembler: Building topic M:AvalonDock.PaneTabPanel.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.PaneTabPanel.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.PaneTabPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.PaneTabPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;visualAdded&quot;/&gt; documentation for M:AvalonDock.PaneTabPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;visualRemoved&quot;/&gt; documentation for M:AvalonDock.PaneTabPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic P:AvalonDock.PaneTabPanel.TabItemStyle
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.PaneTabPanel.TabItemStyle
 Info: BuildAssembler: Building topic F:AvalonDock.PaneTabPanel.TabItemStyleProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.PaneTabPanel.TabItemStyleProperty
 Info: BuildAssembler: Building topic T:AvalonDock.RequestDocumentCloseEventArgs
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.RequestDocumentCloseEventArgs.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.RequestDocumentCloseEventArgs
 Info: BuildAssembler: Building topic M:AvalonDock.RequestDocumentCloseEventArgs.#ctor(AvalonDock.DocumentContent)
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.RequestDocumentCloseEventArgs.#ctor(AvalonDock.DocumentContent)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;doc&quot;/&gt; documentation for M:AvalonDock.RequestDocumentCloseEventArgs.#ctor(AvalonDock.DocumentContent)
 Info: BuildAssembler: Building topic P:AvalonDock.RequestDocumentCloseEventArgs.DocumentToClose
 Info: BuildAssembler: Building topic T:AvalonDock.ResizingPanel
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.ResizingPanel.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.ResizingPanel
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:SplitSize'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:SplitSize'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
@@ -3660,33 +3161,15 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.ResizingPanel.ClearValu
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.ResizingPanel.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.ResizingPanel.ArrangeOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;finalSize&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.ArrangeOverride(System.Windows.Size)
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:SplitSize'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:SplitSize'.
 Info: BuildAssembler: Building topic F:AvalonDock.ResizingPanel.EffectiveSizeProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.ResizingPanel.EffectiveSizeProperty
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.GetEffectiveSize(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanel.GetEffectiveSize(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.ResizingPanel.GetEffectiveSize(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.GetEffectiveSize(System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.GetResizeHeight(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanel.GetResizeHeight(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.ResizingPanel.GetResizeHeight(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.GetResizeHeight(System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.GetResizeWidth(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanel.GetResizeWidth(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.ResizingPanel.GetResizeWidth(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.GetResizeWidth(System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic P:AvalonDock.ResizingPanel.IsDocked
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ResizingPanel.IsDocked
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;returns&gt; documentation for M:AvalonDock.ResizingPanel.MeasureOverride(System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;availableSize&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.MeasureOverride(System.Windows.Size)
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;visualAdded&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;visualRemoved&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.OnVisualChildrenChanged(System.Windows.DependencyObject,System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic P:AvalonDock.ResizingPanel.Orientation
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:ResizingWidth'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:ResizingWidth'.
@@ -3698,24 +3181,12 @@ Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:Resizing
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target '!:ResizingHeight'.
 Warn: ResolveReferenceLinksComponent2: Invalid reference link target '!:ResizingHeight'.
 Info: BuildAssembler: Building topic F:AvalonDock.ResizingPanel.ResizeHeightProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.ResizingPanel.ResizeHeightProperty
 Info: BuildAssembler: Building topic F:AvalonDock.ResizingPanel.ResizeWidthProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.ResizingPanel.ResizeWidthProperty
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.SetEffectiveSize(System.Windows.DependencyObject,System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanel.SetEffectiveSize(System.Windows.DependencyObject,System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.SetEffectiveSize(System.Windows.DependencyObject,System.Windows.Size)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.SetEffectiveSize(System.Windows.DependencyObject,System.Windows.Size)
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.SetResizeHeight(System.Windows.DependencyObject,System.Windows.GridLength)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanel.SetResizeHeight(System.Windows.DependencyObject,System.Windows.GridLength)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.SetResizeHeight(System.Windows.DependencyObject,System.Windows.GridLength)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.SetResizeHeight(System.Windows.DependencyObject,System.Windows.GridLength)
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanel.SetResizeWidth(System.Windows.DependencyObject,System.Windows.GridLength)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanel.SetResizeWidth(System.Windows.DependencyObject,System.Windows.GridLength)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;obj&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.SetResizeWidth(System.Windows.DependencyObject,System.Windows.GridLength)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;value&quot;/&gt; documentation for M:AvalonDock.ResizingPanel.SetResizeWidth(System.Windows.DependencyObject,System.Windows.GridLength)
 Info: BuildAssembler: Building topic T:AvalonDock.ResizingPanelSplitter
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.ResizingPanelSplitter.#ctor
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for T:AvalonDock.ResizingPanelSplitter
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.FrameworkElement.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'T:System.Windows.Data.BindingGroup'.
 Warn: ResolveReferenceLinksComponent2: Unknown reference link target 'P:System.Windows.UIElement.Effect'.
@@ -3790,27 +3261,21 @@ Info: BuildAssembler: Building topic Overload:AvalonDock.ResizingPanelSplitter.C
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanelSplitter.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.ResizingPanelSplitter.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.ResizingPanelSplitter.OnVisualParentChanged(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for M:AvalonDock.ResizingPanelSplitter.OnVisualParentChanged(System.Windows.DependencyObject)
-Warn: ShowMissingComponent: Missing &lt;param name=&quot;oldParent&quot;/&gt; documentation for M:AvalonDock.ResizingPanelSplitter.OnVisualParentChanged(System.Windows.DependencyObject)
 Info: BuildAssembler: Building topic P:AvalonDock.ResizingPanelSplitter.Orientation
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for P:AvalonDock.ResizingPanelSplitter.Orientation
 Info: BuildAssembler: Building topic F:AvalonDock.ResizingPanelSplitter.OrientationProperty
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for F:AvalonDock.ResizingPanelSplitter.OrientationProperty
 Info: BuildAssembler: Building topic N:AvalonDock.themes
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for N:AvalonDock.themes
 Info: BuildAssembler: Building topic T:AvalonDock.themes.aeroBrushes
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.themes.aeroBrushes.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.themes.aeroBrushes.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:AvalonDock.themes.aeroBrushes.#ctor
 Info: BuildAssembler: Building topic M:AvalonDock.themes.aeroBrushes.InitializeComponent
 Info: BuildAssembler: Building topic N:XamlGeneratedNamespace
-Warn: ShowMissingComponent: Missing &lt;summary&gt; documentation for N:XamlGeneratedNamespace
 Info: BuildAssembler: Building topic T:XamlGeneratedNamespace.GeneratedInternalTypeHelper
 Info: ShowMissingComponent: Auto-documenting constructor M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.#ctor
 Info: BuildAssembler: Building topic M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.#ctor
 Info: ShowMissingComponent: Auto-documenting constructor M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.#ctor
-Info: Processed 707 topics
-    Last step completed in 00:19:23.8594
+Info: Processed 708 topics
+    Last step completed in 00:10:28.5156
 </buildStep>
 <buildStep step="GenerateIntermediateTableOfContent">
 Generating intermediate table of content file...
@@ -3818,7 +3283,7 @@ Generating intermediate table of content file...
 XslTransform (v2.4.10520.1)
 Copyright &#184; Microsoft 2005-2006
 Info: Applying XSL transformation 'C:\Programmi\Sandcastle\ProductionTransforms\CreatePrototypeToc.xsl'.
-    Last step completed in 00:00:04.5938
+    Last step completed in 00:00:01.3750
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for Help 1.x and/or website...
@@ -3828,15 +3293,15 @@ Copyright &#184; 2008, Eric Woodruff, All Rights Reserved
 E-Mail: Eric@EWoodruff.us
 
 Using LCID '1033', code page '65001', encoding charset 'UTF-8'.
-Processed 707 HTML files
+Processed 708 HTML files
 Sorting keywords and generating See Also indices
 Saving Help 1.x keyword index to C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\AvalonDock.hhk
 Saving Help 1.x table of content to C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\AvalonDock.hhc
-    Last step completed in 00:00:01.9219
+    Last step completed in 00:00:01.5625
 </buildStep>
 <buildStep step="GenerateHelpFormatTableOfContent">
 Generating HTML Help 1.x table of content file...
-    Last step completed in 00:00:00.0000
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="UpdateTableOfContent">
 Updating table of content with additional content items and determining default topic...
@@ -3848,7 +3313,7 @@ Generating HTML Help 1.x index file...
 </buildStep>
 <buildStep step="GenerateHelpProject">
 Generating HTML Help 1.x project file...
-    Last step completed in 00:00:00.0313
+    Last step completed in 00:00:00.0156
 </buildStep>
 <buildStep step="CompilingHelpFile">
 Compiling HTML Help 1.x file...
@@ -3863,13 +3328,13 @@ Compiling c:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Proje
 
 
 
-Compile time: 0 minutes, 19 seconds
+Compile time: 0 minutes, 16 seconds
 
-709	Topics
+710	Topics
 
-7,060	Local links
+7,074	Local links
 
-27,548	Internet links
+27,557	Internet links
 
 0	Graphics
 
@@ -3877,19 +3342,19 @@ Compile time: 0 minutes, 19 seconds
 
 
 
-Created c:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\AvalonDock.chm, 1,369,127 bytes
+Created c:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\doc\Help\Working\Output\AvalonDock.chm, 1,345,271 bytes
 
-Compression decreased file by 9,379,255 bytes.
+Compression decreased file by 9,255,793 bytes.
 
-    Last step completed in 00:00:22.2969
+    Last step completed in 00:00:17.6250
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.8906
+    Last step completed in 00:00:00.6875
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully.  Total time: 00:20:26,4844
+Build completed successfully.  Total time: 00:11:10,8281
 
 </buildStep>
 </shfbBuild>

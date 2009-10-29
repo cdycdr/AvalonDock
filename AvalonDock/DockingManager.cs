@@ -43,6 +43,7 @@ using System.Xml;
 using System.Linq;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Collections.ObjectModel;
 
 namespace AvalonDock
 {
@@ -400,13 +401,30 @@ namespace AvalonDock
 
         void DocumentsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                DocumentContent[] docs = this.Documents;
+			if (e.Action == NotifyCollectionChangedAction.Reset)
+			{
+				DocumentContent[] docs = this.Documents;
+				ObservableCollection<DocumentContent> documentsToClose = new ObservableCollection<DocumentContent>();
 
-                foreach (DocumentContent doc in docs)
-                    doc.Close();
-            }
+				foreach (DocumentContent doc in docs)
+				{
+					if (doc.Parent is DocumentPane)
+					{
+						if ((doc.Parent as DocumentPane).IsMainDocumentPane == false)
+						{
+							documentsToClose.Add(doc);
+						}
+					}
+				}
+
+				foreach (DocumentContent doc in documentsToClose)
+				{
+					doc.InternalClose();
+				}
+
+				foreach (DocumentContent doc in docs)
+					doc.InternalClose();
+			}
 
             if (MainDocumentPane == null)
                 return;
@@ -1967,20 +1985,44 @@ namespace AvalonDock
                 else if (desideredState == DockableContentState.DockableWindow ||
                     desideredState == DockableContentState.FloatingWindow)
                 {
-                    DockablePane newHostpane = new DockablePane();
-                    newHostpane.Items.Add(content);
-                    content.SetStateToDock();
+					DockablePane newHostpane = null;
+					FloatingDockablePane prevHostpane = null;
+					if (content.SavedStateAndPosition != null && content.SavedStateAndPosition.ContainerPane != null && content.SavedStateAndPosition.ContainerPane is FloatingDockablePane)
+					{
+						prevHostpane = content.SavedStateAndPosition.ContainerPane as FloatingDockablePane;
+						if (!prevHostpane.Items.Contains(content))
+							prevHostpane.Items.Add(content);
+					}
+					else
+					{
+						newHostpane = new DockablePane();
+						newHostpane.Items.Add(content);
+					}
 
-                    //ResizingPanel.SetResizeWidth(newHostpane, 200);
-                    //ResizingPanel.SetResizeWidth(newHostpane, 500);
+					content.SetStateToDock();
 
-                    DockableFloatingWindow floatingWindow = new DockableFloatingWindow(this, newHostpane);
-                    floatingWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                    floatingWindow.Width = 200;
-                    floatingWindow.Height = 500;
-                    floatingWindow.Owner = Window.GetWindow(this);
-                    RegisterFloatingWindow(floatingWindow);
-                    floatingWindow.Show();
+					if (prevHostpane != null)
+					{
+						DockableFloatingWindow floatingWindow = new DockableFloatingWindow(this, content);
+						floatingWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+						floatingWindow.Top = prevHostpane.FloatingWindow.Top;
+						floatingWindow.Left = prevHostpane.FloatingWindow.Left;
+						floatingWindow.Width = prevHostpane.FloatingWindow.Width;
+						floatingWindow.Height = prevHostpane.FloatingWindow.Height;
+						floatingWindow.Owner = Window.GetWindow(this);
+						RegisterFloatingWindow(floatingWindow);
+						floatingWindow.Show();
+					}
+					else if (newHostpane != null)
+					{
+						DockableFloatingWindow floatingWindow = new DockableFloatingWindow(this, newHostpane);
+						floatingWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+						floatingWindow.Width = 200;
+						floatingWindow.Height = 500;
+						floatingWindow.Owner = Window.GetWindow(this);
+						RegisterFloatingWindow(floatingWindow);
+						floatingWindow.Show();
+					}
 
                 }
                 else if (desideredState == DockableContentState.Document)

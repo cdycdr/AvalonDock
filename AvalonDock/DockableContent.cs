@@ -163,13 +163,15 @@ namespace AvalonDock
            int childIndex,
            double width,
            double height,
-           AnchorStyle anchor)
+           AnchorStyle anchor,
+			DockableContentState state)
         {
             ContainerPane = containerPane;
             ChildIndex = childIndex;
             Width = Math.Max(width, 100.0);
             Height = Math.Max(height, 100.0);
             Anchor = anchor;
+			State = state;
         }
 
        public DockableContentStateAndPosition(
@@ -564,10 +566,10 @@ namespace AvalonDock
                     int.Parse(contentElement.GetAttribute("ChildIndex")),
                     double.Parse(contentElement.GetAttribute("Width")),
                     double.Parse(contentElement.GetAttribute("Height")),
-                    (AnchorStyle) Enum.Parse(typeof(AnchorStyle), contentElement.GetAttribute("Anchor"))
+                    (AnchorStyle) Enum.Parse(typeof(AnchorStyle), contentElement.GetAttribute("Anchor")),
+					(DockableContentState) Enum.Parse(typeof(DockableContentState), contentElement.GetAttribute("State"))
                     );
                     //contentElement.HasAttribute("State") ? (DockableContentState)Enum.Parse(typeof(DockableContentState), contentElement.GetAttribute("State") );
-
             }
         } 
         #endregion
