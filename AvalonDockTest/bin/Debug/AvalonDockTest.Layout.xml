@@ -1,15 +1,12 @@
 <DockingManager>
     <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="0,0" Orientation="Vertical">
-        <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="792,274.361666666667" Orientation="Horizontal">
-            <DockablePane ResizeWidth="0.605867346938775*" ResizeHeight="*" EffectiveSize="154.298736275119,274.361666666667" Anchor="Left">
-                <DockableContent Name="_propertiesWindow" AutoHide="false" />
-            </DockablePane>
+        <ResizingPanel ResizeWidth="*" ResizeHeight="*" EffectiveSize="784,269.52" Orientation="Horizontal">
             <DocumentPanePlaceHolder />
-            <DockablePane ResizeWidth="1.19706632653061*" ResizeHeight="*" EffectiveSize="304.861818935156,274.361666666667" Anchor="Right">
+            <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="390,269.52" Anchor="Right">
                 <DockableContent Name="_objectExplorerHost" AutoHide="false" />
             </DockablePane>
         </ResizingPanel>
-        <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="792,274.361666666667" Anchor="Bottom">
+        <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="784,269.52" Anchor="Bottom">
             <DockableContent Name="_errorList" AutoHide="false">
                 <Column Header="First Name" Width="100" />
                 <Column Header="Last Name" Width="100" />
@@ -20,9 +17,5 @@
         </DockablePane>
     </ResizingPanel>
     <Hidden />
-    <Windows>
-        <FloatingWinfow IsDockableWindow="true" Top="505" Left="584" Width="533" Height="211">
-            <DockablePane ResizeWidth="*" ResizeHeight="*" EffectiveSize="533,211" Anchor="None" />
-        </FloatingWinfow>
-    </Windows>
+    <Windows />
 </DockingManager>

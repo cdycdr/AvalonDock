@@ -476,16 +476,16 @@ namespace AvalonDock
             {
                 if (child is DocumentPane)
                     return child as DocumentPane;
-				if (child is DockablePane)
-				{
-					DocumentPane doc = new DocumentPane();
-					DockablePane dockablePane = child as DockablePane;
-					while (dockablePane.Items.Count > 0)
-					{
-						doc.Items.Add((dockablePane.Items[0] as DockableContent).DetachFromContainerPane());
-					}
-					return doc;
-				}
+                //if (child is DockablePane)
+                //{
+                //    DocumentPane doc = new DocumentPane();
+                //    DockablePane dockablePane = child as DockablePane;
+                //    while (dockablePane.Items.Count > 0)
+                //    {
+                //        doc.Items.Add((dockablePane.Items[0] as DockableContent).DetachFromContainerPane());
+                //    }
+                //    return doc;
+                //}
                 if (child is ResizingPanel)
                 {
                     DocumentPane foundDocPane = GetMainDocumentPane(child as ResizingPanel);

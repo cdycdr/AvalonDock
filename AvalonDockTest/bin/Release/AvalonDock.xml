@@ -4,6 +4,130 @@
         <name>AvalonDock</name>
     </assembly>
     <members>
+        <member name="T:AvalonDock.IDropSurface">
+            <summary>
+            Defines an interface that must be implemented by objects that can host dragged panes
+            </summary>
+        </member>
+        <member name="M:AvalonDock.IDropSurface.OnDragEnter(System.Windows.Point)">
+            <summary>
+            Called by <see cref="!:DragPaneService"/> when user dragged pane enter this surface
+            </summary>
+            <param name="point">Location of the mouse</param>
+        </member>
+        <member name="M:AvalonDock.IDropSurface.OnDragOver(System.Windows.Point)">
+            <summary>
+            Called by <see cref="!:DragPaneService"/> when user dragged pane is over this surface
+            </summary>
+            <param name="point">Location of the mouse</param>
+        </member>
+        <member name="M:AvalonDock.IDropSurface.OnDragLeave(System.Windows.Point)">
+            <summary>
+            Called by <see cref="!:DragPaneService"/> when user dragged pane leave this surface
+            </summary>
+            <param name="point">Location of the mouse</param>
+        </member>
+        <member name="M:AvalonDock.IDropSurface.OnDrop(System.Windows.Point)">
+            <summary>
+            Called by <see cref="!:DragPaneService"/> when user drops a pane to this surface
+            </summary>
+            <param name="point">Location of the mouse</param>
+        </member>
+        <member name="P:AvalonDock.IDropSurface.IsSurfaceVisible">
+            <summary>
+            Gets a value indicating if this area is avilable for drop a dockable pane
+            </summary>
+        </member>
+        <member name="P:AvalonDock.IDropSurface.SurfaceRectangle">
+            <summary>
+            Gets the sensible area for drop a pane
+            </summary>
+        </member>
+        <member name="T:AvalonDock.BoolToVisibilityConverter">
+            <summary>
+            Converter from boolean values to visibility (inverse mode)
+            </summary>
+        </member>
+        <member name="T:AvalonDock.ContextMenuElement">
+            <summary>
+            Defines a list of context menu resources
+            </summary>
+        </member>
+        <member name="F:AvalonDock.ContextMenuElement.DockablePane">
+            <summary>
+            Context menu related to a <see cref="F:AvalonDock.ContextMenuElement.DockablePane"/>
+            </summary>
+        </member>
+        <member name="F:AvalonDock.ContextMenuElement.DocumentPane">
+            <summary>
+            Context menu related to a <see cref="F:AvalonDock.ContextMenuElement.DocumentPane"/>
+            </summary>
+        </member>
+        <member name="F:AvalonDock.ContextMenuElement.FloatingWindow">
+            <summary>
+            Context menu related to a <see cref="F:AvalonDock.ContextMenuElement.FloatingWindow"/>
+            </summary>
+        </member>
+        <member name="T:AvalonDock.GreyableImage">
+            <summary>
+            Image control that get's greyed out when disabled.
+            This control is intended to be used for toolbar, menu or button icons where ability of an icon to 
+            grey itself out when disabled is essential.
+            <remarks>
+            1) Greyscale image is created using FormatConvertedBitmap class. Unfortunately when converting the
+               image to greyscale this class does n0t preserve transparency information. To overcome that, there is 
+               an opacity mask created from original image that is applied to greyscale image in order to preserve
+               transparency information. Because of that if an OpacityMask is applied to original image that mask 
+               has to be combined with that special opacity mask of greyscale image in order to make a proper 
+               greyscale image look. If you know how to combine two opacity masks please let me know.
+            2) DrawingImage source is not supported at the moment.
+            3) Have not tried to use any BitmapSource derived sources accept for BitmapImage so it may not be 
+               able to convert some of them to greyscale.
+            4) When specifying source Uri from XAML try to use Absolute Uri otherwise the greyscale image
+               may not be created in some scenarious. There is some code to improve the situation but I cannot 
+               guarantee it will work in all possible scenarious.
+            5) In case the greyscaled version cannot be created for whatever reason the original image with 
+               60% opacity (i.e. dull colours) will be used instead (that will work even with the DrawingImage 
+               source).
+            </remarks>
+            </summary>
+        </member>
+        <member name="M:AvalonDock.GreyableImage.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Overwritten to handle changes of IsEnabled, Source and OpacityMask properties
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:AvalonDock.GreyableImage.SetSources">
+            <summary>
+            Cashes original ImageSource, creates and caches greyscale ImageSource and greyscale opacity mask
+            </summary>
+        </member>
+        <member name="T:AvalonDock.WpfApplication">
+            <summary>
+            Designates a Windows Presentation Foundation application model with added functionalities.
+            </summary>
+        </member>
+        <member name="M:AvalonDock.WpfApplication.DoEvents">
+            <summary>
+            Processes all UI messages currently in the message queue.
+            </summary>
+        </member>
+        <member name="M:AvalonDock.Pane.CloseOrHide(AvalonDock.DockableContent)">
+            <summary>
+            Closes or hides provided content depending on HideOnClose property
+            </summary>
+        </member>
+        <member name="M:AvalonDock.Pane.CloseOrHide(AvalonDock.DockableContent,System.Boolean)">
+            <summary>
+            Closes or hides provided content depending on HideOnClose property
+            </summary>
+        </member>
+        <member name="P:AvalonDock.RequestDocumentCloseEventArgs.DocumentToClose">
+            <summary>
+            Document content that user wants to close
+            </summary>
+        </member>
         <member name="F:AvalonDock.ResizingPanel.OrientationProperty">
             <summary>
             Give access to Orientation attached property
@@ -61,54 +185,66 @@
             </summary>
             <remarks>If horizontal oriented children are positioned from left to right and width of each child is computed according to <see cref="!:ResizingWidth"/> attached property value. When vertical oriented children are arranged from top to bottom, according to <see cref="!:ResizingHeight"/> of each child.</remarks>
         </member>
-        <member name="T:AvalonDock.IDropSurface">
-            <summary>
-            Defines an interface that must be implemented by objects that can host dragged panes
-            </summary>
-        </member>
-        <member name="M:AvalonDock.IDropSurface.OnDragEnter(System.Windows.Point)">
-            <summary>
-            Called by <see cref="!:DragPaneService"/> when user dragged pane enter this surface
-            </summary>
-            <param name="point">Location of the mouse</param>
-        </member>
-        <member name="M:AvalonDock.IDropSurface.OnDragOver(System.Windows.Point)">
-            <summary>
-            Called by <see cref="!:DragPaneService"/> when user dragged pane is over this surface
-            </summary>
-            <param name="point">Location of the mouse</param>
-        </member>
-        <member name="M:AvalonDock.IDropSurface.OnDragLeave(System.Windows.Point)">
-            <summary>
-            Called by <see cref="!:DragPaneService"/> when user dragged pane leave this surface
-            </summary>
-            <param name="point">Location of the mouse</param>
-        </member>
-        <member name="M:AvalonDock.IDropSurface.OnDrop(System.Windows.Point)">
-            <summary>
-            Called by <see cref="!:DragPaneService"/> when user drops a pane to this surface
-            </summary>
-            <param name="point">Location of the mouse</param>
-        </member>
-        <member name="P:AvalonDock.IDropSurface.IsSurfaceVisible">
-            <summary>
-            Gets a value indicating if this area is avilable for drop a dockable pane
-            </summary>
-        </member>
-        <member name="P:AvalonDock.IDropSurface.SurfaceRectangle">
-            <summary>
-            Gets the sensible area for drop a pane
-            </summary>
-        </member>
         <member name="M:AvalonDock.DockablePane.ToggleAutoHide">
             <summary>
             Show/Hide a flyout window containing this pane
             </summary>
         </member>
-        <member name="M:AvalonDock.DockablePane.Close">
+        <member name="M:AvalonDock.DockablePane.CloseOrHide">
             <summary>
-            Close current content
+            Closes or hides current content depending on HideOnClose property
             </summary>
+        </member>
+        <member name="T:AvalonDock.AnchorStyle">
+            <summary>
+            Anchor types
+            </summary>
+        </member>
+        <member name="F:AvalonDock.AnchorStyle.None">
+            <summary>
+            No anchor style, while content is hosted in a <see cref="T:AvalonDock.DocumentPane"/> or a <see cref="T:AvalonDock.FloatingWindow"/>
+            </summary>
+        </member>
+        <member name="F:AvalonDock.AnchorStyle.Top">
+            <summary>
+            Top border anchor
+            </summary>
+        </member>
+        <member name="F:AvalonDock.AnchorStyle.Left">
+            <summary>
+            Left border anchor
+            </summary>
+        </member>
+        <member name="F:AvalonDock.AnchorStyle.Bottom">
+            <summary>
+            Bottom border anchor
+            </summary>
+        </member>
+        <member name="F:AvalonDock.AnchorStyle.Right">
+            <summary>
+            Right border anchor
+            </summary>
+        </member>
+        <member name="T:AvalonDock.DragPaneServices">
+            <summary>
+            Provides drag-drop functionalities for dockable panes
+            </summary>
+        </member>
+        <member name="M:AvalonDock.OverlayWindow.OnDragEnter(AvalonDock.OverlayWindowDockingButton,System.Windows.Point)">
+            <summary>
+            Shows a highlighting rectangle
+            </summary>
+            <param name="overlayWindowDockingButton"></param>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AvalonDock.OverlayWindow.OnDragLeave(AvalonDock.OverlayWindowDockingButton,System.Windows.Point)">
+            <summary>
+            Hides the highlighting rectangle
+            </summary>
+            <param name="overlayWindowDockingButton"></param>
+            <param name="point"></param>
+            <returns></returns>
         </member>
         <member name="T:AvalonDock.DockingManager">
             <summary>
@@ -389,42 +525,57 @@
             </summary>
             <remarks>Note that when a document is closed, property like <see cref="P:AvalonDock.ManagedContent.ContainerPane"/> or <see cref="P:AvalonDock.ManagedContent.Manager"/> returns null.</remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AvalonDock.DockablePaneAnchorTab" -->
-        <member name="T:AvalonDock.ContextMenuElement">
+        <member name="T:AvalonDock.ColorFactory">
             <summary>
-            Defines a list of context menu resources
+            Is used for color-support to change the colors depending on a base theme.
             </summary>
         </member>
-        <member name="F:AvalonDock.ContextMenuElement.DockablePane">
+        <!-- Badly formed XML comment ignored for member "M:AvalonDock.ColorFactory.ChangeTheme(System.String)" -->
+        <member name="M:AvalonDock.ColorFactory.ChangeColors(System.Windows.Media.Color)">
             <summary>
-            Context menu related to a <see cref="F:AvalonDock.ContextMenuElement.DockablePane"/>
+            Change the colors based on the aero-theme from AvalonDock.
+            <para>
+            <example>Example: ChangeColors(Colors.DarkGreen)</example>
+            </para>
+            </summary>
+            <param name="color">the new Color</param>
+        </member>
+        <member name="M:AvalonDock.ColorFactory.ChangeColors(System.String,System.Windows.Media.Color)">
+            <summary>
+            Change the colors based on a theme-name from AvalonDock.
+            <para>
+            <example>Example: ChangeColors("classic", Colors.DarkGreen)</example>
+            </para>
+            </summary>
+            <param name="baseTheme">the string of the base theme we want to change</param>
+            <param name="color">the new Color</param>
+        </member>
+        <member name="M:AvalonDock.ColorFactory.ResetColors">
+            <summary>
+            Reset custom colors to theme defaults
             </summary>
         </member>
-        <member name="F:AvalonDock.ContextMenuElement.DocumentPane">
+        <member name="M:AvalonDock.ColorFactory.ChangeBrush(AvalonDock.AvalonDockBrushes,System.Windows.Media.Brush)">
             <summary>
-            Context menu related to a <see cref="F:AvalonDock.ContextMenuElement.DocumentPane"/>
+            Change a specified brush inside the actual theme.
+            Look at AvalonDockBrushes.cs for possible values.
             </summary>
+            <param name="brushName">an AvalonDockBrushes value</param>
+            <param name="brush">The new brush. It can be every brush type that is derived from Brush-class.</param>
         </member>
-        <member name="F:AvalonDock.ContextMenuElement.FloatingWindow">
+        <member name="M:AvalonDock.ColorFactory.ChangeBrush(System.String,System.Windows.Media.Brush)">
             <summary>
-            Context menu related to a <see cref="F:AvalonDock.ContextMenuElement.FloatingWindow"/>
+            Change a specified brush inside the actual theme.
             </summary>
+            <param name="brushName">a brush name</param>
+            <param name="brush">The new brush. It can be every brush type that is derived from Brush-class.</param>
         </member>
-        <member name="M:AvalonDock.OverlayWindow.OnDragEnter(AvalonDock.OverlayWindowDockingButton,System.Windows.Point)">
+        <member name="M:AvalonDock.ColorFactory.ChangeKeysInResourceDictionary(System.Windows.ResourceDictionary,System.Windows.Media.Color)">
             <summary>
-            Shows a highlighting rectangle
+            Searches for keys in the ResourceDictionary for brushes and changes the color-values
             </summary>
-            <param name="overlayWindowDockingButton"></param>
-            <param name="point"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AvalonDock.OverlayWindow.OnDragLeave(AvalonDock.OverlayWindowDockingButton,System.Windows.Point)">
-            <summary>
-            Hides the highlighting rectangle
-            </summary>
-            <param name="overlayWindowDockingButton"></param>
-            <param name="point"></param>
-            <returns></returns>
+            <param name="rd">the ResourceDictionary</param>
+            <param name="color">the new Color</param>
         </member>
         <member name="F:AvalonDock.ManagedContent.IconProperty">
             <summary>
@@ -472,11 +623,6 @@
         <member name="P:AvalonDock.ManagedContent.FloatingWindowSize">
             <summary>
             Gets or sets the size of the floating window which hosts this content
-            </summary>
-        </member>
-        <member name="T:AvalonDock.DragPaneServices">
-            <summary>
-            Provides drag-drop functionalities for dockable panes
             </summary>
         </member>
         <member name="T:AvalonDock.DockableContentState">
@@ -625,6 +771,16 @@
             Get or sets a value that indicates how a dockable content can be dragged over and docked to a <see cref="T:AvalonDock.DockingManager"/>
             </summary>
         </member>
+        <member name="P:AvalonDock.DeserializationCallbackEventArgs.Name">
+            <summary>
+            Gets the name of the content to deserialize
+            </summary>
+        </member>
+        <member name="P:AvalonDock.DeserializationCallbackEventArgs.Content">
+            <summary>
+            Gets/Sets the content manually deserialized
+            </summary>
+        </member>
         <member name="T:AvalonDock.DocumentContent">
             <summary>
             Represent a document which can be host by a <see cref="T:AvalonDock.DocumentPane"/>.
@@ -641,6 +797,11 @@
         <member name="M:AvalonDock.DocumentContent.OnClosed">
             <summary>
             Ovveride this method to handle <see cref="!:DocumentContent.OnClose"/> event.
+            </summary>
+        </member>
+        <member name="M:AvalonDock.DocumentContent.InternalClose">
+            <summary>
+            Close this content without notifications
             </summary>
         </member>
         <member name="M:AvalonDock.DocumentContent.Close">
@@ -682,69 +843,20 @@
             </summary>
             <remarks>Note that when a document is closed property like <see cref="P:AvalonDock.ManagedContent.ContainerPane"/> or <see cref="P:AvalonDock.ManagedContent.Manager"/> returns null.</remarks>
         </member>
-        <member name="T:AvalonDock.AnchorStyle">
+        <member name="T:AvalonDock.Properties.Resources">
             <summary>
-            Anchor types
+              A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="F:AvalonDock.AnchorStyle.None">
+        <member name="P:AvalonDock.Properties.Resources.ResourceManager">
             <summary>
-            No anchor style, while content is hosted in a <see cref="T:AvalonDock.DocumentPane"/> or a <see cref="T:AvalonDock.FloatingWindow"/>
+              Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
-        <member name="F:AvalonDock.AnchorStyle.Top">
+        <member name="P:AvalonDock.Properties.Resources.Culture">
             <summary>
-            Top border anchor
-            </summary>
-        </member>
-        <member name="F:AvalonDock.AnchorStyle.Left">
-            <summary>
-            Left border anchor
-            </summary>
-        </member>
-        <member name="F:AvalonDock.AnchorStyle.Bottom">
-            <summary>
-            Bottom border anchor
-            </summary>
-        </member>
-        <member name="F:AvalonDock.AnchorStyle.Right">
-            <summary>
-            Right border anchor
-            </summary>
-        </member>
-        <member name="T:AvalonDock.GreyableImage">
-            <summary>
-            Image control that get's greyed out when disabled.
-            This control is intended to be used for toolbar, menu or button icons where ability of an icon to 
-            grey itself out when disabled is essential.
-            <remarks>
-            1) Greyscale image is created using FormatConvertedBitmap class. Unfortunately when converting the
-               image to greyscale this class does n0t preserve transparency information. To overcome that, there is 
-               an opacity mask created from original image that is applied to greyscale image in order to preserve
-               transparency information. Because of that if an OpacityMask is applied to original image that mask 
-               has to be combined with that special opacity mask of greyscale image in order to make a proper 
-               greyscale image look. If you know how to combine two opacity masks please let me know.
-            2) DrawingImage source is not supported at the moment.
-            3) Have not tried to use any BitmapSource derived sources accept for BitmapImage so it may not be 
-               able to convert some of them to greyscale.
-            4) When specifying source Uri from XAML try to use Absolute Uri otherwise the greyscale image
-               may not be created in some scenarious. There is some code to improve the situation but I cannot 
-               guarantee it will work in all possible scenarious.
-            5) In case the greyscaled version cannot be created for whatever reason the original image with 
-               60% opacity (i.e. dull colours) will be used instead (that will work even with the DrawingImage 
-               source).
-            </remarks>
-            </summary>
-        </member>
-        <member name="M:AvalonDock.GreyableImage.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)">
-            <summary>
-            Overwritten to handle changes of IsEnabled, Source and OpacityMask properties
-            </summary>
-            <param name="e"></param>
-        </member>
-        <member name="M:AvalonDock.GreyableImage.SetSources">
-            <summary>
-            Cashes original ImageSource, creates and caches greyscale ImageSource and greyscale opacity mask
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="T:AvalonDock.AvalonDockBrushes">
@@ -807,43 +919,6 @@
             Brush used for the background of a document header when mouse is over it.
             </summary>
         </member>
-        <member name="T:AvalonDock.Properties.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:AvalonDock.Properties.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:AvalonDock.Properties.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
-        <member name="P:AvalonDock.DeserializationCallbackEventArgs.Name">
-            <summary>
-            Gets the name of the content to deserialize
-            </summary>
-        </member>
-        <member name="P:AvalonDock.DeserializationCallbackEventArgs.Content">
-            <summary>
-            Gets/Sets the content manually deserialized
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "T:AvalonDock.DockablePaneAnchorTabGroup" -->
-        <member name="T:AvalonDock.WpfApplication">
-            <summary>
-            Designates a Windows Presentation Foundation application model with added functionalities.
-            </summary>
-        </member>
-        <member name="M:AvalonDock.WpfApplication.DoEvents">
-            <summary>
-            Processes all UI messages currently in the message queue.
-            </summary>
-        </member>
         <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
             <summary>
             GeneratedInternalTypeHelper
@@ -872,6 +947,16 @@
         <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
             <summary>
             AddEventHandler
+            </summary>
+        </member>
+        <member name="T:AvalonDock.themes.aeroBrushes">
+            <summary>
+            aeroBrushes
+            </summary>
+        </member>
+        <member name="M:AvalonDock.themes.aeroBrushes.InitializeComponent">
+            <summary>
+            InitializeComponent
             </summary>
         </member>
     </members>

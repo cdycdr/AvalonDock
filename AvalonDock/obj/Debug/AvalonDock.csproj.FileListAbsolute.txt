@@ -139,3 +139,5 @@ C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\Avalon
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Debug\themes\aero.normalcolor.brushes.g.cs
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Debug\themes\classic.baml
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Debug\themes\luna.normalcolor.baml
+C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Debug\themes\aero.normalcolor.brushes.g.cs
+C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Debug\themes\luna.normalcolor.baml

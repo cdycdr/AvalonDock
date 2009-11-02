@@ -320,6 +320,10 @@ namespace AvalonDock
         #endregion
 
 
+
+
+
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
