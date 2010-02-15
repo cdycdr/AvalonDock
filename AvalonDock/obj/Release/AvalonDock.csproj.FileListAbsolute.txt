@@ -87,3 +87,4 @@ C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\Avalon
 C:\Documents and Settings\Francesco\Documenti\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\luna.normalcolor.baml
 C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\aero.normalcolor.brushes.g.cs
 C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDock\obj\Release\themes\luna.normalcolor.baml
+C:\Users\ADO\Documents\Visual Studio 2008\Projects\AvalonDock\AvalonDock\bin\Release\AvalonDock.XML

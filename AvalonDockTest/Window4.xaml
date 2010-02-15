@@ -5,8 +5,10 @@
     Title="Text Document Source" Height="600" Width="800" >
 	<DockPanel>
 		<ToolBar DockPanel.Dock="Top">
-			<Button Content="Add Documents" Click="Button_Click"/>
-		</ToolBar>
+            <Button Content="Add Documents" Click="btnAddDocuments_Click"/>
+            <Button Content="Remove Current" Click="btnRemoveCurrent_Click"/>
+            <Button Content="Remove All" Click="btnRemoveAll_Click"/>
+        </ToolBar>
 		<ad:DockingManager x:Name="dockingManager" Loaded="dockingManager_Loaded" DocumentsSource="{Binding Path=MyDocs}" RequestDocumentClose="dockingManager_RequestDocumentClose">
 			<ad:DocumentPane x:Name="_documentHost" />
 		</ad:DockingManager>

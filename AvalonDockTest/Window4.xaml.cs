@@ -65,7 +65,18 @@ namespace AvalonDockTest
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void dockingManager_RequestDocumentClose(object sender, RequestDocumentCloseEventArgs e)
+        {
+            MyDocs.Remove(e.DocumentToClose);
+        }
+
+        private void btnRemoveAll_Click(object sender, RoutedEventArgs e)
+        {
+            MyDocs.Clear();
+        }
+
+        private void btnAddDocuments_Click(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i < 5; i++)
             {
@@ -79,9 +90,9 @@ namespace AvalonDockTest
             }
         }
 
-        private void dockingManager_RequestDocumentClose(object sender, RequestDocumentCloseEventArgs e)
+        private void btnRemoveCurrent_Click(object sender, RoutedEventArgs e)
         {
-            MyDocs.Remove(e.DocumentToClose);
+            MyDocs.Remove(dockingManager.ActiveDocument as DemoDocument);
         }
 
     }
