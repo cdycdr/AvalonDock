@@ -51,10 +51,8 @@ namespace AvalonDock
 
             List<UIElement> childsOrderedByWidth = new List<UIElement>();
 
-            //foreach (UIElement child in Children)
-            for (int iChild = 0; iChild < VisualChildrenCount; iChild++)
+            foreach (UIElement child in Children)
             {
-                var child = GetVisualChild(iChild) as UIElement;
                 //child.Width = double.NaN;
                 //child.Height = double.NaN;
 
@@ -79,17 +77,13 @@ namespace AvalonDock
 
                     if (i < 0)
                         break;
-
                 }
 
                 double shWidth = (availableSize.Width - sumWidth) / (i + 1);
 
 
-                //foreach (UIElement child in Children)
-                //{
-                for (int iChild = 0; iChild < VisualChildrenCount; iChild++)
+                foreach (UIElement child in Children)
                 {
-                    var child = GetVisualChild(iChild) as UIElement;
                     if (shWidth < child.DesiredSize.Width)
                         child.Measure(new Size(shWidth, availableSize.Height));
                 }
@@ -103,12 +97,8 @@ namespace AvalonDock
         {
             double offsetX = 0;
 
-            //foreach (UIElement child in Children)
-            //{
-            for (int iChild = 0; iChild < VisualChildrenCount; iChild++)
+            foreach (UIElement child in Children)
             {
-                var child = GetVisualChild(iChild) as UIElement;
-
                 double childFinalWidth = child.DesiredSize.Width;
                 child.Arrange(new Rect(offsetX, 0, childFinalWidth, finalSize.Height));
 

@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("AvalonDock")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("TOSHIBA")]
+[assembly: AssemblyCompany("Adolfo Marinucci")]
 [assembly: AssemblyProduct("AvalonDock")]
-[assembly: AssemblyCopyright("Copyright © TOSHIBA 2010")]
+[assembly: AssemblyCopyright("Copyright © Adolfo Marinucci 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.3.3235")]
-[assembly: AssemblyFileVersion("1.3.3235")]
+[assembly: AssemblyVersion("1.3.3237")]
+[assembly: AssemblyFileVersion("1.3.3237")]
