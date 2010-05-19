@@ -384,17 +384,19 @@ namespace AvalonDock
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)
         {
-            if (oldParent == null && State == DockableContentState.None)
-            {
-                if (Parent is FloatingDockablePane)
-                {
-                    throw new InvalidOperationException();
-                }
 
-                SetStateToDock();
-            }
+            base.OnVisualParentChanged(oldParent);           
+            
+            //if (oldParent == null && State == DockableContentState.None)
+            //{
+            //    if (Parent is FloatingDockablePane)
+            //    {
+            //        throw new InvalidOperationException();
+            //    }
 
-            base.OnVisualParentChanged(oldParent);
+            //    SetStateToDock();
+            //}
+
         }
         
 

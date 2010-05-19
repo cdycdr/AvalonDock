@@ -26,11 +26,11 @@ namespace AvalonDock.DemoApp
             InitializeComponent();
             CreatePropertyGrid();
 
-            //var dockableContent = new DockableContent() { Title = "Test", Content = new TextBox() };
-            //dockableContent.ShowAsFloatingWindow(DockManager, true);
+            var dockableContent = new DockableContent() { Title = "Test", Content = new TextBox() };
+            dockableContent.ShowAsFloatingWindow(DockManager, true);
 
-            //var dockableContent2 = new DockableContent() { Title = "Test2", Content = new TextBox() };
-            //dockableContent.ContainerPane.Items.Add(dockableContent2);
+            var dockableContent2 = new DockableContent() { Title = "Test2", Content = new TextBox() };
+            dockableContent.ContainerPane.Items.Add(dockableContent2);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
