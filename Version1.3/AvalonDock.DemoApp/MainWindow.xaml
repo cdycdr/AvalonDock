@@ -1,0 +1,110 @@
+﻿<Window x:Class="AvalonDock.DemoApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      
+        mc:Ignorable="d" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+
+        xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+        xmlns:local="clr-namespace:AvalonDock.DemoApp"
+        
+        Title="AvalonDock Demo Application" Height="393" Width="754" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <!-- Toolbar -->
+        <Menu>
+            <MenuItem Header="Dockable Contents">
+                <MenuItem Header="Show" 
+                          ItemsSource="{Binding DockableContents, ElementName=DockManager}" 
+                          Click="OnShowDockableContent">
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
+                <MenuItem Header="Hidden" 
+                          ItemsSource="{Binding HiddenContents, ElementName=DockManager}" 
+                          Click="OnShowDockableContent">
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Create New" Click="OnCreateNewDockableContent"/>
+                <MenuItem Header="Create New Floating" Click="OnCreateNewDockableContent"/>
+            </MenuItem>
+            <MenuItem Header="Document Contents">
+                <MenuItem Header="Show" 
+                          ItemsSource="{Binding Documents, ElementName=DockManager}"
+                          Click="OnShowDocumentContent">
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Create New" Click="OnCreateNewDocumentContent"/>
+            </MenuItem>
+            <MenuItem Header="Layout">
+                <MenuItem Header="Save to text" Click="ExportLayoutToDocument"/>
+                <MenuItem Header="Load from text" Click="ImportLayoutFromDocument"/>
+                <MenuItem Header="Reset Content" Click="ResetContent"/>
+            </MenuItem>
+            <MenuItem Header="Themes">
+                <MenuItem Header="Aero.NormalColor" Tag="aero.normalcolor" Click="ChangeStandardTheme"/>
+                <MenuItem Header="Classic" Tag="classic" Click="ChangeStandardTheme"/>
+                <MenuItem Header="Luna.Normalcolor" Tag="luna.normalcolor" Click="ChangeStandardTheme"/>
+                <MenuItem Header="Generic" Tag="generic" Click="ChangeStandardTheme"/>
+                <Separator/>
+                <MenuItem Header="Dev 2010" Tag="/AvalonDock.Themes;component/themes/dev2010.xaml" Click="ChangeCustomTheme"/>
+                <Separator/>
+                <MenuItem Header="Default" Click="SetDefaultTheme"/>
+            </MenuItem>        </Menu>
+        
+        <GridSplitter Grid.Row="1" ShowsPreview="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="4"/>
+        
+        <!--Docking Manager AvalonDock-->
+        <ad:DockingManager x:Name="DockManager" Grid.Row="1" Margin="0,4,0,0" Loaded="DockManager_Loaded"
+                           ActiveContent="{Binding ElementName=Content1}" >
+            <ad:ResizingPanel Orientation="Horizontal">
+                <ad:ResizingPanel ad:ResizingPanel.ResizeWidth="100" Orientation="Vertical">
+                    <ad:DockablePane>
+                        <local:SampleDockableContent x:Name="Content1" Title="Content1" Icon="Images\database.png"/>
+                        <local:SampleDockableContent x:Name="Content2" Title="Content2" Icon="Images\database.png"/>
+                        <local:SampleDockableContent x:Name="Content3" Title="Content3" Icon="Images\database.png"/>
+                    </ad:DockablePane>
+                    <ad:DockablePane>
+                        <local:SampleDockableContent x:Name="Content4" Title="Content4" Icon="Images\database.png"/>
+                        <ad:DockableContent x:Name="DockingManagerPropertiesHost" Title="DockingManager Properties"></ad:DockableContent>
+                    </ad:DockablePane>
+                </ad:ResizingPanel>
+                <ad:DocumentPane x:Name="DocumentHost">
+                    <ad:DocumentContent Name ="Doc1" Title="Doc1" IsFloatingAllowed="True">
+                        <TextBox AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto" AcceptsTab="True"/>
+                    </ad:DocumentContent>
+                    <ad:DocumentContent  Name ="Doc2" Title="Doc2">
+                        <TextBox/>
+                    </ad:DocumentContent>
+                    <ad:DocumentContent  Name ="Doc3" Title="Doc3">
+                        <TextBox/>
+                    </ad:DocumentContent>
+                    <ad:DocumentContent  Name ="Doc4" Title="Doc4">
+                        <TextBox/>
+                    </ad:DocumentContent>
+                </ad:DocumentPane>                
+            </ad:ResizingPanel>
+        </ad:DockingManager>
+        
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2"/>
+    </Grid>
+</Window>
