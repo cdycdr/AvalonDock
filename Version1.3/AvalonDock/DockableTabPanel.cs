@@ -43,51 +43,26 @@ namespace AvalonDock
         protected override Size MeasureOverride(Size availableSize)
         {
             double totWidth = 0;
-            //double maxHeight = 0;
 
             if (base.VisualChildrenCount == 0)
                 return base.MeasureOverride(availableSize);
 
 
-            List<UIElement> childsOrderedByWidth = new List<UIElement>();
+            var childsOrderedByWidth = new List<FrameworkElement>();
 
-            foreach (UIElement child in Children)
+            foreach (FrameworkElement child in Children)
             {
-                //child.Width = double.NaN;
-                //child.Height = double.NaN;
-
                 child.Measure(new Size(double.PositiveInfinity, availableSize.Height));
-                totWidth += child.DesiredSize.Width;
+                totWidth += child.DesiredSize.Width - child.Margin.Left - child.Margin.Right;
                 childsOrderedByWidth.Add(child);
             }
 
             if (totWidth > availableSize.Width)
             {
-                childsOrderedByWidth.Sort(delegate(UIElement elem1, UIElement elem2) { return elem2.DesiredSize.Width.CompareTo(elem1.DesiredSize.Width); });
-
-
-                int i = childsOrderedByWidth.Count - 1;
-                double sumWidth = 0;
-
-                while (childsOrderedByWidth[i].DesiredSize.Width * (i + 1) + sumWidth < availableSize.Width)
+                foreach (FrameworkElement child in Children)
                 {
-                    sumWidth += childsOrderedByWidth[i].DesiredSize.Width;
-
-                    i--;
-
-                    if (i < 0)
-                        break;
+                    child.Measure(new Size(availableSize.Width / Children.Count, availableSize.Height));
                 }
-
-                double shWidth = (availableSize.Width - sumWidth) / (i + 1);
-
-
-                foreach (UIElement child in Children)
-                {
-                    if (shWidth < child.DesiredSize.Width)
-                        child.Measure(new Size(shWidth, availableSize.Height));
-                }
-
             }
 
             return base.MeasureOverride(availableSize);
@@ -97,15 +72,13 @@ namespace AvalonDock
         {
             double offsetX = 0;
 
-            foreach (UIElement child in Children)
+            foreach (FrameworkElement child in Children)
             {
                 double childFinalWidth = child.DesiredSize.Width;
                 child.Arrange(new Rect(offsetX, 0, childFinalWidth, finalSize.Height));
 
-                offsetX += childFinalWidth;
+                offsetX += child.DesiredSize.Width;
             }
-
-            
 
             return base.ArrangeOverride(finalSize);
         }

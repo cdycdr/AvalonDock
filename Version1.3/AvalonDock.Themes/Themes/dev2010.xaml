@@ -1070,7 +1070,7 @@
                 <ControlTemplate TargetType="{x:Type ad:DocumentFloatingWindow}">
                     <Border x:Name="ExtBorder"
                             BorderThickness="1"
-                            BorderBrush="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorder}}}">
+                            BorderBrush="#C0A776">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5"/>

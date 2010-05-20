@@ -117,8 +117,10 @@ namespace AvalonDock
                 });
             }
 
+            UpdateCanAutohideProperty();
             base.OnItemsChanged(e);
         }
+
 
         void DockablePane_Loaded(object sender, RoutedEventArgs e)
         {
@@ -187,7 +189,58 @@ namespace AvalonDock
 
             
         }
-   
+
+
+        #region CanAutohide
+
+        /// <summary>
+        /// CanAutohide Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey CanAutohidePropertyKey
+            = DependencyProperty.RegisterReadOnly("CanAutohide", typeof(bool), typeof(DockablePane),
+                new FrameworkPropertyMetadata((bool)false));
+
+        public static readonly DependencyProperty CanAutohideProperty
+            = CanAutohidePropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the CanAutohide property.  This dependency property 
+        /// indicates if contents inside pane can be autohidden.
+        /// </summary>
+        public bool CanAutohide
+        {
+            get { return (bool)GetValue(CanAutohideProperty); }
+        }
+
+        /// <summary>
+        /// Provides a secure method for setting the CanAutohide property.  
+        /// This dependency property indicates if contents inside pane can be autohidden.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetCanAutohide(bool value)
+        {
+            SetValue(CanAutohidePropertyKey, value);
+        }
+
+        private void UpdateCanAutohideProperty()
+        {
+            SetCanAutohide(
+                !Items.Cast<DockableContent>().Any(c =>
+                {
+                    bool flag = c.State == DockableContentState.Docked ||
+                        c.State == DockableContentState.Document;
+
+                    flag = flag && ((c.DockableStyle & DockableStyle.AutoHide) > 0);
+
+                    return flag;
+                })
+            );
+
+        }
+
+        #endregion
+
+
         #endregion
 
 
@@ -309,7 +362,9 @@ namespace AvalonDock
                 
                 if (((DockableContent)SelectedItem).State != DockableContentState.AutoHide)
                 {
-                    ptStartDrag = e.MouseDevice.GetPosition(this);
+                    //ptStartDrag = e.MouseDevice.GetPosition(this);
+                    ptStartDrag = e.GetPosition((IInputElement)System.Windows.Media.VisualTreeHelper.GetParent(this));
+                   
                     isMouseDown = true;
                 }
             }
@@ -317,21 +372,25 @@ namespace AvalonDock
 
         protected virtual void OnHeaderMouseMove(object sender, MouseEventArgs e)
         {
-            Point ptMouseMove = e.GetPosition(this);
+            //Point ptMouseMove = e.GetPosition(this);
+            Point ptMouseMove = e.GetPosition((IInputElement)System.Windows.Media.VisualTreeHelper.GetParent(this));
+                   
 
-            if (!e.Handled && isMouseDown)
+            if (!e.Handled && isMouseDown && e.LeftButton == MouseButtonState.Pressed)
             {
                 if (_partHeader != null &&
                     _partHeader.IsMouseOver)
                 {
-                    if (!IsMouseCaptured)
+                    DockingManager manager = GetManager();
+                    if (!manager.DragPaneServices.IsDragging &&
+                        !IsMouseCaptured)
                     {
                         if (Math.Abs(ptMouseMove.X - ptStartDrag.X) > SystemParameters.MinimumHorizontalDragDistance ||
                             Math.Abs(ptMouseMove.Y - ptStartDrag.Y) > SystemParameters.MinimumVerticalDragDistance)
                         {
                             isMouseDown = false;
                             ReleaseMouseCapture();
-                            DockingManager manager = GetManager();
+                            
                             manager.Drag(this, this.PointToScreenDPI(e.GetPosition(this)), e.GetPosition(this));
                             e.Handled = true;
                         }

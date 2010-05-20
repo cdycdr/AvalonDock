@@ -275,7 +275,8 @@ namespace AvalonDock
         protected override void OnDragStart(Point ptMouse, Point ptRelativeMouse)
         {
             if (DockableStyle != DockableStyle.None && 
-                State != DockableContentState.AutoHide)
+                (State == DockableContentState.Docked || State == DockableContentState.Document) &&
+                !Manager.DragPaneServices.IsDragging)
             {
                 Manager.Drag(this, HelperFunc.PointToScreenWithoutFlowDirection(this, ptMouse), ptRelativeMouse);                
             }

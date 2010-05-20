@@ -322,7 +322,8 @@ namespace AvalonDock
         {
             Point mousePosition = PointToScreen(Mouse.GetPosition(null));
             Point clickPoint = this.TransformToDeviceDPI(mousePosition);
-            Manager.Drag(this, clickPoint, new Point(clickPoint.X - Left, clickPoint.Y - Top));
+            if (!Manager.DragPaneServices.IsDragging)
+                Manager.Drag(this, clickPoint, new Point(clickPoint.X - Left, clickPoint.Y - Top));
         }
 
         #endregion

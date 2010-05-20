@@ -17,6 +17,7 @@
                 <MenuItem Header="Generic" Tag="generic" Click="ChangeStandardTheme"/>
                 <Separator/>
                 <MenuItem Header="Dev 2010" Tag="/AvalonDock.Themes;component/themes/dev2010.xaml" Click="ChangeCustomTheme"/>
+                <MenuItem Header="Expression Dark" Tag="/AvalonDock.Themes;component/themes/ExpressionDark.xaml" Click="ChangeCustomTheme"/>
                 <Separator/>
                 <MenuItem Header="Default" Click="SetDefaultTheme"/>
             </MenuItem>

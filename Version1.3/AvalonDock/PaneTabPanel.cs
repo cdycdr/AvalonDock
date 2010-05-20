@@ -39,7 +39,7 @@ using System.Linq;
 
 namespace AvalonDock
 {
-    public abstract class PaneTabPanel : System.Windows.Controls.Panel
+    public abstract class PaneTabPanel : Panel
     {
         //static PaneTabPanel()
         //{

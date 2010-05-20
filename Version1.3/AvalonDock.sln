@@ -10,10 +10,20 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8A5AD036-C876-4EC3-B901-4A7ABB168F01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1", "Sample1\Sample1.csproj", "{E3804C1C-A328-4CA6-976E-03A90469D812}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87E61430-4243-45F2-B74E-0A4C096CEBF3} = {87E61430-4243-45F2-B74E-0A4C096CEBF3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample2", "Sample2\Sample2.csproj", "{60FC0FF1-FFB9-4092-91D9-F6945BFCEB94}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87E61430-4243-45F2-B74E-0A4C096CEBF3} = {87E61430-4243-45F2-B74E-0A4C096CEBF3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample3", "Sample3\Sample3.csproj", "{F729FF99-2991-4819-9855-7CD7A1199089}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87E61430-4243-45F2-B74E-0A4C096CEBF3} = {87E61430-4243-45F2-B74E-0A4C096CEBF3}
+		{3836F4A8-4B35-4F5E-BB0F-DAD374297525} = {3836F4A8-4B35-4F5E-BB0F-DAD374297525}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

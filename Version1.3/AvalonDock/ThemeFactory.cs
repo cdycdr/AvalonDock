@@ -230,7 +230,7 @@ namespace AvalonDock
                 {
                     string source = res.Source.ToString();
                     if (source.Contains("/AvalonDock;component/themes/") ||
-                        source.Contains("/AvalonDock.Themes;component/themes/dev2010.xaml"))
+                        source.Contains("/AvalonDock.Themes;component/themes/"))
                     {
                         return res;
                     }

@@ -70,10 +70,15 @@ namespace AvalonDock
         }
 
         Point Offset;
-        
+
+        public bool IsDragging { get; private set; }
 
         public void StartDrag(FloatingWindow wnd, Point point, Point offset)
         {
+            Debug.Assert(!IsDragging);
+
+            IsDragging = true;
+
             Offset = offset;
 
             _wnd = wnd;
@@ -172,6 +177,9 @@ namespace AvalonDock
                 _wnd.Activate();
 
             _wnd = null;
+
+            IsDragging = false;
+
         }
 
         FloatingWindow _wnd;

@@ -254,6 +254,8 @@ namespace AvalonDock
             if (visibleChildren.Count == 0)
                 return new Size();
 
+            NormalizeStarLength(visibleChildren);
+
             Debug.Assert(!(visibleChildren.Last<FrameworkElement>() is Resizer));
 
             if (availableSize.Width == double.PositiveInfinity &&
@@ -506,6 +508,40 @@ namespace AvalonDock
                 #endregion
 
             }
+        }
+
+        private void NormalizeStarLength(IEnumerable<FrameworkElement> visibleChildren)
+        {
+            var childrenWithStarLength = visibleChildren.Where(c => c.IsStar());
+            int childrenWithStartLengthCount = childrenWithStarLength.Count();
+
+            if (childrenWithStartLengthCount == 0)
+                return;
+
+            if (childrenWithStartLengthCount == 1)
+            {
+                ResizingPanel.SetResizeWidth(childrenWithStarLength.First(), new GridLength(1.0, GridUnitType.Star));
+                return;
+            }
+
+            double sumStars = childrenWithStarLength.Sum(c => c.GetStarValue());
+
+            if (sumStars == 0)
+            {
+                //problem!?! try to fix...
+                childrenWithStarLength.ForEach(c =>
+                    {
+                        ResizingPanel.SetResizeWidth(c, new GridLength(1.0 / childrenWithStartLengthCount, GridUnitType.Star));
+                    });
+            }
+            else
+            {
+                childrenWithStarLength.ForEach(c =>
+                {
+                    ResizingPanel.SetResizeWidth(c, new GridLength(1.0 * c.GetStarValue() / sumStars, GridUnitType.Star));
+                });                
+            }
+            
         }
 
         Size[] _childrenFinalSizes = null;
