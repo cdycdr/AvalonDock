@@ -108,7 +108,7 @@ namespace AvalonDock
         /// This command activate the commands (i.e. select it inside the conatiner pane)
         /// </summary>
         /// <remarks>Activating a content means essentially putting it in evidence. For a content that is auto-hidden this command opens a flyout window containing the content.</remarks>
-        public static RoutedUICommand Active
+        public static RoutedUICommand Activate
         {
             get
             {

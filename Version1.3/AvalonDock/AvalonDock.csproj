@@ -69,6 +69,11 @@
     <Compile Include="InteropHelper.cs" />
     <Compile Include="ManagedContentCommands.cs" />
     <Compile Include="PaneCommands.cs" />
+    <Compile Include="Properties\Resources.it-IT.Designer.cs">
+      <DependentUpon>Resources.it-IT.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="RequestDocumentCloseEventArgs.cs" />
     <Compile Include="ResizingPanel.cs" />
     <Compile Include="Resizer.cs" />
@@ -187,8 +192,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.it-IT.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.it-IT.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="AvalonDock.snk" />

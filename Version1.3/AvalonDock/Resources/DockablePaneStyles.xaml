@@ -14,11 +14,11 @@
 		     x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:ContextMenuElement.DockablePane}}"
 		     >
         <MenuItem Header="Float" 
-			Command="ad:DockableContentCommands.FloatingWindowCommand"  />
+			Command="ad:DockableContentCommands.FloatingWindow"  />
         <MenuItem Header="Dock" 
 			Command="ad:ManagedContentCommands.Show" />
         <MenuItem Header="Dock as Tabbed document" 
-			Command="ad:DockableContentCommands.ShowAsDocumentCommand" />
+			Command="ad:DockableContentCommands.ShowAsDocument" />
         <MenuItem Header="Auto Hide" 
 			Command="ad:DockableContentCommands.ToggleAutoHide" />
         <MenuItem Header="Hide" 

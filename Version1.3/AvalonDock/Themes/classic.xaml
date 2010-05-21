@@ -209,7 +209,6 @@
 		</Setter>
 	</Style>
 
-
     <!--DocumentTabItemStyle-->
     <Style x:Key="DocumentTabItemStyle" TargetType="{x:Type ad:ManagedContent}">
         <Setter Property="Background"
@@ -220,7 +219,7 @@
                     <Border 
 						x:Name="PART_DragArea" 
 						BorderBrush="{StaticResource ManagedContentTabControlNormalBorderBrush}"
-                        Margin="-10,0,0,0"
+                        Margin="0,0,-10,0"
 						SnapsToDevicePixels="True"
                         ContextMenu="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:ContextMenuElement.DocumentPane}}}"
                         >
@@ -302,8 +301,8 @@
 
     <!--DocumentPane MenuItem Style-->
     <Style x:Key="DocumentPaneMenuItemStyle" TargetType="{x:Type MenuItem}">
-        <Setter Property="CommandParameter" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Header}"/>
-        <Setter Property="Command" Value="{x:Static ad:DocumentPane.ActivateDocumentCommand}"/>
+        <Setter Property="CommandTarget" Value="{Binding}"/>
+        <Setter Property="Command" Value="{x:Static ad:ManagedContentCommands.Activate}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="MenuItem">
@@ -397,7 +396,6 @@
                                       x:Name="paneTabsPanel" 
                                       Panel.ZIndex ="1" 						
 								      IsItemsHost="True" 
-								      Padding="7,2,0,0"
 								      TabItemStyle="{StaticResource DocumentTabItemStyle}"/>
                                 </DockPanel>
                             </Border>

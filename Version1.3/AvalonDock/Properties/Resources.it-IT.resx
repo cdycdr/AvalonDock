@@ -118,57 +118,57 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DockableContentCommands_DockableFloatingWindow" xml:space="preserve">
-    <value>Float</value>
+    <value>Sgancia come finestra</value>
   </data>
   <data name="DockableContentCommands_FloatingWindow" xml:space="preserve">
-    <value>Float</value>
+    <value>Sgancia come finestra</value>
   </data>
   <data name="DockableContentCommands_ShowAsDocument" xml:space="preserve">
-    <value>Dock as Tabbed Document</value>
+    <value>Ancora come documento</value>
   </data>
   <data name="DockableContentCommands_ToggleAutoHide" xml:space="preserve">
-    <value>Auto Hide</value>
+    <value>Nascondi automaticamente</value>
   </data>
   <data name="DockablePaneCommands_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Chiudi</value>
   </data>
   <data name="DockablePaneCommands_Hide" xml:space="preserve">
-    <value>Hide</value>
+    <value>Nascondi</value>
   </data>
   <data name="DockablePaneCommands_ToggleAutoHide" xml:space="preserve">
-    <value>Auto Hide</value>
+    <value>Nascondi in automatico</value>
   </data>
   <data name="DocumentContentCommands_FloatingDocument" xml:space="preserve">
-    <value>Float</value>
+    <value>Sgancia come finestra</value>
   </data>
   <data name="DocumentContentCommands_TabbeDocument" xml:space="preserve">
-    <value>Dock as Tabbed Document</value>
+    <value>Ancora come Documento</value>
   </data>
   <data name="DocumentPaneCommands_CloseAllButThis" xml:space="preserve">
-    <value>Close All But This</value>
+    <value>Chiudi tutti tranne questo</value>
   </data>
   <data name="DocumentPaneCommands_CloseThis" xml:space="preserve">
-    <value>Close</value>
+    <value>Chiudi</value>
   </data>
   <data name="DocumentPaneCommands_NewHorizontalTabGroup" xml:space="preserve">
-    <value>New Horizontal Tab Group</value>
+    <value>Crea gruppo di schede orizontale</value>
   </data>
   <data name="DocumentPaneCommands_NewVerticalTabGroup" xml:space="preserve">
-    <value>New VerticalTab Group</value>
+    <value>Crea gruppo di schede verticale</value>
   </data>
   <data name="ManagedContentCommands_Activate" xml:space="preserve">
-    <value>Activate</value>
+    <value>Attiva</value>
   </data>
   <data name="ManagedContentCommands_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Chiudi</value>
   </data>
   <data name="ManagedContentCommands_Hide" xml:space="preserve">
-    <value>Hide</value>
+    <value>Nascondi</value>
   </data>
   <data name="ManagedContentCommands_Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Mostra</value>
   </data>
   <data name="PaneCommands_Dock" xml:space="preserve">
-    <value>Dock</value>
+    <value>Ancora</value>
   </data>
 </root>

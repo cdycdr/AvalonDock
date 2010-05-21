@@ -216,20 +216,20 @@ namespace AvalonDock
             base.OnInitialized(e);
 
             this.CommandBindings.Add(
-                new CommandBinding(DocumentContentCommands.FloatingDocumentCommand, this.OnExecuteCommand, this.OnCanExecuteCommand));
+                new CommandBinding(DocumentContentCommands.FloatingDocument, this.OnExecuteCommand, this.OnCanExecuteCommand));
             this.CommandBindings.Add(
-                new CommandBinding(DocumentContentCommands.TabbedDocumentCommand, this.OnExecuteCommand, this.OnCanExecuteCommand));
+                new CommandBinding(DocumentContentCommands.TabbedDocument, this.OnExecuteCommand, this.OnCanExecuteCommand));
         }
 
         void OnExecuteCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!e.Handled && e.Command == DocumentContentCommands.FloatingDocumentCommand)
+            if (!e.Handled && e.Command == DocumentContentCommands.FloatingDocument)
             {
                 this.Show(true);
 
                 e.Handled = true;
             }
-            else if (!e.Handled && e.Command == DocumentContentCommands.TabbedDocumentCommand)
+            else if (!e.Handled && e.Command == DocumentContentCommands.TabbedDocument)
             {
                 this.Show(false);
 
@@ -306,11 +306,11 @@ namespace AvalonDock
         /// <returns></returns>
         protected override bool CanExecuteCommand(ICommand command)
         {
-            if (command == DocumentContentCommands.FloatingDocumentCommand)
+            if (command == DocumentContentCommands.FloatingDocument)
             {
                 return !IsFloating && IsFloatingAllowed;
             }
-            else if (command == DocumentContentCommands.TabbedDocumentCommand)
+            else if (command == DocumentContentCommands.TabbedDocument)
             {
                 return IsFloating;
             }

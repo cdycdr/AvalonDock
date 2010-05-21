@@ -355,6 +355,9 @@ namespace AvalonDock
         protected virtual void OnStateChanged(DockableContentState oldState, DockableContentState newState)
         {
             RaiseStateChangedEvent(this);
+
+            if (ContainerPane is DockablePane)
+                ((DockablePane)ContainerPane).UpdateCanAutohideProperty();
         }
 
         public static readonly DependencyProperty StateProperty =
@@ -479,13 +482,13 @@ namespace AvalonDock
             base.OnInitialized(e);
 
             this.CommandBindings.Add(
-                new CommandBinding(DockableContentCommands.FloatingWindowCommand, this.OnExecuteCommand, this.OnCanExecuteCommand));
+                new CommandBinding(DockableContentCommands.FloatingWindow, this.OnExecuteCommand, this.OnCanExecuteCommand));
             this.CommandBindings.Add(
-                new CommandBinding(DockableContentCommands.DockableFloatingWindowCommand, this.OnExecuteCommand, this.OnCanExecuteCommand));
+                new CommandBinding(DockableContentCommands.DockableFloatingWindow, this.OnExecuteCommand, this.OnCanExecuteCommand));
             this.CommandBindings.Add(
                 new CommandBinding(ManagedContentCommands.Show, this.OnExecuteCommand, this.OnCanExecuteCommand));
             this.CommandBindings.Add(
-                new CommandBinding(DockableContentCommands.ShowAsDocumentCommand, this.OnExecuteCommand, this.OnCanExecuteCommand));
+                new CommandBinding(DockableContentCommands.ShowAsDocument, this.OnExecuteCommand, this.OnCanExecuteCommand));
             this.CommandBindings.Add(
                 new CommandBinding(DockableContentCommands.ToggleAutoHide, this.OnExecuteCommand, this.OnCanExecuteCommand));
             this.CommandBindings.Add(
@@ -503,19 +506,19 @@ namespace AvalonDock
 
                 e.Handled = true;
             }
-            else if (!e.Handled && e.Command == DockableContentCommands.FloatingWindowCommand)
+            else if (!e.Handled && e.Command == DockableContentCommands.FloatingWindow)
             {
                 ShowAsFloatingWindow(false);
 
                 e.Handled = true;
             }
-            else if (!e.Handled && e.Command == DockableContentCommands.DockableFloatingWindowCommand)
+            else if (!e.Handled && e.Command == DockableContentCommands.DockableFloatingWindow)
             {
                 ShowAsFloatingWindow(true);
 
                 e.Handled = true;
             }
-            else if (!e.Handled && e.Command == DockableContentCommands.ShowAsDocumentCommand)
+            else if (!e.Handled && e.Command == DockableContentCommands.ShowAsDocument)
             {
                 ShowAsDocument();
                 e.Handled = true;
@@ -598,7 +601,7 @@ namespace AvalonDock
 
             //Manager = manager; 
 
-            if (manager == null && !CanExecuteCommand(DockableContentCommands.ShowAsDocumentCommand))
+            if (manager == null && !CanExecuteCommand(DockableContentCommands.ShowAsDocument))
                 throw new InvalidOperationException("This operation can be executed in this state");
 
             manager.Show(this, DockableContentState.Document);
@@ -627,10 +630,10 @@ namespace AvalonDock
             if (manager == null)
             {
                 if (dockableWindow &&
-                    !CanExecuteCommand(DockableContentCommands.DockableFloatingWindowCommand))
+                    !CanExecuteCommand(DockableContentCommands.DockableFloatingWindow))
                     throw new InvalidOperationException("This operation can be executed in this state");
                 if (!dockableWindow &&
-                    !CanExecuteCommand(DockableContentCommands.FloatingWindowCommand))
+                    !CanExecuteCommand(DockableContentCommands.FloatingWindow))
                     throw new InvalidOperationException("This operation can be executed in this state");
             }
 
@@ -741,14 +744,14 @@ namespace AvalonDock
                     return false;
                 }
             }
-            else if (command == DockableContentCommands.ShowAsDocumentCommand)
+            else if (command == DockableContentCommands.ShowAsDocument)
             {
                 if (State == DockableContentState.Document)
                 {
                     return false;
                 }
             }
-            else if (command == DockableContentCommands.FloatingWindowCommand)
+            else if (command == DockableContentCommands.FloatingWindow)
             {
                 if (State == DockableContentState.FloatingWindow ||
                     State == DockableContentState.DockableWindow)
@@ -766,14 +769,14 @@ namespace AvalonDock
                     return false;
                 }
             }
-            else if (command == DockableContentCommands.ShowAsDocumentCommand)
+            else if (command == DockableContentCommands.ShowAsDocument)
             {
                 if (State == DockableContentState.Document)
                 {
                     return false;
                 }
             }
-            else if (command == DockableContentCommands.DockableFloatingWindowCommand)
+            else if (command == DockableContentCommands.DockableFloatingWindow)
             {
                 if (State == DockableContentState.FloatingWindow ||
                     State == DockableContentState.DockableWindow)

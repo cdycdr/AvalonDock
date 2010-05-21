@@ -11,7 +11,7 @@
 		     x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:ContextMenuElement.DockableFloatingWindow}}">
         <MenuItem Command="ad:ManagedContentCommands.Show"/>
         <MenuItem Command="ad:ManagedContentCommands.Hide"/>
-        <MenuItem Command="ad:DockableContentCommands.ShowAsDocumentCommand"/>
+        <MenuItem Command="ad:DockableContentCommands.ShowAsDocument"/>
         <Separator/>
         <MenuItem Command="ad:DockableFloatingWindowCommands.SetAsFloatingWindow"/>
         <MenuItem Command="ad:DockableFloatingWindowCommands.SetAsDockableWindow"/>
@@ -21,8 +21,8 @@
 		     x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:ContextMenuElement.DocumentFloatingWindow}}">
         <MenuItem Command="ad:ManagedContentCommands.Close"/>
         <Separator/>
-        <MenuItem Command="ad:DocumentContentCommands.FloatingDocumentCommand"/>
-        <MenuItem Command="ad:DocumentContentCommands.TabbedDocumentCommand"/>
+        <MenuItem Command="ad:DocumentContentCommands.FloatingDocument"/>
+        <MenuItem Command="ad:DocumentContentCommands.TabbedDocument"/>
     </ContextMenu>
     
     <!--Resizer-->

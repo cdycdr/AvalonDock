@@ -222,20 +222,22 @@ namespace AvalonDock
             SetValue(CanAutohidePropertyKey, value);
         }
 
-        private void UpdateCanAutohideProperty()
+        internal void UpdateCanAutohideProperty()
         {
             SetCanAutohide(
-                !Items.Cast<DockableContent>().Any(c =>
+                Items.Cast<DockableContent>().All(c =>
                 {
                     bool flag = c.State == DockableContentState.Docked ||
-                        c.State == DockableContentState.Document;
+                        c.State == DockableContentState.Document ||
+                        c.State == DockableContentState.AutoHide;
 
                     flag = flag && ((c.DockableStyle & DockableStyle.AutoHide) > 0);
-
+#if DEBUG
+                    Debug.WriteLine("{0} CanAutohide()= {1}", c.Title, flag);
+#endif
                     return flag;
                 })
             );
-
         }
 
         #endregion

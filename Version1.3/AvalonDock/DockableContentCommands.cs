@@ -37,16 +37,13 @@ namespace AvalonDock
     public sealed class DockableContentCommands
     {
         static object syncRoot = new object();
-
-
-
-
+        
         private static RoutedUICommand documentCommand = null;
 
         /// <summary>
         /// Shows the DockableContent as a tabbed document
         /// </summary>
-        public static RoutedUICommand ShowAsDocumentCommand
+        public static RoutedUICommand ShowAsDocument
         {
             get
             {
@@ -68,7 +65,7 @@ namespace AvalonDock
         /// Shows the <see cref="DockableContent"/> as a <see cref="FloatingWindow"/> which overlays the <see cref="DockingManager"/>
         /// </summary>
         /// <remarks>A floating window can't be redocked to the docking manager.</remarks>
-        public static RoutedUICommand FloatingWindowCommand
+        public static RoutedUICommand FloatingWindow
         {
             get
             {
@@ -89,7 +86,7 @@ namespace AvalonDock
         /// Shows the <see cref="DockableContent"/> as a <see cref="DockableFloatingWindow"/> which overlays the <see cref="DockingManager"/>
         /// </summary>
         /// <remarks>A floating window can't be redocked to the docking manager.</remarks>
-        public static RoutedUICommand DockableFloatingWindowCommand
+        public static RoutedUICommand DockableFloatingWindow
         {
             get
             {

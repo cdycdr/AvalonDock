@@ -94,8 +94,8 @@ namespace AvalonDock
 
             ResizingPanel.SetEffectiveSize(paneToAnchor, new Size(Width, Height));
 
-            if (HostedPane.Style != null)
-                paneToAnchor.Style = HostedPane.Style;
+            //if (HostedPane.Style != null)
+            //    paneToAnchor.Style = HostedPane.Style;
 
             int selectedIndex = HostedPane.SelectedIndex;
 

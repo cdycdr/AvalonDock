@@ -202,7 +202,7 @@ namespace AvalonDock
         /// <returns></returns>
         protected override Size MeasureOverride(Size availableSize)
         {
-            Debug.WriteLine("ResizingPanel.MeasureOverride()");
+            //Debug.WriteLine("ResizingPanel.MeasureOverride()");
 
             SetupSplitters();
 
@@ -553,7 +553,7 @@ namespace AvalonDock
         /// <returns></returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            Debug.WriteLine("ResizingPanel.ArrangeOverride()");
+            //Debug.WriteLine("ResizingPanel.ArrangeOverride()");
 
             //Compute the list of visible children
             List<FrameworkElement> visibleChildren = new List<FrameworkElement>();

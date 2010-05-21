@@ -816,7 +816,21 @@ namespace AvalonDock
 
                 emptyDockablePanes.ForEach(dp =>
                 {
-                    if (!DockableContents.Any(dc => dc.SavedStateAndPosition != null && dc.SavedStateAndPosition.ContainerPane == dp))
+                    if (!DockableContents.Any(dc => 
+                        {
+                            if (dc.SavedStateAndPosition != null &&
+                                (dc.SavedStateAndPosition.ContainerPane == dp || dc.SavedStateAndPosition.ContainerPaneID == dp.ID))
+                                return true;
+
+                            if (dc.State == DockableContentState.AutoHide)
+                            {
+                                var flyoutDocPane = dc.ContainerPane as FlyoutDockablePane;
+                                if (flyoutDocPane != null && flyoutDocPane.ReferencedPane == dp)
+                                    return true;
+                            }
+
+                            return false;
+                        }))
                     {
                         var containerPanel = dp.Parent as ResizingPanel;
                         if (containerPanel != null)
@@ -1715,7 +1729,7 @@ namespace AvalonDock
                 paneToDropInto is DocumentPane)
                 DropInto(paneDragged as DocumentPane, paneToDropInto as DocumentPane);
             else
-                Debug.Assert(false);
+                throw new InvalidOperationException();
         }
         internal void DropInto(DocumentPane paneDragged, DocumentPane paneToDropInto)
         {
@@ -3785,9 +3799,15 @@ namespace AvalonDock
             DockableContent[] actualContents = DockableContents.ToArray();
             DocumentContent[] actualDocuments = Documents.ToArray();
 
+            //first detach all my actual contents
+            this.Content = null;
+            this.ActiveContent = null;
+            this.ActiveDocument = null;
+
             //restore main panel
             XmlElement rootElement = doc.DocumentElement.ChildNodes[0] as XmlElement;
             DocumentPane mainDocumentPane = null;
+            this.Content = null;
             this.Content = RestoreLayout(rootElement, actualContents, actualDocuments, ref mainDocumentPane);
             MainDocumentPane = mainDocumentPane;
             

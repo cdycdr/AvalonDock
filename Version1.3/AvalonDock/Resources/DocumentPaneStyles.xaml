@@ -44,14 +44,14 @@
                     <Border 
 						x:Name="PART_DragArea" 
 						BorderBrush="{StaticResource ManagedContentTabControlNormalBorderBrush}"
-                        Margin="-10,0,0,0"
+                        Margin="0,0,-10,0"
 						SnapsToDevicePixels="True"
                         ContextMenu="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:ContextMenuElement.DocumentPane}}}"
                         >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Path Data="M 20,0.5 Q 16,0.5 10,10 Q 5,19.5 0,19.5 L 20,19.5"
                                 x:Name="tabItemIntPathBackground"  
@@ -141,8 +141,8 @@
                         <ContextMenu x:Key="DocumentsListMenu" StaysOpen="True" >
                             <ContextMenu.ItemContainerStyle>
                                 <Style TargetType="MenuItem">
-                                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Header}"/>
-                                    <Setter Property="Command" Value="{x:Static ad:DocumentPane.ActivateDocumentCommand}"/>
+                                    <Setter Property="CommandTarget" Value="{Binding}"/>
+                                    <Setter Property="Command" Value="{x:Static ad:ManagedContentCommands.Activate}"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="MenuItem">
@@ -220,7 +220,7 @@
                                         x:Name="paneTabsPanel" 
                                         Panel.ZIndex ="1" 
                                         IsItemsHost="True" 
-								        Margin="10,2,0,0"
+								        Margin="0,2,0,0"
                                         TabItemStyle="{StaticResource DocumentTabItemStyle}"/>
                                 </DockPanel>
                             </Border>

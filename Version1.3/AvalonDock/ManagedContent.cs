@@ -828,7 +828,7 @@ namespace AvalonDock
             this.CommandBindings.Add(
                 new CommandBinding(ManagedContentCommands.Show, this.OnExecuteCommand, this.OnCanExecuteCommand));
             this.CommandBindings.Add(
-                new CommandBinding(ManagedContentCommands.Active, this.OnExecuteCommand, this.OnCanExecuteCommand));
+                new CommandBinding(ManagedContentCommands.Activate, this.OnExecuteCommand, this.OnCanExecuteCommand));
 
 
         }
@@ -848,7 +848,7 @@ namespace AvalonDock
             {
                 e.Handled = Close();
             }
-            else if (e.Command == ManagedContentCommands.Active)
+            else if (e.Command == ManagedContentCommands.Activate)
             {
                 Activate();
                 e.Handled = true;

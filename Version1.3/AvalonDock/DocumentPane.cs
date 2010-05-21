@@ -209,27 +209,6 @@ namespace AvalonDock
 
         //#endregion
 
-        #region Activate Document Command
-        public static RoutedCommand ActivateDocumentCommand = new RoutedCommand();
-
-        public void ExecutedActivateDocumentCommand(object sender,
-            ExecutedRoutedEventArgs e)
-        {
-            ManagedContent doc = e.Parameter as ManagedContent;
-            if (doc != null)
-            {
-                doc.Activate();
-            }            
-        }
-
-        public void CanExecuteActivateDocumentCommand(object sender,
-            CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
-        #endregion
-
         #region Commands
 
         protected override void OnExecuteCommand(object sender, ExecutedRoutedEventArgs e)
@@ -254,6 +233,14 @@ namespace AvalonDock
                 CreateNewVerticalTabGroup();
                 e.Handled = true;
             }
+            //else if (e.Command == DocumentPaneCommands.ActivateDocument)
+            //{
+            //    ManagedContent doc = e.Parameter as ManagedContent;
+            //    if (doc != null)
+            //    {
+            //        doc.Activate();
+            //    }
+            //}
 
         }
 
@@ -362,7 +349,7 @@ namespace AvalonDock
             if (cxMenuDocuments != null)
             {
                 cxMenuDocuments.ItemsSource = Items;
-                cxMenuDocuments.CommandBindings.Add(new CommandBinding(ActivateDocumentCommand, new ExecutedRoutedEventHandler(this.ExecutedActivateDocumentCommand), new CanExecuteRoutedEventHandler(CanExecuteActivateDocumentCommand)));
+                //cxMenuDocuments.CommandBindings.Add(new CommandBinding(ActivateDocumentCommand, new ExecutedRoutedEventHandler(this.ExecutedActivateDocumentCommand), new CanExecuteRoutedEventHandler(CanExecuteActivateDocumentCommand)));
 
                 if (_optionsContextMenuPlacementTarget != null)
                 {

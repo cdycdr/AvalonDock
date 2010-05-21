@@ -28,15 +28,6 @@
                         </DataTemplate>
                     </MenuItem.ItemTemplate>
                 </MenuItem>
-                <MenuItem Header="Hidden" 
-                          ItemsSource="{Binding HiddenContents, ElementName=DockManager}" 
-                          Click="OnShowDockableContent">
-                    <MenuItem.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}"/>
-                        </DataTemplate>
-                    </MenuItem.ItemTemplate>
-                </MenuItem>
                 <Separator/>
                 <MenuItem Header="Create New" Click="OnCreateNewDockableContent"/>
                 <MenuItem Header="Create New Floating" Click="OnCreateNewDockableContent"/>

@@ -99,5 +99,44 @@ namespace AvalonDock
                 return newVTabGroupCommand;
             }
         }
+
+
+        //private static RoutedUICommand activateDocument = null;
+        //public static RoutedUICommand ActivateDocument
+        //{
+        //    get
+        //    {
+        //        lock (syncRoot)
+        //        {
+        //            if (null == activateDocument)
+        //            {
+        //                activateDocument = new RoutedUICommand("Activate Document", "ActivateDocuement", typeof(DocumentPaneCommands));
+        //            }
+        //        }
+        //        return activateDocument;
+        //    }
+        //}
+
+        //#region Activate Document Command
+        //public static RoutedCommand ActivateDocumentCommand = new RoutedCommand();
+
+        //public void ExecutedActivateDocumentCommand(object sender,
+        //    ExecutedRoutedEventArgs e)
+        //{
+        //    ManagedContent doc = e.Parameter as ManagedContent;
+        //    if (doc != null)
+        //    {
+        //        doc.Activate();
+        //    }
+        //}
+
+        //public void CanExecuteActivateDocumentCommand(object sender,
+        //    CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = true;
+        //}
+
+        //#endregion
+
     }
 }

@@ -81,54 +81,138 @@ namespace AvalonDock
         {
             //Update Anchor, Title and Icon property 
             DockablePaneAnchorTab _this = depObj as DockablePaneAnchorTab;
-            _this.Anchor = ((DockablePane)_this.ReferencedContent.ContainerPane).Anchor;
-            _this.Icon = _this.ReferencedContent.Icon;
-            _this.Title = _this.ReferencedContent.Title;
+            _this.SetAnchor(((DockablePane)_this.ReferencedContent.ContainerPane).Anchor);
+            _this.SetIcon(_this.ReferencedContent.Icon);
+            _this.SetTitle(_this.ReferencedContent.Title);
 
         }
 
+        ///// <summary>
+        ///// Gets anchor style of the referenced content
+        ///// </summary>
+        ///// <remarks>This proprety is exposed to facilitate the control template binding.</remarks>
+        //public AnchorStyle Anchor
+        //{
+        //    get { return (AnchorStyle)GetValue(AnchorPropertyKey.DependencyProperty); }
+        //    protected set { SetValue(AnchorPropertyKey, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for IsSelected.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyPropertyKey AnchorPropertyKey =
+        //    DependencyProperty.RegisterAttachedReadOnly("Anchor", typeof(AnchorStyle), typeof(DockablePaneAnchorTab), new PropertyMetadata(AnchorStyle.Left));
+
+        ///// <summary>
+        ///// Gets icon of the referenced content
+        ///// </summary>
+        ///// <remarks>This proprety is exposed to facilitate the control template binding.</remarks>
+        //public object Icon
+        //{
+        //    get { return (object)GetValue(IconPropertyKey.DependencyProperty); }
+        //    protected set { SetValue(IconPropertyKey, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for IsSelected.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyPropertyKey IconPropertyKey =
+        //    DependencyProperty.RegisterAttachedReadOnly("Icon", typeof(object), typeof(DockablePaneAnchorTab), new PropertyMetadata(null));
+
+        #region Anchor
+
         /// <summary>
-        /// Gets anchor style of the referenced content
+        /// Anchor Read-Only Dependency Property
         /// </summary>
-        /// <remarks>This proprety is exposed to facilitate the control template binding.</remarks>
+        private static readonly DependencyPropertyKey AnchorPropertyKey
+            = DependencyProperty.RegisterReadOnly("Anchor", typeof(AnchorStyle), typeof(DockablePaneAnchorTab),
+                new FrameworkPropertyMetadata((AnchorStyle)AnchorStyle.None));
+
+        public static readonly DependencyProperty AnchorProperty
+            = AnchorPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the Anchor property.  This dependency property 
+        /// indicates the achor style of referenced content that is in autohidden state.
+        /// </summary>
         public AnchorStyle Anchor
         {
-            get { return (AnchorStyle)GetValue(AnchorPropertyKey.DependencyProperty); }
-            protected set { SetValue(AnchorPropertyKey, value); }
+            get { return (AnchorStyle)GetValue(AnchorProperty); }
         }
 
-        // Using a DependencyProperty as the backing store for IsSelected.  This enables animation, styling, binding, etc...
-        public static readonly DependencyPropertyKey AnchorPropertyKey =
-            DependencyProperty.RegisterAttachedReadOnly("Anchor", typeof(AnchorStyle), typeof(DockablePaneAnchorTab), new PropertyMetadata(AnchorStyle.Left));
+        /// <summary>
+        /// Provides a secure method for setting the Anchor property.  
+        /// This dependency property indicates the achor style of referenced content that is in autohidden state.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetAnchor(AnchorStyle value)
+        {
+            SetValue(AnchorPropertyKey, value);
+        }
+
+        #endregion
+
+        #region Icon
 
         /// <summary>
-        /// Gets icon of the referenced content
+        /// Icon Read-Only Dependency Property
         /// </summary>
-        /// <remarks>This proprety is exposed to facilitate the control template binding.</remarks>
+        private static readonly DependencyPropertyKey IconPropertyKey
+            = DependencyProperty.RegisterReadOnly("Icon", typeof(object), typeof(DockablePaneAnchorTab),
+                new FrameworkPropertyMetadata((object)null));
+
+        public static readonly DependencyProperty IconProperty
+            = IconPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the Icon property.  This dependency property 
+        /// indicates icon of the referenced content in autohidden state.
+        /// </summary>
         public object Icon
         {
-            get { return (object)GetValue(IconPropertyKey.DependencyProperty); }
-            protected set { SetValue(IconPropertyKey, value); }
+            get { return (object)GetValue(IconProperty); }
         }
-
-        // Using a DependencyProperty as the backing store for IsSelected.  This enables animation, styling, binding, etc...
-        public static readonly DependencyPropertyKey IconPropertyKey =
-            DependencyProperty.RegisterAttachedReadOnly("Icon", typeof(object), typeof(DockablePaneAnchorTab), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets title of the referenced content
+        /// Provides a secure method for setting the Icon property.  
+        /// This dependency property indicates icon of the referenced content in autohidden state.
         /// </summary>
-        /// <remarks>This proprety is exposed to facilitate the control template binding.</remarks>
-        public string Title
+        /// <param name="value">The new value for the property.</param>
+        protected void SetIcon(object value)
         {
-            get { return (string)GetValue(TitlePropertyKey.DependencyProperty); }
-            protected set { SetValue(TitlePropertyKey, value); }
+            SetValue(IconPropertyKey, value);
         }
 
-        // Using a DependencyProperty as the backing store for IsSelected.  This enables animation, styling, binding, etc...
-        public static readonly DependencyPropertyKey TitlePropertyKey =
-            DependencyProperty.RegisterAttachedReadOnly("Title", typeof(string), typeof(DockablePaneAnchorTab), new PropertyMetadata(string.Empty));
+        #endregion
 
+        #region Title
+
+        /// <summary>
+        /// Title Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey TitlePropertyKey
+            = DependencyProperty.RegisterReadOnly("Title", typeof(string), typeof(DockablePaneAnchorTab),
+                new FrameworkPropertyMetadata((string)null));
+
+        public static readonly DependencyProperty TitleProperty
+            = TitlePropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the Title property.  This dependency property 
+        /// indicates title of the content that is hosted in autohidden pane.
+        /// </summary>
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+        }
+
+        /// <summary>
+        /// Provides a secure method for setting the Title property.  
+        /// This dependency property indicates title of the content that is hosted in autohidden pane.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetTitle(string value)
+        {
+            SetValue(TitlePropertyKey, value);
+        }
+
+        #endregion
 
         /// <summary>
         /// Handles the MouseMove event

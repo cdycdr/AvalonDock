@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms.Integration;
 using System.IO;
+using System.Diagnostics;
 
 namespace AvalonDock.DemoApp
 {
@@ -35,11 +36,14 @@ namespace AvalonDock.DemoApp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            int contentsBeforeSave = DockManager.DockableContents.Count;
             DockManager.SaveLayout(@"layout.xml");
+            Debug.Assert(contentsBeforeSave == DockManager.DockableContents.Count);
         }
 
 
@@ -136,7 +140,11 @@ namespace AvalonDock.DemoApp
         private void DockManager_Loaded(object sender, RoutedEventArgs e)
         {
             if (File.Exists("layout.xml"))
+            {
+                int contentsBeforeRestore = DockManager.DockableContents.Count;
                 DockManager.RestoreLayout(@"layout.xml");
+                Debug.Assert(contentsBeforeRestore == DockManager.DockableContents.Count);
+            }
         }
 
         private void ResetContent(object sender, RoutedEventArgs e)

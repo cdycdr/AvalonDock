@@ -87,6 +87,24 @@ namespace AvalonDock
             _manager = manager;
         }
 
+        FrameworkElement gridPaneRelativeDockingOptions;
+        FrameworkElement selectionBox;
+
+        OverlayWindowDockingButton owdBottom;
+        OverlayWindowDockingButton owdTop;
+        OverlayWindowDockingButton owdLeft;
+        OverlayWindowDockingButton owdRight;
+        OverlayWindowDockingButton owdPaneBottom;
+        OverlayWindowDockingButton owdPaneTop;
+        OverlayWindowDockingButton owdPaneLeft;
+        OverlayWindowDockingButton owdPaneRight;
+        OverlayWindowDockingButton owdPaneInto;
+
+        OverlayWindowDockingButton owdMainPaneBottom;
+        OverlayWindowDockingButton owdMainPaneTop;
+        OverlayWindowDockingButton owdMainPaneLeft;
+        OverlayWindowDockingButton owdMainPaneRight;
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -117,15 +135,16 @@ namespace AvalonDock
             btn = GetTemplateChild("PART_btnDockMainPaneRight") as FrameworkElement;
             if (btn != null) owdMainPaneRight = new OverlayWindowDockingButton(btn, this);
 
-            _manager.DragPaneServices.Register(owdBottom);
-            _manager.DragPaneServices.Register(owdTop);
-            _manager.DragPaneServices.Register(owdLeft);
-            _manager.DragPaneServices.Register(owdRight);
+
             _manager.DragPaneServices.Register(owdPaneBottom);
             _manager.DragPaneServices.Register(owdPaneTop);
             _manager.DragPaneServices.Register(owdPaneLeft);
             _manager.DragPaneServices.Register(owdPaneRight);
             _manager.DragPaneServices.Register(owdPaneInto);
+            _manager.DragPaneServices.Register(owdBottom);
+            _manager.DragPaneServices.Register(owdTop);
+            _manager.DragPaneServices.Register(owdLeft);
+            _manager.DragPaneServices.Register(owdRight);
 
             if (owdMainPaneTop != null) _manager.DragPaneServices.Register(owdMainPaneTop);
             if (owdMainPaneLeft != null) _manager.DragPaneServices.Register(owdMainPaneLeft);
@@ -133,53 +152,68 @@ namespace AvalonDock
             if (owdMainPaneBottom != null) _manager.DragPaneServices.Register(owdMainPaneBottom);
         }
 
-        FrameworkElement gridPaneRelativeDockingOptions;
-        FrameworkElement selectionBox;
-
-        OverlayWindowDockingButton owdBottom;
-        OverlayWindowDockingButton owdTop;
-        OverlayWindowDockingButton owdLeft;
-        OverlayWindowDockingButton owdRight;
-        OverlayWindowDockingButton owdPaneBottom;
-        OverlayWindowDockingButton owdPaneTop;
-        OverlayWindowDockingButton owdPaneLeft;
-        OverlayWindowDockingButton owdPaneRight;
-        OverlayWindowDockingButton owdPaneInto;
-
-        OverlayWindowDockingButton owdMainPaneBottom;
-        OverlayWindowDockingButton owdMainPaneTop;
-        OverlayWindowDockingButton owdMainPaneLeft;
-        OverlayWindowDockingButton owdMainPaneRight;
-
-
         internal bool OnDrop(OverlayWindowDockingButton owdDock, Point point)
         {
             //user has dropped the floating window over a anchor button 
             //create a new dockable pane to insert in the main layout
-            Pane paneToAnchor = _manager.DragPaneServices.FloatingWindow.ClonePane();
-
+            //FIX: clone pane and return true only if overlayButtonOver is not set to None!!
+            
+            
             //floating window is going to be closed..
-
-            if (owdDock == owdBottom)
-                _manager.Anchor(paneToAnchor as DockablePane, AnchorStyle.Bottom);
-            else if (owdDock == owdLeft)
-                _manager.Anchor(paneToAnchor as DockablePane, AnchorStyle.Left);
-            else if (owdDock == owdRight)
-                _manager.Anchor(paneToAnchor as DockablePane, AnchorStyle.Right);
-            else if (owdDock == owdTop)
-                _manager.Anchor(paneToAnchor as DockablePane, AnchorStyle.Top);
-            else if (owdDock == owdPaneTop)
-                _manager.Anchor(paneToAnchor, CurrentDropPane, AnchorStyle.Top);
-            else if (owdDock == owdPaneBottom)
-                _manager.Anchor(paneToAnchor, CurrentDropPane, AnchorStyle.Bottom);
-            else if (owdDock == owdPaneLeft)
-                _manager.Anchor(paneToAnchor, CurrentDropPane, AnchorStyle.Left);
-            else if (owdDock == owdPaneRight)
-                _manager.Anchor(paneToAnchor, CurrentDropPane, AnchorStyle.Right);
-            else if (owdDock == owdPaneInto)
-                _manager.DropInto(paneToAnchor, CurrentDropPane);
-
             selectionBox.Visibility = Visibility.Hidden;
+
+            //take the overlaybutton hover property to get the right button highlighted
+            switch (OverlayButtonHover)
+            {
+                case AvalonDock.OverlayButtonHover.DropBorderBottom:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane() as DockablePane,
+                        AnchorStyle.Bottom);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropBorderTop:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane() as DockablePane, 
+                        AnchorStyle.Top);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropBorderLeft:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane() as DockablePane, 
+                        AnchorStyle.Left);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropBorderRight:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane() as DockablePane, 
+                        AnchorStyle.Right);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropPaneBottom:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        CurrentDropPane, AnchorStyle.Bottom);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropPaneTop:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        CurrentDropPane, AnchorStyle.Top);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropPaneLeft:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        CurrentDropPane, AnchorStyle.Left);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropPaneRight:
+                    _manager.Anchor(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        CurrentDropPane, AnchorStyle.Right);
+                    break;
+                case AvalonDock.OverlayButtonHover.DropPaneInto:
+                    _manager.DropInto(
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        CurrentDropPane);
+                    break;
+                default:
+                    return false;
+            }
+            
 
             return true;
         }
@@ -216,8 +250,13 @@ namespace AvalonDock
 
             Point myScreenTopLeft = this.PointToScreenDPI(new Point(0, 0));
             rectPane.Offset(-myScreenTopLeft.X, -myScreenTopLeft.Y);//relative to me
-            gridPaneRelativeDockingOptions.SetValue(Canvas.LeftProperty, rectPane.Left + rectPane.Width / 2 - gridPaneRelativeDockingOptions.Width / 2);
-            gridPaneRelativeDockingOptions.SetValue(Canvas.TopProperty, rectPane.Top + rectPane.Height / 2 - gridPaneRelativeDockingOptions.Height / 2);
+
+            gridPaneRelativeDockingOptions.SetValue(Canvas.LeftProperty, rectPane.Left);
+            gridPaneRelativeDockingOptions.SetValue(Canvas.TopProperty, rectPane.Top);
+            gridPaneRelativeDockingOptions.Width = rectPane.Width;
+            gridPaneRelativeDockingOptions.Height = rectPane.Height;
+            //gridPaneRelativeDockingOptions.SetValue(Canvas.LeftProperty, rectPane.Left + rectPane.Width / 2 - gridPaneRelativeDockingOptions.Width / 2);
+            //gridPaneRelativeDockingOptions.SetValue(Canvas.TopProperty, rectPane.Top + rectPane.Height / 2 - gridPaneRelativeDockingOptions.Height / 2);
 
             if (paneOvering is DocumentPane)
                 gridPaneRelativeDockingOptions.Visibility = Visibility.Visible;
@@ -265,7 +304,6 @@ namespace AvalonDock
 
         internal void HideOverlayPaneDockingOptions(Pane surfaceElement)
         {
-
             owdPaneBottom.Enabled = false;
             owdPaneTop.Enabled = false;
             owdPaneLeft.Enabled = false;
@@ -301,8 +339,6 @@ namespace AvalonDock
             
             base.OnActivated(e);
         }
-
-        
 
         /// <summary>
         /// Shows a highlighting rectangle
@@ -418,20 +454,6 @@ namespace AvalonDock
 
         }
 
-        //OverlayButtonHover _overlayButtonHover = OverlayButtonHover.None;
-
-        //public OverlayButtonHover OverlayButtonHover
-        //{
-        //    get
-        //    { return _overlayButtonHover; }
-        //    set
-        //    {
-        //        _overlayButtonHover = value;
-        //        if (PropertyChanged != null)
-        //            PropertyChanged(this, new PropertyChangedEventArgs("OverlayButtonHover"));
-        //    }
-        //}
-
         #region OverlayButtonHover
 
         /// <summary>
@@ -465,38 +487,5 @@ namespace AvalonDock
 
 
         #endregion
-
-        
-
-        //#region OverlayButtonHover
-
-        ///// <summary>
-        ///// OverlayButtonHover Dependency Property
-        ///// </summary>
-        //public static readonly DependencyProperty OverlayButtonHoverProperty =
-        //    DependencyProperty.Register("OverlayButtonHover", typeof(OverlayButtonHover), typeof(OverlayWindow),
-        //        new FrameworkPropertyMetadata(OverlayButtonHover.None));
-
-        ///// <summary>
-        ///// Gets or sets the OverlayButtonHover property.  This dependency property 
-        ///// indicates which anchor button is currently highlighted by user.
-        ///// </summary>
-        //public OverlayButtonHover OverlayButtonHover
-        //{
-        //    get { return (OverlayButtonHover)GetValue(OverlayButtonHoverProperty); }
-        //    set { SetValue(OverlayButtonHoverProperty, value); }
-        //}
-
-        //#endregion
-
-
-        
-
-
-        //#region INotifyPropertyChanged Members
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //#endregion
     }
 }

@@ -68,8 +68,8 @@ namespace AvalonDock
             {
                 Panel.SetZIndex(child, Selector.GetIsSelected(child)?1:-i);
                 i++;
-                child.Width = double.NaN;
-                child.Height = double.NaN;
+                //child.Width = double.NaN;
+                //child.Height = double.NaN;
                 child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 desideredSize.Width += child.DesiredSize.Width;
                 desideredSize.Height = Math.Max(desideredSize.Height, child.DesiredSize.Height);
@@ -82,7 +82,7 @@ namespace AvalonDock
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            double offset = Padding.Left;
+            double offset = 0.0;
             bool skipAllOthers = false;
             foreach (ManagedContent doc in Children)
             {
@@ -95,7 +95,7 @@ namespace AvalonDock
                 else
                 {
                     SetIsHeaderVisible(doc, true);
-                    doc.Arrange(new Rect(offset, Padding.Top, doc.DesiredSize.Width, finalSize.Height));
+                    doc.Arrange(new Rect(offset, 0.0, doc.DesiredSize.Width, finalSize.Height));
                     offset += doc.ActualWidth;
                 }
             }
@@ -104,27 +104,27 @@ namespace AvalonDock
 
         }
 
-        #region Padding
+        //#region Padding
 
-        /// <summary>
-        /// Padding Dependency Property
-        /// </summary>
-        public static readonly DependencyProperty PaddingProperty =
-            DependencyProperty.Register("Padding", typeof(Thickness), typeof(DocumentTabPanel),
-                new FrameworkPropertyMetadata((Thickness)new Thickness(),
-                    FrameworkPropertyMetadataOptions.AffectsMeasure));
+        ///// <summary>
+        ///// Padding Dependency Property
+        ///// </summary>
+        //public static readonly DependencyProperty PaddingProperty =
+        //    DependencyProperty.Register("Padding", typeof(Thickness), typeof(DocumentTabPanel),
+        //        new FrameworkPropertyMetadata((Thickness)new Thickness(),
+        //            FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        /// <summary>
-        /// Gets or sets the Padding property.  This dependency property 
-        /// indicates internal padding of the panel.
-        /// </summary>
-        public Thickness Padding
-        {
-            get { return (Thickness)GetValue(PaddingProperty); }
-            set { SetValue(PaddingProperty, value); }
-        }
+        ///// <summary>
+        ///// Gets or sets the Padding property.  This dependency property 
+        ///// indicates internal padding of the panel.
+        ///// </summary>
+        //public Thickness Padding
+        //{
+        //    get { return (Thickness)GetValue(PaddingProperty); }
+        //    set { SetValue(PaddingProperty, value); }
+        //}
 
-        #endregion
+        //#endregion
 
 
     }

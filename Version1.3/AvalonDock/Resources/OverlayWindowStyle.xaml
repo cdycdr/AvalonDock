@@ -28,25 +28,27 @@
                             </ad:AlignedImage>
                         </Grid>
                         <Canvas>
-                            <Grid Name="PART_gridPaneRelativeDockingOptions" Visibility="Collapsed" Width="88" Height="88">
-                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <ad:AlignedImage Grid.ColumnSpan="3" Grid.RowSpan="3" >
-                                    <Image Source="Images\DockPane.png" Stretch="Uniform"/>
-                                </ad:AlignedImage>
-                                <Border Name="PART_btnDockPaneTop" Grid.Column="1" Grid.Row="0"/>
-                                <Border Name="PART_btnDockPaneRight" Grid.Column="2" Grid.Row="1"/>
-                                <Border Name="PART_btnDockPaneBottom" Grid.Column="1" Grid.Row="2"/>
-                                <Border Name="PART_btnDockPaneLeft" Grid.Column="0" Grid.Row="1"/>
-                                <Border Name="PART_btnDockPaneInto" Grid.Column="1" Grid.Row="1"/>
+                            <Grid Name="PART_gridPaneRelativeDockingOptions" Visibility="Collapsed">
+                                <Grid Width="88" Height="88" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <ad:AlignedImage Grid.ColumnSpan="3" Grid.RowSpan="3" >
+                                        <Image Source="Images\DockPane.png" Stretch="Uniform"/>
+                                    </ad:AlignedImage>
+                                    <Border Name="PART_btnDockPaneTop" Grid.Column="1" Grid.Row="0"/>
+                                    <Border Name="PART_btnDockPaneRight" Grid.Column="2" Grid.Row="1"/>
+                                    <Border Name="PART_btnDockPaneBottom" Grid.Column="1" Grid.Row="2"/>
+                                    <Border Name="PART_btnDockPaneLeft" Grid.Column="0" Grid.Row="1"/>
+                                    <Border Name="PART_btnDockPaneInto" Grid.Column="1" Grid.Row="1"/>
+                                </Grid>
                             </Grid>
                         </Canvas>
                     </Grid>

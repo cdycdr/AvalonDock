@@ -10,9 +10,9 @@
         <Label Content="{Binding Title}" Height="26" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" Width="112" ContentStringFormat="Title={0}" />
         <Label Content="{Binding State}" Height="29" HorizontalAlignment="Left" Margin="12,44,0,0" Name="label2" VerticalAlignment="Top" Width="300" ContentStringFormat="State={0}" />
         <Button Content="Auto Hide" Height="29" HorizontalAlignment="Left" Margin="12,79,0,0" VerticalAlignment="Top" Width="147" Command="ad:DockableContentCommands.ToggleAutoHide" />
-        <Button Content="Floating Window" Height="29" HorizontalAlignment="Left" Margin="12,114,0,0" VerticalAlignment="Top" Width="147" Command="ad:DockableContentCommands.FloatingWindowCommand" />
-        <Button Content="Dockable Window" Height="29" HorizontalAlignment="Left" Margin="12,149,0,0" VerticalAlignment="Top" Width="147" Command="ad:DockableContentCommands.DockableFloatingWindowCommand" />
-        <Button Content="Document" Height="29" HorizontalAlignment="Left" Margin="12,184,0,0" VerticalAlignment="Top" Width="147" Command="ad:DockableContentCommands.ShowAsDocumentCommand" />
+        <Button Content="Floating Window" Height="29" HorizontalAlignment="Left" Margin="12,114,0,0" VerticalAlignment="Top" Width="147" Command="ad:DockableContentCommands.FloatingWindow" />
+        <Button Content="Dockable Window" Height="29" HorizontalAlignment="Left" Margin="12,149,0,0" VerticalAlignment="Top" Width="147" Command="ad:DockableContentCommands.DockableFloatingWindow" />
+        <Button Content="Document" Height="29" HorizontalAlignment="Left" Margin="12,184,0,0" VerticalAlignment="Top" Width="147" Command="ad:DockableContentCommands.ShowAsDocument" />
         <Button Command="ad:ManagedContentCommands.Show" Content="Dock" Height="29" HorizontalAlignment="Left" Margin="165,79,0,0" VerticalAlignment="Top" Width="147" />
         <TextBox Height="26" HorizontalAlignment="Left" Margin="165,118,0,0" Name="txtTestFocus" VerticalAlignment="Top" Width="147" Text="This text is saved within layout"/>
         <Label Content="{Binding ContainerPane.ContainsActiveContent}" ContentStringFormat="ContainsActiveContent={0}" Height="26" HorizontalAlignment="Left" Margin="130,12,0,0" Name="label3" VerticalAlignment="Top" Width="182" />
