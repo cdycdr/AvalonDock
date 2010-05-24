@@ -73,24 +73,24 @@ namespace AvalonDock
             this.Unloaded += new RoutedEventHandler(ManagedContent_Unloaded);
         }
 
-		WindowsFormsHost GetWinFormsHost()
-		{
-			WindowsFormsHost contentHost = null;
+        //WindowsFormsHost GetWinFormsHost()
+        //{
+        //    WindowsFormsHost contentHost = null;
 
-			if (this.Content is UserControl)
-			{
-				UserControl usTemp = this.Content as UserControl;
+        //    if (this.Content is UserControl)
+        //    {
+        //        UserControl usTemp = this.Content as UserControl;
 
-				if (usTemp.Content is WindowsFormsHost)
-					contentHost = usTemp.Content as WindowsFormsHost;
-			}
-			else if (this.Content is WindowsFormsHost)
-			{
-				contentHost = this.Content as WindowsFormsHost;
-			}
+        //        if (usTemp.Content is WindowsFormsHost)
+        //            contentHost = usTemp.Content as WindowsFormsHost;
+        //    }
+        //    else if (this.Content is WindowsFormsHost)
+        //    {
+        //        contentHost = this.Content as WindowsFormsHost;
+        //    }
 
-			return contentHost;
-		}
+        //    return contentHost;
+        //}
 
 		void ManagedContent_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
@@ -372,7 +372,7 @@ namespace AvalonDock
             if (!e.Handled)
             {
                 Activate();
-                FocusManager.SetFocusedElement(Content as DependencyObject, DefaultElement);
+                //FocusManager.SetFocusedElement(Content as DependencyObject, DefaultElement);
             }
 
         }
@@ -542,43 +542,54 @@ namespace AvalonDock
             if (IsActiveContent)
                 _lastActivation = DateTime.Now;
 
-            if (IsActiveContent && !IsKeyboardFocused && DefaultElement != null)
+            if (IsActiveContent && !IsKeyboardFocused)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
+                if (DefaultElement != null)
                 {
-                    if (IsActiveContent && !IsKeyboardFocused)
+                    Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
                     {
-                        //if (this.Content is WindowsFormsHost)
-                        //{
-                        //    //Use reflection in order to remove WinForms assembly reference
-                        //    WindowsFormsHost contentHost = this.Content as WindowsFormsHost;
-
-                        //    object childCtrl = contentHost.GetType().GetProperty("Child").GetValue(contentHost, null);
-
-                        //    if (childCtrl != null)
-                        //    {
-                        //        if (!childCtrl.GetPropertyValue<bool>("Focused"))
-                        //        {
-                        //            childCtrl.CallMethod("Focus", null);
-                        //        }
-                        //    }
-                        //}
-                        //else 
-                        if (DefaultElement != null)
+                        if (IsActiveContent && !IsKeyboardFocused)
                         {
-                            Debug.WriteLine("Try to set kb focus to " + DefaultElement);
+                            //if (this.Content is WindowsFormsHost)
+                            //{
+                            //    //Use reflection in order to remove WinForms assembly reference
+                            //    WindowsFormsHost contentHost = this.Content as WindowsFormsHost;
 
-                            IInputElement kbFocused = Keyboard.Focus(DefaultElement);
+                            //    object childCtrl = contentHost.GetType().GetProperty("Child").GetValue(contentHost, null);
 
-                            if (kbFocused != null)
-                                Debug.WriteLine("Focused element " + kbFocused);
-                            else
-                                Debug.WriteLine("No focused element");
+                            //    if (childCtrl != null)
+                            //    {
+                            //        if (!childCtrl.GetPropertyValue<bool>("Focused"))
+                            //        {
+                            //            childCtrl.CallMethod("Focus", null);
+                            //        }
+                            //    }
+                            //}
+                            //else 
+                            if (DefaultElement != null)
+                            {
+                                Debug.WriteLine("Try to set kb focus to " + DefaultElement);
 
+                                IInputElement kbFocused = Keyboard.Focus(DefaultElement);
+
+                                if (kbFocused != null)
+                                    Debug.WriteLine("Focused element " + kbFocused);
+                                else
+                                    Debug.WriteLine("No focused element");
+
+                            }
                         }
-                    }
 
-                }));
+                    }));
+                }
+                else 
+                {
+                    Debug.WriteLine("Try to set kb focus to " + Content);
+                    FocusManager.SetFocusedElement(Content as DependencyObject, Content as IInputElement);
+                    Keyboard.Focus(Content as IInputElement);
+                    Debug.WriteLine("Focus on " + FocusManager.GetFocusedElement(Content as DependencyObject));
+                    Debug.WriteLine("Keyboard Focus on " + FocusManager.GetFocusedElement(Content as DependencyObject));
+                }
 
             }
 

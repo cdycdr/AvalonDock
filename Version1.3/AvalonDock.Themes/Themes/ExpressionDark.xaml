@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary    
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
-    >
+    xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock">
 
 
     <ResourceDictionary.MergedDictionaries>
@@ -432,27 +431,27 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ad:ManagedContent}">
-                    <Border x:Name="tabItemIntBorder"
-                            Grid.Column="1"
-                            BorderThickness="1,1,1,0"
-                            Padding="5,0,5,4"
-                            Margin="-1,0,2,-4"
-                            CornerRadius="3,3,0,0"
-                            Background="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackground}}}">
-                        <StackPanel x:Name="PART_DragArea" 
-                                    Orientation="Horizontal" 
+                    <Grid SnapsToDevicePixels="True">
+                        <Border x:Name="tabItemIntBorder"
+                                BorderThickness="1,1,1,0"
+                                Padding="5,0,5,4"
+                                Margin="-1,0,2,-4"
+                                CornerRadius="3,3,0,0"
+                                Background="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackground}}}">
+                                                                                                            <StackPanel x:Name="PART_DragArea" 
+                                    Orientation="Horizontal"
                                     Margin="0,2,0,2"
                                     ContextMenu="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:ContextMenuElement.DocumentPane}}}">
                             <TextBlock 
 							        x:Name="tabItemTitle" 
 							        TextTrimming="CharacterEllipsis" 
                                     TextWrapping="NoWrap"
-							        Text="{TemplateBinding Title}" 
+                                    Text="{TemplateBinding Title}" 
 							        Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
                             <ad:AlignedImage x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Image Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Height="8" Stretch="Uniform"/>
                             </ad:AlignedImage>
-                            <Button x:Name="PART_CloseButton" Visibility="Collapsed" Margin="6,0,2,0" 
+                            <Button x:Name="PART_CloseButton"  Visibility="Collapsed" Margin="6,0,2,0" 
                                     Style="{StaticResource PaneHeaderCommandStyle}" 
                                     Width="14"
                                     Height="13"
@@ -460,8 +459,8 @@
                                 <Image Source="/AvalonDock.Themes;component/Images/ExpDark/PinClose.png" Stretch="None"/>
                             </Button>    
                         </StackPanel>
-                    </Border>
-
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Selector.IsSelected" Value="True">
                            <Setter Property="Background" 
@@ -559,8 +558,8 @@
                                     <ad:DocumentTabPanel 
                                       x:Name="paneTabsPanel" 
                                       Panel.ZIndex ="1" 
-                                      IsItemsHost="True" 
-								      TabItemStyle="{StaticResource DocumentTabItemStyle}"/>
+                                      IsItemsHost="True"
+                                      TabItemStyle="{StaticResource DocumentTabItemStyle}"/>
                                     <Button x:Name="PART_ShowContextMenuButton" 
                                             Grid.Column="1"
                                             Width="15" Height="15" 
@@ -571,12 +570,12 @@
                             </Border>
                             <Grid Grid.Row="1">
                                 <Border
-                                    Background="{StaticResource DefaultDocumentPaneBackground}"
-                                    >
-                                <ContentPresenter 
-                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Content}"
-                                        KeyboardNavigation.TabNavigation="Local"
-								        KeyboardNavigation.DirectionalNavigation="Contained"/>                                
+                                    Background="{StaticResource DefaultDocumentPaneBackground}">
+                                    <ContentPresenter 
+                                            FocusManager.IsFocusScope="True"
+                                            Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Content}"
+                                            KeyboardNavigation.TabNavigation="Local"
+								            KeyboardNavigation.DirectionalNavigation="Contained"/>                                
                                 </Border>                            
                             </Grid>
                         </Grid>
@@ -690,26 +689,26 @@
                             <Border x:Name="PART_SelectionBox" Background="#333333" BorderBrush="#6495ED" BorderThickness="2" Opacity="0.4" Visibility="Hidden"/>
                         </Canvas>
                         <Grid x:Name="panelDrag" >
-                            <Border x:Name="PART_btnDockLeft" Width="20" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
-                            <Border x:Name="PART_btnDockRight" Width="20" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
-                            <Border x:Name="PART_btnDockBottom" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
-                            <Border x:Name="PART_btnDockTop" Height="20" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                            <Border x:Name="PART_btnDockLeft" Width="10" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                            <Border x:Name="PART_btnDockRight" Width="10" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+                            <Border x:Name="PART_btnDockBottom" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+                            <Border x:Name="PART_btnDockTop" Height="10" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                         </Grid>
                         <Canvas>
                             <Grid Name="PART_gridPaneRelativeDockingOptions" Visibility="Collapsed" ><!--Width="103" Height="101"-->
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition MaxWidth="20"/>
+                                    <ColumnDefinition MaxWidth="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition MaxWidth="20"/>
+                                    <ColumnDefinition MaxWidth="20"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition MaxHeight="20"/>
+                                    <RowDefinition MaxHeight="20"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition MaxHeight="20"/>
+                                    <RowDefinition MaxHeight="20"/>
                                 </Grid.RowDefinitions>
                                 <Border Name="PART_btnDockPaneTop" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5"/>
                                 <Border Name="PART_btnDockPaneRight" Grid.Column="4" Grid.Row="1" Grid.RowSpan="4"/>
@@ -801,7 +800,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"  
                                 BorderThickness="{TemplateBinding BorderThickness}" >
                                 <ContentPresenter/>
-                            </Border>                         
+                            </Border>
                             
                             <Border x:Name="PART_MoveAnchor" 
                                     Grid.Row="1" 
@@ -810,8 +809,6 @@
                                     Margin="0,0,20,0"
                                     Background="Transparent">
                             </Border>
-
-                        
                         </Grid>                    
                     </Border>
                     <ControlTemplate.Triggers>
@@ -841,7 +838,6 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="5"/>
                             </Grid.RowDefinitions>
-                            
                             <Border x:Name="PART_MoveAnchor" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3"
                                     Background="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackgroundSelected}}}">
                                 <Grid x:Name="intTitleGrid">
@@ -850,7 +846,9 @@
                                         <ColumnDefinition Width="16"/>
                                         <ColumnDefinition Width="16"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock x:Name="intTitle" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{TemplateBinding Title}" IsHitTestVisible="False" Margin="2,0,0,0"
+                                    <TextBlock x:Name="intTitle" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                                               Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HostedPane.SelectedItem.Title}" 
+                                               IsHitTestVisible="False" Margin="2,0,0,0"
                                                Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"
                                                />
                                     <Border x:Name="PART_ShowContextMenuButton" Grid.Column="1" Style="{StaticResource PaneHeaderContextMenuCommandStyle}"
@@ -865,11 +863,6 @@
                                 </Grid>
                             </Border>
 
-                            <ContentPresenter 
-                                Grid.Row="2" Grid.RowSpan="2"
-                                Grid.Column="0" Grid.ColumnSpan="3"
-                                Margin="4,0,4,1"
-                                />                            
                             <Border  
                                 x:Name="intContentBorder"
                                 Grid.Row="2" Grid.RowSpan="2"
@@ -878,7 +871,12 @@
                                 BorderBrush="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackground}}}"
                                 BorderThickness="4">
                             </Border>
-                            
+                            <ContentPresenter 
+                                Grid.Row="2" Grid.RowSpan="2"
+                                Grid.Column="0" Grid.ColumnSpan="3"
+                                Margin="4"
+                                Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HostedPane.SelectedItem.Content}"
+                                />                            
                             <ad:Resizer x:Name="PART_LeftAnchor" Cursor="SizeWE" VerticalAlignment="Stretch" Width="4" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"/>
                             <ad:Resizer x:Name="PART_RightAnchor" Cursor="SizeWE" VerticalAlignment="Stretch" Width="4" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
                             <ad:Resizer x:Name="PART_TopAnchor" Cursor="SizeNS" HorizontalAlignment="Stretch" Height="4" Grid.Row="0" Grid.Column="1"/>
@@ -895,32 +893,6 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!--<DataTrigger 
-                            Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=HostedPane.ContainsActiveDocument}" 
-                            Value="True">
-                            <Setter Property="Background" 
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackgroundSelected}}}" 
-                                    TargetName="PART_MoveAnchor"/>
-                            <Setter Property="BorderBrush" 
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorderSelected}}}" 
-                                    TargetName="intContentBorder"/>
-                            <Setter Property="Foreground" 
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForegroundSelected}}}" 
-                                    TargetName="intTitle"/>
-                        </DataTrigger>
-                        <DataTrigger 
-                            Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=HostedPane.ContainsActiveContent}" 
-                            Value="True">
-                            <Setter Property="Background" 
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackgroundSelectedActivated}}}" 
-                                    TargetName="PART_MoveAnchor"/>
-                            <Setter Property="BorderBrush" 
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorderSelectedActivated}}}" 
-                                    TargetName="intContentBorder"/>
-                            <Setter Property="Foreground" 
-                                    Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForegroundSelectedActivated}}}" 
-                                    TargetName="intTitle"/>
-                        </DataTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

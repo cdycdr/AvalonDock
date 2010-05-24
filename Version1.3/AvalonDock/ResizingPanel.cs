@@ -512,7 +512,7 @@ namespace AvalonDock
 
         private void NormalizeStarLength(IEnumerable<FrameworkElement> visibleChildren)
         {
-            var childrenWithStarLength = visibleChildren.Where(c => c.IsStar());
+            var childrenWithStarLength = visibleChildren.Where(c => c is IDockableControl && c.IsStar());
             int childrenWithStartLengthCount = childrenWithStarLength.Count();
 
             if (childrenWithStartLengthCount == 0)

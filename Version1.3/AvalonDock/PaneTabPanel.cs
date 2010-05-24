@@ -36,6 +36,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Linq;
+using System.Windows.Markup;
 
 namespace AvalonDock
 {
@@ -47,17 +48,25 @@ namespace AvalonDock
         //    //This style is defined in themes\generic.xaml
         //    DefaultStyleKeyProperty.OverrideMetadata(typeof(PaneTabPanel), new FrameworkPropertyMetadata(typeof(PaneTabPanel)));
         //}
-        
+
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
         {
             base.OnVisualChildrenChanged(visualAdded, visualRemoved);
-            
+
             ManagedContent mc = visualAdded as ManagedContent;
             if (mc != null)
             {
                 mc.Style = TabItemStyle;
+                mc.ApplyTemplate();
             }
 
+        }
+
+        
+
+        internal PaneTabPanel()
+        { 
+            
         }
 
         #region TabItemStyle
@@ -93,11 +102,19 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnTabItemStyleChanged(DependencyPropertyChangedEventArgs e)
         {
-            Children.Cast<ManagedContent>().ForEach(c => c.Style = TabItemStyle);
+            //Children.Cast<ManagedContent>().ForEach(c =>
+            //    {
+            //        Binding bnd = new Binding("TabItemStyle");
+            //        bnd.Source = this;
+            //        bnd.Mode = BindingMode.OneWay;
+
+            //        c.SetBinding(StyleProperty, bnd);
+
+            //        //c.Style = TabItemStyle;
+            //    });
         }
 
+
         #endregion
-
-
     }
 }

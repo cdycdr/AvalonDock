@@ -10,6 +10,7 @@
 	<!--ManagedContent-->
     <Style x:Key="{x:Type ad:ManagedContent}" TargetType="{x:Type ad:ManagedContent}">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="FocusManager.IsFocusScope" Value="True"/>
 		<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ad:ManagedContent}">
@@ -17,11 +18,11 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter
+                        <!--<ContentPresenter
 							x:Name="PART_ContentPresenter"
                             Margin="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                            />
+                            />-->
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

@@ -808,6 +808,8 @@ namespace AvalonDock
 
         internal void ClearEmptyPanes()
         {
+            if (RestoringLayout)
+                return;
 
             while (true)
             {
@@ -871,6 +873,9 @@ namespace AvalonDock
         /// </summary>
         void EnsureContentNotEmpty()
         {
+            if (RestoringLayout)
+                return;
+
             if (Content == null)
             {
                 Content = new DocumentPane();
@@ -1084,6 +1089,38 @@ namespace AvalonDock
             }
         }
 
+        
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            bool isCtrlDown = Keyboard.GetKeyStates(Key.LeftCtrl) == KeyStates.Down;
+            bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
+
+            if (e.Key == Key.Tab && isCtrlDown)
+            {
+                if (!_navigatorWindowIsVisible)
+                {
+                    ShowNavigatorWindow();
+                }
+
+                navigatorWindow.MoveNextSelectedContent();
+                e.Handled = true;
+            }
+            else
+                HideNavigatorWindow();
+            
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            bool isCtrlDown = Keyboard.GetKeyStates(Key.LeftCtrl) == KeyStates.Down;
+            bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
+
+            if (e.Key != Key.Tab || !isCtrlDown)
+                HideNavigatorWindow();
+
+            base.OnKeyUp(e);
+        }
 
         //void OnExecuteCommand(object sender, ExecutedRoutedEventArgs e)
         //{
@@ -1177,6 +1214,9 @@ namespace AvalonDock
         {
             //ensure that content property is not empty
             EnsureContentNotEmpty();
+
+            if (Content == null)
+                return;
 
             //remove the pane from its original children collection
             FrameworkElement parentElement = paneToAnchor.Parent as FrameworkElement;
@@ -1586,6 +1626,14 @@ namespace AvalonDock
                         relativePaneContainer.InsertChildRelativeTo(paneToAnchor,
                             relativePane, true);
                     }
+
+                    if (relativePaneContainer.Orientation == Orientation.Horizontal)
+                    {
+                        Size desideredSize = ResizingPanel.GetEffectiveSize(paneToAnchor);
+                        double approxStarForNewPane = desideredSize.Width / relativePaneContainer.ActualWidth;
+                        approxStarForNewPane = Math.Min(approxStarForNewPane, 1.0);
+                        paneToAnchor.SetValue(ResizingPanel.ResizeWidthProperty, new GridLength(approxStarForNewPane, GridUnitType.Star));
+                    }
                 }
 
                 relativePaneContainer.InvalidateMeasure();
@@ -1842,6 +1890,9 @@ namespace AvalonDock
 
         void CheckValidPanesFromTabGroups()
         {
+            if (RestoringLayout)
+                return;
+
             foreach (var anchorTabPanel in _anchorTabPanels)
             {
                 foreach (var group in anchorTabPanel.Children.Cast<DockablePaneAnchorTabGroup>().ToArray())
@@ -3758,6 +3809,11 @@ namespace AvalonDock
         }
 
         /// <summary>
+        /// True while is restoring a layout
+        /// </summary>
+        protected bool RestoringLayout { get; private set; }
+
+        /// <summary>
         /// Internal main restore layout method
         /// </summary>
         /// <param name="doc">Document Xml from which restore layout</param>
@@ -3790,6 +3846,7 @@ namespace AvalonDock
             HideNavigatorWindow();
             //HideDocumentNavigatorWindow();
 
+            RestoringLayout = true;
 
             //show all auto hidden panes
             var panesAutoHidden = DockableContents.Where(c => c.State == DockableContentState.AutoHide).Select(c => c.ContainerPane).Distinct();
@@ -3799,6 +3856,7 @@ namespace AvalonDock
             DockableContent[] actualContents = DockableContents.ToArray();
             DocumentContent[] actualDocuments = Documents.ToArray();
 
+
             //first detach all my actual contents
             this.Content = null;
             this.ActiveContent = null;
@@ -3807,7 +3865,6 @@ namespace AvalonDock
             //restore main panel
             XmlElement rootElement = doc.DocumentElement.ChildNodes[0] as XmlElement;
             DocumentPane mainDocumentPane = null;
-            this.Content = null;
             this.Content = RestoreLayout(rootElement, actualContents, actualDocuments, ref mainDocumentPane);
             MainDocumentPane = mainDocumentPane;
             
@@ -3888,8 +3945,12 @@ namespace AvalonDock
                 }
             }
 
+            RestoringLayout = false;
+
             ClearEmptyPanels(Content as ResizingPanel);
 
+            //get documents that are not present in last layout and must be included
+            //in the new one
             var documentsNotTransferred = actualDocuments.Where(d => d.ContainerPane.GetManager() != this).ToArray();
 
             Debug.Assert(MainDocumentPane != null && MainDocumentPane.GetManager() == this);

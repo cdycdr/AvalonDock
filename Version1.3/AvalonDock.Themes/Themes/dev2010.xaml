@@ -156,6 +156,8 @@
     <SolidColorBrush 
         x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:AvalonDockBrushes.DockablePaneTitleForegroundSelected}}" 
         Color="Black"/>
+    
+    
 
     <!--Brushes for document headers-->
     <!--DocumentHeaderBackground-->
@@ -536,7 +538,7 @@
                                     TargetName="tabItemIntBorder" 
                                     Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackgroundSelectedActivated}}}"
                                     />
-                            <Setter Property="Foreground" TargetName="tabItemTitle" 
+                            <Setter Property="TextBlock.Foreground" TargetName="tabItemTitle"
                                     Value="{StaticResource ResourceKey=DarkForegroundBrush}"/>  
                         </MultiTrigger>
 
@@ -550,7 +552,7 @@
                                     TargetName="tabItemIntBorder" 
                                     Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackgroundSelected}}}"
                                     />
-                            <Setter Property="Foreground" TargetName="tabItemTitle" 
+                            <Setter Property="TextBlock.Foreground" TargetName="tabItemTitle" 
                                     Value="{StaticResource ResourceKey=DarkForegroundBrush}"/>
                         </MultiTrigger>
                         
@@ -1237,6 +1239,11 @@
         </Setter>       
     </Style>
 
+    <!--DocumentFloatingWindowExtBorderSelectedBrush-->
+    <SolidColorBrush 
+        x:Key="DocumentFloatingWindowExtBorderSelectedBrush" 
+        Color="#C0A776"/>
+    
     <!--DocumentFloatingWindow-->
     <Style x:Key="{x:Type ad:DocumentFloatingWindow}" TargetType="{x:Type ad:DocumentFloatingWindow}">
         <Setter Property="ResizeMode" Value="NoResize" />
@@ -1247,7 +1254,7 @@
                 <ControlTemplate TargetType="{x:Type ad:DocumentFloatingWindow}">
                     <Border x:Name="ExtBorder"
                             BorderThickness="1"
-                            BorderBrush="#C0A776">
+                            BorderBrush="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorder}}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5"/>
@@ -1287,7 +1294,8 @@
                             <ContentPresenter 
                                 Grid.Row="2" Grid.RowSpan="2"
                                 Grid.Column="0" Grid.ColumnSpan="3"
-                                Margin="4,0,4,1"
+                                Margin="4"
+                                Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HostedPane.SelectedItem.Content}"
                                 />                            
                             <Border  
                                 x:Name="intContentBorder"
@@ -1323,9 +1331,12 @@
                             <Setter Property="BorderBrush" 
                                     Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorderSelected}}}" 
                                     TargetName="intContentBorder"/>
-                            <Setter Property="Foreground" 
+                            <Setter Property="TextBlock.Foreground" 
                                     Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForegroundSelected}}}" 
                                     TargetName="intTitle"/>
+                            <Setter Property="BorderBrush" 
+                                    Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorderSelected}}}" 
+                                    TargetName="ExtBorder"/>
                         </DataTrigger>
                         <DataTrigger 
                             Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=HostedPane.ContainsActiveContent}" 
@@ -1336,9 +1347,12 @@
                             <Setter Property="BorderBrush" 
                                     Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorderSelectedActivated}}}" 
                                     TargetName="intContentBorder"/>
-                            <Setter Property="Foreground" 
+                            <Setter Property="TextBlock.Foreground" 
                                     Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForegroundSelectedActivated}}}" 
                                     TargetName="intTitle"/>
+                            <Setter Property="BorderBrush" 
+                                    Value="{DynamicResource DocumentFloatingWindowExtBorderSelectedBrush}" 
+                                    TargetName="ExtBorder"/>                            
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -174,7 +174,10 @@ namespace AvalonDock
             if (dropSufrace != null)
                 _wnd.Close();
             else
+            {
+                _wnd.Visibility = Visibility.Visible;
                 _wnd.Activate();
+            }
 
             _wnd = null;
 

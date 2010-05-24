@@ -43,9 +43,9 @@ namespace AvalonDock
     
     public class NavigatorWindowItem
     {
-        private string _title;
+        private object _title;
 
-        public string Title
+        public object   Title
         {
             get
             {
@@ -141,26 +141,53 @@ namespace AvalonDock
         {
         }
 
-        void OnKeyUp(object sender, KeyEventArgs e)
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             if (e.Key != Key.Tab)
-                CloseThisWindow();//Hide();
+                Hide();
             else
             {
                 e.Handled = true;
                 MoveNextSelectedContent();
-            }
+            }   
+        
+            base.OnKeyDown(e);
         }
 
-        void OnKeyDown(object sender, KeyEventArgs e)
+
+
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
             if (e.Key != Key.Tab)
-                CloseThisWindow();//Hide();
+                Hide();
             else
             {
                 e.Handled = true;
-            }
+            }     
+       
+            base.OnPreviewKeyUp(e);
         }
+
+        //void OnKeyUp(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key != Key.Tab)
+        //        CloseThisWindow();//Hide();
+        //    else
+        //    {
+        //        e.Handled = true;
+        //        MoveNextSelectedContent();
+        //    }
+        //}
+
+        //void OnKeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key != Key.Tab)
+        //        CloseThisWindow();//Hide();
+        //    else
+        //    {
+        //        e.Handled = true;
+        //    }
+        //}
 
         DockingManager _manager;
         public NavigatorWindow(DockingManager manager)
@@ -236,12 +263,12 @@ namespace AvalonDock
         //    base.OnDeactivated(e);
         //}
 
-        void CloseThisWindow()
-        {
-            Window wndParent = this.Owner;
-            Close();
-            wndParent.Activate();
-        }
+        //void CloseThisWindow()
+        //{
+        //    Window wndParent = this.Owner;
+        //    Close();
+        //    wndParent.Activate();
+        //}
 
         List<NavigatorWindowDocumentItem> _documents = new List<NavigatorWindowDocumentItem>();
 
@@ -303,7 +330,7 @@ namespace AvalonDock
                     NotifyPropertyChanged("SelectedToolWindow");
 
                     SelectedContent = null;
-                    Close();// Hide();
+                    Hide();
                 }
             }
         }
@@ -328,13 +355,13 @@ namespace AvalonDock
             }
         }
 
-        bool _isClosing = false;
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            _isClosing = true;
+        //bool _isClosing = false;
+        //protected override void OnClosing(CancelEventArgs e)
+        //{
+        //    _isClosing = true;
 
-            base.OnClosing(e);
-        }
+        //    base.OnClosing(e);
+        //}
 
         protected override void OnClosed(EventArgs e)
         {

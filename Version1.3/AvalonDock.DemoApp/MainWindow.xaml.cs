@@ -180,8 +180,26 @@ namespace AvalonDock.DemoApp
 
         #endregion
 
+        private void DockManager_DocumentClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show("Close Document?", "AvalonDock", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
 
+        private void SaveToLayoutFile(object sender, RoutedEventArgs e)
+        {
+            string fn = ((MenuItem)sender).Header.ToString() + ".xml";
+            DockManager.SaveLayout(fn);
+        }
 
+        private void RestoreFromLayoutFile(object sender, RoutedEventArgs e)
+        {
+            string fn = ((MenuItem)sender).Header.ToString() + ".xml";
+            if (File.Exists(fn))
+                DockManager.RestoreLayout(fn);
+        }
 
     }
 }

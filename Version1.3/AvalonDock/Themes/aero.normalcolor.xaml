@@ -447,12 +447,12 @@
 
 								<Border Grid.Column="0" Width="16" Height="16">
 									<Border.Background>
-										<VisualBrush Stretch="None" Visual="{Binding Path=ReferencedContent.Icon, RelativeSource={RelativeSource TemplatedParent}}"/>
+										<VisualBrush Stretch="None" Visual="{TemplateBinding Icon}"/>
 									</Border.Background>
 								</Border>
 								<TextBlock 
                                     Grid.Column="1"
-                                    Text="{Binding Path=ReferencedContent.Title, RelativeSource={RelativeSource TemplatedParent}}"  
+                                    Text="{TemplateBinding Title}"  
                                     Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"  
                                     Margin="4,2,2,2"/>
 							</Grid>

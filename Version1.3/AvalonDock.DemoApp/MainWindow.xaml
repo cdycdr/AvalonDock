@@ -46,6 +46,18 @@
                 <MenuItem Header="Create New" Click="OnCreateNewDocumentContent"/>
             </MenuItem>
             <MenuItem Header="Layout">
+                <MenuItem Header="Save To ->">
+                    <MenuItem Header="Layout1" Click="SaveToLayoutFile"/>
+                    <MenuItem Header="Layout2" Click="SaveToLayoutFile"/>
+                    <MenuItem Header="Layout3" Click="SaveToLayoutFile"/>
+                    <MenuItem Header="Layout4" Click="SaveToLayoutFile"/>
+                </MenuItem>
+                <MenuItem Header="Restore From ->">
+                    <MenuItem Header="Layout1" Click="RestoreFromLayoutFile"/>
+                    <MenuItem Header="Layout2" Click="RestoreFromLayoutFile"/>
+                    <MenuItem Header="Layout3" Click="RestoreFromLayoutFile"/>
+                    <MenuItem Header="Layout4" Click="RestoreFromLayoutFile"/>
+                </MenuItem>                
                 <MenuItem Header="Save to text" Click="ExportLayoutToDocument"/>
                 <MenuItem Header="Load from text" Click="ImportLayoutFromDocument"/>
                 <MenuItem Header="Reset Content" Click="ResetContent"/>
@@ -67,7 +79,7 @@
         
         <!--Docking Manager AvalonDock-->
         <ad:DockingManager x:Name="DockManager" Grid.Row="1" Margin="0,4,0,0" Loaded="DockManager_Loaded"
-                           ActiveContent="{Binding ElementName=Content1}" >
+                           ActiveContent="{Binding ElementName=Content1}" DocumentClosing="DockManager_DocumentClosing" >
             <ad:ResizingPanel Orientation="Horizontal">
                 <ad:ResizingPanel ad:ResizingPanel.ResizeWidth="100" Orientation="Vertical">
                     <ad:DockablePane>
@@ -81,7 +93,7 @@
                     </ad:DockablePane>
                 </ad:ResizingPanel>
                 <ad:DocumentPane x:Name="DocumentHost">
-                    <ad:DocumentContent Name ="Doc1" Title="Doc1" IsFloatingAllowed="True">
+                    <ad:DocumentContent Name ="Doc1" IsFloatingAllowed="False" IsLocked="True" Title="Doc1">
                         <TextBox AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto" AcceptsTab="True"/>
                     </ad:DocumentContent>
                     <ad:DocumentContent  Name ="Doc2" Title="Doc2">

@@ -187,7 +187,7 @@ namespace AvalonDock
         /// Title Read-Only Dependency Property
         /// </summary>
         private static readonly DependencyPropertyKey TitlePropertyKey
-            = DependencyProperty.RegisterReadOnly("Title", typeof(string), typeof(DockablePaneAnchorTab),
+            = DependencyProperty.RegisterReadOnly("Title", typeof(object), typeof(DockablePaneAnchorTab),
                 new FrameworkPropertyMetadata((string)null));
 
         public static readonly DependencyProperty TitleProperty
@@ -197,9 +197,9 @@ namespace AvalonDock
         /// Gets the Title property.  This dependency property 
         /// indicates title of the content that is hosted in autohidden pane.
         /// </summary>
-        public string Title
+        public object Title
         {
-            get { return (string)GetValue(TitleProperty); }
+            get { return (object)GetValue(TitleProperty); }
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace AvalonDock
         /// This dependency property indicates title of the content that is hosted in autohidden pane.
         /// </summary>
         /// <param name="value">The new value for the property.</param>
-        protected void SetTitle(string value)
+        protected void SetTitle(object value)
         {
             SetValue(TitlePropertyKey, value);
         }

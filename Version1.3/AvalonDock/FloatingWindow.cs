@@ -99,6 +99,51 @@ namespace AvalonDock
             get { return Content as Pane; }
         }
 
+        #region ContentTitle
+
+        /// <summary>
+        /// ContentTitle Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey ContentTitlePropertyKey
+            = DependencyProperty.RegisterReadOnly("ContentTitle", typeof(object), typeof(FloatingWindow),
+                new FrameworkPropertyMetadata((object)null));
+
+        public static readonly DependencyProperty ContentTitleProperty
+            = ContentTitlePropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the ContentTitle property.  This dependency property 
+        /// indicates title of the content currectly hosted in the floating window.
+        /// </summary>
+        public object ContentTitle
+        {
+            get { return (object)GetValue(ContentTitleProperty); }
+        }
+
+        /// <summary>
+        /// Provides a secure method for setting the ContentTitle property.  
+        /// This dependency property indicates title of the content currectly hosted in the floating window.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetContentTitle(object value)
+        {
+            SetValue(ContentTitlePropertyKey, value);
+        }
+
+
+        private void UpdateContentTitle()
+        {
+            if (HostedPane == null)
+                return;
+
+            var cnt = HostedPane.SelectedItem as ManagedContent;
+            if (cnt != null)
+                SetContentTitle(cnt.Title);
+        }
+        #endregion
+
+        
+
         //#region HostedPane
 
         ///// <summary>
@@ -164,7 +209,10 @@ namespace AvalonDock
                 _manager.RefreshContents();
             }
 
+            UpdateContentTitle();
         }
+
+
 
         internal virtual void OnEndDrag()
         {
@@ -365,7 +413,6 @@ namespace AvalonDock
         }
 
         protected bool ForcedClosing { get; private set; }
-
 
         internal bool IsClosing { get; private set; }
 

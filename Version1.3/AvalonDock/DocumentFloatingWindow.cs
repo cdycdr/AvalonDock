@@ -161,6 +161,7 @@ namespace AvalonDock
                 paneToAnchor.Items.Add(
                     HostedPane.RemoveContent(0));
             }
+            paneToAnchor.ApplyTemplate();
 
             return paneToAnchor;
         }

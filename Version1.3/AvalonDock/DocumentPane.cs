@@ -251,7 +251,8 @@ namespace AvalonDock
             if (e.CanExecute)
             {
                 if (e.Command == DocumentPaneCommands.NewHorizontalTabGroup ||
-                    e.Command == DocumentPaneCommands.NewVerticalTabGroup)
+                    e.Command == DocumentPaneCommands.NewVerticalTabGroup ||
+                    e.Command == DocumentPaneCommands.CloseAllButThis)
                 {
                     if (this.Items.Count <= 1)
                         e.CanExecute = false;

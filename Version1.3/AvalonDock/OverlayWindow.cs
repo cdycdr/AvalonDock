@@ -154,6 +154,33 @@ namespace AvalonDock
 
         internal bool OnDrop(OverlayWindowDockingButton owdDock, Point point)
         {
+            //calculate desidered size
+            Rect rectPane;
+
+            switch (OverlayButtonHover)
+            {
+                case AvalonDock.OverlayButtonHover.DropBorderBottom:
+                case AvalonDock.OverlayButtonHover.DropBorderLeft:
+                case AvalonDock.OverlayButtonHover.DropBorderTop:
+                case AvalonDock.OverlayButtonHover.DropBorderRight:
+                    rectPane = (_manager as IDropSurface).SurfaceRectangle;
+                    break;
+                default:
+                    rectPane = (CurrentDropPane as IDropSurface).SurfaceRectangle;
+                    break;
+            }
+
+            var desideredWidth = Math.Min(
+                rectPane.Width / 2.0,
+                ResizingPanel.GetEffectiveSize(_manager.DragPaneServices.FloatingWindow.HostedPane).Width);
+            var desideredHeight = Math.Min(
+                rectPane.Height / 2.0,
+                ResizingPanel.GetEffectiveSize(_manager.DragPaneServices.FloatingWindow.HostedPane).Height);
+
+            var desideredSize = new Size(
+                desideredWidth,
+                desideredHeight);
+
             //user has dropped the floating window over a anchor button 
             //create a new dockable pane to insert in the main layout
             //FIX: clone pane and return true only if overlayButtonOver is not set to None!!
@@ -187,22 +214,22 @@ namespace AvalonDock
                     break;
                 case AvalonDock.OverlayButtonHover.DropPaneBottom:
                     _manager.Anchor(
-                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(),
                         CurrentDropPane, AnchorStyle.Bottom);
                     break;
                 case AvalonDock.OverlayButtonHover.DropPaneTop:
                     _manager.Anchor(
-                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(),
                         CurrentDropPane, AnchorStyle.Top);
                     break;
                 case AvalonDock.OverlayButtonHover.DropPaneLeft:
                     _manager.Anchor(
-                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(),
                         CurrentDropPane, AnchorStyle.Left);
                     break;
                 case AvalonDock.OverlayButtonHover.DropPaneRight:
                     _manager.Anchor(
-                        _manager.DragPaneServices.FloatingWindow.ClonePane(), 
+                        _manager.DragPaneServices.FloatingWindow.ClonePane(),
                         CurrentDropPane, AnchorStyle.Right);
                     break;
                 case AvalonDock.OverlayButtonHover.DropPaneInto:
