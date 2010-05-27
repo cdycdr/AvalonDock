@@ -73,16 +73,24 @@
                 
                 <Separator/>
                 <MenuItem Header="Default" Click="SetDefaultTheme"/>
-            </MenuItem>        </Menu>
+                <Separator/>
+                <MenuItem Header="Colors">
+                    <MenuItem Header="Green" Click="ChangeColor"/>
+                    <MenuItem Header="Orange" Click="ChangeColor"/>
+                    <MenuItem Header="Gray" Click="ChangeColor"/>
+                    <MenuItem Header="Yellow" Click="ChangeColor"/>
+                </MenuItem>
+            </MenuItem>        
+        </Menu>
         
         <GridSplitter Grid.Row="1" ShowsPreview="True" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="4"/>
         
         <!--Docking Manager AvalonDock-->
         <ad:DockingManager x:Name="DockManager" Grid.Row="1" Margin="0,4,0,0" Loaded="DockManager_Loaded"
-                           ActiveContent="{Binding ElementName=Content1}" DocumentClosing="DockManager_DocumentClosing" >
+                     ActiveContent="{Binding ElementName=Content1}" DocumentClosing="DockManager_DocumentClosing" >
             <ad:ResizingPanel Orientation="Horizontal">
                 <ad:ResizingPanel ad:ResizingPanel.ResizeWidth="100" Orientation="Vertical">
-                    <ad:DockablePane>
+                    <ad:DockablePane >
                         <local:SampleDockableContent x:Name="Content1" Title="Content1" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content2" Title="Content2" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content3" Title="Content3" Icon="Images\database.png"/>
@@ -93,7 +101,7 @@
                     </ad:DockablePane>
                 </ad:ResizingPanel>
                 <ad:DocumentPane x:Name="DocumentHost">
-                    <ad:DocumentContent Name ="Doc1" IsFloatingAllowed="False" IsLocked="True" Title="Doc1">
+                    <ad:DocumentContent Name ="Doc1" IsFloatingAllowed="False" IsLocked="True" Title="Doc1" Icon="Images\file-manager.png">
                         <TextBox AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto" AcceptsTab="True"/>
                     </ad:DocumentContent>
                     <ad:DocumentContent  Name ="Doc2" Title="Doc2">

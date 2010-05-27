@@ -349,7 +349,7 @@ namespace AvalonDock
             ContextMenu cxMenuDocuments = (ContextMenu)TryFindResource("DocumentsListMenu");
             if (cxMenuDocuments != null)
             {
-                cxMenuDocuments.ItemsSource = Items;
+                cxMenuDocuments.ItemsSource = Items.OfType<ManagedContent>().OrderBy(c => c.Title);
                 //cxMenuDocuments.CommandBindings.Add(new CommandBinding(ActivateDocumentCommand, new ExecutedRoutedEventHandler(this.ExecutedActivateDocumentCommand), new CanExecuteRoutedEventHandler(CanExecuteActivateDocumentCommand)));
 
                 if (_optionsContextMenuPlacementTarget != null)
@@ -487,6 +487,9 @@ namespace AvalonDock
                         ((DockableContent)newItem).DockableStyle |= DockableStyle.Document;
                     }
 
+                    var dockContent = newItem as DockableContent;
+                    if (dockContent != null)
+                        dockContent.SetStateToDocument();
                 }
             }
 

@@ -37,15 +37,19 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Linq;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace AvalonDock
 {
-    
+    /// <summary>
+    /// Represent an navigator item within lists of contents that user can choose from the <see cref="NavigatorWindow"/>
+    /// </summary>
     public class NavigatorWindowItem
     {
-        private object _title;
+        private string _title;
 
-        public object   Title
+        public string Title
         {
             get
             {
@@ -77,7 +81,10 @@ namespace AvalonDock
 			_content = content;
 		}
     }
-    
+
+    /// <summary>
+    /// Specialized class of <see cref="NavigatorWindowItem"/> for <see cref="DocumentContent"/> objects
+    /// </summary>
     public class NavigatorWindowDocumentItem : NavigatorWindowItem
     {
         private string _infoTip;
@@ -122,12 +129,17 @@ namespace AvalonDock
 
     }
 
-    public class NavigatorWindow : AvalonDockWindow, INotifyPropertyChanged
+    /// <summary>
+    /// Window that is automatically shown when user press Ctrl+Tab combination
+    /// </summary>
+    /// <remarks>This window allow user to rapidly select a <see cref="DockableContent"/> object or a <see cref="DocumentContent"/> object.
+    /// When selected a content is also activate with the function <see cref="ManagedContent.Activate"/></remarks>
+    public class NavigatorWindow : AvalonDockWindow
     {
+        #region Constructors
         static NavigatorWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NavigatorWindow), new FrameworkPropertyMetadata(typeof(NavigatorWindow)));
-
 
             AllowsTransparencyProperty.OverrideMetadata(typeof(NavigatorWindow), new FrameworkPropertyMetadata(true));
             WindowStyleProperty.OverrideMetadata(typeof(NavigatorWindow), new FrameworkPropertyMetadata(WindowStyle.None));
@@ -135,68 +147,13 @@ namespace AvalonDock
             BackgroundProperty.OverrideMetadata(typeof(NavigatorWindow), new FrameworkPropertyMetadata(Brushes.Transparent));
         }
 
-        public static object Theme;
-
-        internal NavigatorWindow()
-        {
-        }
-
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            if (e.Key != Key.Tab)
-                Hide();
-            else
-            {
-                e.Handled = true;
-                MoveNextSelectedContent();
-            }   
-        
-            base.OnKeyDown(e);
-        }
-
-
-
-        protected override void OnPreviewKeyUp(KeyEventArgs e)
-        {
-            if (e.Key != Key.Tab)
-                Hide();
-            else
-            {
-                e.Handled = true;
-            }     
-       
-            base.OnPreviewKeyUp(e);
-        }
-
-        //void OnKeyUp(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key != Key.Tab)
-        //        CloseThisWindow();//Hide();
-        //    else
-        //    {
-        //        e.Handled = true;
-        //        MoveNextSelectedContent();
-        //    }
-        //}
-
-        //void OnKeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key != Key.Tab)
-        //        CloseThisWindow();//Hide();
-        //    else
-        //    {
-        //        e.Handled = true;
-        //    }
-        //}
-
         DockingManager _manager;
-        public NavigatorWindow(DockingManager manager)
+        internal NavigatorWindow(DockingManager manager)
         {
-            _manager = manager;
-            //Keyboard.AddKeyUpHandler(this, new KeyEventHandler(this.OnKeyUp));
-            //Keyboard.AddKeyDownHandler(this, new KeyEventHandler(this.OnKeyDown));
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
 
-            //List<DocumentContent> listOfDocuments = _manager.FindContents<DocumentContent>();
+            _manager = manager;
+
             List<NavigatorWindowDocumentItem> docs = new List<NavigatorWindowDocumentItem>();
             _manager.Documents.ForEach((DocumentContent doc) =>
             {
@@ -211,176 +168,170 @@ namespace AvalonDock
                 return (item1.LastActivation < item2.LastActivation) ? 1 : -1;
             });
 
-            Documents = docs;
+            SetDocuments(new CollectionView(docs));
 
-            //List<DockableContent> listOfContents = _manager.FindContents<DockableContent>();
             List<NavigatorWindowItem> cnts = new List<NavigatorWindowItem>();
             _manager.DockableContents.Where(c => c.State != DockableContentState.Hidden).ForEach((DockableContent cnt) =>
             {
                 cnts.Add(new NavigatorWindowItem(cnt));
             });
 
-            DockableContents = cnts;
+            SetDockableContents(new CollectionView(cnts));
 
-
-            SelectedContent = Documents.Find((NavigatorWindowDocumentItem docItem) =>
+            Documents.MoveCurrentTo(Documents.OfType<NavigatorWindowDocumentItem>().FirstOrDefault(cntItem =>
             {
-                return docItem.ItemContent == _manager.ActiveDocument;
-            });
+                return cntItem.ItemContent == _manager.ActiveDocument;
+            }));
 
-            SelectedToolWindow = null;
+            DockableContents.MoveCurrentTo(null);
+
+            Loaded += new RoutedEventHandler(NavigatorWindow_Loaded);
         }
-       
+        
+        #endregion
 
-        //protected override void OnActivated(EventArgs e)
-        //{
-        //    base.OnActivated(e);
-        //}
-
-        //protected override void OnDeactivated(EventArgs e)
-        //{
-        //    if (_manager != null)
-        //    {
-        //        Window mainWindow = Window.GetWindow(_manager);
-        //        if (mainWindow != null)
-        //        {
-        //            if (SelectedContent != null)
-        //            {
-        //                _manager.Show(SelectedContent.ItemContent as DocumentContent);
-        //                SelectedContent.ItemContent.Activate();
-        //            }
-        //            else if (SelectedToolWindow != null)
-        //            {
-        //                _manager.Show(SelectedToolWindow.ItemContent as DockableContent);
-        //                SelectedToolWindow.ItemContent.Activate();
-        //            }
-        //        }
-        //    }
-            
-        //    if (!_isClosing)
-        //        CloseThisWindow();//Hide();
-
-        //    base.OnDeactivated(e);
-        //}
-
-        //void CloseThisWindow()
-        //{
-        //    Window wndParent = this.Owner;
-        //    Close();
-        //    wndParent.Activate();
-        //}
-
-        List<NavigatorWindowDocumentItem> _documents = new List<NavigatorWindowDocumentItem>();
-
-        public List<NavigatorWindowDocumentItem> Documents
+        #region Handlers for Tab+ctrl keys events
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            get { return _documents; }
-            private 
-            set 
-            { 
-                _documents = value; 
-                NotifyPropertyChanged("Documents");
+            if (e.Key != Key.Tab)
+                Hide();
+            else
+            {
+                e.Handled = true;
+                MoveNextSelectedContent();
             }
+
+            base.OnKeyDown(e);
         }
 
-        List<NavigatorWindowItem> _tools = new List<NavigatorWindowItem>();
-
-        public List<NavigatorWindowItem> DockableContents
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
-            get { return _tools; }
-            private set 
-            { 
-                _tools = value; 
-                NotifyPropertyChanged("DockableContents"); 
+            if (e.Key != Key.Tab)
+            {
+                var docSelected = (Documents.CurrentItem as NavigatorWindowDocumentItem).ItemContent as DocumentContent;
+                docSelected.Activate();
+                Hide();
             }
+            else
+            {
+                e.Handled = true;
+            }
+
+            base.OnPreviewKeyUp(e);
+        }
+        
+        #endregion
+
+        #region Current Document/Content changed
+        void NavigatorWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Documents.CurrentChanged += new EventHandler(Documents_CurrentChanged);
+            DockableContents.CurrentChanged += new EventHandler(DockableContents_CurrentChanged);
         }
 
-        NavigatorWindowDocumentItem _selectedContent;
 
-        public NavigatorWindowDocumentItem SelectedContent
+        void DockableContents_CurrentChanged(object sender, EventArgs e)
         {
-            get 
-            {
-                return _selectedContent; 
-            }
-            set
-            {
-                if (_selectedContent != value)
-                {
-                     _selectedContent = value;
-                    NotifyPropertyChanged("SelectedContent");
-                }
-            }
-        }
-
-        NavigatorWindowItem _toolContent;
-
-        public NavigatorWindowItem SelectedToolWindow
-        {
-            get
-            {
-                return _toolContent;
-            }
-            set
-            {
-                if (_toolContent != value)
-                {
-                    _toolContent = value;
-
-                    NotifyPropertyChanged("SelectedToolWindow");
-
-                    SelectedContent = null;
-                    Hide();
-                }
-            }
-        }
-
-        public void MoveNextSelectedContent()
-        {
-            if (_selectedContent == null)
+            if (DockableContents.CurrentItem == null)
                 return;
 
-            if (Documents.Contains(SelectedContent))
-            {
-                int indexOfSelecteContent = Documents.IndexOf(_selectedContent);
-
-                if (indexOfSelecteContent == Documents.Count - 1)
-                {
-                    indexOfSelecteContent = 0;
-                }
-                else
-                    indexOfSelecteContent++;
-
-                SelectedContent = Documents[indexOfSelecteContent];
-            }
+            Debug.WriteLine(string.Format("DockContent current changed to {0}", (DockableContents.CurrentItem as NavigatorWindowItem).ItemContent.Title));
+            var dockCntSelected = (DockableContents.CurrentItem as NavigatorWindowItem).ItemContent as DockableContent;
+            Hide();
+            dockCntSelected.Activate();
         }
 
-        //bool _isClosing = false;
-        //protected override void OnClosing(CancelEventArgs e)
-        //{
-        //    _isClosing = true;
-
-        //    base.OnClosing(e);
-        //}
-
-        protected override void OnClosed(EventArgs e)
+        void Documents_CurrentChanged(object sender, EventArgs e)
         {
-            //reset documents list to avoid WPF Bug:
-            //http://social.msdn.microsoft.com/forums/en/wpf/thread/f3fc5b7e-e035-4821-908c-b6c07e5c7042/
-            //http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=321955
-            Documents = new List<NavigatorWindowDocumentItem>();
+            if (Documents.CurrentItem == null)
+                return;
+            if (_intMoveFlag)
+                return;
 
-            base.OnClosed(e);
+            Debug.WriteLine(string.Format("Document current changed to {0}", (Documents.CurrentItem as NavigatorWindowItem).ItemContent.Title));
+
+            var docSelected = (Documents.CurrentItem as NavigatorWindowDocumentItem).ItemContent as DocumentContent;
+            docSelected.Activate();
+            Hide();
+        } 
+        #endregion
+
+        #region Documents
+
+        /// <summary>
+        /// Documents Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey DocumentsPropertyKey
+            = DependencyProperty.RegisterReadOnly("Documents", typeof(CollectionView), typeof(NavigatorWindow),
+                new FrameworkPropertyMetadata(null));
+
+        public static readonly DependencyProperty DocumentsProperty
+            = DocumentsPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the Documents property.  This dependency property 
+        /// indicates documents currently hosted by parent <see cref="DockingManager"/>.
+        /// </summary>
+        public CollectionView Documents
+        {
+            get { return (CollectionView)GetValue(DocumentsProperty); }
         }
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        void NotifyPropertyChanged(string propertyName)
+        /// <summary>
+        /// Provides a secure method for setting the Documents property.  
+        /// This dependency property indicates documents currently hosted by parent <see cref="DockingManager"/>.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetDocuments(CollectionView value)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            SetValue(DocumentsPropertyKey, value);
+        }
+
+        #endregion
+
+        #region DockableContents
+
+        /// <summary>
+        /// DockableContents Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey DockableContentsPropertyKey
+            = DependencyProperty.RegisterReadOnly("DockableContents", typeof(CollectionView), typeof(NavigatorWindow),
+                new FrameworkPropertyMetadata((CollectionView)null));
+
+        public static readonly DependencyProperty DockableContentsProperty
+            = DockableContentsPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the DockableContents property.  This dependency property 
+        /// indicates dockable contents hosted in parent <see cref="DockingManager"/> object.
+        /// </summary>
+        public CollectionView DockableContents
+        {
+            get { return (CollectionView)GetValue(DockableContentsProperty); }
+        }
+
+        /// <summary>
+        /// Provides a secure method for setting the DockableContents property.  
+        /// This dependency property indicates dockable contents hosted in parent <see cref="DockingManager"/> object.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetDockableContents(CollectionView value)
+        {
+            SetValue(DockableContentsPropertyKey, value);
+        }
+
+        #endregion
+
+        #region Move to Next document
+        bool _intMoveFlag = false;
+        public void MoveNextSelectedContent()
+        {
+            _intMoveFlag = true;
+            if (!Documents.MoveCurrentToNext())
+                Documents.MoveCurrentToFirst();
+            if (Documents.IsCurrentAfterLast)
+                Documents.MoveCurrentToFirst();
+            _intMoveFlag = false;
         }
         #endregion
     }

@@ -228,6 +228,9 @@
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
+                            <!--This image with width=0 is required to connect the icon visual to the presentation source,
+                                without this navigatorwindow won't work-->
+                            <Image Source="{TemplateBinding Icon}" Width="0"/>                            
                             <Path Data="M 20,0.5 Q 16,0.5 10,10 Q 5,19.5 0,19.5 L 20,19.5"
                                 x:Name="tabItemIntPathBackground"  
                                   Fill="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackground}}}"/>
@@ -293,41 +296,6 @@
                         <Trigger Property="IsLocked" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_LockedIcon"/>
                         </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--DocumentPane MenuItem Style-->
-    <Style x:Key="DocumentPaneMenuItemStyle" TargetType="{x:Type MenuItem}">
-        <Setter Property="CommandTarget" Value="{Binding}"/>
-        <Setter Property="Command" Value="{x:Static ad:ManagedContentCommands.Activate}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="MenuItem">
-                    <Border x:Name="intBorder" BorderThickness="1" Background="{TemplateBinding Background}" CornerRadius="2">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" MinWidth="24"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <ContentPresenter x:Name="Icon" Margin="2" Content="{Binding Path=Icon}" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="intMenuTitle" Margin="5,2,20,2" Text="{Binding Path=Title}" Grid.Column="1" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="intBorder">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" Opacity="0.3"/>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="BorderBrush" TargetName="intBorder" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
-                        </Trigger>
-                        <DataTrigger Binding="{Binding Path=IsActiveDocument}" Value="True">
-                            <Setter Property="FontWeight" Value="Bold" TargetName="intMenuTitle"/>
-                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -448,12 +416,14 @@
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
 
-								<Border Grid.Column="0" Width="18" Height="18">
+								<!--<Border Grid.Column="0" Width="18" Height="18">
 									<Border.Background>
-										<VisualBrush Stretch="None" Visual="{TemplateBinding Icon}"/>
+                                        <VisualBrush Stretch="None" Visual="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}}"/>
 									</Border.Background>
-								</Border>
-								<TextBlock 
+								</Border>-->
+                                <Image x:Name="borderIcon" Width="16" Source="{Binding Icon}" UseLayoutRounding="True"/>
+
+                                <TextBlock 
                                     Grid.Column="1"
                                     Text="{TemplateBinding Title}"  
                                     Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" 

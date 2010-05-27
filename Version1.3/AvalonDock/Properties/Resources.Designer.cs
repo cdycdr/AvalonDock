@@ -97,6 +97,15 @@ namespace AvalonDock.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Window Position.
+        /// </summary>
+        public static string DockablePane_ShowOptionsMenu {
+            get {
+                return ResourceManager.GetString("DockablePane_ShowOptionsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string DockablePaneCommands_Close {
@@ -135,9 +144,9 @@ namespace AvalonDock.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Dock as Tabbed Document.
         /// </summary>
-        public static string DocumentContentCommands_TabbeDocument {
+        public static string DocumentContentCommands_TabbedDocument {
             get {
-                return ResourceManager.GetString("DocumentContentCommands_TabbeDocument", resourceCulture);
+                return ResourceManager.GetString("DocumentContentCommands_TabbedDocument", resourceCulture);
             }
         }
         
@@ -210,6 +219,24 @@ namespace AvalonDock.Properties {
         public static string ManagedContentCommands_Show {
             get {
                 return ResourceManager.GetString("ManagedContentCommands_Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Files.
+        /// </summary>
+        public static string NavigatorWindow_ActiveFiles {
+            get {
+                return ResourceManager.GetString("NavigatorWindow_ActiveFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Tool Windows.
+        /// </summary>
+        public static string NavigatorWindow_ActiveToolWindows {
+            get {
+                return ResourceManager.GetString("NavigatorWindow_ActiveToolWindows", resourceCulture);
             }
         }
         

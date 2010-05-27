@@ -9,25 +9,18 @@
     </ResourceDictionary.MergedDictionaries>
 
     <ContextMenu x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:ContextMenuElement.DocumentPane}}">
-        <MenuItem 
-                  Command="ad:DocumentPaneCommands.CloseThis"  />
-        <MenuItem 
-            Command="ad:DocumentPaneCommands.CloseAllButThis" />
+        <MenuItem Command="ad:DocumentPaneCommands.CloseThis"  />
+        <MenuItem Command="ad:DocumentPaneCommands.CloseAllButThis" />
         <Separator/>
-        <MenuItem 
-            Command="ad:DocumentPaneCommands.NewHorizontalTabGroup">
+        <MenuItem Command="ad:DocumentPaneCommands.NewHorizontalTabGroup">
             <MenuItem.Icon>
-                <ad:AlignedImage VerticalAlignment="Center"  HorizontalAlignment="Center">
-                    <Image Source="/AvalonDock;component/resources/Images/HTabGroup.png" Width="13" Height="14"/>
-                </ad:AlignedImage>
+                <Image Source="/AvalonDock;component/resources/Images/HTabGroup.png" Width="13" Height="14" UseLayoutRounding="True"/>
             </MenuItem.Icon>
         </MenuItem> 
         <MenuItem 
             Command="ad:DocumentPaneCommands.NewVerticalTabGroup">
             <MenuItem.Icon>
-                <ad:AlignedImage VerticalAlignment="Center"  HorizontalAlignment="Center">
-                    <Image Source="/AvalonDock;component/resources/Images/VTabGroup.png" Width="13" Height="14" />
-                </ad:AlignedImage>
+                <Image Source="/AvalonDock;component/resources/Images/VTabGroup.png" Width="13" UseLayoutRounding="True" />
             </MenuItem.Icon>
         </MenuItem>
     </ContextMenu>
@@ -53,6 +46,9 @@
                                 <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+                            <!--This image with width=0 is required to connect the icon visual to the presentation source,
+                                without this navigatorwindow won't work-->
+                            <Image Source="{TemplateBinding Icon}" Width="0"/>                            
                             <Path Data="M 20,0.5 Q 16,0.5 10,10 Q 5,19.5 0,19.5 L 20,19.5"
                                 x:Name="tabItemIntPathBackground"  
                                   Fill="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBackground}}}"/>
@@ -130,7 +126,16 @@
         </Setter>
     </Style>
 
-	<!--DocumentPane-->
+
+    <!--DocumentPane MenuItem Style-->
+    <Style x:Key="DocumentPaneMenuItemStyle" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.CommandTarget" Value="{Binding}"/>
+        <Setter Property="MenuItem.Command" Value="{x:Static ad:ManagedContentCommands.Activate}"/>
+        <Setter Property="MenuItem.Header" Value="{Binding Path=Title}"/>
+        <Setter Property="MenuItem.Icon" Value="{Binding Icon, Converter={x:Static ad:Converters.ObjectToImageConverter}}"/>
+    </Style>
+
+    <!--DocumentPane-->
     <Style x:Key="{x:Type ad:DocumentPane}" TargetType="{x:Type ad:DocumentPane}">
         <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DefaultBackgroundBrush}}}"/>
 		<Setter Property="Focusable" Value="False"/>
@@ -138,43 +143,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ad:DocumentPane}" >
                     <ControlTemplate.Resources>
-                        <ContextMenu x:Key="DocumentsListMenu" StaysOpen="True" >
-                            <ContextMenu.ItemContainerStyle>
-                                <Style TargetType="MenuItem">
-                                    <Setter Property="CommandTarget" Value="{Binding}"/>
-                                    <Setter Property="Command" Value="{x:Static ad:ManagedContentCommands.Activate}"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="MenuItem">
-                                                <Border x:Name="intBorder" BorderThickness="1" Background="{TemplateBinding Background}" CornerRadius="2">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" MinWidth="24"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <ContentPresenter x:Name="Icon" Margin="2" Content="{Binding Path=Icon}" Grid.Column="0" VerticalAlignment="Center"/>
-                                                        <TextBlock x:Name="intMenuTitle" Margin="5,2,20,2" Text="{Binding Path=Title}" Grid.Column="1" VerticalAlignment="Center"/>
-				                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="true">
-                                                        <Setter Property="Background" TargetName="intBorder">
-                                                            <Setter.Value>
-                                                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" Opacity="0.3"/>
-                                                            </Setter.Value>
-                                                        </Setter> 
-                                                        <Setter Property="BorderBrush" TargetName="intBorder" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
-                                                    </Trigger>
-                                                    <DataTrigger Binding="{Binding Path=IsActiveDocument}" Value="True">
-                                                        <Setter Property="FontWeight" Value="Bold" TargetName="intMenuTitle"/>
-                                                    </DataTrigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ContextMenu.ItemContainerStyle>
-                        </ContextMenu>
+                        <ContextMenu x:Key="DocumentsListMenu" StaysOpen="True" ItemContainerStyle="{StaticResource DocumentPaneMenuItemStyle}"/>
                     </ControlTemplate.Resources>
                     <Border 
                         Focusable="False"
@@ -207,14 +176,10 @@
                                     <Button DockPanel.Dock="Right" Width="18" Height="18" Style="{StaticResource PaneHeaderCommandStyle}" 
                                             Command="ad:ManagedContentCommands.Close" 
                                             CommandTarget="{TemplateBinding SelectedItem}">
-										<ad:AlignedImage>
-											<Image Source="Images\PinClose.png" Width="13" Height="13" Stretch="Uniform"/>
-										</ad:AlignedImage>
+										<Image Source="Images\PinClose.png" Width="13" UseLayoutRounding="True"/>
                                     </Button>
                                     <Button x:Name="PART_ShowContextMenuButton" DockPanel.Dock="Right" Width="18" Height="18" Style="{StaticResource PaneHeaderCommandStyle}">
-										<ad:AlignedImage>
-											<Image x:Name="ShowContextMenuIcon" Source="Images\PinMenu.png" Width="13" Height="13" Stretch="Uniform"/>
-										</ad:AlignedImage>
+										<Image x:Name="ShowContextMenuIcon" Source="Images\PinMenu.png" Width="13" UseLayoutRounding="True"/>
                                     </Button>
                                     <ad:DocumentTabPanel 
                                         x:Name="paneTabsPanel" 

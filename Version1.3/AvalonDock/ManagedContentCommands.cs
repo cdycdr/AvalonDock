@@ -52,7 +52,7 @@ namespace AvalonDock
                 {
                     if (null == closeCommand)
                     {
-                        closeCommand = new RoutedUICommand("C_lose", "Close", typeof(ManagedContentCommands));
+                        closeCommand = new RoutedUICommand(AvalonDock.Properties.Resources.ManagedContentCommands_Close, "Close", typeof(ManagedContentCommands));
                     }
                 }
                 return closeCommand;
@@ -72,7 +72,7 @@ namespace AvalonDock
                 {
                     if (null == hideCommand)
                     {
-                        hideCommand = new RoutedUICommand("_Hide", "Hide", typeof(ManagedContentCommands));
+                        hideCommand = new RoutedUICommand(AvalonDock.Properties.Resources.ManagedContentCommands_Hide, "Hide", typeof(ManagedContentCommands));
                     }
                 }
                 return hideCommand;
@@ -94,7 +94,7 @@ namespace AvalonDock
                 {
                     if (null == showCommand)
                     {
-                        showCommand = new RoutedUICommand("_Show", "Show", typeof(ManagedContentCommands));
+                        showCommand = new RoutedUICommand(AvalonDock.Properties.Resources.ManagedContentCommands_Show, "Show", typeof(ManagedContentCommands));
                     }
                 }
                 return showCommand;
@@ -116,7 +116,7 @@ namespace AvalonDock
                 {
                     if (null == activateCommand)
                     {
-                        activateCommand = new RoutedUICommand("_Activate", "Activate", typeof(ManagedContentCommands));
+                        activateCommand = new RoutedUICommand(AvalonDock.Properties.Resources.ManagedContentCommands_Activate, "Activate", typeof(ManagedContentCommands));
                     }
                 }
                 return activateCommand;

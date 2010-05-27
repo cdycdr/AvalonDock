@@ -138,10 +138,13 @@
   <data name="DockablePaneCommands_ToggleAutoHide" xml:space="preserve">
     <value>Auto Hide</value>
   </data>
+  <data name="DockablePane_ShowOptionsMenu" xml:space="preserve">
+    <value>Window Position</value>
+  </data>
   <data name="DocumentContentCommands_FloatingDocument" xml:space="preserve">
     <value>Float</value>
   </data>
-  <data name="DocumentContentCommands_TabbeDocument" xml:space="preserve">
+  <data name="DocumentContentCommands_TabbedDocument" xml:space="preserve">
     <value>Dock as Tabbed Document</value>
   </data>
   <data name="DocumentPaneCommands_CloseAllButThis" xml:space="preserve">
@@ -167,6 +170,12 @@
   </data>
   <data name="ManagedContentCommands_Show" xml:space="preserve">
     <value>Show</value>
+  </data>
+  <data name="NavigatorWindow_ActiveFiles" xml:space="preserve">
+    <value>Active Files</value>
+  </data>
+  <data name="NavigatorWindow_ActiveToolWindows" xml:space="preserve">
+    <value>Active Tool Windows</value>
   </data>
   <data name="PaneCommands_Dock" xml:space="preserve">
     <value>Dock</value>

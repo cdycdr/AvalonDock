@@ -51,7 +51,7 @@ namespace AvalonDock
                 {
                     if (null == closeCommand)
                     {
-                        closeCommand = new RoutedUICommand("C_lose", "Close", typeof(DockablePaneCommands));
+                        closeCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockablePaneCommands_Close, "Close", typeof(DockablePaneCommands));
                     }
                 }
                 return closeCommand;
@@ -71,7 +71,7 @@ namespace AvalonDock
                 {
                     if (null == hideCommand)
                     {
-                        hideCommand = new RoutedUICommand("_Hide", "Hide", typeof(DockablePaneCommands));
+                        hideCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockablePaneCommands_Hide, "Hide", typeof(DockablePaneCommands));
                     }
                 }
                 return hideCommand;
@@ -91,7 +91,7 @@ namespace AvalonDock
                 {
                     if (null == autoHideCommand)
                     {
-                        autoHideCommand = new RoutedUICommand("A_utohide", "AutoHide", typeof(DockablePaneCommands));
+                        autoHideCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockablePaneCommands_ToggleAutoHide, "AutoHide", typeof(DockablePaneCommands));
                     }
                 }
                 return autoHideCommand;

@@ -19,13 +19,15 @@
 							  BorderBrush="{StaticResource ManagedContentTabControlNormalBorderBrush}"
 							  Background="{StaticResource ManagedContentTabItemNormalBackground}">
                             <StackPanel Orientation="Horizontal">
-                                <ad:AlignedImage>
+                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" UseLayoutRounding="True"/>
+
+                                <!--<ad:AlignedImage>
 									<Border Width="16" Height="16">
 										<Border.Background>
 											<VisualBrush Stretch="None" Visual="{TemplateBinding Icon}"/>
 										</Border.Background>
 									</Border>
-                                </ad:AlignedImage>
+                                </ad:AlignedImage>-->
 								<TextBlock 
                                     Text="{TemplateBinding Title}"  
                                     Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" 

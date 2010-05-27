@@ -31,32 +31,33 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace AvalonDock
 {
-    public class FindResourcePathConverter : IValueConverter
-    {
+    //public class FindResourcePathConverter : IValueConverter
+    //{
+    //    #region IValueConverter Members
 
-        #region IValueConverter Members
+    //    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        if (value == null)
+    //        {
+    //            return null;
+    //            //return new Uri(@"DocumentHS.png", UriKind.Relative);
+    //        }
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value == null)
-            {
-                return null;
-                //return new Uri(@"DocumentHS.png", UriKind.Relative);
-            }
+    //        return value;
+    //    }
 
-            return value;
-        }
+    //    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-    }
+    //    #endregion
+    //}
 
     /// <summary>
     /// Converter from boolean values to visibility (inverse mode)
@@ -78,6 +79,59 @@ namespace AvalonDock
         }
     }
 
+    [ValueConversion(typeof(object), typeof(Image))]
+    public class ObjectToImageConverter : IValueConverter
+    {
+
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            double width = 16.0;
+            if (parameter != null &&
+                parameter is double)
+                width = (double)parameter;
+
+            if (value is string)
+            {
+                Uri iconUri;
+                // try to resolve given value as an absolute URI
+                if (Uri.TryCreate(value as String, UriKind.RelativeOrAbsolute, out iconUri))
+                {
+                    var img = new BitmapImage(iconUri);
+                    if (img != null)
+                    {
+                        return new Image() 
+                        {
+                            UseLayoutRounding = true,
+                            Width = width, 
+                            Source = img 
+                        };
+                    }
+                }
+            }
+            else if (value is BitmapImage)
+            {
+                var img = value as BitmapImage;
+                return new Image()
+                {
+                    UseLayoutRounding = true,
+                    Width = width,
+                    Source = new BitmapImage(img.UriSource)
+                };
+
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
 
     public static class Converters
     {
@@ -92,6 +146,20 @@ namespace AvalonDock
 
 
                 return _BoolToVisibilityConverter;
+            }
+        }
+
+        static ObjectToImageConverter _ObjectToImageConverter = null;
+
+        public static ObjectToImageConverter ObjectToImageConverter
+        {
+            get
+            {
+                if (_ObjectToImageConverter == null)
+                    _ObjectToImageConverter = new ObjectToImageConverter();
+
+
+                return _ObjectToImageConverter;
             }
         }
     

@@ -211,34 +211,6 @@ namespace AvalonDock
                 cntToRedock.Show();
 
             base.Dock();
-
-            //if (_previousPane != null)
-            //{
-            //    if (_previousPane.GetManager() == null)
-            //    {
-            //        DockablePane newContainerPane = new DockablePane();
-            //        newContainerPane.Items.Add(RemoveContent(0));
-            //        newContainerPane.SetValue(ResizingPanel.ResizeWidthProperty, _previousPane.GetValue(ResizingPanel.ResizeWidthProperty));
-            //        newContainerPane.SetValue(ResizingPanel.ResizeHeightProperty, _previousPane.GetValue(ResizingPanel.ResizeHeightProperty));
-
-            //        if (_previousPane.Style != null)
-            //            newContainerPane.Style = _previousPane.Style;
-
-            //        Manager.Anchor(newContainerPane, ((DockablePane)_previousPane).Anchor);
-            //    }
-            //    else
-            //    {
-            //        if (_arrayIndexPreviousPane > _previousPane.Items.Count)
-            //            _arrayIndexPreviousPane = _previousPane.Items.Count;
-
-            //        DockableContent currentContent = HostedPane.Items[0] as DockableContent;
-            //        _previousPane.Items.Insert(_arrayIndexPreviousPane, HostedPane.RemoveContent(0));
-            //        _previousPane.SelectedIndex = _arrayIndexPreviousPane;
-            //        currentContent.SetStateToDock();
-
-            //    }
-            //    this.Close();
-            //}
         }
     }
 }

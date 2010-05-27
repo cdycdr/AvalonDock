@@ -100,17 +100,6 @@ namespace AvalonDock
                 ChangeKeysInResourceDictionary(rd2, color);
             }
 
-            //ResourceDictionary parent = Application.Current.Resources;
-            // first search and remove old one
-            //foreach (ResourceDictionary res in Application.Current.Resources.MergedDictionaries)
-            //{
-            //    string source = res.Source.ToString();
-            //    if (source.Contains("/AvalonDock;component/themes/"))
-            //    {
-            //        Application.Current.Resources.MergedDictionaries.Remove(res);
-            //        break;
-            //    }
-            //}
             ResetTheme();
 
             Application.Current.Resources.MergedDictionaries.Add(rd);

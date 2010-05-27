@@ -108,5 +108,11 @@ namespace Sample3
             string name = (string)((MenuItem)sender).Tag;
             ThemeFactory.ChangeTheme(name);
         }
+
+        private void ChangeColor(object sender, RoutedEventArgs e)
+        {
+            
+            ThemeFactory.ChangeColors((Color)ColorConverter.ConvertFromString(((MenuItem)sender).Header.ToString()));
+        }
     }
 }

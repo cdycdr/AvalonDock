@@ -539,7 +539,7 @@ namespace AvalonDock
         }
 
         /// <summary>
-        /// Show <see cref="DockableContent"/> as docked pane inside provided <see cref="DockingManager"/>
+        /// Show <see cref="DockableContent"/> as docked pane within provided <see cref="DockingManager"/>
         /// </summary>
         public override void Show(DockingManager manager)
         {
@@ -725,6 +725,18 @@ namespace AvalonDock
                 throw new InvalidOperationException("This operation can be executed in this state");
 
             (ContainerPane as DockablePane).ToggleAutoHide();
+        }
+
+        public override void Activate()
+        {
+            if (State == DockableContentState.AutoHide)
+            {
+                if (Manager != null && this.IsLoaded)
+                {
+                    Manager.ShowFlyoutWindow(this, null);
+                }
+            }
+            base.Activate();
         }
 
         /// <summary>

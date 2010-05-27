@@ -51,7 +51,7 @@ namespace AvalonDock
                 {
                     if (null == _floatingDocumentCommand)
                     {
-                        _floatingDocumentCommand = new RoutedUICommand("Float", "FloatingDocument", typeof(DocumentContentCommands));
+                        _floatingDocumentCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DocumentContentCommands_FloatingDocument, "FloatingDocument", typeof(DocumentContentCommands));
                     }
                 }
                 return _floatingDocumentCommand;
@@ -72,7 +72,7 @@ namespace AvalonDock
                 {
                     if (null == _tabbedDocumentCommand)
                     {
-                        _tabbedDocumentCommand = new RoutedUICommand("Dock as Tabbed Document", "TabbedDocument", typeof(DocumentContentCommands));
+                        _tabbedDocumentCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DocumentContentCommands_TabbedDocument, "TabbedDocument", typeof(DocumentContentCommands));
                     }
                 }
                 return _tabbedDocumentCommand;

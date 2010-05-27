@@ -181,12 +181,12 @@ namespace AvalonDock
             if (value is string)
             {
                 Uri iconUri;
-                // try to resolve given value as an absolute URI
+                //// try to resolve given value as an absolute URI
                 if (Uri.TryCreate(value as String, UriKind.RelativeOrAbsolute, out iconUri))
                 {
                     ImageSource img = new BitmapImage(iconUri);
                     if (img != null)
-                        return new Image() { Source = img };
+                        return img;//new Image() { Source = img };
 
                     //GreyableImage seems to be not compatible with .net 4
                     //if (null != img)
@@ -542,6 +542,31 @@ namespace AvalonDock
             if (IsActiveContent)
                 _lastActivation = DateTime.Now;
 
+            FocusContent();
+
+            Pane parentPane = ContainerPane as Pane;
+            if (parentPane != null)
+            {
+                parentPane.RefreshContainsActiveContentProperty();
+                if (IsActiveContent)
+                    parentPane.SelectedItem = this;
+            }
+
+            //for backward compatibility
+            RaisePropertyChanged("IsActiveContent");
+
+            if (IsActiveContentChanged != null)
+                IsActiveContentChanged(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to manage custom focus strategy.
+        /// </summary>
+        /// <remarks>
+        /// Derived classes should not call base class if don't want AvalonDock to set focus on <see cref="DefaultElement"/> object
+        /// </remarks>
+        protected virtual void FocusContent()
+        {
             if (IsActiveContent && !IsKeyboardFocused)
             {
                 if (DefaultElement != null)
@@ -582,7 +607,7 @@ namespace AvalonDock
 
                     }));
                 }
-                else 
+                else
                 {
                     Debug.WriteLine("Try to set kb focus to " + Content);
                     FocusManager.SetFocusedElement(Content as DependencyObject, Content as IInputElement);
@@ -592,20 +617,6 @@ namespace AvalonDock
                 }
 
             }
-
-            Pane parentPane = ContainerPane as Pane;
-            if (parentPane != null)
-            {
-                parentPane.RefreshContainsActiveContentProperty();
-                if (IsActiveContent)
-                    parentPane.SelectedItem = this;
-            }
-
-            //for backward compatibility
-            RaisePropertyChanged("IsActiveContent");
-
-            if (IsActiveContentChanged != null)
-                IsActiveContentChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -613,51 +624,6 @@ namespace AvalonDock
         /// </summary>
         public event EventHandler IsActiveContentChanged;
         #endregion
-
-        //#region IsActiveDocument
-
-        ///// <summary>
-        ///// IsActiveDocument Dependency Property
-        ///// </summary>
-        //public static readonly DependencyProperty IsActiveDocumentProperty =
-        //    DependencyProperty.Register("IsActiveDocument", typeof(bool), typeof(ManagedContent),
-        //        new FrameworkPropertyMetadata((bool)false,
-        //            new PropertyChangedCallback(OnIsActiveDocumentChanged)));
-
-        ///// <summary>
-        ///// Gets or sets the IsActiveDocument property.  This dependency property 
-        ///// indicates if this content is the active document in the parent docking manager.
-        ///// </summary>
-        //public bool IsActiveDocument
-        //{
-        //    get { return (bool)GetValue(IsActiveDocumentProperty); }
-        //    set { SetValue(IsActiveDocumentProperty, value); }
-        //}
-
-        ///// <summary>
-        ///// Handles changes to the IsActiveDocument property.
-        ///// </summary>
-        //private static void OnIsActiveDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    ((ManagedContent)d).OnIsActiveDocumentChanged(e);
-        //}
-
-        ///// <summary>
-        ///// Provides derived classes an opportunity to handle changes to the IsActiveDocument property.
-        ///// </summary>
-        //protected virtual void OnIsActiveDocumentChanged(DependencyPropertyChangedEventArgs e)
-        //{
-
-        //}
-
-        ///// <summary>
-        ///// Event fired when the <see cref="IsActiveContent"/> property changes
-        ///// </summary>
-        //public event EventHandler IsActiveDocumentChanged;
-
-
-        //#endregion
-
 
         #region IsActiveDocument
 
@@ -731,8 +697,6 @@ namespace AvalonDock
         public event EventHandler IsActiveDocumentChanged;
 
         #endregion
-
-
 
         #region IsLocked
 

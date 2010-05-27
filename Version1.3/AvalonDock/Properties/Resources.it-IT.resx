@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DockableContentCommands_DockableFloatingWindow" xml:space="preserve">
-    <value>Sgancia come finestra</value>
+    <value>Finestra Ancorabile</value>
   </data>
   <data name="DockableContentCommands_FloatingWindow" xml:space="preserve">
-    <value>Sgancia come finestra</value>
+    <value>Finestra</value>
   </data>
   <data name="DockableContentCommands_ShowAsDocument" xml:space="preserve">
     <value>Ancora come documento</value>
@@ -138,10 +138,13 @@
   <data name="DockablePaneCommands_ToggleAutoHide" xml:space="preserve">
     <value>Nascondi in automatico</value>
   </data>
+  <data name="DockablePane_ShowOptionsMenu" xml:space="preserve">
+    <value>Posizione Finestra</value>
+  </data>
   <data name="DocumentContentCommands_FloatingDocument" xml:space="preserve">
     <value>Sgancia come finestra</value>
   </data>
-  <data name="DocumentContentCommands_TabbeDocument" xml:space="preserve">
+  <data name="DocumentContentCommands_TabbedDocument" xml:space="preserve">
     <value>Ancora come Documento</value>
   </data>
   <data name="DocumentPaneCommands_CloseAllButThis" xml:space="preserve">
@@ -166,7 +169,13 @@
     <value>Nascondi</value>
   </data>
   <data name="ManagedContentCommands_Show" xml:space="preserve">
-    <value>Mostra</value>
+    <value>Ancora</value>
+  </data>
+  <data name="NavigatorWindow_ActiveFiles" xml:space="preserve">
+    <value>Documenti</value>
+  </data>
+  <data name="NavigatorWindow_ActiveToolWindows" xml:space="preserve">
+    <value>Finestre Strumento</value>
   </data>
   <data name="PaneCommands_Dock" xml:space="preserve">
     <value>Ancora</value>

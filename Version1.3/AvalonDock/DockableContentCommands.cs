@@ -51,7 +51,7 @@ namespace AvalonDock
                 {
                     if (null == documentCommand)
                     {
-                        documentCommand = new RoutedUICommand("Tabbed Document", "Document", typeof(DockableContentCommands));
+                        documentCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockableContentCommands_ShowAsDocument, "Document", typeof(DockableContentCommands));
                     }
                 }
                 return documentCommand;
@@ -73,7 +73,7 @@ namespace AvalonDock
                 {
                     if (null == floatingWindowCommand)
                     {
-                        floatingWindowCommand = new RoutedUICommand("F_loating", "FloatingWindow", typeof(DockableContentCommands));
+                        floatingWindowCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockableContentCommands_FloatingWindow, "FloatingWindow", typeof(DockableContentCommands));
                     }
                 }
                 return floatingWindowCommand;
@@ -94,7 +94,7 @@ namespace AvalonDock
                 {
                     if (null == dockableWindowCommand)
                     {
-                        dockableWindowCommand = new RoutedUICommand("Dockable &Window", "DockableFloatingWindow", typeof(DockableContentCommands));
+                        dockableWindowCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockableContentCommands_DockableFloatingWindow, "DockableFloatingWindow", typeof(DockableContentCommands));
                     }
                 }
                 return dockableWindowCommand;
@@ -115,7 +115,7 @@ namespace AvalonDock
                 {
                     if (null == autoHideCommand)
                     {
-                        autoHideCommand = new RoutedUICommand("A_utohide", "AutoHide", typeof(DockableContentCommands));
+                        autoHideCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockableContentCommands_ToggleAutoHide, "AutoHide", typeof(DockableContentCommands));
                     }
                 }
                 return autoHideCommand;

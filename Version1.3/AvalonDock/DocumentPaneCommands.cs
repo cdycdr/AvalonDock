@@ -45,7 +45,7 @@ namespace AvalonDock
                 {
                     if (null == closeAllButThisCommand)
                     {
-                        closeAllButThisCommand = new RoutedUICommand("Close All But This", "CloseAllButThis", typeof(DocumentPaneCommands));
+                        closeAllButThisCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DocumentPaneCommands_CloseAllButThis, "CloseAllButThis", typeof(DocumentPaneCommands));
                     }
                 }
                 return closeAllButThisCommand;
@@ -61,7 +61,7 @@ namespace AvalonDock
                 {
                     if (null == closeThisCommand)
                     {
-                        closeThisCommand = new RoutedUICommand("C_lose", "Close", typeof(DocumentPaneCommands));
+                        closeThisCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DocumentPaneCommands_CloseThis, "Close", typeof(DocumentPaneCommands));
                     }
                 }
                 return closeThisCommand;
@@ -77,7 +77,7 @@ namespace AvalonDock
                 {
                     if (null == newHTabGroupCommand)
                     {
-                        newHTabGroupCommand = new RoutedUICommand("New Horizontal Tab Group", "NewHorizontalTabGroup", typeof(DocumentPaneCommands));
+                        newHTabGroupCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DocumentPaneCommands_NewHorizontalTabGroup, "NewHorizontalTabGroup", typeof(DocumentPaneCommands));
                     }
                 }
                 return newHTabGroupCommand;
@@ -93,7 +93,7 @@ namespace AvalonDock
                 {
                     if (null == newVTabGroupCommand)
                     {
-                        newVTabGroupCommand = new RoutedUICommand("New Vertical Tab Group", "NewVerticalTabGroup", typeof(DocumentPaneCommands));
+                        newVTabGroupCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DocumentPaneCommands_NewVerticalTabGroup, "NewVerticalTabGroup", typeof(DocumentPaneCommands));
                     }
                 }
                 return newVTabGroupCommand;

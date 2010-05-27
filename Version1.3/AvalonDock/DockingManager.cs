@@ -1092,8 +1092,9 @@ namespace AvalonDock
         
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            bool isCtrlDown = Keyboard.GetKeyStates(Key.LeftCtrl) == KeyStates.Down;
+            bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
             bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
+            Debug.WriteLine(string.Format("OnKeyDn {0} CtrlDn={1}", e.Key, isCtrlDown));
 
             if (e.Key == Key.Tab && isCtrlDown)
             {
@@ -1107,14 +1108,16 @@ namespace AvalonDock
             }
             else
                 HideNavigatorWindow();
-            
+
+
             base.OnKeyDown(e);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            bool isCtrlDown = Keyboard.GetKeyStates(Key.LeftCtrl) == KeyStates.Down;
+            bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
             bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
+            Debug.WriteLine(string.Format("OnKeyUp {0} CtrlDn={1}", e.Key, isCtrlDown));
 
             if (e.Key != Key.Tab || !isCtrlDown)
                 HideNavigatorWindow();
@@ -2067,7 +2070,10 @@ namespace AvalonDock
         internal void Hide(DockableContent content)
         {
             if (content.State == DockableContentState.Hidden)
+            {
+                DockableContents.Add(content);
                 return;
+            }
 
             if (!content.IsCloseable)
                 return;
@@ -2100,8 +2106,7 @@ namespace AvalonDock
 
             if (content.State != DockableContentState.Hidden)
             {
-                if (!DockableContents.Contains(content))
-                    DockableContents.Add(content);
+                DockableContents.Add(content);
 
                 content.SetStateToHidden();
                 content.DetachFromContainerPane();
@@ -3945,13 +3950,11 @@ namespace AvalonDock
                 }
             }
 
-            RestoringLayout = false;
-
             ClearEmptyPanels(Content as ResizingPanel);
 
             //get documents that are not present in last layout and must be included
             //in the new one
-            var documentsNotTransferred = actualDocuments.Where(d => d.ContainerPane.GetManager() != this).ToArray();
+            var documentsNotTransferred = actualDocuments.Where(d => d.ContainerPane == null || d.ContainerPane.GetManager() != this).ToArray();
 
             Debug.Assert(MainDocumentPane != null && MainDocumentPane.GetManager() == this);
 
@@ -3960,7 +3963,18 @@ namespace AvalonDock
                 documentsNotTransferred.ForEach(d => MainDocumentPane.Items.Add(d.DetachFromContainerPane()));
             }
 
+            //get contents that are not present in the new layout and hide them
+            var contentsNotTransferred = actualContents.Where(c => c.ContainerPane == null || c.ContainerPane.GetManager() != this).ToArray();
+
+            contentsNotTransferred.ForEach(c =>
+                {
+                    Hide(c);
+                });
+
+            RestoringLayout = false;
+
             ClearEmptyPanes();
+            RefreshContents();
 
             if (Documents.Count() > 0)
             {
@@ -3971,6 +3985,7 @@ namespace AvalonDock
                 ActiveContent = null;
                 ActiveDocument = null;
             }
+
         } 
         #endregion
         

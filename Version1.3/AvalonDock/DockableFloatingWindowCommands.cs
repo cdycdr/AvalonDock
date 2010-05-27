@@ -22,7 +22,7 @@ namespace AvalonDock
                 {
                     if (null == dockableCommand)
                     {
-                        dockableCommand = new RoutedUICommand("Dockable Window", "DockableWindow", typeof(DockableFloatingWindowCommands));
+                        dockableCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockableContentCommands_DockableFloatingWindow, "DockableWindow", typeof(DockableFloatingWindowCommands));
                     }
                 }
                 return dockableCommand;
@@ -38,7 +38,7 @@ namespace AvalonDock
                 {
                     if (null == floatingCommand)
                     {
-                        floatingCommand = new RoutedUICommand("Floating Window", "FloatingWindow", typeof(DockableFloatingWindowCommands));
+                        floatingCommand = new RoutedUICommand(AvalonDock.Properties.Resources.DockableContentCommands_FloatingWindow, "FloatingWindow", typeof(DockableFloatingWindowCommands));
                     }
                 }
                 return floatingCommand;

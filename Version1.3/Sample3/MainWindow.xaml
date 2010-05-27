@@ -22,7 +22,10 @@
                 <MenuItem Header="Default" Click="SetDefaultTheme"/>
             </MenuItem>
             <MenuItem Header="Colors">
-                
+                <MenuItem Header="Green" Click="ChangeColor"/>
+                <MenuItem Header="Orange" Click="ChangeColor"/>
+                <MenuItem Header="Gray" Click="ChangeColor"/>
+                <MenuItem Header="Yellow" Click="ChangeColor"/>
             </MenuItem>
         </Menu>
         

@@ -32,6 +32,10 @@ namespace AvalonDock.DemoApp
 
             //var dockableContent2 = new DockableContent() { Title = "Test2", Content = new TextBox() };
             //dockableContent.ContainerPane.Items.Add(dockableContent2);
+
+            for (int i = 0; i < 20; i++)
+                OnCreateNewDocumentContent(null, null);
+            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -133,6 +137,9 @@ namespace AvalonDock.DemoApp
             }
 
             var newContent = new DocumentContent() { Title = title, Content = new TextBox() };
+            newContent.Icon = @"Images\database.png";
+            newContent.ContentTypeDescription = "Base Description of " + title;
+            newContent.InfoTip = System.IO.Path.GetTempPath();
             newContent.Show(DockManager);
             newContent.Activate();            
         }
@@ -199,6 +206,11 @@ namespace AvalonDock.DemoApp
             string fn = ((MenuItem)sender).Header.ToString() + ".xml";
             if (File.Exists(fn))
                 DockManager.RestoreLayout(fn);
+        }
+
+        private void ChangeColor(object sender, RoutedEventArgs e)
+        {
+            ThemeFactory.ChangeColors(Colors.Orange);
         }
 
     }
