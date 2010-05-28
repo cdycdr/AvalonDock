@@ -256,15 +256,7 @@ namespace AvalonDock
         /// <param name="manager">Docking manager target</param>
         public override void Show(DockingManager manager)
         {
-            if (Manager != null && Manager != manager)
-                throw new InvalidOperationException("Please remove the content from previous DockingManager (using the Close method)");
-
-            if (!CanExecuteCommand(ManagedContentCommands.Show))
-                throw new InvalidOperationException("This operation can be executed in this state");
-
-            manager.Show(this, false);
-
-            manager.Documents.Add(this);
+            Show(manager, false);
         }
 
         /// <summary>
@@ -276,6 +268,24 @@ namespace AvalonDock
                 throw new InvalidOperationException("This operation can be executed in this state");
 
             Manager.Show(this, showAsFloatingWindow);
+        }
+
+        /// <summary>
+        /// Show <see cref="DocumentContent"/> as tabbed document inside the provided <see cref="DockingManager"/>
+        /// </summary>
+        /// <param name="manager">Docking manager target</param>
+        /// <param name="showAsFloatingWindow">True if document should be shown inside a floating window (<see cref="DocumentFloatingWindow"/>)</param>
+        public void Show(DockingManager manager, bool showAsFloatingWindow)
+        {
+            if (Manager != null && Manager != manager)
+                throw new InvalidOperationException("Please remove the content from previous DockingManager (using the Close method)");
+
+            if (!CanExecuteCommand(ManagedContentCommands.Show))
+                throw new InvalidOperationException("This operation can be executed in this state");
+
+            manager.Show(this, showAsFloatingWindow);
+
+            manager.Documents.Add(this);
         }
 
         /// <summary>

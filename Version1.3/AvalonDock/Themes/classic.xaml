@@ -30,14 +30,7 @@
 									<ColumnDefinition Width="Auto"/>
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
-								<ad:AlignedImage>
-									<ContentPresenter x:Name="Icon"
-													Grid.Column="0"
-													Margin="1"
-													VerticalAlignment="Center"
-													ContentSource="Icon"
-													SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-								</ad:AlignedImage>
+                                <Image x:Name="Icon" Margin="1" Width="16" UseLayoutRounding="True" Source="{TemplateBinding Icon}"/>
 								<TextBlock 
 								        x:Name="tabItemTitle"
                                         Grid.Column="1"
@@ -421,7 +414,7 @@
                                         <VisualBrush Stretch="None" Visual="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}}"/>
 									</Border.Background>
 								</Border>-->
-                                <Image x:Name="borderIcon" Width="16" Source="{Binding Icon}" UseLayoutRounding="True"/>
+                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" UseLayoutRounding="True"/>
 
                                 <TextBlock 
                                     Grid.Column="1"

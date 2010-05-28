@@ -275,7 +275,7 @@ namespace AvalonDock
         protected override void OnDragStart(Point ptMouse, Point ptRelativeMouse)
         {
             if (DockableStyle != DockableStyle.None && 
-                (State == DockableContentState.Docked || State == DockableContentState.Document) &&
+                (State == DockableContentState.Docked || State == DockableContentState.Document || State == DockableContentState.DockableWindow) &&
                 !Manager.DragPaneServices.IsDragging)
             {
                 Manager.Drag(this, HelperFunc.PointToScreenWithoutFlowDirection(this, ptMouse), ptRelativeMouse);                
@@ -735,6 +735,21 @@ namespace AvalonDock
                 {
                     Manager.ShowFlyoutWindow(this, null);
                 }
+            }
+            else if (State == DockableContentState.Document)
+            {
+                if (!DocumentTabPanel.GetIsHeaderVisible(this))
+                {
+                    DocumentPane parentPane = this.ContainerPane as DocumentPane;
+                    if (parentPane != null &&
+                        parentPane.GetManager() != null &&
+                        parentPane.Items.IndexOf(this) != 0)
+                    {
+                        parentPane.Items.Remove(this);
+                        parentPane.Items.Insert(0, this);
+                        parentPane.SelectedIndex = 0;
+                    }
+                }            
             }
             base.Activate();
         }

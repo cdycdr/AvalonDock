@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("AvalonDock.Themes")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("TOSHIBA")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AvalonDock.Themes")]
-[assembly: AssemblyCopyright("Copyright © TOSHIBA 2010")]
+[assembly: AssemblyCopyright("Copyright © Adolfo Marinucci 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

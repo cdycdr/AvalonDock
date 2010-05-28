@@ -20,14 +20,6 @@
 							  Background="{StaticResource ManagedContentTabItemNormalBackground}">
                             <StackPanel Orientation="Horizontal">
                                 <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" UseLayoutRounding="True"/>
-
-                                <!--<ad:AlignedImage>
-									<Border Width="16" Height="16">
-										<Border.Background>
-											<VisualBrush Stretch="None" Visual="{TemplateBinding Icon}"/>
-										</Border.Background>
-									</Border>
-                                </ad:AlignedImage>-->
 								<TextBlock 
                                     Text="{TemplateBinding Title}"  
                                     Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" 
@@ -44,7 +36,7 @@
                                         Visibility="Hidden"
                                         />
                     </Grid>
-                    <!--<ControlTemplate.Triggers>
+                    <ControlTemplate.Triggers>
                         <Trigger Property="Anchor" >
                             <Trigger.Value>
                                 <ad:AnchorStyle>
@@ -71,7 +63,7 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="HighlightBorder"/>
                         </Trigger>
-                    </ControlTemplate.Triggers>-->
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

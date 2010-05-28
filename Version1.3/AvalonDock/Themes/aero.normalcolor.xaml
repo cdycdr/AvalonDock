@@ -313,10 +313,10 @@
                         Background="{TemplateBinding Background}">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="1" Margin="0,-1,0,0">
+                            <Grid x:Name="extGrid" Grid.Row="1" Margin="0,-1,0,0" >
                                 <Border 
                                     x:Name="intBorder1"
                                     BorderThickness="5" 
@@ -331,8 +331,7 @@
                                         CornerRadius="3" 
                                         Margin="1" 
                                         Focusable="False"
-                                        Background="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Background}"   
-                                        >
+                                        Background="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Background}">
                                     <ContentPresenter 
                                         x:Name="contentPresenter"
                                         Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Content}"
@@ -345,6 +344,7 @@
                             <Border x:Name="PART_Header" 
 							    Grid.Row="0" 
 							    Focusable="False" 
+                                Height="20"
 							    BorderThickness="1,1,1,0">
                                 <DockPanel LastChildFill="True">
                                     <Button DockPanel.Dock="Right" Width="15" Height="15" Margin="2,0,2,0" Style="{StaticResource PaneHeaderCommandStyle}" 
@@ -371,6 +371,7 @@
                             <Setter Property="BorderThickness" Value="0" TargetName="intBorder2"/>
                             <Setter Property="Margin" Value="0" TargetName="intBorder2"/>
                             <Setter Property="Margin" Value="0" TargetName="contentPresenter"/>
+                            <Setter Property="Margin" Value="0" TargetName="extGrid"/>
                         </Trigger>
                         <Trigger Property="HasItems" Value="False">
                             <Setter Property="Visibility" Value="Hidden"/>

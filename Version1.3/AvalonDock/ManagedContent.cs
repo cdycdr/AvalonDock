@@ -607,7 +607,7 @@ namespace AvalonDock
 
                     }));
                 }
-                else
+                else if (Content != null)
                 {
                     Debug.WriteLine("Try to set kb focus to " + Content);
                     FocusManager.SetFocusedElement(Content as DependencyObject, Content as IInputElement);
