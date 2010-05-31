@@ -42,7 +42,7 @@ namespace AvalonDock
     {
         static Pane()
         {
-            FocusableProperty.OverrideMetadata(typeof(Pane), new FrameworkPropertyMetadata(false));
+            //FocusableProperty.OverrideMetadata(typeof(Pane), new FrameworkPropertyMetadata(false));
         }
 
         internal Pane()
@@ -454,6 +454,8 @@ namespace AvalonDock
         // Using a DependencyProperty as the backing store for ActiveContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowHeaderProperty =
             DependencyProperty.Register("ShowHeader", typeof(bool), typeof(Pane), new UIPropertyMetadata(true));
+
+
 
 
         #region INotifyPropertyChanged Members

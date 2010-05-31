@@ -1376,6 +1376,8 @@ namespace AvalonDock
                 Anchor(paneToAnchor as DocumentPane, relativePane as DocumentPane, anchor);
             else
                 throw new InvalidOperationException();
+
+            CheckForSingleChildPanels();
         }
 
 
@@ -1891,6 +1893,9 @@ namespace AvalonDock
             return false;
         }
 
+        /// <summary>
+        /// Check if only vali panes are referenced by anchor tabs
+        /// </summary>
         void CheckValidPanesFromTabGroups()
         {
             if (RestoringLayout)
@@ -1917,6 +1922,14 @@ namespace AvalonDock
             }
         }
 
+        [Conditional("DEBUG")]
+        void CheckForSingleChildPanels()
+        {
+            //Debug.Assert(!
+            //new LogicalTreeAdapter(this).Descendants<DependencyObject>().Any(
+            //    di => di.Item is ResizingPanel && ((ResizingPanel)di.Item).Children.Count == 1)
+            //);
+        }
 
         /// <summary>
         /// Autohides/redock a dockable pane

@@ -42,6 +42,7 @@ using System.Diagnostics;
 using System.Windows.Threading;
 using System.Threading;
 using System.Reflection;
+using System.Net.Cache;
 
 
 namespace AvalonDock
@@ -58,13 +59,21 @@ namespace AvalonDock
             WidthProperty.OverrideMetadata(typeof(ManagedContent), new FrameworkPropertyMetadata(double.NaN, null, new CoerceValueCallback(
                 (s, v) =>
                 {
-                    return double.NaN;
+                    if (!DesignerProperties.GetIsInDesignMode(s as DependencyObject))
+                        return double.NaN;
+
+                    return v;
                 })));
             HeightProperty.OverrideMetadata(typeof(ManagedContent), new FrameworkPropertyMetadata(double.NaN, null, new CoerceValueCallback(
                 (s, v) =>
                 {
-                    return double.NaN;
+                    if (!DesignerProperties.GetIsInDesignMode(s as DependencyObject))
+                        return double.NaN;
+
+                    return v;
                 })));
+
+            FocusableProperty.OverrideMetadata(typeof(ManagedContent), new FrameworkPropertyMetadata(true));
         }
 
         public ManagedContent()
@@ -163,9 +172,9 @@ namespace AvalonDock
         /// <summary>
         /// Access to <see cref="IconProperty"/> dependency property
         /// </summary>
-        public object Icon
+        public ImageSource Icon
         {
-            get { return (object)GetValue(IconProperty); }
+            get { return (ImageSource)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
         }
 
@@ -173,36 +182,36 @@ namespace AvalonDock
         /// Select an icon object for the content
         /// </summary>
         public static readonly DependencyProperty IconProperty =
-        DependencyProperty.Register("Icon", typeof(object), typeof(ManagedContent),
+        DependencyProperty.Register("Icon", typeof(ImageSource), typeof(ManagedContent),
             new FrameworkPropertyMetadata(null, new CoerceValueCallback(OnCoerce_Icon)));
 
         private static object OnCoerce_Icon(DependencyObject o, object value)
         {
-            if (value is string)
-            {
-                Uri iconUri;
-                //// try to resolve given value as an absolute URI
-                if (Uri.TryCreate(value as String, UriKind.RelativeOrAbsolute, out iconUri))
-                {
-                    ImageSource img = new BitmapImage(iconUri);
-                    if (img != null)
-                        return img;//new Image() { Source = img };
+            //if (value is string)
+            //{
+            //    Uri iconUri;
+            //    //// try to resolve given value as an absolute URI
+            //    if (Uri.TryCreate(value as String, UriKind.Relative, out iconUri))
+            //    {
+            //        ImageSource img = new BitmapImage(iconUri);
+            //        if (img != null)
+            //            return img;//new Image() { Source = img };
 
-                    //GreyableImage seems to be not compatible with .net 4
-                    //if (null != img)
-                    //{
-                    //    GreyableImage icon = (o as ManagedContent).Icon as GreyableImage;
-                    //    if (null == icon)
-                    //        icon = new GreyableImage();
+            //        //GreyableImage seems to be not compatible with .net 4
+            //        //if (null != img)
+            //        //{
+            //        //    GreyableImage icon = (o as ManagedContent).Icon as GreyableImage;
+            //        //    if (null == icon)
+            //        //        icon = new GreyableImage();
 
-                    //    icon.Source = img;
-                    //    //icon.Stretch = Stretch.None;
-                    //    //icon.SnapsToDevicePixels = true;
+            //        //    icon.Source = img;
+            //        //    //icon.Stretch = Stretch.None;
+            //        //    //icon.SnapsToDevicePixels = true;
 
-                    //    return icon;
-                    //}
-                }
-            }
+            //        //    return icon;
+            //        //}
+            //    }
+            //}
             return value;
         }
 
@@ -373,8 +382,9 @@ namespace AvalonDock
             {
                 Activate();
                 //FocusManager.SetFocusedElement(Content as DependencyObject, DefaultElement);
+                //IInputElement focusedElement = e.Source as IInputElement;
+                //if (focusedElement != null) Keyboard.Focus(focusedElement);
             }
-
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -471,7 +481,7 @@ namespace AvalonDock
         {
             base.OnGotKeyboardFocus(e);
 
-            //Debug.WriteLine(string.Format("[{0}].OnGotKeyboardFocus() Source={1} NewFocus={2} OldFocus={3}", this.Name, e.Source.GetType().ToString(), e.NewFocus.GetType().ToString(), e.OldFocus == null ? "<null>" : e.OldFocus.GetType().ToString()));
+            Debug.WriteLine(string.Format("[{0}].OnGotKeyboardFocus() Source={1} NewFocus={2} OldFocus={3}", this.Name, e.Source.GetType().ToString(), e.NewFocus.GetType().ToString(), e.OldFocus == null ? "<null>" : e.OldFocus.GetType().ToString()));
 
             if (Manager != null &&
                 this.IsKeyboardFocusWithin)
@@ -482,7 +492,7 @@ namespace AvalonDock
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            //Debug.WriteLine(string.Format("[{0}].OnLostKeyboardFocus() Source={1} NewFocus={2} OldFocus={3}", this.Name, e.Source.GetType().ToString(), e.NewFocus == null ? "<null>" : e.NewFocus.GetType().ToString(), e.OldFocus == null ? "<null>" : e.OldFocus.GetType().ToString()));
+            Debug.WriteLine(string.Format("[{0}].OnLostKeyboardFocus() Source={1} NewFocus={2} OldFocus={3}", this.Name, e.Source.GetType().ToString(), e.NewFocus == null ? "<null>" : e.NewFocus.GetType().ToString(), e.OldFocus == null ? "<null>" : e.OldFocus.GetType().ToString()));
             base.OnLostKeyboardFocus(e);
         }
 
@@ -569,54 +579,52 @@ namespace AvalonDock
         {
             if (IsActiveContent && !IsKeyboardFocused)
             {
-                if (DefaultElement != null)
+                Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
                 {
-                    Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
+                    if (IsActiveContent && !IsKeyboardFocused)
                     {
-                        if (IsActiveContent && !IsKeyboardFocused)
+                        if (this.Content is WindowsFormsHost)
                         {
-                            //if (this.Content is WindowsFormsHost)
-                            //{
-                            //    //Use reflection in order to remove WinForms assembly reference
-                            //    WindowsFormsHost contentHost = this.Content as WindowsFormsHost;
+                            //Use reflection in order to remove WinForms assembly reference
+                            WindowsFormsHost contentHost = this.Content as WindowsFormsHost;
 
-                            //    object childCtrl = contentHost.GetType().GetProperty("Child").GetValue(contentHost, null);
+                            object childCtrl = contentHost.GetType().GetProperty("Child").GetValue(contentHost, null);
 
-                            //    if (childCtrl != null)
-                            //    {
-                            //        if (!childCtrl.GetPropertyValue<bool>("Focused"))
-                            //        {
-                            //            childCtrl.CallMethod("Focus", null);
-                            //        }
-                            //    }
-                            //}
-                            //else 
-                            if (DefaultElement != null)
+                            if (childCtrl != null)
                             {
-                                Debug.WriteLine("Try to set kb focus to " + DefaultElement);
-
-                                IInputElement kbFocused = Keyboard.Focus(DefaultElement);
-
-                                if (kbFocused != null)
-                                    Debug.WriteLine("Focused element " + kbFocused);
-                                else
-                                    Debug.WriteLine("No focused element");
-
+                                if (!childCtrl.GetPropertyValue<bool>("Focused"))
+                                {
+                                    childCtrl.CallMethod("Focus", null);
+                                }
                             }
                         }
+                        else if (DefaultElement != null)
+                        {
+                            Debug.WriteLine("Try to set kb focus to " + DefaultElement);
 
-                    }));
-                }
-                else if (Content != null)
-                {
-                    Debug.WriteLine("Try to set kb focus to " + Content);
-                    FocusManager.SetFocusedElement(Content as DependencyObject, Content as IInputElement);
-                    Keyboard.Focus(Content as IInputElement);
-                    Debug.WriteLine("Focus on " + FocusManager.GetFocusedElement(Content as DependencyObject));
-                    Debug.WriteLine("Keyboard Focus on " + FocusManager.GetFocusedElement(Content as DependencyObject));
-                }
+                            IInputElement kbFocused = Keyboard.Focus(DefaultElement);
 
+                            if (kbFocused != null)
+                                Debug.WriteLine("Focused element " + kbFocused);
+                            else
+                                Debug.WriteLine("No focused element");
+
+                        }
+                        else if (this.Content is IInputElement)
+                        {
+                            Debug.WriteLine("Try to set kb focus to " + this.Content.ToString());
+                            IInputElement kbFocused = Keyboard.Focus(this.Content as IInputElement);
+                            if (kbFocused != null)
+                                Debug.WriteLine("Focused element " + kbFocused);
+                            else
+                                Debug.WriteLine("No focused element");
+                        }
+                    }
+                }));
             }
+        
+           
+           
         }
 
         /// <summary>
@@ -948,5 +956,6 @@ namespace AvalonDock
         {
         }
         #endregion
+
     }
 }
