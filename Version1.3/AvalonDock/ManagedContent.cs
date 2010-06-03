@@ -622,9 +622,6 @@ namespace AvalonDock
                     }
                 }));
             }
-        
-           
-           
         }
 
         /// <summary>
@@ -930,9 +927,8 @@ namespace AvalonDock
             if (ContainerPane != null && Manager != null)// && Manager.ActiveContent != this)
             {
                 ContainerPane.SelectedItem = this;
-                ContainerPane.Focus();
                 if (Manager != null)
-                    Manager.ActiveContent = this;
+                    Manager.ActiveContent = this; 
             }
         }
         #endregion

@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample3", "Sample3\Sample3.
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AvalonDock.Setup", "AvalonDock.Setup\AvalonDock.Setup.vdproj", "{79AEBF6C-3063-4BDA-96FE-728F38841404}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample4", "Sample4\Sample4.csproj", "{86D1C009-D351-4D09-BFE3-A608FEFFBA82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,16 @@ Global
 		{79AEBF6C-3063-4BDA-96FE-728F38841404}.Release|Any CPU.ActiveCfg = Release
 		{79AEBF6C-3063-4BDA-96FE-728F38841404}.Release|Mixed Platforms.ActiveCfg = Release
 		{79AEBF6C-3063-4BDA-96FE-728F38841404}.Release|x86.ActiveCfg = Release
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Debug|x86.ActiveCfg = Debug|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Debug|x86.Build.0 = Debug|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Release|Any CPU.ActiveCfg = Release|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Release|Mixed Platforms.Build.0 = Release|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Release|x86.ActiveCfg = Release|x86
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,5 +123,6 @@ Global
 		{E3804C1C-A328-4CA6-976E-03A90469D812} = {8A5AD036-C876-4EC3-B901-4A7ABB168F01}
 		{60FC0FF1-FFB9-4092-91D9-F6945BFCEB94} = {8A5AD036-C876-4EC3-B901-4A7ABB168F01}
 		{F729FF99-2991-4819-9855-7CD7A1199089} = {8A5AD036-C876-4EC3-B901-4A7ABB168F01}
+		{86D1C009-D351-4D09-BFE3-A608FEFFBA82} = {8A5AD036-C876-4EC3-B901-4A7ABB168F01}
 	EndGlobalSection
 EndGlobal

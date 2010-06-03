@@ -427,21 +427,6 @@ namespace AvalonDock
             }
         }
 
-        /// <summary>
-        /// Gets an array of all dockable contents currenty managed
-        /// </summary>
-        //public DockableContent[] DockableContents
-        //{
-        //    get
-        //    {
-        //        List<DockableContent> contents = FindContents<DockableContent>();
-
-        //        foreach (DockableContent content in HiddenContents)
-        //            contents.Add(content);
-
-        //        return contents.ToArray();
-        //    }
-        //}
         #region DockableContents
 
         /// <summary>
@@ -490,18 +475,6 @@ namespace AvalonDock
         #endregion
 
 
-
-        ///// <summary>
-        ///// Gets an array of all document contents
-        ///// </summary>
-        //public DocumentContent[] Documents
-        //{
-        //    get
-        //    {
-        //        return FindContents<DocumentContent>().ToArray();
-        //    }
-        //}
-
         #region Documents Source
 
         /// <summary>
@@ -535,32 +508,17 @@ namespace AvalonDock
             }
         }
 
-        void DocumentsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {          
+        void DocumentsSourceCollectionChanged(
+            object sender, 
+            NotifyCollectionChangedEventArgs e)
+        {
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 //close first documents that do not belong to the MainDocumentPane
                 DocumentContent[] docs = this.Documents.ToArray();
-                List<DocumentContent> documentsToCloseFirst = new List<DocumentContent>();
 
-                foreach (DocumentContent doc in docs)
-                {
-                    if (doc.Parent is DocumentPane)
-                    {
-                        if ((doc.Parent as DocumentPane).IsMainDocumentPane == false)
-                        {
-                            documentsToCloseFirst.Add(doc);
-                        }
-                    }
-                }
-
-                foreach (DocumentContent doc in documentsToCloseFirst)
-                {
-                    doc.InternalClose();
-                }
-
-                foreach (DocumentContent doc in docs)
-                    doc.InternalClose();
+                docs.Where(d => ((DocumentPane)d.Parent).IsMainDocumentPane.GetValueOrDefault()).ForEach(d => d.InternalClose());
+                docs.Where(d => d.Parent != null && !((DocumentPane)d.Parent).IsMainDocumentPane.GetValueOrDefault()).ForEach(d => d.InternalClose());
             }
 
             if (e.OldItems != null &&
@@ -590,7 +548,6 @@ namespace AvalonDock
                 if (MainDocumentPane == null)
                     throw new InvalidOperationException("DockingManager must have at least a DocumentPane to host documents");
 
-                int iInsertIndex = e.NewStartingIndex;
                 foreach (object newDoc in e.NewItems)
                 {
                     if (newDoc is DocumentContent)
@@ -601,7 +558,7 @@ namespace AvalonDock
                             ((DocumentPane)documentToAdd.Parent).Items.Clear();
                         }
 
-                        MainDocumentPane.Items.Insert(iInsertIndex, documentToAdd);
+                        MainDocumentPane.Items.Add(documentToAdd);
                     }
                     else if (newDoc is UIElement) //limit objects to be at least framework elements
                     {
@@ -610,14 +567,14 @@ namespace AvalonDock
                             Content = newDoc
                         };
 
-                        MainDocumentPane.Items.Insert(iInsertIndex, documentToAdd);
+                        MainDocumentPane.Items.Add(documentToAdd);
                     }
                     else
                         throw new InvalidOperationException(string.Format("Unable to add type {0} as DocumentContent", newDoc));
-
-                    iInsertIndex++;
                 }
             }
+
+            RefreshContents();
         }
 
         internal void HandleDocumentClose(DocumentContent contentClosed)
@@ -2370,7 +2327,7 @@ namespace AvalonDock
                         ResizingPanel.SetEffectiveSize(dockParent, new Size(200, 0.0));
                     }
                     else if (content.ActualWidth == 0.0 && (
-                        dockParent.Anchor == AnchorStyle.Left || dockParent.Anchor == AnchorStyle.Right))
+                        dockParent.Anchor == AnchorStyle.Top || dockParent.Anchor == AnchorStyle.Bottom))
                     {
                         ResizingPanel.SetResizeWidth(dockParent, new GridLength(200));
                         ResizingPanel.SetEffectiveSize(dockParent, new Size(200, 0.0));

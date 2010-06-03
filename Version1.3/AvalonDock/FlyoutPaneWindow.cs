@@ -218,12 +218,9 @@ namespace AvalonDock
                 IsResizing = false;
                 HideResizerOverlayWindow();
             };
-
-            
             
             base.OnApplyTemplate();
         }
-
 
         /// <summary>
         /// Handles the closed event
@@ -1019,6 +1016,7 @@ namespace AvalonDock
                     Close();
             }
         }
+
         #endregion
 
 
