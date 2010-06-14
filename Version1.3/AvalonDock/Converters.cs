@@ -101,11 +101,11 @@ namespace AvalonDock
                     var img = new BitmapImage(iconUri);
                     if (img != null)
                     {
-                        return new Image() 
+                        return new Image()
                         {
                             UseLayoutRounding = true,
-                            Width = width, 
-                            Source = img 
+                            Width = width,
+                            Source = img
                         };
                     }
                 }
@@ -119,8 +119,8 @@ namespace AvalonDock
                     Width = width,
                     Source = new BitmapImage(img.UriSource)
                 };
-
             }
+
 
             return value;
         }

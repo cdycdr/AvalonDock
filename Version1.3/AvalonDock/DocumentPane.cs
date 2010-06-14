@@ -349,7 +349,23 @@ namespace AvalonDock
             ContextMenu cxMenuDocuments = (ContextMenu)TryFindResource("DocumentsListMenu");
             if (cxMenuDocuments != null)
             {
-                cxMenuDocuments.ItemsSource = Items.OfType<ManagedContent>().OrderBy(c => c.Title);
+                //cxMenuDocuments.ItemsSource = Items.OfType<ManagedContent>().OrderBy(c => c.Title);
+                Items.OfType<ManagedContent>().OrderBy(c => c.Title).ForEach(
+                    c =>
+                    {
+                        cxMenuDocuments.Items.Add(new MenuItem()
+                        {
+                            Header = c.Title,
+                            Command = ManagedContentCommands.Activate,
+                            CommandTarget = c,
+                            Icon = new Image()
+                            {
+                                Source = c.Icon,
+                                Width = 16,
+                                UseLayoutRounding = true
+                            }
+                        });
+                    });
                 //cxMenuDocuments.CommandBindings.Add(new CommandBinding(ActivateDocumentCommand, new ExecutedRoutedEventHandler(this.ExecutedActivateDocumentCommand), new CanExecuteRoutedEventHandler(CanExecuteActivateDocumentCommand)));
 
                 if (_optionsContextMenuPlacementTarget != null)

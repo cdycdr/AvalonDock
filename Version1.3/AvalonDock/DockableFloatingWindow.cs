@@ -59,9 +59,9 @@ namespace AvalonDock
                     new CoerceValueCallback(OnCoerceValueContentProperty)));
         }
         
-        Pane _previousPane = null;
+        //Pane _previousPane = null;
 
-        int _arrayIndexPreviousPane = -1;
+        //int _arrayIndexPreviousPane = -1;
 
 
         internal DockableFloatingWindow(DockingManager manager)

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
-             mc:Ignorable="d" Height="339" Width="482">
+             mc:Ignorable="d" d:DesignHeight="339" d:DesignWidth="482">
     <Grid>
         <Label Content="{Binding Title}" Height="26" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" Width="112" ContentStringFormat="Title={0}" />
         <Label Content="{Binding State}" Height="29" HorizontalAlignment="Left" Margin="12,44,0,0" Name="label2" VerticalAlignment="Top" Width="300" ContentStringFormat="State={0}" />

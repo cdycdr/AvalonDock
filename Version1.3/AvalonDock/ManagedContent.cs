@@ -101,8 +101,8 @@ namespace AvalonDock
         //    return contentHost;
         //}
 
-		void ManagedContent_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
+        //void ManagedContent_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
             //WindowsFormsHost contentHost = GetWinFormsHost();
 
             //if (contentHost != null)
@@ -114,7 +114,7 @@ namespace AvalonDock
             //        this.Dispatcher.Invoke(new Action<object>((o) => o.CallMethod("Refresh", null)), DispatcherPriority.Render, childCtrl);
             //    }
             //}
-		}
+        //}
 
         protected virtual void OnContentLoaded()
         {
@@ -294,6 +294,7 @@ namespace AvalonDock
 
         protected virtual void OnDragMouseDown(object sender, MouseButtonEventArgs e)
         {
+            Debug.WriteLine("OnDragMouseDown" + e.ClickCount);
             if (!e.Handled && Manager != null)// && State != DockableContentState.AutoHide)
             {
                 isMouseDown = true;
@@ -308,17 +309,18 @@ namespace AvalonDock
         protected virtual void OnDragMouseUp(object sender, MouseButtonEventArgs e)
         {
             isMouseDown = false;
+
+            Debug.WriteLine("OnDragMouseUp" + e.ClickCount);
         }
 
         Point ptRelativePosition;
 
         protected virtual void OnDragMouseLeave(object sender, MouseEventArgs e)
         {
-            if (!e.Handled && e.LeftButton == MouseButtonState.Pressed && Manager != null)
+            if (!e.Handled && isMouseDown && e.LeftButton == MouseButtonState.Pressed && Manager != null)
             {
                 if (!IsMouseCaptured)
                 {
-                    //Point ptMouseMove = e.GetPosition(this);
                     Point ptMouseMove = e.GetPosition((IInputElement)System.Windows.Media.VisualTreeHelper.GetParent(this));
                     ManagedContent contentToSwap = null;
                     if (ContainerPane != null)
@@ -337,7 +339,8 @@ namespace AvalonDock
                         }
                     }
 
-                    if (contentToSwap != null)
+                    if (contentToSwap != null &&
+                        contentToSwap != this)
                     {
                         Pane containerPane = ContainerPane;
                         int myIndex = containerPane.Items.IndexOf(this);
@@ -352,8 +355,9 @@ namespace AvalonDock
                         containerPane.Items.Insert(myIndex, contentToSwap);
 
                         containerPane.SelectedItem = this;
-
+                        
                         e.Handled = false;
+                        //avoid ismouseDown = false call
                         return;
                     }
                     else if (Math.Abs(ptMouseMove.X - StartDragPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
@@ -367,8 +371,8 @@ namespace AvalonDock
                     }
                 }
             }
-            
-            isMouseDown = false;
+
+            ResetIsMouseDownFlag();
         }
 
 
@@ -927,6 +931,7 @@ namespace AvalonDock
             if (ContainerPane != null && Manager != null)// && Manager.ActiveContent != this)
             {
                 ContainerPane.SelectedItem = this;
+                Focus();
                 if (Manager != null)
                     Manager.ActiveContent = this; 
             }

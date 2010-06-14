@@ -89,8 +89,8 @@
         <ad:DockingManager x:Name="DockManager" Grid.Row="1" Margin="0,4,0,0" Loaded="DockManager_Loaded"
                      ActiveContent="{Binding ElementName=Content1}" DocumentClosing="DockManager_DocumentClosing" >
             <ad:ResizingPanel Orientation="Horizontal">
-                <ad:ResizingPanel ad:ResizingPanel.ResizeWidth="100" Orientation="Vertical">
-                    <ad:DockablePane >
+                <ad:ResizingPanel ad:ResizingPanel.ResizeWidth="200" Orientation="Vertical">
+                    <ad:DockablePane>
                         <local:SampleDockableContent x:Name="Content1" Title="Content1" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content2" Title="Content2" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content3" Title="Content3" Icon="Images\database.png"/>

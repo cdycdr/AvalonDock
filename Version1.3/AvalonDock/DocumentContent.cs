@@ -391,8 +391,8 @@ namespace AvalonDock
 
             DockingManager oldManager = Manager;
 
-            if (Manager != null)
-                Manager.FireDocumentClosingEvent(e);
+            if (oldManager != null)
+                oldManager.FireDocumentClosingEvent(e);
 
             if (e.Cancel)
                 return false;
@@ -403,9 +403,10 @@ namespace AvalonDock
 
             //if documents are attached to an external source via DockingManager.DocumentsSource
             //let application host handle the document closing by itself
-            if (Manager.DocumentsSource != null)
+            if (oldManager != null &&
+                oldManager.DocumentsSource != null)
             {
-                Manager.HandleDocumentClose(this);
+                oldManager.HandleDocumentClose(this);
             }
 
             if (oldManager != null)

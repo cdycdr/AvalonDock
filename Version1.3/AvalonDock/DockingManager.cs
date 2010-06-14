@@ -711,8 +711,13 @@ namespace AvalonDock
             RefreshContents();
         }
 
+        bool _allowRefreshContents = true;
+
         internal void RefreshContents()
         {
+            if (!_allowRefreshContents)
+                return;
+
             var contentsFoundUnderMe = new LogicalTreeAdapter(this).Descendants<DependencyObject>().Where(d => d.Item is ManagedContent).Select(d => d.Item).Cast<ManagedContent>();
             var contentsFoundInFloatingMode = _floatingWindows.SelectMany(d => d.HostedPane.Items.Cast<ManagedContent>());
             DockableContent contentFoundInFlyoutMode = null;
@@ -1082,88 +1087,6 @@ namespace AvalonDock
             base.OnKeyUp(e);
         }
 
-        //void OnExecuteCommand(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    if (e.Command == ShowNavigatorWindowCommand && ((Keyboard.Modifiers & ModifierKeys.Control)>0) )
-        //    {
-        //        ShowNavigatorWindow();
-        //        e.Handled = true;
-        //    }
-        //    else if (e.Command == ShowDocumentNavigatorWindowCommand && ((Keyboard.Modifiers & ModifierKeys.Shift) > 0))
-        //    {
-        //        ShowDocumentNavigatorWindow();
-        //        e.Handled = true;
-        //    }
-            
-        //}
-
-        //void OnCanExecuteCommand(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    e.CanExecute = true;
-        //}
-
-
-        //private static RoutedUICommand showDocumentNavigatorCommand = null;
-
-        ///// <summary>
-        ///// Get the command to show document navigator window
-        ///// </summary>
-        //public static RoutedUICommand ShowDocumentNavigatorWindowCommand
-        //{
-        //    get
-        //    {
-        //        lock (syncRoot)
-        //        {
-        //            if (null == showDocumentNavigatorCommand)
-        //            {
-        //                showDocumentNavigatorCommand = new RoutedUICommand("S_how document navigator window", "DocumentNavigator", typeof(DockingManager));
-        //                showDocumentNavigatorCommand.InputGestures.Add(new KeyGesture(Key.Tab, ModifierKeys.Shift));
-        //            }
-
-        //        }
-        //        return showDocumentNavigatorCommand;
-        //    }
-        //}
-
-        //DocumentNavigatorWindow documentNavigatorWindow = null;
-
-        //void ShowDocumentNavigatorWindow()
-        //{
-        //    HideDocumentNavigatorWindow();
-
-        //    //if (documentNavigatorWindow == null)
-        //    {
-        //        documentNavigatorWindow = new DocumentNavigatorWindow(this);
-        //        documentNavigatorWindow.Owner = Window.GetWindow(this);
-        //    }
-
-        //    if (MainDocumentPane == null)
-        //        return;
-
-        //    Point locMainDocumentPane = MainDocumentPane.PointToScreenDPI(new Point());
-        //    documentNavigatorWindow.Left = locMainDocumentPane.X;
-        //    documentNavigatorWindow.Top = locMainDocumentPane.Y;
-        //    documentNavigatorWindow.Width = MainDocumentPane.ActualWidth;
-        //    documentNavigatorWindow.Height = MainDocumentPane.ActualHeight;
-        //    documentNavigatorWindow.Show();
-        //    documentNavigatorWindow.Focus();
-        //}
-
-        //void HideDocumentNavigatorWindow()
-        //{
-        //    //if (documentNavigatorWindow != null)
-        //    //{
-        //    //    documentNavigatorWindow.Hide();
-                
-        //    //    //don't close this window to be more responsive
-        //    //    documentNavigatorWindow.Close();
-        //    //    documentNavigatorWindow = null;
-        //    //}
-        //}
-
-
-        //#endregion
-
         #region DockablePane operations
         /// <summary>
         /// Anchor a dockable pane to a border
@@ -1225,7 +1148,9 @@ namespace AvalonDock
                 toplevelPanel.Orientation = requestedOrientation;
 
                 FrameworkElement contentElement = Content as FrameworkElement;
-                Content = toplevelPanel;
+                
+                _allowRefreshContents = false;
+                Content = null;
 
                 if (anchor == AnchorStyle.Left ||
                     anchor == AnchorStyle.Top)
@@ -1238,6 +1163,9 @@ namespace AvalonDock
                     toplevelPanel.Children.Add(paneToAnchor);
                     toplevelPanel.InsertChildRelativeTo(contentElement, paneToAnchor, false);
                 }
+
+                _allowRefreshContents = true;
+                Content = toplevelPanel;
             }
             else
             {
@@ -1286,16 +1214,13 @@ namespace AvalonDock
             }
             
             //refresh contents state
-            foreach (ManagedContent content in paneToAnchor.Items)
-            {
-                if (content is DockableContent)
+            paneToAnchor.Items.OfType<DockableContent>().ForEach(dc =>
                 {
-                    ((DockableContent)content).SetStateToDock();
-                }
-            }           
+                    dc.SetStateToDock();
+                });          
             
             
-            paneToAnchor.Focus();
+            //paneToAnchor.Focus();
             toplevelPanel.InvalidateMeasure();
         }
 
@@ -3150,6 +3075,9 @@ namespace AvalonDock
                 xmlWriter.WriteAttributeString("EffectiveSize", new SizeConverter().ConvertToInvariantString(ResizingPanel.GetEffectiveSize(pane)));
                 xmlWriter.WriteAttributeString("ID", pane.ID.ToString());
                 xmlWriter.WriteAttributeString("Anchor", pane.Anchor.ToString());
+                
+                if (pane.Items.Count > 1)
+                    xmlWriter.WriteAttributeString("SelectedIndex", XmlConvert.ToString(pane.SelectedIndex));
 
                 xmlWriter.WriteAttributeString("IsAutoHidden", XmlConvert.ToString(pane.IsAutoHidden));
 
@@ -3191,7 +3119,6 @@ namespace AvalonDock
                 xmlWriter.WriteStartElement("DockableContent");
 
                 xmlWriter.WriteAttributeString("Name", content.Name);
-                //xmlWriter.WriteAttributeString("AutoHide", XmlConvert.ToString(content.State == DockableContentState.AutoHide));
 
                 content.SaveLayout(xmlWriter);
 
@@ -3222,6 +3149,9 @@ namespace AvalonDock
 
             if (pane.IsMainDocumentPane.GetValueOrDefault())
                 xmlWriter.WriteAttributeString("IsMain", "true");
+
+            if (pane.Items.Count > 1)
+                xmlWriter.WriteAttributeString("SelectedIndex", XmlConvert.ToString(pane.SelectedIndex));
 
             foreach (ManagedContent content in pane.Items)
             {
@@ -3359,8 +3289,6 @@ namespace AvalonDock
                 SaveLayout(sw, Content as ResizingPanel);
             else if (Content is DocumentPane)
                 SaveLayout(sw, Content as DocumentPane);
-            //else if (Content is DocumentPaneResizingPanel)
-            //    SaveLayout(sw, Content as DocumentPaneResizingPanel);
 
             sw.WriteStartElement("Hidden");
 
@@ -3623,6 +3551,9 @@ namespace AvalonDock
                 }
             }
 
+            if (mainElement.HasAttribute("SelectedIndex"))
+                documentPane.SelectedIndex = XmlConvert.ToInt32(mainElement.GetAttribute("SelectedIndex"));
+
             return documentPane;
 
         }
@@ -3680,6 +3611,9 @@ namespace AvalonDock
 
             if (toggleAutoHide && pane.Items.Count > 0)
                 ToggleAutoHide(pane);
+
+            if (mainElement.HasAttribute("SelectedIndex"))
+                pane.SelectedIndex = XmlConvert.ToInt32(mainElement.GetAttribute("SelectedIndex"));
 
             return pane;
         }
@@ -3946,16 +3880,17 @@ namespace AvalonDock
             ClearEmptyPanes();
             RefreshContents();
 
-            if (Documents.Count() > 0)
+            if (ActiveDocument != null &&
+               (ActiveDocument.ContainerPane == null ||
+               ActiveDocument.ContainerPane.GetManager() != this))
             {
-                ActiveContent = Documents[0];
-            }
-            else
-            {
-                ActiveContent = null;
-                ActiveDocument = null;
+                if (Documents.Count > 0)
+                    ActiveDocument = Documents[0];
+                else
+                    ActiveDocument = null;
             }
 
+            ActiveContent = ActiveDocument;
         } 
         #endregion
         

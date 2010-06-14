@@ -708,7 +708,7 @@ namespace AvalonDock
                 if (e.Cancel)
                     return false;
 
-                ((DockablePane)ContainerPane).RemoveContent(
+                ContainerPane.RemoveContent(
                     ContainerPane.Items.IndexOf(this));
 
                 OnClosed();

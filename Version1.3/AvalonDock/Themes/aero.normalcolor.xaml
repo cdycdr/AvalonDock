@@ -306,7 +306,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ad:DocumentPane}" >
                     <ControlTemplate.Resources>
-                        <ContextMenu x:Key="DocumentsListMenu" StaysOpen="True" ItemContainerStyle="{StaticResource ResourceKey=DocumentPaneMenuItemStyle}" ></ContextMenu>
+                        <ContextMenu x:Key="DocumentsListMenu" StaysOpen="True"  ></ContextMenu>
                     </ControlTemplate.Resources>                    
                     <Border 
                         Focusable="False"
