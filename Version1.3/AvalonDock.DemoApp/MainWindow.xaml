@@ -90,7 +90,7 @@
                      ActiveContent="{Binding ElementName=Content1}" DocumentClosing="DockManager_DocumentClosing" >
             <ad:ResizingPanel Orientation="Horizontal">
                 <ad:ResizingPanel ad:ResizingPanel.ResizeWidth="200" Orientation="Vertical">
-                    <ad:DockablePane>
+                    <ad:DockablePane SelectedIndex="1">
                         <local:SampleDockableContent x:Name="Content1" Title="Content1" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content2" Title="Content2" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content3" Title="Content3" Icon="Images\database.png"/>

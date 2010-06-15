@@ -93,6 +93,7 @@ namespace AvalonDock
             base.OnSelectionChanged(e);
         }
 
+        
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             DockingManager dockManager = GetManager();
@@ -116,6 +117,9 @@ namespace AvalonDock
                     SelectedItem = _lastSelectedContent;
             }
 
+            //let base class handle SelectedIndex/Item value
+            base.OnItemsChanged(e);
+            
             if (Items.Count > 0)
             {
                 int currentIndex = SelectedIndex;
@@ -140,7 +144,7 @@ namespace AvalonDock
                 }
             }
 
-            base.OnItemsChanged(e);
+
         }
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)

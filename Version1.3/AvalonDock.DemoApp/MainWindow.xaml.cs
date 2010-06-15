@@ -33,8 +33,8 @@ namespace AvalonDock.DemoApp
             //var dockableContent2 = new DockableContent() { Title = "Test2", Content = new TextBox() };
             //dockableContent.ContainerPane.Items.Add(dockableContent2);
 
-            for (int i = 0; i < 20; i++)
-                OnCreateNewDocumentContent(null, null);
+            //for (int i = 0; i < 20; i++)
+            //    OnCreateNewDocumentContent(null, null);
             
         }
 

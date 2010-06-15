@@ -465,7 +465,7 @@ namespace AvalonDock
 
         /// <summary>
         /// Gets the DockableContents property.  This dependency property 
-        /// retrives the collection of <see cref="DocumentContents"/> that are bound to <see cref="DockingManager"/>
+        /// retrives the collection of <see cref="DocumentContent"/> that are bound to <see cref="DockingManager"/>
         /// </summary>
         public ManagedContentCollection<DocumentContent> Documents
         {
@@ -2652,12 +2652,12 @@ namespace AvalonDock
                 //_flyoutWindow.KeepWindowOpen();
                 return;
             }
-            //hide previous create window
+
+            //hide previous window
             HideFlyoutWindow();
 
             //select this content in the referenced pane
             content.ContainerPane.SelectedItem = content;
-
 
             if (_wndInteropWrapper == null)
             {
@@ -2721,6 +2721,10 @@ namespace AvalonDock
         {
             if (_flyoutWindow == null)
                 return;
+            if (_flyoutWindow.ReferencedPane == null)
+                return;
+            if (_flyoutWindow.ReferencedPane.SelectedItem == null)
+                return;
             
             double leftTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _leftAnchorTabPanel.ActualWidth : _rightAnchorTabPanel.ActualWidth;
             double rightTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _rightAnchorTabPanel.ActualWidth : _leftAnchorTabPanel.ActualWidth;
@@ -2730,8 +2734,13 @@ namespace AvalonDock
             Point locDockingManager = HelperFunc.PointToScreenWithoutFlowDirection(this, new Point());
             Point locContent = HelperFunc.PointToScreenWithoutFlowDirection(Content as FrameworkElement, new Point());
 
-            double resWidth = initialSetup ? ResizingPanel.GetResizeWidth(_flyoutWindow.ReferencedPane).Value : _flyoutWindow.Width;
-            double resHeight = initialSetup ? ResizingPanel.GetResizeHeight(_flyoutWindow.ReferencedPane).Value : _flyoutWindow.Height;
+            Size initialSetupFlyoutWindowSize = Size.Empty;
+            initialSetupFlyoutWindowSize = (_flyoutWindow.ReferencedPane.SelectedItem as DockableContent).FlyoutWindowSize;
+            if (initialSetupFlyoutWindowSize.IsEmpty)
+                initialSetupFlyoutWindowSize = ResizingPanel.GetEffectiveSize(_flyoutWindow.ReferencedPane.ReferencedPane);
+
+            double resWidth = initialSetup ? initialSetupFlyoutWindowSize.Width : _flyoutWindow.Width;
+            double resHeight = initialSetup ? initialSetupFlyoutWindowSize.Height : _flyoutWindow.Height;
 
                 
             if (_flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Right)

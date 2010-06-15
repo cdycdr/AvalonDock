@@ -350,6 +350,7 @@ namespace AvalonDock
             if (cxMenuDocuments != null)
             {
                 //cxMenuDocuments.ItemsSource = Items.OfType<ManagedContent>().OrderBy(c => c.Title);
+                cxMenuDocuments.Items.Clear();
                 Items.OfType<ManagedContent>().OrderBy(c => c.Title).ForEach(
                     c =>
                     {
