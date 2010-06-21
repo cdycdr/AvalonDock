@@ -297,28 +297,41 @@ namespace AvalonDock
 
         public DocumentPane CreateNewHorizontalTabGroup()
         {
-            ManagedContent activeContent = SelectedItem as ManagedContent;
-            DocumentPane newContainerPane = new DocumentPane();
+            var activeContent = SelectedItem as ManagedContent;
+            var oldContainerPane = activeContent.ContainerPane as DocumentPane;
+            var newContainerPane = new DocumentPane();
             
-            int indexOfDocumentInItsContainer = activeContent.ContainerPane.Items.IndexOf(activeContent);
-            activeContent.ContainerPane.RemoveContent(indexOfDocumentInItsContainer);
+            oldContainerPane.RemoveContent(activeContent);
             newContainerPane.Items.Add(activeContent);
 
             GetManager().Anchor(newContainerPane, this, AnchorStyle.Bottom);
+
+            activeContent.Activate();
+            newContainerPane.RefreshContainsActiveContentProperty();
+            newContainerPane.RefreshContainsActiveDocumentProperty();
+            oldContainerPane.RefreshContainsActiveContentProperty();
+            oldContainerPane.RefreshContainsActiveDocumentProperty();
 
             return newContainerPane;
         }
 
         public DocumentPane CreateNewVerticalTabGroup()
         {
-            ManagedContent activeContent = SelectedItem as ManagedContent;
-            DocumentPane newContainerPane = new DocumentPane();
+            var activeContent = SelectedItem as ManagedContent;
+            var oldContainerPane = activeContent.ContainerPane as DocumentPane;
+            var newContainerPane = new DocumentPane();
 
-            int indexOfDocumentInItsContainer = activeContent.ContainerPane.Items.IndexOf(activeContent);
-            activeContent.ContainerPane.RemoveContent(indexOfDocumentInItsContainer);
+            oldContainerPane.RemoveContent(activeContent);
             newContainerPane.Items.Add(activeContent);
 
             GetManager().Anchor(newContainerPane, this, AnchorStyle.Right);
+            
+            activeContent.Activate();
+            newContainerPane.RefreshContainsActiveContentProperty();
+            newContainerPane.RefreshContainsActiveDocumentProperty();
+            oldContainerPane.RefreshContainsActiveContentProperty();
+            oldContainerPane.RefreshContainsActiveDocumentProperty();
+
 
             return newContainerPane;
         }

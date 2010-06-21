@@ -40,7 +40,6 @@ namespace AvalonDock
             //by design avoid style change
 
             Pane.ShowHeaderProperty.OverrideMetadata(typeof(FloatingDockablePane), new FrameworkPropertyMetadata(false));
-
         }
 
 
@@ -153,11 +152,11 @@ namespace AvalonDock
             if (copyFromPane == null)
                 return;
 
-            Binding bnd = new Binding("Style");
-            bnd.Source = copyFromPane;
-            bnd.Mode = BindingMode.OneWay;
+            //Binding bnd = new Binding("Style");
+            //bnd.Source = copyFromPane;
+            //bnd.Mode = BindingMode.OneWay;
 
-            SetBinding(StyleProperty, bnd);
+            //SetBinding(StyleProperty, bnd);
         }
 
         DockablePane _paneToTransfer = null;

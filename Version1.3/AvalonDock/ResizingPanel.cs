@@ -1352,7 +1352,7 @@ namespace AvalonDock
 
         void ShowResizerOverlayWindow(Resizer splitter)
         { 
-            Point ptTopLeftScreen = this.PointToScreen(new Point());
+            Point ptTopLeftScreen = this.PointToScreenDPI(new Point());
 
             _resizerGhost = new Border()
             {
@@ -1371,7 +1371,7 @@ namespace AvalonDock
                 _resizerGhost.Width = ActualWidth;
             }
 
-            _initialStartPoint = splitter.PointToScreen(new Point()) - this.PointToScreen(new Point());
+            _initialStartPoint = splitter.PointToScreenDPI(new Point()) - this.PointToScreenDPI(new Point());
 
             if (Orientation == System.Windows.Controls.Orientation.Horizontal)
             {

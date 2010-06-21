@@ -307,6 +307,13 @@ namespace AvalonDock
                     parentPane.SelectedIndex = 0;
                 }
             }
+
+            //Active this content as the active document
+            if (Manager != null)
+                Manager.ActiveDocument = this;
+
+            //ensure this content is rendered first
+            Panel.SetZIndex(this, 2);
         }
 
         /// <summary>

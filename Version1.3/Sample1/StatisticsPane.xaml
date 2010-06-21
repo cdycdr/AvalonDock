@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+             Title="Statistics"
              mc:Ignorable="d" d:DesignHeight="168" d:DesignWidth="357">
     <Grid>
         <DataGrid x:Name="gridStats" ItemsSource="{Binding Stats}" IsReadOnly="True"/>

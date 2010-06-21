@@ -108,14 +108,11 @@ namespace AvalonDock
 
         protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.NewItems != null)
+            Items.Cast<DockableContent>().ForEach(c =>
             {
-                e.NewItems.Cast<DockableContent>().ForEach(c =>
-                {
-                    if (c.State == DockableContentState.None)
-                        c.SetStateToDock();
-                });
-            }
+                if (c.State == DockableContentState.None)
+                    c.SetStateToDock();
+            });
 
             UpdateCanAutohideProperty();
             base.OnItemsChanged(e);

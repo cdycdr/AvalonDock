@@ -9,18 +9,18 @@
     </ResourceDictionary.MergedDictionaries>
 
     <ContextMenu x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:ContextMenuElement.DocumentPane}}">
-        <MenuItem Command="ad:DocumentPaneCommands.CloseThis"  />
-        <MenuItem Command="ad:DocumentPaneCommands.CloseAllButThis" />
+        <MenuItem Command="ad:DocumentPaneCommands.CloseThis" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=ad:ManagedContent}}" />
+        <MenuItem Command="ad:DocumentPaneCommands.CloseAllButThis" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=ad:ManagedContent}}" />
         <Separator/>
-        <MenuItem Command="ad:DocumentPaneCommands.NewHorizontalTabGroup">
+        <MenuItem Command="ad:DocumentPaneCommands.NewHorizontalTabGroup" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=ad:ManagedContent}}" >
             <MenuItem.Icon>
-                <Image Source="/AvalonDock;component/resources/Images/HTabGroup.png" Width="13" Height="14" UseLayoutRounding="True"/>
+                <Image Source="/AvalonDock;component/resources/Images/HTabGroup.png" Width="13" Height="14" Style="{StaticResource DefaultIconStyle}"/>
             </MenuItem.Icon>
         </MenuItem> 
         <MenuItem 
-            Command="ad:DocumentPaneCommands.NewVerticalTabGroup">
+            Command="ad:DocumentPaneCommands.NewVerticalTabGroup" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=ad:ManagedContent}}" >
             <MenuItem.Icon>
-                <Image Source="/AvalonDock;component/resources/Images/VTabGroup.png" Width="13" UseLayoutRounding="True" />
+                <Image Source="/AvalonDock;component/resources/Images/VTabGroup.png" Width="13" Style="{StaticResource DefaultIconStyle}" />
             </MenuItem.Icon>
         </MenuItem>
     </ContextMenu>
@@ -76,7 +76,7 @@
 							            Margin="5,0,4,0"  
 							            Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
 									<!--<ad:AlignedImage x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">-->
-                                    <Image  x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" UseLayoutRounding="True"/>
+                                    <Image  x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Style="{StaticResource DefaultIconStyle}"/>
 									<!--</ad:AlignedImage>-->
 								</StackPanel>
                             </Border>  
@@ -137,7 +137,7 @@
         <Setter Property="MenuItem.Header" Value="{Binding Path=Title}"/>
         <Setter Property="MenuItem.Icon">
             <Setter.Value>
-                <Image Source="{Binding Icon,Converter={x:Static ad:Converters.ObjectToImageConverter}}" UseLayoutRounding="True"/>
+                <Image Source="{Binding Icon,Converter={x:Static ad:Converters.ObjectToImageConverter}}" Style="{StaticResource DefaultIconStyle}"/>
             </Setter.Value>
         </Setter>
     </Style>-->
@@ -184,10 +184,10 @@
                                     <Button DockPanel.Dock="Right" Width="18" Height="18" Style="{StaticResource PaneHeaderCommandStyle}" 
                                             Command="ad:ManagedContentCommands.Close" 
                                             CommandTarget="{TemplateBinding SelectedItem}">
-										<Image Source="Images\PinClose.png" Width="13" UseLayoutRounding="True"/>
+                                        <Image Source="Images\PinClose.png" Width="13" Style="{StaticResource DefaultIconStyle}"/>
                                     </Button>
                                     <Button x:Name="PART_ShowContextMenuButton" DockPanel.Dock="Right" Width="18" Height="18" Style="{StaticResource PaneHeaderCommandStyle}">
-										<Image x:Name="ShowContextMenuIcon" Source="Images\PinMenu.png" Width="13" UseLayoutRounding="True"/>
+                                        <Image x:Name="ShowContextMenuIcon" Source="Images\PinMenu.png" Width="13" Style="{StaticResource DefaultIconStyle}"/>
                                     </Button>
                                     <ad:DocumentTabPanel 
                                         x:Name="paneTabsPanel" 

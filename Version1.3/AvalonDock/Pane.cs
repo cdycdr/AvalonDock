@@ -165,32 +165,6 @@ namespace AvalonDock
             }
         }
 
-        //void RefreshContentsSelectedProperty()
-        //{
-        //    //foreach (ManagedContent mc in Items)
-        //    //{
-        //    //    //mc.IsSelected = (mc == SelectedItem);
-        //    //    //Selector.SetIsSelected(mc 
-                
-        //    //    if (Selector.GetIsSelected(mc))
-        //    //        mc.FocusContent();
-        //    //}
-        //}
-
-        //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        //{
-        //    if (e.Property == SelectedItemProperty)
-        //        RefreshContentsSelectedProperty();
-        //    //    SetValue(ActiveContentProperty, SelectedItem);
-
-        //    //if (e.Property == ActiveContentProperty)
-        //    //{
-        //    //    //SetValue(SelectedItemProperty, ActiveContent);
-
-        //    //}
-
-        //    base.OnPropertyChanged(e);
-        //} 
         #endregion
 
         #region IDockableControl Members

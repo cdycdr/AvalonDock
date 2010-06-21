@@ -30,7 +30,7 @@
 									<ColumnDefinition Width="Auto"/>
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
-                                <Image x:Name="Icon" Margin="1" Width="16" UseLayoutRounding="True" Source="{TemplateBinding Icon}"/>
+                                <Image x:Name="Icon" Margin="1" Width="16" Style="{StaticResource DefaultIconStyle}" Source="{TemplateBinding Icon}"/>
 								<TextBlock 
 								        x:Name="tabItemTitle"
                                         Grid.Column="1"
@@ -113,21 +113,21 @@
 								<DockPanel LastChildFill="True">
                                     <Button DockPanel.Dock="Right" Style="{StaticResource PaneHeaderCommandStyle}" Command="ad:ManagedContentCommands.Close" CommandTarget="{TemplateBinding SelectedItem}"
                                             Width="15" Height="15" Margin="2,0,2,0" VerticalAlignment="Center">
-										<ad:AlignedImage>
-											<Image x:Name="IMG_Close" Source="/AvalonDock;component/resources/Images/Classic/PinClose.png" Width="13" Height="13" Stretch="UniformToFill"/>
-										</ad:AlignedImage>
+										<!--<ad:AlignedImage>-->
+                                        <Image x:Name="IMG_Close" Source="/AvalonDock;component/resources/Images/Classic/PinClose.png" Width="13" Style="{StaticResource DefaultIconStyle}"/>
+										<!--</ad:AlignedImage>-->
 									</Button>
                                     <Button x:Name="btnPinAutoHide" DockPanel.Dock="Right" Style="{StaticResource PaneHeaderCommandStyle}" Command="ad:DockablePaneCommands.ToggleAutoHide"
                                             Width="15" Height="15" VerticalAlignment="Center">
-										<ad:AlignedImage>
-											<Image x:Name="IMG_AutoHide" Source="/AvalonDock;component/resources/Images/Classic/PinAutoHide.png" Width="13" Height="13" Stretch="UniformToFill"/>
-										</ad:AlignedImage>
+										<!--<ad:AlignedImage>-->
+                                        <Image x:Name="IMG_AutoHide" Source="/AvalonDock;component/resources/Images/Classic/PinAutoHide.png" Width="13" Style="{StaticResource DefaultIconStyle}"/>
+										<!--</ad:AlignedImage>-->
 									</Button>
 									<Border x:Name="PART_ShowContextMenuButton"  DockPanel.Dock="Right" Style="{StaticResource PaneHeaderContextMenuCommandStyle}" 
                                             Width="15" Height="15" VerticalAlignment="Center">
-										<ad:AlignedImage>
-											<Image x:Name="IMG_ShowContextMenu" Source="/AvalonDock;component/resources/Images/Classic/PinMenu.png" Width="13" Height="13" Stretch="UniformToFill"/>
-										</ad:AlignedImage>
+										<!--<ad:AlignedImage>-->
+											<Image x:Name="IMG_ShowContextMenu" Source="/AvalonDock;component/resources/Images/Classic/PinMenu.png" Width="13" Style="{StaticResource DefaultIconStyle}"/>
+										<!--</ad:AlignedImage>-->
                                     </Border>
 									<TextBlock 
 									    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Title}" 
@@ -248,9 +248,7 @@
                                             TextWrapping="NoWrap"
 							                Text="{TemplateBinding Title}" 
 							                Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
-                                    <ad:AlignedImage x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Image Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Height="8" Stretch="Uniform"/>
-                                    </ad:AlignedImage>
+                                    <Image Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" Style="{StaticResource DefaultIconStyle}"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -414,7 +412,7 @@
                                         <VisualBrush Stretch="None" Visual="{Binding Path=Icon, RelativeSource={RelativeSource TemplatedParent}}"/>
 									</Border.Background>
 								</Border>-->
-                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" UseLayoutRounding="True"/>
+                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultIconStyle}"/>
 
                                 <TextBlock 
                                     Grid.Column="1"

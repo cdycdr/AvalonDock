@@ -67,11 +67,11 @@ namespace AvalonDock
             if (copyFromPane == null)
                 return;
 
-            Binding bnd = new Binding("Style");
-            bnd.Source = copyFromPane;
-            bnd.Mode = BindingMode.OneWay;
+            //Binding bnd = new Binding("Style");
+            //bnd.Source = copyFromPane;
+            //bnd.Mode = BindingMode.OneWay;
 
-            SetBinding(StyleProperty, bnd);
+            //SetBinding(StyleProperty, bnd);
         }
 
         protected override void OnUnloaded(object sender, RoutedEventArgs e)

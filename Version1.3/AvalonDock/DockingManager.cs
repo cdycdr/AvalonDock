@@ -1514,13 +1514,13 @@ namespace AvalonDock
                             relativePane, true);
                     }
 
-                    if (relativePaneContainer.Orientation == Orientation.Horizontal)
-                    {
-                        Size desideredSize = ResizingPanel.GetEffectiveSize(paneToAnchor);
-                        double approxStarForNewPane = desideredSize.Width / relativePaneContainer.ActualWidth;
-                        approxStarForNewPane = Math.Min(approxStarForNewPane, 1.0);
-                        paneToAnchor.SetValue(ResizingPanel.ResizeWidthProperty, new GridLength(approxStarForNewPane, GridUnitType.Star));
-                    }
+                    //if (relativePaneContainer.Orientation == Orientation.Horizontal)
+                    //{
+                    //    Size desideredSize = ResizingPanel.GetEffectiveSize(paneToAnchor);
+                    //    double approxStarForNewPane = desideredSize.Width / relativePaneContainer.ActualWidth;
+                    //    approxStarForNewPane = Math.Min(approxStarForNewPane, 1.0);
+                    //    paneToAnchor.SetValue(ResizingPanel.ResizeWidthProperty, new GridLength(approxStarForNewPane, GridUnitType.Star));
+                    //}
                 }
 
                 relativePaneContainer.InvalidateMeasure();
@@ -1670,19 +1670,20 @@ namespace AvalonDock
         {
             //transfer tha contents of dragged pane (conatined in a FloatingWindow)
             //to the pane which user select
-            ManagedContent contentToFocus = null;
+            //ManagedContent contentToFocus = null;
             while (paneDragged.Items.Count > 0)
             {
-                ManagedContent contentToTransfer = paneDragged.RemoveContent(0);
+                var contentToTransfer = paneDragged.RemoveContent(0);
                 paneToDropInto.Items.Insert(0, contentToTransfer);
-                contentToFocus = contentToTransfer;
+                //contentToFocus = contentToTransfer;
+                contentToTransfer.Activate();
             }
 
-            
-            paneToDropInto.SelectedIndex = 0;
-            paneToDropInto.Focus();
-            if (contentToFocus != null)
-                contentToFocus.Activate();
+     
+            //paneToDropInto.SelectedIndex = 0;
+            //paneToDropInto.Focus();
+            //if (contentToFocus != null)
+            //    contentToFocus.Activate();
         }
         internal void DropInto(DockablePane paneDragged, DocumentPane paneToDropInto)
         {
@@ -1694,18 +1695,20 @@ namespace AvalonDock
             //to Dock (using Dock() method of class DockablePane).
             while (paneDragged.Items.Count > 0)
             {
-                ManagedContent contentToTransfer = paneDragged.RemoveContent(0);
+                var contentToTransfer = paneDragged.RemoveContent(0);
                 paneToDropInto.Items.Add(contentToTransfer);
 
 
-                DockableContent dockContentToTransfer = contentToTransfer as DockableContent;
+                var dockContentToTransfer = contentToTransfer as DockableContent;
 
                 if (dockContentToTransfer != null)
                     dockContentToTransfer.SetStateToDocument();
+                
+                contentToTransfer.Activate();
             }
 
-            paneToDropInto.SelectedIndex = paneToDropInto.Items.Count - 1;
-            paneToDropInto.Focus();
+            //paneToDropInto.SelectedIndex = paneToDropInto.Items.Count - 1;
+            //paneToDropInto.Focus();
         }
         internal void DropInto(DockablePane paneDragged, DockablePane paneToDropInto)
         {
@@ -2168,6 +2171,11 @@ namespace AvalonDock
                         else
                         {
                             //if no suitable pane was found create e new one on the fly
+                            if (content.ContainerPane != null)
+                            {
+                                content.ContainerPane.RemoveContent(content);
+                            }
+
                             DockablePane pane = new DockablePane();
                             pane.Items.Add(content);
                             Anchor(pane, desideredAnchor);
