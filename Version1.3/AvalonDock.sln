@@ -52,27 +52,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AvalonDock.Themes", "Avalon
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample1", "Sample1", "{3688D315-DFD0-4445-9325-83F3E71C3D32}"
 	ProjectSection(SolutionItems) = preProject
+		Sample1\app.config = Sample1\app.config
 		Sample1\Sample1_35.csproj = Sample1\Sample1_35.csproj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample2", "Sample2", "{B7F646F1-9E26-47E0-9832-50237776627E}"
 	ProjectSection(SolutionItems) = preProject
+		Sample2\app.config = Sample2\app.config
 		Sample2\Sample2_35.csproj = Sample2\Sample2_35.csproj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample3", "Sample3", "{87809803-0B79-4162-BC85-586645E62E9F}"
 	ProjectSection(SolutionItems) = preProject
+		Sample3\app.config = Sample3\app.config
 		Sample3\Sample3_35.csproj = Sample3\Sample3_35.csproj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample4", "Sample4", "{372107B1-FE84-4204-A204-80B40394AB11}"
 	ProjectSection(SolutionItems) = preProject
+		Sample4\app.config = Sample4\app.config
 		Sample4\Sample4_35.csproj = Sample4\Sample4_35.csproj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AvalonDock.DemoApp", "AvalonDock.DemoApp", "{1FA4EA8D-E76A-403B-AF0B-1A5BA151826E}"
 	ProjectSection(SolutionItems) = preProject
+		AvalonDock.DemoApp\app.config = AvalonDock.DemoApp\app.config
 		AvalonDock.DemoApp\AvalonDock.DemoApp35.csproj = AvalonDock.DemoApp\AvalonDock.DemoApp35.csproj
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1CEFE9A6-295B-43C8-B3A3-0E4BF98A9EEB}"
+	ProjectSection(SolutionItems) = preProject
+		AvalonDock\Resources\SpecNET35Styles.xaml = AvalonDock\Resources\SpecNET35Styles.xaml
 	EndProjectSection
 EndProject
 Global
@@ -177,5 +187,6 @@ Global
 		{87809803-0B79-4162-BC85-586645E62E9F} = {9D39657A-3FF5-4FA3-A61F-9FB5E7B62748}
 		{372107B1-FE84-4204-A204-80B40394AB11} = {9D39657A-3FF5-4FA3-A61F-9FB5E7B62748}
 		{1FA4EA8D-E76A-403B-AF0B-1A5BA151826E} = {9D39657A-3FF5-4FA3-A61F-9FB5E7B62748}
+		{1CEFE9A6-295B-43C8-B3A3-0E4BF98A9EEB} = {D2FEAC74-18A8-4CF8-95B2-E8C42256E848}
 	EndGlobalSection
 EndGlobal
