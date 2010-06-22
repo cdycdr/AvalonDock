@@ -19,7 +19,7 @@
 							  BorderBrush="{StaticResource ManagedContentTabControlNormalBorderBrush}"
 							  Background="{StaticResource ManagedContentTabItemNormalBackground}">
                             <StackPanel Orientation="Horizontal">
-                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultIconStyle}"/>
+                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultImageStyle}"/>
 								<TextBlock 
                                     Text="{TemplateBinding Title}"  
                                     Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" 

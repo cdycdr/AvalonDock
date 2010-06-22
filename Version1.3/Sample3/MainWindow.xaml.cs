@@ -73,22 +73,22 @@ namespace Sample3
 
 
             //DataGrid document
-            var dataGrid = new DataGrid();
-            var rnd = new Random();
-            var data = new List<Tuple<double, double, double, double>>();
-            for (int i = 0; i < 100; i++)
-            {
-                data.Add(Tuple.Create(rnd.NextDouble(), rnd.NextDouble() * 10.0, rnd.NextDouble() * 100.0, rnd.NextDouble() * 1000.0));
-            }
+            //var dataGrid = new DataGrid();
+            //var rnd = new Random();
+            //var data = new List<Tuple<double, double, double, double>>();
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    data.Add(Tuple.Create(rnd.NextDouble(), rnd.NextDouble() * 10.0, rnd.NextDouble() * 100.0, rnd.NextDouble() * 1000.0));
+            //}
 
-            dataGrid.ItemsSource = data;
+            //dataGrid.ItemsSource = data;
 
-            var dataGridDocument = new DocumentContent() { Title = "Data", IsLocked = true, Content = dataGrid };
-            dataGridDocument.Show(dockManager);
+            //var dataGridDocument = new DocumentContent() { Title = "Data", IsLocked = true, Content = dataGrid };
+            //dataGridDocument.Show(dockManager);
 
-            //DataGrid Info Text sample
-            var dataGridInfoContent = new DockableContent() { Title = "Data Info", Content = new TextBox() { Text = "Data Info Text" } };
-            dataGridInfoContent.ShowAsDocument(dockManager);
+            ////DataGrid Info Text sample
+            //var dataGridInfoContent = new DockableContent() { Title = "Data Info", Content = new TextBox() { Text = "Data Info Text" } };
+            //dataGridInfoContent.ShowAsDocument(dockManager);
 
         }
 

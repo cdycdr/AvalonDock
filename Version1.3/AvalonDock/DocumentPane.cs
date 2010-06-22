@@ -101,7 +101,7 @@ namespace AvalonDock
                 Items.Cast<ManagedContent>().FirstOrDefault(d => d.IsActiveDocument) != null);
             
             if (Items.Count > 0)
-                Debug.WriteLine("{0} ContainsActiveDocument ={1}", (Items[0] as ManagedContent).Title, ContainsActiveDocument);
+                Debug.WriteLine(string.Format("{0} ContainsActiveDocument ={1}", (Items[0] as ManagedContent).Title, ContainsActiveDocument));
         }
 
         
@@ -376,7 +376,9 @@ namespace AvalonDock
                             {
                                 Source = c.Icon,
                                 Width = 16,
+#if NET4
                                 UseLayoutRounding = true
+#endif
                             }
                         });
                     });
@@ -551,5 +553,15 @@ namespace AvalonDock
             base.OnSelectionChanged(e);
         }
 
+
+        public override bool OpenOptionsMenu(UIElement menuTarget)
+        {
+            if (cxOptions == null)
+            {
+                cxOptions = TryFindResource(new ComponentResourceKey(typeof(DockingManager), ContextMenuElement.DocumentPane)) as ContextMenu;
+            }
+           
+            return base.OpenOptionsMenu(menuTarget);
+        }
     }
 }

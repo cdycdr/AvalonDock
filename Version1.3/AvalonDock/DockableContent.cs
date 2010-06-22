@@ -702,14 +702,12 @@ namespace AvalonDock
 
                 if (e.Cancel)
                     return false;
-
-                DockingManager oldManager = Manager;
-
-                if (e.Cancel)
-                    return false;
-
-                ContainerPane.RemoveContent(
-                    ContainerPane.Items.IndexOf(this));
+                
+                if (ContainerPane != null)
+                {
+                    ContainerPane.RemoveContent(
+                        ContainerPane.Items.IndexOf(this));
+                }
 
                 OnClosed();
                 return true;
@@ -926,7 +924,7 @@ namespace AvalonDock
                 Guid containerPaneGuid = Guid.Empty;
                 if (contentElement.HasAttribute("ContainerPaneID"))
                 {
-                    containerPaneGuid = Guid.Parse(contentElement.GetAttribute("ContainerPaneID"));
+                    containerPaneGuid = new Guid(contentElement.GetAttribute("ContainerPaneID"));
 
                     if (Manager != null)
                     { 

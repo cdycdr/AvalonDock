@@ -322,14 +322,13 @@
                             Background="{StaticResource ManagedContentTabItemNormalBackground}"   
                             CornerRadius="0,0,2,2"
                             Padding="1"
-                            ContextMenu="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:ContextMenuElement.DockablePane}}}"
                             >
                             <Grid Margin="4,0,4,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultIconStyle}"/>
+                                <Image x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultImageStyle}"/>
 
                                 <!--<ad:AlignedImage>
                                     <ContentPresenter x:Name="Icon"
@@ -506,7 +505,8 @@
                             Background="Transparent">
                         <StackPanel x:Name="PART_DragArea" 
                                     Orientation="Horizontal" 
-                                    ContextMenu="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:ContextMenuElement.DocumentPane}}}">
+                                    Background="Transparent"
+                                    >
                             <!--This image with width=0 is required to connect the icon visual to the presentation source,
                                 without this navigatorwindow won't work-->
                             <Image Source="{TemplateBinding Icon}" Width="0"/>
@@ -516,12 +516,12 @@
                                     TextWrapping="NoWrap"
 							        Text="{TemplateBinding Title}" 
 							        Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
-                            <Image x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Style="{StaticResource DefaultIconStyle}"/>
+                            <Image x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Style="{StaticResource DefaultImageStyle}"/>
                             <Button x:Name="PART_CloseButton" Visibility="Hidden" Margin="6,2,2,2" 
                                     Style="{StaticResource PaneHeaderCommandStyle}" 
                                     ToolTip="{x:Static adRes:Resources.ManagedContentCommands_Close}"
                                     Command="ad:ManagedContentCommands.Close" Opacity="0.8">
-                                <Image Source="/AvalonDock;component/resources/Images/PinClose.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="13" Style="{StaticResource DefaultIconStyle}"/>
+                                <Image Source="/AvalonDock;component/resources/Images/PinClose.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="13" Style="{StaticResource DefaultImageStyle}"/>
                             </Button>    
 
                         </StackPanel>
@@ -723,7 +723,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultIconStyle}"/>
+                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultImageStyle}"/>
                                 <TextBlock 
                                     Grid.Column="1"
                                     Text="{TemplateBinding Title}"  

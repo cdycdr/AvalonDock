@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/AvalonDock;component/Resources/Brushes.xaml"/>
+        <ResourceDictionary Source="/AvalonDock;component/Resources/SpecFrameworkStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <ContextMenu
@@ -83,11 +84,9 @@
 								Value="1"/>
             </Trigger>
         </Style.Triggers>
-        
-   </Style>
-    
-    
-    <Style x:Key="DefaultIconStyle" TargetType="Image">
-        <Setter Property="UseLayoutRounding" Value="True"/>        
+
+
+
     </Style>
+    
 </ResourceDictionary>

@@ -31,6 +31,9 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections;
 using System.Linq;
+using System.Windows.Controls.Primitives;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace AvalonDock
 {
@@ -242,7 +245,7 @@ namespace AvalonDock
                 Items.Cast<ManagedContent>().FirstOrDefault(d => d.IsActiveContent) != null);
 
             if (Items.Count> 0)
-                Debug.WriteLine("{0} ContainsActiveContent ={1}", (Items[0] as ManagedContent).Title, ContainsActiveContent);
+                Debug.WriteLine(string.Format("{0} ContainsActiveContent ={1}", (Items[0] as ManagedContent).Title, ContainsActiveContent));
         }
         #endregion
 
@@ -377,7 +380,7 @@ namespace AvalonDock
                 }
             }
 
-            Debug.WriteLine("Pane.OnCanExecuteCommand({0}) = {1} (ContinueRouting={2})", e.Command, e.CanExecute, e.ContinueRouting);
+            Debug.WriteLine(string.Format("Pane.OnCanExecuteCommand({0}) = {1} (ContinueRouting={2})", e.Command, e.CanExecute, e.ContinueRouting));
         }
 
         /// <summary>
@@ -433,7 +436,120 @@ namespace AvalonDock
         public static readonly DependencyProperty ShowHeaderProperty =
             DependencyProperty.Register("ShowHeader", typeof(bool), typeof(Pane), new UIPropertyMetadata(true));
 
+        /// <summary>
+        /// Move focus to pane content and activate it
+        /// </summary>
+        protected void FocusContent()
+        {
+            ManagedContent selectedContent = SelectedItem as ManagedContent;
+            if (selectedContent != null)// && selectedContent.Content is UIElement)
+            {
+                //UIElement internalContent = selectedContent.Content as UIElement;
+                //bool res = Focus();
+                //Keyboard.Focus(internalContent);
+                selectedContent.Activate();
+            }
+        }
 
+        #region OptionsContextMenu
+        protected ContextMenu cxOptions = null;
+        ContextMenu _attachedCxOptions = null;
+        /// <summary>
+        /// Open the option context menu
+        /// </summary>
+        /// <param name="menuTarget">Target element under which context menu will be shown. Pass null if context menu
+        /// should be shown at mouse position.</param>
+        /// <returns>True if context menu resource was found and open, false otherwise.</returns>
+        public virtual bool OpenOptionsMenu(UIElement menuTarget)
+        {
+            if (_attachedCxOptions != cxOptions)
+            {
+                if (_attachedCxOptions != null)
+                {
+                    cxOptions.Opened -= (s, e) => UpdateIsOptionsMenuOpen();
+                    cxOptions.Closed -= (s, e) => UpdateIsOptionsMenuOpen();
+                }
+            
+                _attachedCxOptions = cxOptions;
+
+                if (_attachedCxOptions != null)
+                {
+                    cxOptions.Opened += (s, e) => UpdateIsOptionsMenuOpen();
+                    cxOptions.Closed += (s, e) => UpdateIsOptionsMenuOpen();
+                }
+            }
+
+            if (cxOptions != null)
+            {
+                FocusContent();
+            }
+
+            if (cxOptions != null)
+            {
+                cxOptions.DataContext = this.SelectedItem;
+
+                foreach (MenuItem menuItem in cxOptions.Items.OfType<MenuItem>())
+                    menuItem.CommandTarget = this.SelectedItem as IInputElement;
+
+                if (menuTarget != null)
+                {
+                    cxOptions.Placement = PlacementMode.Bottom;
+                    cxOptions.PlacementTarget = menuTarget;
+                }
+                else
+                {
+                    cxOptions.Placement = PlacementMode.MousePoint;
+                    cxOptions.PlacementTarget = this;
+                }
+
+                cxOptions.IsOpen = true;
+            }
+
+            return (cxOptions != null && cxOptions.IsOpen);
+        }
+
+        /// <summary>
+        /// Close the options context menu
+        /// </summary>
+        public virtual void CloseOptionsMenu()
+        {
+            if (cxOptions != null)
+            {
+                cxOptions.IsOpen = false;
+                cxOptions = null;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the options context menu is open
+        /// </summary>
+        public bool IsOptionsMenuOpen
+        {
+            get { return (bool)GetValue(IsOptionsMenuOpenProperty); }
+            protected set { SetValue(IsOptionsMenuOpenPropertyKey, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsOptionsMenuOpen.  This enables animation, styling, binding, etc...
+        static readonly DependencyPropertyKey IsOptionsMenuOpenPropertyKey =
+            DependencyProperty.RegisterReadOnly("IsOptionsMenuOpen", typeof(bool), typeof(DockablePane), new UIPropertyMetadata(false));
+
+        public static readonly DependencyProperty IsOptionsMenuOpenProperty = IsOptionsMenuOpenPropertyKey.DependencyProperty;
+
+        void UpdateIsOptionsMenuOpen()
+        {
+            if (cxOptions != null)
+            {
+                var selectedContent = cxOptions.DataContext as DockableContent;
+
+                if (selectedContent != null)
+                {
+                    (selectedContent.ContainerPane as Pane).IsOptionsMenuOpen =
+                        cxOptions.IsOpen;
+                }
+            }
+        }
+
+        #endregion
 
 
         #region INotifyPropertyChanged Members

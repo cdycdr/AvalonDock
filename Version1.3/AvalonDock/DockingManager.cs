@@ -1039,7 +1039,7 @@ namespace AvalonDock
             navigatorWindow.Height = this.ActualHeight;
             navigatorWindow.ShowActivated = false;
             navigatorWindow.Show();
-            navigatorWindow.Focus();
+            //navigatorWindow.Focus();
         }
 
         void HideNavigatorWindow()
@@ -1069,7 +1069,9 @@ namespace AvalonDock
                 e.Handled = true;
             }
             else
+            {
                 HideNavigatorWindow();
+            }
 
 
             base.OnKeyDown(e);
@@ -1082,7 +1084,15 @@ namespace AvalonDock
             Debug.WriteLine(string.Format("OnKeyUp {0} CtrlDn={1}", e.Key, isCtrlDown));
 
             if (e.Key != Key.Tab || !isCtrlDown)
+            {
+                if (_navigatorWindowIsVisible)
+                {
+                    var docSelected = (navigatorWindow.Documents.CurrentItem as NavigatorWindowDocumentItem).ItemContent as DocumentContent;
+                    docSelected.Activate();
+                }
+
                 HideNavigatorWindow();
+            }
 
             base.OnKeyUp(e);
         }
@@ -1415,7 +1425,7 @@ namespace AvalonDock
 
             //than set the new anchor style for the pane
             paneToAnchor.Anchor = anchor;
-            paneToAnchor.Focus();
+            //paneToAnchor.Focus();
         }
 
         /// <summary>
@@ -1527,7 +1537,7 @@ namespace AvalonDock
             }
             #endregion
 
-            paneToAnchor.Focus();
+            //paneToAnchor.Focus();
 
             //(paneToAnchor.SelectedItem as ManagedContent).Activate();
             //if (paneToAnchor.SelectedItem is DocumentContent)
@@ -1648,7 +1658,7 @@ namespace AvalonDock
             if (relativePaneContainer != null)
                 relativePaneContainer.AdjustPanelSizes();
 
-            paneToAnchor.Focus();
+            //paneToAnchor.Focus();
         }
 
         #region DropInto methods
@@ -1729,7 +1739,7 @@ namespace AvalonDock
 
 
             paneToDropInto.SelectedIndex = paneToDropInto.Items.Count - 1;
-            paneToDropInto.Focus();
+            //paneToDropInto.Focus();
         }
         #endregion
 
@@ -2738,19 +2748,23 @@ namespace AvalonDock
             double rightTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _rightAnchorTabPanel.ActualWidth : _leftAnchorTabPanel.ActualWidth;
             double topTabsHeight = _topAnchorTabPanel.ActualHeight;
             double bottomTabsHeight = _bottomAnchorTabPanel.ActualHeight;
+            bool hOrientation = _flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Right || _flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Left;
 
             Point locDockingManager = HelperFunc.PointToScreenWithoutFlowDirection(this, new Point());
             Point locContent = HelperFunc.PointToScreenWithoutFlowDirection(Content as FrameworkElement, new Point());
 
             Size initialSetupFlyoutWindowSize = Size.Empty;
             initialSetupFlyoutWindowSize = (_flyoutWindow.ReferencedPane.SelectedItem as DockableContent).FlyoutWindowSize;
-            if (initialSetupFlyoutWindowSize.IsEmpty)
+            
+            if (hOrientation && initialSetupFlyoutWindowSize.Width <= 0.0)
+                initialSetupFlyoutWindowSize = ResizingPanel.GetEffectiveSize(_flyoutWindow.ReferencedPane.ReferencedPane);
+
+            if (!hOrientation && initialSetupFlyoutWindowSize.Height <= 0.0)
                 initialSetupFlyoutWindowSize = ResizingPanel.GetEffectiveSize(_flyoutWindow.ReferencedPane.ReferencedPane);
 
             double resWidth = initialSetup ? initialSetupFlyoutWindowSize.Width : _flyoutWindow.Width;
             double resHeight = initialSetup ? initialSetupFlyoutWindowSize.Height : _flyoutWindow.Height;
-
-                
+                            
             if (_flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Right)
             {
                 _flyoutWindow.Top = locDockingManager.Y + topTabsHeight;
@@ -2761,14 +2775,14 @@ namespace AvalonDock
 
                 if (initialSetup)
                 {
-                    _flyoutWindow.Left = FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + this.ActualWidth - rightTabsWidth : locDockingManager.X + leftTabsWidth;
+                    _flyoutWindow.Left = (FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + this.ActualWidth - rightTabsWidth : locDockingManager.X + leftTabsWidth);
                     _flyoutWindow.Width = 0.0;
                     _flyoutWindow.TargetWidth = resWidth;
                 }
                 else
                 {
                     if (!_flyoutWindow.IsOpening && !_flyoutWindow.IsClosing)
-                        _flyoutWindow.Left = FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + this.ActualWidth - rightTabsWidth - _flyoutWindow.Width : locDockingManager.X + leftTabsWidth;
+                        _flyoutWindow.Left = (FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + this.ActualWidth - rightTabsWidth - _flyoutWindow.Width : locDockingManager.X + leftTabsWidth);
                 }
             }
             if (_flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Left)
@@ -2838,6 +2852,8 @@ namespace AvalonDock
 
             if (_flyoutWindow != null && !_flyoutWindow.IsClosing)
                 _flyoutWindow.UpdatePositionAndSize();
+
+            Debug.WriteLine(string.Format("UpdateFlyoutWindowPosition() Rect->{0} InitialSetup={1}", new Rect(_flyoutWindow.Left, _flyoutWindow.Top, _flyoutWindow.Width, _flyoutWindow.Height), initialSetup));
         }
 
         
@@ -3589,7 +3605,7 @@ namespace AvalonDock
             if (mainElement.HasAttribute("EffectiveSize"))
                 ResizingPanel.SetEffectiveSize(pane, (Size)(new SizeConverter()).ConvertFromInvariantString(mainElement.GetAttribute("EffectiveSize")));
             if (mainElement.HasAttribute("ID"))
-                pane.ID = Guid.Parse(mainElement.GetAttribute("ID"));
+                pane.ID = new Guid(mainElement.GetAttribute("ID"));
 
             bool toggleAutoHide = false;
             if (mainElement.HasAttribute("IsAutoHidden"))

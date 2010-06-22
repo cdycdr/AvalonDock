@@ -147,6 +147,7 @@ namespace AvalonDock
                 IsResizing = true;
 
                 ShowResizerOverlayWindow(s as Resizer);
+                Debug.WriteLine(string.Format("resizer.DragStarted() Rect->{0}", new Rect(Left, Top, Width, Height)));
             };
 
             if (resizer != null) resizer.DragDelta += (s, e) =>
@@ -175,6 +176,9 @@ namespace AvalonDock
                         break;
 
                 }
+
+                Debug.WriteLine(string.Format("resizer.DragDelta() Rect->{0}", new Rect(Left, Top, Width, Height)));
+
             };
 
             if (resizer != null) resizer.DragCompleted += (s, e) =>
@@ -218,6 +222,8 @@ namespace AvalonDock
                 IsResizing = false;
                 SaveFlyoutSizeToContent();
                 HideResizerOverlayWindow();
+                Debug.WriteLine(string.Format("resizer.DragCompleted() Rect->{0}", new Rect(Left, Top, Width, Height)));
+
             };
             
             base.OnApplyTemplate();
@@ -228,9 +234,16 @@ namespace AvalonDock
             if (Width > 0.0 &&
                 Height > 0.0)
             {
-                 var flyoutContent = ReferencedPane.SelectedItem as DockableContent;
+                var flyoutContent = ReferencedPane.SelectedItem as DockableContent;
+
+                if (Anchor == AnchorStyle.Left ||
+                    Anchor == AnchorStyle.Right)
                     flyoutContent.FlyoutWindowSize =
-                    new Size(Width, Height);
+                        new Size(Width, flyoutContent.FlyoutWindowSize.Height <= 0 ? Height : flyoutContent.FlyoutWindowSize.Height);
+                else
+                    flyoutContent.FlyoutWindowSize =
+                        new Size(flyoutContent.FlyoutWindowSize.Width <= 0 ? Width : flyoutContent.FlyoutWindowSize.Width, Height);
+
                 Debug.WriteLine(string.Format("Save flyout size for content '{0}' -> {1}", flyoutContent.Name, flyoutContent.FlyoutWindowSize));
             }        
         }

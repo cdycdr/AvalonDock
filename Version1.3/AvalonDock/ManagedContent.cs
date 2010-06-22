@@ -265,6 +265,24 @@ namespace AvalonDock
             if (_dragEnabledArea != null)
                 _dragEnabledArea.InputBindings.Add(new InputBinding(ManagedContentCommands.Close, new MouseGesture(MouseAction.MiddleClick)));
 
+            if (_dragEnabledArea != null && _dragEnabledArea.ContextMenu == null)
+            {
+                _dragEnabledArea.MouseRightButtonDown += (s, e) =>
+                    {
+                        if (!e.Handled)
+                        {
+                            Activate();
+                            Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
+                            {
+                                if (_dragEnabledArea.ContextMenu == null)
+                                {
+                                    ContainerPane.OpenOptionsMenu(null);
+                                }
+                            })); 
+                            e.Handled = true;
+                        }
+                    };
+            }
         }
 
         #region Mouse management
@@ -587,17 +605,17 @@ namespace AvalonDock
                 if (this.Content is WindowsFormsHost)
                 {
                     //Use reflection in order to remove WinForms assembly reference
-                    WindowsFormsHost contentHost = this.Content as WindowsFormsHost;
+                    //WindowsFormsHost contentHost = this.Content as WindowsFormsHost;
 
-                    object childCtrl = contentHost.GetType().GetProperty("Child").GetValue(contentHost, null);
+                    //object childCtrl = contentHost.GetType().GetProperty("Child").GetValue(contentHost, null);
 
-                    if (childCtrl != null)
-                    {
-                        if (!childCtrl.GetPropertyValue<bool>("Focused"))
-                        {
-                            childCtrl.CallMethod("Focus", null);
-                        }
-                    }
+                    //if (childCtrl != null)
+                    //{
+                    //    if (!childCtrl.GetPropertyValue<bool>("Focused"))
+                    //    {
+                    //        childCtrl.CallMethod("Focus", null);
+                    //    }
+                    //}
 
                     //Dispatcher.BeginInvoke(DispatcherPriority.Background, new ThreadStart(delegate
                     //        {
@@ -623,27 +641,36 @@ namespace AvalonDock
                 }
                 #endregion
 
-                if (DefaultElement != null)
-                {
-                    Debug.WriteLine("Try to set kb focus to " + DefaultElement);
+                Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
+                        {
+                            if (IsActiveContent && !IsKeyboardFocused)
+                            {
+                                if (DefaultElement != null)
+                                {
+                                    Debug.WriteLine("Try to set kb focus to " + DefaultElement);
 
-                    IInputElement kbFocused = Keyboard.Focus(DefaultElement);
+                                    IInputElement kbFocused = Keyboard.Focus(DefaultElement);
 
-                    if (kbFocused != null)
-                        Debug.WriteLine("Focused element " + kbFocused);
-                    else
-                        Debug.WriteLine("No focused element");
+                                    if (kbFocused != null)
+                                        Debug.WriteLine("Focused element " + kbFocused);
+                                    else
+                                        Debug.WriteLine("No focused element");
 
-                }
-                else if (this.Content is IInputElement)
-                {
-                    Debug.WriteLine("Try to set kb focus to " + this.Content.ToString());
-                    IInputElement kbFocused = Keyboard.Focus(this.Content as IInputElement);
-                    if (kbFocused != null)
-                        Debug.WriteLine("Focused element " + kbFocused);
-                    else
-                        Debug.WriteLine("No focused element");
-                }
+                                }
+                                else if (Content is UIElement && Content is DependencyObject)
+                                {
+                                    Debug.WriteLine("Try to set kb focus to " + this.Content.ToString());
+                                    (Content as UIElement).Focus();
+                                    IInputElement kbFocused = Keyboard.Focus(this.Content as IInputElement);
+                                    if (kbFocused != null)
+                                        Debug.WriteLine("Focused element " + kbFocused);
+                                    else
+                                        Debug.WriteLine("No focused element");
+                                }
+                            }
+                        }));
+
+                      
             }
         }
 
@@ -783,6 +810,7 @@ namespace AvalonDock
         }
 
         #endregion
+
 
         #region INotifyPropertyChanged Members
 
@@ -954,7 +982,7 @@ namespace AvalonDock
                 FocusContent();
 
                 if (Manager != null)
-                    Manager.ActiveContent = this; 
+                    Manager.ActiveContent = this;
             }
         }
         #endregion
@@ -978,6 +1006,8 @@ namespace AvalonDock
         {
         }
         #endregion
+
+
 
     }
 }

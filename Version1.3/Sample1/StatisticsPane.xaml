@@ -7,6 +7,16 @@
              Title="Statistics"
              mc:Ignorable="d" d:DesignHeight="168" d:DesignWidth="357">
     <Grid>
-        <DataGrid x:Name="gridStats" ItemsSource="{Binding Stats}" IsReadOnly="True"/>
+        <!--<DataGrid x:Name="gridStats" ItemsSource="{Binding Stats}" IsReadOnly="True"/>-->
+        <ListView ItemsSource="{Binding Stats}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="LineCount" DisplayMemberBinding="{Binding LineCount}"/>
+                    <GridViewColumn Header="WordsCount" DisplayMemberBinding="{Binding WordsCount}"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </ad:DockableContent>

@@ -103,7 +103,9 @@ namespace AvalonDock
                     {
                         return new Image()
                         {
-                            UseLayoutRounding = true,
+#if NET4
+                                UseLayoutRounding = true,
+#endif
                             Width = width,
                             Source = img
                         };
@@ -115,7 +117,9 @@ namespace AvalonDock
                 var img = value as BitmapImage;
                 return new Image()
                 {
+#if NET4
                     UseLayoutRounding = true,
+#endif
                     Width = width,
                     Source = new BitmapImage(img.UriSource)
                 };
