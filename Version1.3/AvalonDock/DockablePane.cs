@@ -39,6 +39,8 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections;
 using System.Linq;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace AvalonDock
 {
@@ -173,7 +175,20 @@ namespace AvalonDock
 
                 _partHeader.MouseRightButtonDown += (s, e) =>
                     {
-                        OpenOptionsMenu(null); e.Handled = true;
+                        if (_partHeader.ContextMenu == null)
+                        {
+                            FocusContent();
+                            if (_partHeader.ContextMenu == null)
+                            {
+                                Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
+                                {
+                                    OpenOptionsMenu(null);
+                                }));
+
+                                e.Handled = true;
+                            }
+                            
+                        }
                     };
             }
 

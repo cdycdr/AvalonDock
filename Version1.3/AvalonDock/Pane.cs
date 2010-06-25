@@ -482,7 +482,7 @@ namespace AvalonDock
 
             if (cxOptions != null)
             {
-                FocusContent();
+                //FocusContent();
             }
 
             if (cxOptions != null)

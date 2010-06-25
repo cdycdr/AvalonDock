@@ -272,13 +272,13 @@ namespace AvalonDock
                         if (!e.Handled)
                         {
                             Activate();
-                            Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
+                            if (_dragEnabledArea.ContextMenu == null)
                             {
-                                if (_dragEnabledArea.ContextMenu == null)
+                                Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(delegate
                                 {
                                     ContainerPane.OpenOptionsMenu(null);
-                                }
-                            })); 
+                                }));
+                            }
                             e.Handled = true;
                         }
                     };
