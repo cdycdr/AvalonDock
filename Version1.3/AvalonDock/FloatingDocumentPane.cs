@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace AvalonDock
 {
@@ -58,7 +59,9 @@ namespace AvalonDock
             Items.Add(_documentToTransfer);
 
             _documentToTransfer.SetIsFloating(true);
-            
+
+            LayoutTransform = (MatrixTransform)_documentToTransfer.TansformToAncestor();
+
             base.OnInitialized(e);
         }
 

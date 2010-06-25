@@ -231,18 +231,18 @@ namespace AvalonDock
 
         void SaveFlyoutSizeToContent()
         {
-            if (Width > 0.0 &&
-                Height > 0.0)
+            if (ReferencedPane.ActualWidth > 0.0 &&
+                ReferencedPane.ActualHeight > 0.0)
             {
                 var flyoutContent = ReferencedPane.SelectedItem as DockableContent;
 
                 if (Anchor == AnchorStyle.Left ||
                     Anchor == AnchorStyle.Right)
                     flyoutContent.FlyoutWindowSize =
-                        new Size(Width, flyoutContent.FlyoutWindowSize.Height <= 0 ? Height : flyoutContent.FlyoutWindowSize.Height);
+                        new Size(ReferencedPane.ActualWidth, flyoutContent.FlyoutWindowSize.Height <= 0 ? ReferencedPane.ActualHeight : flyoutContent.FlyoutWindowSize.Height);
                 else
                     flyoutContent.FlyoutWindowSize =
-                        new Size(flyoutContent.FlyoutWindowSize.Width <= 0 ? Width : flyoutContent.FlyoutWindowSize.Width, Height);
+                        new Size(flyoutContent.FlyoutWindowSize.Width <= 0 ? ReferencedPane.ActualWidth : flyoutContent.FlyoutWindowSize.Width, ReferencedPane.ActualHeight);
 
                 Debug.WriteLine(string.Format("Save flyout size for content '{0}' -> {1}", flyoutContent.Name, flyoutContent.FlyoutWindowSize));
             }        

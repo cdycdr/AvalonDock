@@ -28,7 +28,7 @@ namespace AvalonDock.DemoApp
             CreatePropertyGrid();
 
             //var dockableContent = new DockableContent() { Title = "Test", Content = new TextBox() };
-            //dockableContent.ShowAsFloatingWindow(DockManager, true);
+            //dockableContent.Show(DockManager, AnchorStyle.Bottom);
 
             //var dockableContent2 = new DockableContent() { Title = "Test2", Content = new TextBox() };
             //dockableContent.ContainerPane.Items.Add(dockableContent2);

@@ -299,7 +299,8 @@ namespace AvalonDock
                 if (PresentationSource.FromVisual(this) == null)
                     return new Rect();
 
-                return new Rect(HelperFunc.PointToScreenWithoutFlowDirection(this, new Point()), new Size(ActualWidth, ActualHeight));
+                var actualSize = this.TransformedActualSize();
+                return new Rect(HelperFunc.PointToScreenWithoutFlowDirection(this, new Point()), new Size(actualSize.Width, actualSize.Height));
             }            
         }
         Rect IDropSurface.SurfaceRectangle

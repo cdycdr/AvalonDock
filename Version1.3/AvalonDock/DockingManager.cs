@@ -2272,7 +2272,7 @@ namespace AvalonDock
                     else if (content.ActualWidth == 0.0 && (
                         dockParent.Anchor == AnchorStyle.Top || dockParent.Anchor == AnchorStyle.Bottom))
                     {
-                        ResizingPanel.SetResizeWidth(dockParent, new GridLength(200));
+                        ResizingPanel.SetResizeHeight(dockParent, new GridLength(200));
                         ResizingPanel.SetEffectiveSize(dockParent, new Size(200, 0.0));
                     }
                     
@@ -2528,9 +2528,12 @@ namespace AvalonDock
         #region Anchor Style Update routines
         protected override Size ArrangeOverride(Size arrangeBounds)
         {
-            //at the moment this is the easy way to get anchor properties always updated
+            //at the moment this is the easiest way to get anchor properties always updated
             if (this.Content as ResizingPanel != null)
                 UpdateAnchorStyle();
+
+            //hide the flyout window because transform could be changed
+            HideFlyoutWindow();
 
             return base.ArrangeOverride(arrangeBounds);
         }
@@ -2743,11 +2746,13 @@ namespace AvalonDock
                 return;
             if (_flyoutWindow.ReferencedPane.SelectedItem == null)
                 return;
-            
-            double leftTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _leftAnchorTabPanel.ActualWidth : _rightAnchorTabPanel.ActualWidth;
-            double rightTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _rightAnchorTabPanel.ActualWidth : _leftAnchorTabPanel.ActualWidth;
-            double topTabsHeight = _topAnchorTabPanel.ActualHeight;
-            double bottomTabsHeight = _bottomAnchorTabPanel.ActualHeight;
+
+            var actualSize = this.TransformedActualSize();
+
+            double leftTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _leftAnchorTabPanel.TransformedActualSize().Width : _rightAnchorTabPanel.TransformedActualSize().Width;
+            double rightTabsWidth = FlowDirection == FlowDirection.LeftToRight ? _rightAnchorTabPanel.TransformedActualSize().Width : _leftAnchorTabPanel.TransformedActualSize().Width;
+            double topTabsHeight = _topAnchorTabPanel.TransformedActualSize().Height;
+            double bottomTabsHeight = _bottomAnchorTabPanel.TransformedActualSize().Height;
             bool hOrientation = _flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Right || _flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Left;
 
             Point locDockingManager = HelperFunc.PointToScreenWithoutFlowDirection(this, new Point());
@@ -2755,67 +2760,68 @@ namespace AvalonDock
 
             Size initialSetupFlyoutWindowSize = Size.Empty;
             initialSetupFlyoutWindowSize = (_flyoutWindow.ReferencedPane.SelectedItem as DockableContent).FlyoutWindowSize;
-            
+
             if (hOrientation && initialSetupFlyoutWindowSize.Width <= 0.0)
                 initialSetupFlyoutWindowSize = ResizingPanel.GetEffectiveSize(_flyoutWindow.ReferencedPane.ReferencedPane);
 
             if (!hOrientation && initialSetupFlyoutWindowSize.Height <= 0.0)
                 initialSetupFlyoutWindowSize = ResizingPanel.GetEffectiveSize(_flyoutWindow.ReferencedPane.ReferencedPane);
 
+            initialSetupFlyoutWindowSize = this.TransformSize(initialSetupFlyoutWindowSize);
+
             double resWidth = initialSetup ? initialSetupFlyoutWindowSize.Width : _flyoutWindow.Width;
             double resHeight = initialSetup ? initialSetupFlyoutWindowSize.Height : _flyoutWindow.Height;
-                            
+
             if (_flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Right)
             {
-                _flyoutWindow.Top = locDockingManager.Y + topTabsHeight;
-                _flyoutWindow.Height = this.ActualHeight - topTabsHeight - bottomTabsHeight;
+                _flyoutWindow.MaxWidth = actualSize.Width - rightTabsWidth;
+                _flyoutWindow.MaxHeight = actualSize.Height - topTabsHeight - bottomTabsHeight;
 
-                _flyoutWindow.MaxWidth = ActualWidth - rightTabsWidth;
-                _flyoutWindow.MaxHeight = ActualHeight;
+                _flyoutWindow.Top = locDockingManager.Y + topTabsHeight;
+                _flyoutWindow.Height = _flyoutWindow.MaxHeight;
+
 
                 if (initialSetup)
                 {
-                    _flyoutWindow.Left = (FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + this.ActualWidth - rightTabsWidth : locDockingManager.X + leftTabsWidth);
+                    _flyoutWindow.Left = (FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + actualSize.Width - rightTabsWidth : locDockingManager.X + leftTabsWidth);
                     _flyoutWindow.Width = 0.0;
                     _flyoutWindow.TargetWidth = resWidth;
                 }
                 else
                 {
                     if (!_flyoutWindow.IsOpening && !_flyoutWindow.IsClosing)
-                        _flyoutWindow.Left = (FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + this.ActualWidth - rightTabsWidth - _flyoutWindow.Width : locDockingManager.X + leftTabsWidth);
+                        _flyoutWindow.Left = (FlowDirection == FlowDirection.LeftToRight ? locDockingManager.X + actualSize.Width - rightTabsWidth - _flyoutWindow.Width : locDockingManager.X + leftTabsWidth);
                 }
             }
             if (_flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Left)
             {
-                _flyoutWindow.Top = locDockingManager.Y + topTabsHeight;
-                //_flyoutWindow.Top = locContent.Y;
-                _flyoutWindow.Height = this.ActualHeight - topTabsHeight - bottomTabsHeight;
-                //_flyoutWindow.Height = ((FrameworkElement)this.Content).ActualHeight;
+                _flyoutWindow.MaxWidth = actualSize.Width - leftTabsWidth;
+                _flyoutWindow.MaxHeight = actualSize.Height - topTabsHeight - bottomTabsHeight;
 
-                _flyoutWindow.MaxWidth = ActualWidth - leftTabsWidth;
-                _flyoutWindow.MaxHeight = ActualHeight;
-               
+                _flyoutWindow.Top = locDockingManager.Y + topTabsHeight;
+                _flyoutWindow.Height = _flyoutWindow.MaxHeight;
+
 
                 if (initialSetup)
                 {
-                    _flyoutWindow.Left = FlowDirection == FlowDirection.RightToLeft ? locDockingManager.X + this.ActualWidth - rightTabsWidth : locDockingManager.X + leftTabsWidth;
+                    _flyoutWindow.Left = FlowDirection == FlowDirection.RightToLeft ? locDockingManager.X + actualSize.Width - rightTabsWidth : locDockingManager.X + leftTabsWidth;
                     _flyoutWindow.Width = 0.0;
                     _flyoutWindow.TargetWidth = resWidth;
                 }
                 else
                 {
                     if (!_flyoutWindow.IsOpening && !_flyoutWindow.IsClosing)
-                        _flyoutWindow.Left = FlowDirection == FlowDirection.RightToLeft ? locDockingManager.X + this.ActualWidth - rightTabsWidth - _flyoutWindow.Width : locDockingManager.X + leftTabsWidth;
+                        _flyoutWindow.Left = FlowDirection == FlowDirection.RightToLeft ? locDockingManager.X + actualSize.Width - rightTabsWidth - _flyoutWindow.Width : locDockingManager.X + leftTabsWidth;
                 }
             }
             if (_flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Top)
             {
+                _flyoutWindow.MaxWidth = actualSize.Width - rightTabsWidth - leftTabsWidth;
+                _flyoutWindow.MaxHeight = actualSize.Height - topTabsHeight;
+
                 _flyoutWindow.Left = locDockingManager.X + leftTabsWidth;
-                _flyoutWindow.Width = this.ActualWidth - rightTabsWidth -leftTabsWidth;
-
-                _flyoutWindow.MaxWidth = ActualWidth;
-                _flyoutWindow.MaxHeight = ActualHeight - topTabsHeight;
-
+                _flyoutWindow.Width = _flyoutWindow.MaxWidth;
+                
                 if (initialSetup)
                 {
                     _flyoutWindow.Height = 0.0;
@@ -2829,33 +2835,35 @@ namespace AvalonDock
             }
             if (_flyoutWindow.ReferencedPane.Anchor == AnchorStyle.Bottom)
             {
-                _flyoutWindow.Left = locDockingManager.X + leftTabsWidth;
-                _flyoutWindow.Width = this.ActualWidth - rightTabsWidth - leftTabsWidth;
+                _flyoutWindow.MaxWidth = actualSize.Width - rightTabsWidth - leftTabsWidth;
+                _flyoutWindow.MaxHeight = actualSize.Height - bottomTabsHeight;
 
-                _flyoutWindow.MaxWidth = ActualWidth;
-                _flyoutWindow.MaxHeight = ActualHeight - bottomTabsHeight;
+                _flyoutWindow.Left = locDockingManager.X + leftTabsWidth;
+                _flyoutWindow.Width = _flyoutWindow.MaxWidth;
 
                 if (initialSetup)
                 {
-                    _flyoutWindow.Top = locDockingManager.Y + this.ActualHeight - bottomTabsHeight;
+                    _flyoutWindow.Top = locDockingManager.Y + actualSize.Height - bottomTabsHeight;
                     _flyoutWindow.Height = 0.0;
                     _flyoutWindow.TargetHeight = resHeight;
                 }
                 else
                 {
                     if (!_flyoutWindow.IsOpening && !_flyoutWindow.IsClosing)
-                        _flyoutWindow.Top = locDockingManager.Y + this.ActualHeight - bottomTabsHeight - _flyoutWindow.Height;
-                    if (_flyoutWindow.IsClosing)
-                        _flyoutWindow.Top = locDockingManager.Y + this.ActualHeight - bottomTabsHeight - _flyoutWindow.Height; 
+                        _flyoutWindow.Top = locDockingManager.Y + actualSize.Height - bottomTabsHeight - _flyoutWindow.Height;
+                    //if (_flyoutWindow.IsClosing)
+                    //    _flyoutWindow.Top = locDockingManager.Y + actualSize.Height - bottomTabsHeight - _flyoutWindow.Height;
                 }
             }
 
             if (_flyoutWindow != null && !_flyoutWindow.IsClosing)
                 _flyoutWindow.UpdatePositionAndSize();
 
+            if (initialSetup)
+                _flyoutWindow.ReferencedPane.LayoutTransform = (MatrixTransform)this.TansformToAncestor();
+
             Debug.WriteLine(string.Format("UpdateFlyoutWindowPosition() Rect->{0} InitialSetup={1}", new Rect(_flyoutWindow.Left, _flyoutWindow.Top, _flyoutWindow.Width, _flyoutWindow.Height), initialSetup));
         }
-
         
         #endregion
 
@@ -2914,7 +2922,7 @@ namespace AvalonDock
         {
             if (CaptureMouse())
             {
-                DockableFloatingWindow floatingWindow = new DockableFloatingWindow(this);
+                var floatingWindow = new DockableFloatingWindow(this);
                 floatingWindow.Content = dockablePane;
                 floatingWindow.Owner = Window.GetWindow(this);
                 Drag(floatingWindow, point, offset);
@@ -2994,9 +3002,13 @@ namespace AvalonDock
         Rect IDropSurface.SurfaceRectangle
         {
             get
-            { 
+            {
                 if (PresentationSource.FromVisual(this) != null)
-                    return new Rect(HelperFunc.PointToScreenWithoutFlowDirection(this, new Point(0, 0)), new Size(ActualWidth, ActualHeight));
+                {
+                    var actualSize = this.TransformedActualSize();
+                    return new Rect(HelperFunc.PointToScreenWithoutFlowDirection(this, new Point(0, 0)), new Size(actualSize.Width, actualSize.Height));
+                }
+
                 return Rect.Empty;
             }
         }
@@ -3032,15 +3044,15 @@ namespace AvalonDock
             if (OverlayWindow.IsVisible)
                 return;
 
+            var actualSize = this.TransformedActualSize();
             OverlayWindow.Owner = DragPaneServices.FloatingWindow;
-            //OverlayWindow.Left = PointToScreen(new Point(0, 0)).X;
-            //OverlayWindow.Top = PointToScreen(new Point(0, 0)).Y;
             Point origPoint = HelperFunc.PointToScreenWithoutFlowDirection(this, new Point());
             OverlayWindow.Left = origPoint.X;
             OverlayWindow.Top = origPoint.Y;
-            OverlayWindow.Width = ActualWidth;
-            OverlayWindow.Height = ActualHeight;
+            OverlayWindow.Width = actualSize.Width;
+            OverlayWindow.Height = actualSize.Height;
 
+            //don't pass transform matrix to Overlay window otherwise anchor thumbs will be resized
             OverlayWindow.Show();
         }
 
@@ -3061,9 +3073,6 @@ namespace AvalonDock
         {
             OverlayWindow.Owner = null;
             OverlayWindow.Hide();
-            //Window mainWindow = Window.GetWindow(this);
-            //if (mainWindow != null)
-            //    mainWindow.Activate();
         }
 
         /// <summary>

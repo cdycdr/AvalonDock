@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("AvalonDock.DemoApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("TOSHIBA")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AvalonDock.DemoApp")]
 [assembly: AssemblyCopyright("Copyright © TOSHIBA 2010")]
 [assembly: AssemblyTrademark("")]

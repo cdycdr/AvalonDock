@@ -44,7 +44,7 @@ namespace Sample3
             ((TreeViewItem)trv.Items[2]).Items.Add(new TreeViewItem() { Header = "SubItem4" });
             var treeviewContent = new DockableContent() { Title = "Explorer", Content = trv };
 
-            treeviewContent.Show(dockManager, AnchorStyle.Left);
+            treeviewContent.Show(dockManager, AnchorStyle.Bottom);
 
             //TextBox invo dockable content
             var treeviewInfoContent = new DockableContent() { Title = "Explorer Info", Content = new TextBox() { Text = "Explorer Info Text", IsReadOnly = true } };

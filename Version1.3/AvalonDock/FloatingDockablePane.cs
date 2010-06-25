@@ -29,6 +29,7 @@ using System.Text;
 using System.Windows;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace AvalonDock
 {
@@ -105,6 +106,8 @@ namespace AvalonDock
                 AttachStyleFromPane(_paneToTransfer);
                 
                 ApplyTemplate();
+
+                LayoutTransform = (MatrixTransform)_paneToTransfer.TansformToAncestor();
             }
             else if (_contentToTransfer != null)
             {
@@ -130,10 +133,7 @@ namespace AvalonDock
 
                 SelectedIndex = 0;
 
-                //if (_previousPane is DockablePane)
-                //{
-                //    Style = _previousPane.Style;
-                //}
+                
                 AttachStyleFromPane(_previousPane as DockablePane);
 
                 DocumentPane originalDocumentPane = _previousPane as DocumentPane;
@@ -142,6 +142,7 @@ namespace AvalonDock
 
 
                 _contentToTransfer.SetStateToDockableWindow();
+                LayoutTransform = (MatrixTransform)_contentToTransfer.TansformToAncestor();
             }
 
             base.OnInitialized(e);
