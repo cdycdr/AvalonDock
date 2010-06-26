@@ -15,10 +15,10 @@
                         </Canvas>
                         <Grid x:Name="panelDrag" >
                             <!--<ad:AlignedImage >-->
-                            <Image x:Name="PART_btnDockLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Source="Images\DockLeft.PNG" Stretch="None" Style="{StaticResource DefaultImageStyle}"/>
+                            <Image x:Name="PART_btnDockLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Source="Images\DockLeft.PNG" Stretch="None" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
                             <!--</ad:AlignedImage>-->
                             <!--<ad:AlignedImage >-->
-                            <Image x:Name="PART_btnDockRight" VerticalAlignment="Center" HorizontalAlignment="Right" Source="Images\DockRight.PNG" Stretch="None" Style="{StaticResource DefaultImageStyle}" />
+                            <Image x:Name="PART_btnDockRight" VerticalAlignment="Center" HorizontalAlignment="Right" Source="Images\DockRight.PNG" Stretch="None" Style="{StaticResource DefaultAvalonDockImageStyle}" />
                             <!--</ad:AlignedImage>-->
                             <!--<ad:AlignedImage >-->
                             <Image x:Name="PART_btnDockBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Source="Images\DockBottom.PNG" Stretch="None" />

@@ -2644,10 +2644,10 @@ namespace AvalonDock
         {
             if (_flyoutWindow != null && !_flyoutWindow.IsClosing)
             {
-                _flyoutWindow.Height = 0.0;
-                _flyoutWindow.Width = 0.0;
-                _flyoutWindow.Close();
+                var flWindow = _flyoutWindow;
                 _flyoutWindow = null;
+                flWindow.Closing -= new System.ComponentModel.CancelEventHandler(OnFlyoutWindowClosing);
+                flWindow.Close();
             }
         }
 
@@ -2722,8 +2722,11 @@ namespace AvalonDock
         /// <param name="e"></param>
         void OnFlyoutWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _flyoutWindow.Closing -= new System.ComponentModel.CancelEventHandler(OnFlyoutWindowClosing);
-            _flyoutWindow.Owner = null;
+            if (_flyoutWindow != null)
+            {
+                _flyoutWindow.Closing -= new System.ComponentModel.CancelEventHandler(OnFlyoutWindowClosing);
+                _flyoutWindow.Owner = null;
+            }
         }
 
         /// <summary>
@@ -3195,6 +3198,10 @@ namespace AvalonDock
             if (pane.Items.Count > 1)
                 xmlWriter.WriteAttributeString("SelectedIndex", XmlConvert.ToString(pane.SelectedIndex));
 
+            xmlWriter.WriteAttributeString("ResizeWidth", ResizingPanel.GetResizeWidth(pane).ToString());
+            xmlWriter.WriteAttributeString("ResizeHeight", ResizingPanel.GetResizeHeight(pane).ToString());
+            xmlWriter.WriteAttributeString("EffectiveSize", new SizeConverter().ConvertToInvariantString(ResizingPanel.GetEffectiveSize(pane)));
+
             foreach (ManagedContent content in pane.Items)
             {
                 if (content is DockableContent)
@@ -3536,6 +3543,13 @@ namespace AvalonDock
         DocumentPane RestoreDocumentPaneLayout(XmlElement mainElement, DockableContent[] actualContents, DocumentContent[] actualDocuments)
         {
             var documentPane = new DocumentPane();
+
+            if (mainElement.HasAttribute("ResizeWidth"))
+                ResizingPanel.SetResizeWidth(documentPane, (GridLength)GLConverter.ConvertFromInvariantString(mainElement.GetAttribute("ResizeWidth")));
+            if (mainElement.HasAttribute("ResizeHeight"))
+                ResizingPanel.SetResizeHeight(documentPane, (GridLength)GLConverter.ConvertFromInvariantString(mainElement.GetAttribute("ResizeHeight")));
+            if (mainElement.HasAttribute("EffectiveSize"))
+                ResizingPanel.SetEffectiveSize(documentPane, (Size)(new SizeConverter()).ConvertFromInvariantString(mainElement.GetAttribute("EffectiveSize")));
 
             foreach (XmlElement contentElement in mainElement.ChildNodes)
             {

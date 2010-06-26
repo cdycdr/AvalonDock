@@ -36,7 +36,7 @@
 									<ColumnDefinition Width="Auto"/>
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
-                                <Image x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultImageStyle}"/>
+                                <Image x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
                                 <TextBlock 
 								        x:Name="tabItemTitle"
                                         Grid.Column="1"
@@ -122,18 +122,18 @@
                                     <Button DockPanel.Dock="Right" Style="{StaticResource PaneHeaderCommandStyle}" Command="ad:ManagedContentCommands.Close" CommandTarget="{TemplateBinding SelectedItem}"
                                             ToolTip="{x:Static adRes:Resources.DockablePaneCommands_Close}"
                                                 Width="15" Height="15" Margin="2,0,2,0" VerticalAlignment="Center">
-                                        <Image Source="/AvalonDock;component/resources/Images/PinClose.png" Width="13" Style="{StaticResource DefaultImageStyle}"/>
+                                        <Image Source="/AvalonDock;component/resources/Images/PinClose.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
 									</Button>
 									<Button x:Name="btnPinAutoHide" DockPanel.Dock="Right" Style="{StaticResource PaneHeaderCommandStyle}" 
                                             ToolTip="{x:Static adRes:Resources.DockablePaneCommands_ToggleAutoHide}"
                                             Command="ad:DockablePaneCommands.ToggleAutoHide"
                                                 Width="15" Height="15" VerticalAlignment="Center">
-                                        <Image Source="/AvalonDock;component/resources/Images/PinAutoHide.png" Width="13" Style="{StaticResource DefaultImageStyle}"/>
+                                        <Image Source="/AvalonDock;component/resources/Images/PinAutoHide.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
 									</Button>
                                     <Border x:Name="PART_ShowContextMenuButton"  DockPanel.Dock="Right" Style="{StaticResource PaneHeaderContextMenuCommandStyle}" 
                                             ToolTip="{x:Static adRes:Resources.DockablePane_ShowOptionsMenu}"    
                                             Width="15" Height="15" VerticalAlignment="Center"> <!--Command="ad:DockablePaneCommands.ShowOptionsCommand"-->
-                                        <Image Source="/AvalonDock;component/resources/Images/PinMenu.png" Width="13" Style="{StaticResource DefaultImageStyle}"/>
+                                        <Image Source="/AvalonDock;component/resources/Images/PinMenu.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
                                     </Border>
 									<TextBlock 
 									        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Title}" 
@@ -252,7 +252,7 @@
                                     <!--<ad:AlignedImage x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Image Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Height="8" Stretch="Uniform"/>
                                     </ad:AlignedImage>-->
-                                    <Image x:Name="PART_LockedIcon" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Style="{StaticResource DefaultImageStyle}" Visibility="Collapsed"  Margin="2,0,0,0" VerticalAlignment="Center"/>
+                                    <Image x:Name="PART_LockedIcon" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Style="{StaticResource DefaultAvalonDockImageStyle}" Visibility="Collapsed"  Margin="2,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -348,10 +348,10 @@
                                     <Button DockPanel.Dock="Right" Width="15" Height="15" Margin="2,0,2,0" Style="{StaticResource PaneHeaderCommandStyle}" 
                                             Command="ad:ManagedContentCommands.Close"
                                             CommandTarget="{TemplateBinding SelectedItem}">
-                                        <Image Source="/AvalonDock;component/resources/Images/PinClose.png" Width="13" Style="{StaticResource DefaultImageStyle}"/>
+                                        <Image Source="/AvalonDock;component/resources/Images/PinClose.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
                                     </Button>
                                     <Button x:Name="PART_ShowContextMenuButton" DockPanel.Dock="Right" Width="15" Height="15" Style="{StaticResource PaneHeaderCommandStyle}">
-                                        <Image x:Name="ShowContextMenuIcon" Source="/AvalonDock;component/resources/Images/PinMenu.png" Width="13" Style="{StaticResource DefaultImageStyle}"/>
+                                        <Image x:Name="ShowContextMenuIcon" Source="/AvalonDock;component/resources/Images/PinMenu.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
                                     </Button>
                                     <ad:DocumentTabPanel 
                                       x:Name="paneTabsPanel" 
@@ -409,7 +409,7 @@
 									<ColumnDefinition Width="Auto"/>
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
-                                <Image x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultImageStyle}"/>
+                                <Image x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
 								<TextBlock 
                                     Grid.Column="1"
                                     Text="{TemplateBinding Title}"  
@@ -498,21 +498,21 @@
 						</Canvas>
 						<Grid x:Name="panelDrag" >
 							<!--<ad:AlignedImage >-->
-                            <Image x:Name="PART_btnDockLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/AvalonDock;component/resources/Images/Aero/AeroDockLeft.PNG" Width="32" Style="{StaticResource DefaultImageStyle}" />
+                            <Image x:Name="PART_btnDockLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/AvalonDock;component/resources/Images/Aero/AeroDockLeft.PNG" Width="32" Style="{StaticResource DefaultAvalonDockImageStyle}" />
 							<!--</ad:AlignedImage>-->
                             <!--<ad:AlignedImage >-->
-                            <Image x:Name="PART_btnDockRight" VerticalAlignment="Center" HorizontalAlignment="Right" Source="/AvalonDock;component/resources/Images/Aero/AeroDockRight.PNG" Width="32" Style="{StaticResource DefaultImageStyle}" />
+                            <Image x:Name="PART_btnDockRight" VerticalAlignment="Center" HorizontalAlignment="Right" Source="/AvalonDock;component/resources/Images/Aero/AeroDockRight.PNG" Width="32" Style="{StaticResource DefaultAvalonDockImageStyle}" />
                             <!--</ad:AlignedImage>-->
                             <!--<ad:AlignedImage >-->
-                            <Image x:Name="PART_btnDockBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Aero/AeroDockBottom.PNG" Width="31" Style="{StaticResource DefaultImageStyle}" />
+                            <Image x:Name="PART_btnDockBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Aero/AeroDockBottom.PNG" Width="31" Style="{StaticResource DefaultAvalonDockImageStyle}" />
                             <!--</ad:AlignedImage>-->
                             <!--<ad:AlignedImage >-->
-                            <Image x:Name="PART_btnDockTop" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Aero/AeroDockTop.PNG"  Width="31" Style="{StaticResource DefaultImageStyle}" />
+                            <Image x:Name="PART_btnDockTop" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Aero/AeroDockTop.PNG"  Width="31" Style="{StaticResource DefaultAvalonDockImageStyle}" />
                             <!--</ad:AlignedImage>-->
 						</Grid>
                         <Canvas>
 						<Grid Name="PART_gridPaneRelativeDockingOptions" Visibility="Collapsed">
-                            <Image x:Name="PART_btnDockPane" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Aero/AeroDockPane.png" Width="103" Stretch="Uniform" Style="{StaticResource DefaultImageStyle}"/>
+                            <Image x:Name="PART_btnDockPane" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Aero/AeroDockPane.png" Width="103" Stretch="Uniform" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
 
                             <Grid Width="103" Height="101" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
