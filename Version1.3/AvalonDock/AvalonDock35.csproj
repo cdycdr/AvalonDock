@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\v35\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\v35\AvalonDock.XML</DocumentationFile>
@@ -56,6 +56,7 @@
     <Compile Include="AvalonDockWindow.cs" />
     <Compile Include="FloatingDocumentPane.cs" />
     <Compile Include="DockableFloatingWindowCommands.cs" />
+    <Compile Include="ImageEx.cs" />
     <Compile Include="LogicalTreeAdapter.cs" />
     <Compile Include="ManagedContentCollection.cs" />
     <Compile Include="DockableContentCommands.cs" />
@@ -121,14 +122,6 @@
     <Page Include="Resources\OverlayWindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\SpecFrameworkStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\SpecNET35Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\aero.normalcolor.brushes.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -262,7 +255,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(ProjectDir)Resources\SpecNET35Styles.xaml" "$(ProjectDir)Resources\SpecFrameworkStyles.xaml"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

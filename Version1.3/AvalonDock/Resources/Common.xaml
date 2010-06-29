@@ -5,7 +5,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/AvalonDock;component/Resources/Brushes.xaml"/>
-        <ResourceDictionary Source="/AvalonDock;component/Resources/SpecFrameworkStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <ContextMenu

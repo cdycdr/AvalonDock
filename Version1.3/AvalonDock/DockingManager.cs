@@ -1064,11 +1064,10 @@ namespace AvalonDock
                 {
                     ShowNavigatorWindow();
                 }
-
-                navigatorWindow.MoveNextSelectedContent();
+                
                 e.Handled = true;
             }
-            else
+            else if (NavigatorWindow.IsKeyHandled(e.Key))
             {
                 HideNavigatorWindow();
             }
@@ -1083,15 +1082,34 @@ namespace AvalonDock
             bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
             Debug.WriteLine(string.Format("OnKeyUp {0} CtrlDn={1}", e.Key, isCtrlDown));
 
-            if (e.Key != Key.Tab || !isCtrlDown)
+            if (NavigatorWindow.IsKeyHandled(e.Key) && isCtrlDown)
+            {
+                if (!_navigatorWindowIsVisible && e.Key == Key.Tab)
+                {
+                    ShowNavigatorWindow();
+                }
+
+                if (_navigatorWindowIsVisible)
+                    navigatorWindow.HandleKey(e.Key); 
+            }
+            else
             {
                 if (_navigatorWindowIsVisible)
                 {
-                    var docSelected = (navigatorWindow.Documents.CurrentItem as NavigatorWindowDocumentItem).ItemContent as DocumentContent;
-                    docSelected.Activate();
+                    if (navigatorWindow.Documents.CurrentItem != null)
+                    {
+                        var docSelected = (navigatorWindow.Documents.CurrentItem as NavigatorWindowDocumentItem).ItemContent as DocumentContent;
+                        docSelected.Activate();
+                    }
+                    else if (navigatorWindow.DockableContents.CurrentItem != null)
+                    {
+                        var cntSelected = (navigatorWindow.DockableContents.CurrentItem as NavigatorWindowItem).ItemContent as DockableContent;
+                        cntSelected.Activate();
+                    }
+
+                    HideNavigatorWindow();
                 }
 
-                HideNavigatorWindow();
             }
 
             base.OnKeyUp(e);

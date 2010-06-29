@@ -14,13 +14,13 @@
         <Separator/>
         <MenuItem Command="ad:DocumentPaneCommands.NewHorizontalTabGroup">
             <MenuItem.Icon>
-                <Image Source="/AvalonDock;component/resources/Images/HTabGroup.png" Width="13" Height="14" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                <ad:ImageEx Source="/AvalonDock;component/resources/Images/HTabGroup.png" Width="13" Height="14"/>
             </MenuItem.Icon>
         </MenuItem> 
         <MenuItem 
             Command="ad:DocumentPaneCommands.NewVerticalTabGroup"  >
             <MenuItem.Icon>
-                <Image Source="/AvalonDock;component/resources/Images/VTabGroup.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}" />
+                <ad:ImageEx Source="/AvalonDock;component/resources/Images/VTabGroup.png" Width="13"/>
             </MenuItem.Icon>
         </MenuItem>
     </ContextMenu>
@@ -75,7 +75,7 @@
 							            Margin="5,0,4,0"  
 							            Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
 									<!--<ad:AlignedImage x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">-->
-                                    <Image  x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                    <ad:ImageEx  x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" />
 									<!--</ad:AlignedImage>-->
 								</StackPanel>
                             </Border>  
@@ -183,10 +183,10 @@
                                     <Button DockPanel.Dock="Right" Width="18" Height="18" Style="{StaticResource PaneHeaderCommandStyle}" 
                                             Command="ad:ManagedContentCommands.Close" 
                                             CommandTarget="{TemplateBinding SelectedItem}">
-                                        <Image Source="Images\PinClose.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                        <ad:ImageEx Source="Images\PinClose.png" Width="13" />
                                     </Button>
                                     <Button x:Name="PART_ShowContextMenuButton" DockPanel.Dock="Right" Width="18" Height="18" Style="{StaticResource PaneHeaderCommandStyle}">
-                                        <Image x:Name="ShowContextMenuIcon" Source="Images\PinMenu.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                        <ad:ImageEx x:Name="ShowContextMenuIcon" Source="Images\PinMenu.png" Width="13"/>
                                     </Button>
                                     <ad:DocumentTabPanel 
                                         x:Name="paneTabsPanel" 

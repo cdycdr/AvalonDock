@@ -328,7 +328,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                <ad:ImageEx x:Name="Icon" Width="16" Source="{TemplateBinding Icon}" />
 
                                 <!--<ad:AlignedImage>
                                     <ContentPresenter x:Name="Icon"
@@ -516,12 +516,12 @@
                                     TextWrapping="NoWrap"
 							        Text="{TemplateBinding Title}" 
 							        Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
-                            <Image x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                            <ad:ImageEx x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/AvalonDock;component/resources/Images/Locked.png" Width="6" />
                             <Button x:Name="PART_CloseButton" Visibility="Hidden" Margin="6,2,2,2" 
                                     Style="{StaticResource PaneHeaderCommandStyle}" 
                                     ToolTip="{x:Static adRes:Resources.ManagedContentCommands_Close}"
                                     Command="ad:ManagedContentCommands.Close" Opacity="0.8">
-                                <Image Source="/AvalonDock;component/resources/Images/PinClose.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                <ad:ImageEx Source="/AvalonDock;component/resources/Images/PinClose.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="13" />
                             </Button>    
 
                         </StackPanel>
@@ -723,7 +723,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                <ad:ImageEx x:Name="borderIcon" Width="16" Source="{TemplateBinding Icon}" />
                                 <TextBlock 
                                     Grid.Column="1"
                                     Text="{TemplateBinding Title}"  

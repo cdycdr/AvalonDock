@@ -305,7 +305,7 @@
                                         Style="{StaticResource PaneHeaderCommandStyle}" 
                                         Command="ad:ManagedContentCommands.Close"
                                         Width="13" Height="13" Opacity="0.6">
-                                    <Image Source="/AvalonDock;component/resources/Images/PinClose.png" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                    <ad:ImageEx Source="/AvalonDock;component/resources/Images/PinClose.png" />
                                 </Button>
                             </Grid>
                         </Border>
@@ -385,14 +385,14 @@
                                     </Grid.ColumnDefinitions>
                                     <Button x:Name="btnPinAutoHide" Grid.Column="1" Style="{StaticResource PaneHeaderCommandStyle}" Command="ad:DockablePaneCommands.ToggleAutoHide"
                                                 Width="15" Height="15" VerticalAlignment="Center" Opacity="0.6">
-                                        <Image Source="/AvalonDock.Themes;component/Images/ExpDark/PinAutoHide.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}" />
+                                        <ad:ImageEx Source="/AvalonDock.Themes;component/Images/ExpDark/PinAutoHide.png" Width="13"  />
                                     </Button>
                                     <Button x:Name="PART_CloseButton" Grid.Column="2" Margin="6,0,2,0" 
                                             Style="{StaticResource PaneHeaderCommandStyle}" 
                                             Width="14"
                                             Height="13"
                                             Command="ad:DockablePaneCommands.Close" Opacity="0.8">
-                                        <Image Source="/AvalonDock.Themes;component/Images/ExpDark/PinClose.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}" />
+                                        <ad:ImageEx Source="/AvalonDock.Themes;component/Images/ExpDark/PinClose.png" Width="13" />
                                     </Button>
                                     <ad:DockableTabPanel	
                                                 IsItemsHost="True" 
@@ -455,7 +455,7 @@
                                     Text="{TemplateBinding Title}" 
 							        Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
 
-                            <Image Source="/AvalonDock;component/resources/Images/Locked.png" x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Width="6" Style="{StaticResource DefaultAvalonDockImageStyle}"/>
+                                <ad:ImageEx Source="/AvalonDock;component/resources/Images/Locked.png" x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Width="6"/>
                             
                             <Button x:Name="PART_CloseButton"  Visibility="Collapsed" Margin="6,0,2,0" 
                                     Style="{StaticResource PaneHeaderCommandStyle}" 
@@ -769,8 +769,7 @@
                                 Background="{TemplateBinding Background}"  
                                 BorderBrush="{TemplateBinding BorderBrush}"  
                                 BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter 
-                                    ContentSource="{Binding HostedPane, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <ContentPresenter  />
                             </Border>
                             
                             <Border x:Name="PART_MoveAnchor" 
@@ -811,7 +810,7 @@
                                     Command="ad:DockablePaneCommands.Close"
                                     CommandTarget="{Binding HostedPane, RelativeSource={RelativeSource TemplatedParent}}"
                                     Opacity="0.8">
-                                <Image Source="/AvalonDock.Themes;component/Images/ExpDark/PinClose.png" Width="13" Style="{StaticResource DefaultAvalonDockImageStyle}" />
+                                <ad:ImageEx Source="/AvalonDock.Themes;component/Images/ExpDark/PinClose.png" Width="13"  />
                             </Button>
                         </Grid>
                     </Border>
