@@ -542,7 +542,7 @@ namespace AvalonDock
             {
                 var selectedContent = cxOptions.DataContext as DockableContent;
 
-                if (selectedContent != null)
+                if (selectedContent != null && selectedContent.ContainerPane != null)
                 {
                     (selectedContent.ContainerPane as Pane).IsOptionsMenuOpen =
                         cxOptions.IsOpen;

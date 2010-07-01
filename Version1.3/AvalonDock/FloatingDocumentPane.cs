@@ -39,21 +39,41 @@ namespace AvalonDock
 
         protected override void OnInitialized(EventArgs e)
         {
-            //setup window size
-            _floatingWindow.Width = _documentToTransfer.ContainerPane.ActualWidth;
-            _floatingWindow.Height = _documentToTransfer.ContainerPane.ActualHeight;
-
-            //save current content position in container pane
             _previousPane = _documentToTransfer.ContainerPane as DocumentPane;
-            _arrayIndexPreviousPane = _previousPane.Items.IndexOf(_documentToTransfer);
-            SetValue(ResizingPanel.ResizeWidthProperty, _previousPane.GetValue(ResizingPanel.ResizeWidthProperty));
-            SetValue(ResizingPanel.ResizeHeightProperty, _previousPane.GetValue(ResizingPanel.ResizeHeightProperty));
 
-            //Style = _previousPane.Style;
-            AttachStyleFromPane(_previousPane);
+            if (_documentToTransfer != null && _documentToTransfer.FloatingWindowSize.IsEmpty)
+            {
+                if (_previousPane != null)
+                    _documentToTransfer.FloatingWindowSize = new Size(_previousPane.ActualWidth, _previousPane.ActualHeight);
+                else
+                    _documentToTransfer.FloatingWindowSize = new Size(400.0, 400.0);
+            }
 
-            //remove content from container pane
-            _previousPane.RemoveContent(_arrayIndexPreviousPane);
+            if (_documentToTransfer != null && !_documentToTransfer.FloatingWindowSize.IsEmpty)
+            {
+                _floatingWindow.Width = _documentToTransfer.FloatingWindowSize.Width;
+                _floatingWindow.Height = _documentToTransfer.FloatingWindowSize.Height;
+            }
+
+
+            if (_previousPane != null)
+            {
+                //setup window size
+                _floatingWindow.Width = _documentToTransfer.ContainerPane.ActualWidth;
+                _floatingWindow.Height = _documentToTransfer.ContainerPane.ActualHeight;
+
+                //save current content position in container pane
+                _arrayIndexPreviousPane = _previousPane.Items.IndexOf(_documentToTransfer);
+                SetValue(ResizingPanel.ResizeWidthProperty, _previousPane.GetValue(ResizingPanel.ResizeWidthProperty));
+                SetValue(ResizingPanel.ResizeHeightProperty, _previousPane.GetValue(ResizingPanel.ResizeHeightProperty));
+
+                //Style = _previousPane.Style;
+                AttachStyleFromPane(_previousPane);
+
+                //remove content from container pane
+                _previousPane.RemoveContent(_arrayIndexPreviousPane);
+            }
+            
 
             //add content to my temporary pane
             Items.Add(_documentToTransfer);

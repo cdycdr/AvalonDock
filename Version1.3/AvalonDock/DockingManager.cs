@@ -2088,6 +2088,7 @@ namespace AvalonDock
                 if (floating)
                 {
                     DocumentFloatingWindow floatingWindow = new DocumentFloatingWindow(this);
+                    floatingWindow.Owner = Window.GetWindow(this);
                     floatingWindow.Content = document;
                     floatingWindow.Show();
                 }

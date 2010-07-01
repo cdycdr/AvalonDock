@@ -226,13 +226,13 @@ namespace AvalonDock
             if (!e.Handled && e.Command == DocumentContentCommands.FloatingDocument)
             {
                 this.Show(true);
-
+                Activate();
                 e.Handled = true;
             }
             else if (!e.Handled && e.Command == DocumentContentCommands.TabbedDocument)
             {
                 this.Show(false);
-
+                Activate();
                 e.Handled = true;
             }
         }

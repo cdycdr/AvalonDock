@@ -140,7 +140,8 @@ namespace AvalonDock.DemoApp
             newContent.Icon = new BitmapImage(new Uri(@"Images\database.png", UriKind.Relative));
             newContent.ContentTypeDescription = "Base Description of " + title;
             newContent.InfoTip = System.IO.Path.GetTempPath();
-            newContent.Show(DockManager);
+            newContent.FloatingWindowSize = new Size(500.0, 500.0);
+            newContent.Show(DockManager, true);
             newContent.Activate();            
         }
 
