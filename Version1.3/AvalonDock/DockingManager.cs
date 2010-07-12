@@ -993,33 +993,6 @@ namespace AvalonDock
         }
         #endregion
      
-        //#region Commands
-
-        //private static object syncRoot = new object();
-
-
-        //private static RoutedUICommand showNavigatorCommand = null;
-        
-        ///// <summary>
-        ///// Get the command to show navigator window
-        ///// </summary>
-        //public static RoutedUICommand ShowNavigatorWindowCommand
-        //{
-        //    get
-        //    {
-        //        lock (syncRoot)
-        //        {
-        //            if (null == showNavigatorCommand)
-        //            {
-        //                showNavigatorCommand = new RoutedUICommand("S_how navigator window", "Navigator", typeof(DockingManager));
-        //                showNavigatorCommand.InputGestures.Add(new KeyGesture(Key.Tab, ModifierKeys.Control));
-        //            }
-
-        //        }
-        //        return showNavigatorCommand;
-        //    }
-        //}
-
         NavigatorWindow navigatorWindow = null;
 
         void ShowNavigatorWindow()
@@ -1054,62 +1027,69 @@ namespace AvalonDock
         
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
-            bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
-            Debug.WriteLine(string.Format("OnKeyDn {0} CtrlDn={1}", e.Key, isCtrlDown));
-
-            if (e.Key == Key.Tab && isCtrlDown)
+            if (DockableContents.Count > 0 ||
+                Documents.Count > 0)
             {
-                if (!_navigatorWindowIsVisible)
+                bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
+                bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
+                Debug.WriteLine(string.Format("OnKeyDn {0} CtrlDn={1}", e.Key, isCtrlDown));
+
+                if (e.Key == Key.Tab && isCtrlDown)
                 {
-                    ShowNavigatorWindow();
-                }
-                
-                e.Handled = true;
-            }
-            else if (NavigatorWindow.IsKeyHandled(e.Key))
-            {
-                HideNavigatorWindow();
-            }
+                    if (!_navigatorWindowIsVisible)
+                    {
+                        ShowNavigatorWindow();
+                    }
 
+                    e.Handled = true;
+                }
+                else if (NavigatorWindow.IsKeyHandled(e.Key))
+                {
+                    HideNavigatorWindow();
+                }
+            }
 
             base.OnKeyDown(e);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
-            bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
-            Debug.WriteLine(string.Format("OnKeyUp {0} CtrlDn={1}", e.Key, isCtrlDown));
-
-            if (NavigatorWindow.IsKeyHandled(e.Key) && isCtrlDown)
+            if (DockableContents.Count > 0 ||
+               Documents.Count > 0)
             {
-                if (!_navigatorWindowIsVisible && e.Key == Key.Tab)
-                {
-                    ShowNavigatorWindow();
-                }
+                bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
+                bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
+                Debug.WriteLine(string.Format("OnKeyUp {0} CtrlDn={1}", e.Key, isCtrlDown));
 
-                if (_navigatorWindowIsVisible)
-                    navigatorWindow.HandleKey(e.Key); 
-            }
-            else
-            {
-                if (_navigatorWindowIsVisible)
+                if (NavigatorWindow.IsKeyHandled(e.Key) && isCtrlDown)
                 {
-                    if (navigatorWindow.Documents.CurrentItem != null)
+                    if (!_navigatorWindowIsVisible && e.Key == Key.Tab)
                     {
-                        var docSelected = (navigatorWindow.Documents.CurrentItem as NavigatorWindowDocumentItem).ItemContent as DocumentContent;
-                        docSelected.Activate();
-                    }
-                    else if (navigatorWindow.DockableContents.CurrentItem != null)
-                    {
-                        var cntSelected = (navigatorWindow.DockableContents.CurrentItem as NavigatorWindowItem).ItemContent as DockableContent;
-                        cntSelected.Activate();
+                        ShowNavigatorWindow();
                     }
 
-                    HideNavigatorWindow();
+                    if (_navigatorWindowIsVisible)
+                        navigatorWindow.HandleKey(e.Key);
                 }
+                else
+                {
+                    if (_navigatorWindowIsVisible)
+                    {
+                        if (navigatorWindow.Documents.CurrentItem != null)
+                        {
+                            var docSelected = (navigatorWindow.Documents.CurrentItem as NavigatorWindowDocumentItem).ItemContent as DocumentContent;
+                            docSelected.Activate();
+                        }
+                        else if (navigatorWindow.DockableContents.CurrentItem != null)
+                        {
+                            var cntSelected = (navigatorWindow.DockableContents.CurrentItem as NavigatorWindowItem).ItemContent as DockableContent;
+                            cntSelected.Activate();
+                        }
 
+                        HideNavigatorWindow();
+                    }
+
+                }
             }
 
             base.OnKeyUp(e);
@@ -1951,42 +1931,6 @@ namespace AvalonDock
         #endregion
         
         #region Hide/Show contents
-
-
-//        #region HiddenContents
-
-//        /// <summary>
-//        /// HiddenContents Read-Only Dependency Property
-//        /// </summary>
-//        private static readonly DependencyPropertyKey HiddenContentsPropertyKey
-//            = DependencyProperty.RegisterReadOnly("HiddenContents", typeof(ManagedContentCollection<DockableContent>), typeof(DockingManager),
-//                new FrameworkPropertyMetadata((ManagedContentCollection<DockableContent>)null));
-
-//        public static readonly DependencyProperty HiddenContentsProperty
-//            = HiddenContentsPropertyKey.DependencyProperty;
-
-//        /// <summary>
-//        /// Gets the HiddenContents property.  This dependency property 
-//        /// returns the list of <see cref="DockableContent"/> object that are in hidden state.
-//        /// </summary>
-//        public ManagedContentCollection<DockableContent> HiddenContents
-//        {
-//            get { return (ManagedContentCollection<DockableContent>)GetValue(HiddenContentsProperty); }
-//            protected set { SetValue(HiddenContentsPropertyKey, value); }
-//        }
-
-//        #endregion
-
-//#if DEBUG
-//        internal void CheckHiddenState(DockableContent contentToCheck)
-//        {
-//            if (contentToCheck.State == DockableContentState.Hidden)
-//                Debug.Assert(HiddenContents.Contains(contentToCheck));
-//            else
-//                Debug.Assert(!HiddenContents.Contains(contentToCheck));
-//        }
-//#endif
-
         /// <summary>
         /// Hide a dockable content removing it from its container <see cref="Pane"/>
         /// </summary>
@@ -2536,10 +2480,6 @@ namespace AvalonDock
             }
 
            #endregion          
-
-//#if DEBUG
-//            CheckHiddenState(content);
-//#endif
         }
         #endregion
 
