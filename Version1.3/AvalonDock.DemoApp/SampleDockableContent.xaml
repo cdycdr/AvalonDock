@@ -15,5 +15,6 @@
         <Button Command="ad:ManagedContentCommands.Show" Content="Dock" Height="29" HorizontalAlignment="Left" Margin="165,79,0,0" VerticalAlignment="Top" Width="147" />
         <TextBox Height="26" HorizontalAlignment="Left" Margin="165,118,0,0" Name="txtTestFocus" VerticalAlignment="Top" Width="147" />
         <Label Content="{Binding ContainerPane.ContainsActiveContent}" ContentStringFormat="ContainsActiveContent={0}" Height="26" HorizontalAlignment="Left" Margin="130,12,0,0" Name="label3" VerticalAlignment="Top" Width="182" />
+        <Button Content="Test Click!" Height="29" HorizontalAlignment="Left" Margin="165,149,0,0" Name="button1" VerticalAlignment="Top" Width="147" Click="button1_Click" />
     </Grid>
 </ad:DockableContent>

@@ -101,6 +101,18 @@
                     <ad:DockablePane>
                         <local:SampleDockableContent x:Name="Content4" Title="Content4" Icon="Images\database.png"/>
                         <ad:DockableContent x:Name="DockingManagerPropertiesHost" Title="DockingManager Properties"></ad:DockableContent>
+                        <ad:DockableContent x:Name="NestedDockingManager" Title="NestedDockingManager">
+                            <ad:DockingManager>
+                                <ad:ResizingPanel Orientation="Horizontal">
+                                    <ad:DockablePane ad:ResizingPanel.ResizeWidth="100">
+                                        <local:SampleDockableContent x:Name="InnerContent1" Title="InnerContent1"/>
+                                    </ad:DockablePane>
+                                    <ad:DocumentPane>
+                                        <ad:DocumentContent x:Name="InnerDoc1" Title="InnerDoc1"/>
+                                    </ad:DocumentPane>
+                                </ad:ResizingPanel>
+                            </ad:DockingManager>
+                        </ad:DockableContent>
                     </ad:DockablePane>
                 </ad:ResizingPanel>
                 <ad:DocumentPane x:Name="DocumentHost">

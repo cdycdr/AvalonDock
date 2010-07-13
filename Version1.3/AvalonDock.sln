@@ -81,9 +81,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AvalonDock.DemoApp", "Avalo
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1CEFE9A6-295B-43C8-B3A3-0E4BF98A9EEB}"
-	ProjectSection(SolutionItems) = preProject
-		AvalonDock\Resources\SpecNET35Styles.xaml = AvalonDock\Resources\SpecNET35Styles.xaml
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

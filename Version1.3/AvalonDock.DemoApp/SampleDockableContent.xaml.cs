@@ -25,5 +25,10 @@ namespace AvalonDock.DemoApp
 
             this.DataContext = this;
         }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Click!");
+        }
     }
 }
