@@ -84,7 +84,7 @@
         </Menu>
         
         <!--Docking Manager AvalonDock-->
-        <ad:DockingManager x:Name="DockManager" Grid.Row="1" Margin="0,4,0,0" Loaded="DockManager_Loaded"
+        <ad:DockingManager x:Name="DockManager" IsAnimationEnabled="True" Grid.Row="1" Margin="0,4,0,0" Loaded="DockManager_Loaded"
                      ActiveContent="{Binding ElementName=Content1}" DocumentClosing="DockManager_DocumentClosing" >
             <ad:DockingManager.LayoutTransform>
                 <ScaleTransform
