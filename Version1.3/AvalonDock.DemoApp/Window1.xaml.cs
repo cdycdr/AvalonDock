@@ -22,5 +22,10 @@ namespace AvalonDock.DemoApp
         {
             InitializeComponent();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            messagesPane.Show();
+        }
     }
 }

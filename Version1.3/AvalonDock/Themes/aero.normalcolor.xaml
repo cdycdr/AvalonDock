@@ -207,8 +207,13 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-    
-	<!--DocumentTabItemStyle-->
+
+    <!-- FloatingDockablePane -->
+    <Style x:Key="{x:Type ad:FloatingDockablePane}" TargetType="{x:Type ad:FloatingDockablePane}" BasedOn="{StaticResource {x:Type ad:DockablePane}}">
+
+    </Style>
+
+    <!--DocumentTabItemStyle-->
     <Style x:Key="DocumentTabItemStyle" TargetType="{x:Type ad:ManagedContent}">
         <Setter Property="Background"
                 Value="Transparent"/>

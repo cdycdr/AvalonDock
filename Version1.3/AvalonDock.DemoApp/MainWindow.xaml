@@ -98,7 +98,7 @@
                         <local:SampleDockableContent x:Name="Content2" Title="Content2" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content3" Title="Content3" Icon="Images\database.png"/>
                     </ad:DockablePane>
-                    <ad:DockablePane>
+                    <ad:DockablePane >
                         <local:SampleDockableContent x:Name="Content4" Title="Content4" Icon="Images\database.png"/>
                         <ad:DockableContent x:Name="DockingManagerPropertiesHost" Title="DockingManager Properties"></ad:DockableContent>
                         <ad:DockableContent x:Name="NestedDockingManager" Title="NestedDockingManager">
