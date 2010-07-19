@@ -94,7 +94,7 @@
             <ad:ResizingPanel Orientation="Horizontal">
                 <ad:ResizingPanel ad:ResizingPanel.ResizeWidth="0.5*" Orientation="Vertical">
                     <ad:DockablePane SelectedIndex="1">
-                        <local:SampleDockableContent x:Name="Content1" Title="Content1" Icon="Images\database.png"/>
+                        <local:SampleDockableContent x:Name="Content1" Title="Content1" IsCloseable="False" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content2" Title="Content2" Icon="Images\database.png"/>
                         <local:SampleDockableContent x:Name="Content3" Title="Content3" Icon="Images\database.png"/>
                     </ad:DockablePane>
