@@ -29,12 +29,14 @@ namespace Sample4
             InitializeComponent();
 
             DataContext = this;
+            
         }
 
         public ObservableCollection<DocumentContent> MyDocuments { get; private set; }
 
         private void CreateNewDocument(object sender, RoutedEventArgs e)
         {
+
             string baseDocTitle = "MyDocument";
             int i = 1;
             string title = baseDocTitle + i.ToString();
@@ -45,12 +47,18 @@ namespace Sample4
                 title = baseDocTitle + i.ToString();
             }
 
-            MyDocuments.Add(new DocumentContent() { Title = title });
+            DocumentContent doc = new DocumentContent() { Title = title };
+            doc.Show(dockManager);
+
+            //MyDocuments.Add(new DocumentContent() { Title = title });
         }
 
         private void ClearDocumentsList(object sender, RoutedEventArgs e)
         {
             MyDocuments.Clear();
+
+            foreach (var doc in dockManager.Documents.ToArray())
+                doc.Close();
         }
 
 
@@ -75,6 +83,16 @@ namespace Sample4
 
         public static readonly DependencyProperty PeopleProperty =
             DependencyProperty.Register("People", typeof(ObservableCollection<Person>), typeof(MainWindow), new UIPropertyMetadata(null));
+
+        private void OnCanExecuteTestCommand(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void OnExecutedTestCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("Executed!");
+        }
 
     }
 }

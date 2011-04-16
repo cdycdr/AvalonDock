@@ -37,6 +37,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Markup.Primitives;
 
 namespace AvalonDock
 {
@@ -396,7 +397,20 @@ namespace AvalonDock
                 }
                 
                 cxMenuDocuments.IsOpen = true;
+                cxMenuDocuments.Closed += new RoutedEventHandler(cxMenuDocuments_Closed);
             }
+        }
+
+        /// <summary>
+        /// Clear context menu that shows documents list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void cxMenuDocuments_Closed(object sender, RoutedEventArgs e)
+        {
+            ContextMenu cxMenuDocuments = (ContextMenu)sender;
+            cxMenuDocuments.Items.Clear();
+            cxMenuDocuments.Closed -= new RoutedEventHandler(cxMenuDocuments_Closed);
         }
 
 
@@ -542,7 +556,57 @@ namespace AvalonDock
             //    //ActiveDocument = MainDocumentPane.SelectedItem as ManagedContent;
             //}
 
+            //foreach (var pi in GetType().GetFields(System.Reflection.BindingFlags.FlattenHierarchy | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static))
+            //{ 
+            //    var dpi = pi.GetValue(this) as DependencyProperty;
+            //    if (dpi != null)
+            //        Debug.WriteLine(string.Format("{0} - {1}", dpi.Name, dpi.GlobalIndex));
+            //    var dkpi = pi.GetValue(this) as DependencyPropertyKey;
+            //    if (dkpi != null)
+            //        Debug.WriteLine(string.Format("{0} - {1}", dkpi.DependencyProperty.Name, dkpi.DependencyProperty.GlobalIndex));
+            //}
+
+
+            foreach (var dp in GetDependencyProperties(this))
+            {
+                Debug.WriteLine(string.Format("{0} - {1}", dp.Name, dp.GlobalIndex));
+            }
+            foreach (var dp in GetAttachedProperties(this))
+            {
+                Debug.WriteLine(string.Format("{0} - {1}", dp.Name, dp.GlobalIndex));
+            }
             base.OnItemsChanged(e);
+        }
+
+
+        public static List<DependencyProperty> GetDependencyProperties(Object element)
+        { 
+            List<DependencyProperty> properties = new List<DependencyProperty>(); 
+            MarkupObject markupObject = MarkupWriter.GetMarkupObjectFor(element); 
+            if (markupObject != null) 
+            {
+                foreach (MarkupProperty mp in markupObject.Properties)
+                { 
+                    if (mp.DependencyProperty != null)
+                    { properties.Add(mp.DependencyProperty); } 
+                } 
+            } 
+            return properties; 
+        }         
+
+        public static List<DependencyProperty> GetAttachedProperties(Object element) 
+        { 
+            List<DependencyProperty> attachedProperties = new List<DependencyProperty>(); 
+            MarkupObject markupObject = MarkupWriter.GetMarkupObjectFor(element);
+            if (markupObject != null)
+            {
+                foreach (MarkupProperty mp in markupObject.Properties) 
+                {
+                    if (mp.IsAttached) 
+                    { attachedProperties.Add(mp.DependencyProperty); }
+                }
+            } 
+            return attachedProperties;
         }
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)

@@ -708,6 +708,9 @@ namespace AvalonDock
                     ContainerPane.RemoveContent(
                         ContainerPane.Items.IndexOf(this));
                 }
+                
+                //Patch 8244 
+                Manager.RemoveContentFromTabGroup(this);
 
                 OnClosed();
                 return true;

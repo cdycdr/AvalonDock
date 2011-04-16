@@ -199,7 +199,12 @@ namespace AvalonDock
         {
             if (key == Key.Tab)
             {
-                MoveToNextContent();
+                //MoveToNextContent();
+                if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+					MoveToPreviousContent();
+				else
+					MoveToNextContent();
+					
                 return true;
             }
             else if (key == Key.Down)

@@ -342,15 +342,6 @@ namespace AvalonDock
         {
             DockingManager manager = Manager;
 
-            if (manager != null)
-            {
-                if (manager.ActiveContent == this)
-                    manager.ActiveContent = null;
-
-                if (manager.ActiveDocument == this)
-                    manager.ActiveDocument = null;
-            }           
-            
             DocumentPane parentPane = ContainerPane as DocumentPane;
             FloatingDocumentPane floatingParentPane = ContainerPane as FloatingDocumentPane;
 
@@ -367,6 +358,15 @@ namespace AvalonDock
 
                 parentPane.CheckContentsEmpty();
             }
+
+            if (manager != null)
+            {
+                if (manager.ActiveContent == this)
+                    manager.ActiveContent = null;
+
+                if (manager.ActiveDocument == this)
+                    manager.ActiveDocument = null;
+            }   
         }
 
         /// <summary>

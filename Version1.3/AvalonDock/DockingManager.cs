@@ -294,7 +294,8 @@ namespace AvalonDock
 
             if (ActiveDocument == null)
             {
-                var docToActivate = Documents.OrderBy(d => d.LastActivation).FirstOrDefault();
+                //var docToActivate = Documents.OrderBy(d => d.LastActivation).FirstOrDefault();
+                var docToActivate = Documents.OrderByDescending(d => d.LastActivation).FirstOrDefault();
                 if (docToActivate != null)
                     docToActivate.Activate();
             }
@@ -764,7 +765,6 @@ namespace AvalonDock
                 MainDocumentPane = itemFound != null ? itemFound.Item as DocumentPane : null;
             }
 
-            //_floatingWindows.ForEach(fl => fl.CheckContents());
             CheckValidPanesFromTabGroups();
         }
 
@@ -1030,7 +1030,8 @@ namespace AvalonDock
             if (DockableContents.Count > 0 ||
                 Documents.Count > 0)
             {
-                bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
+                //bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
+                bool isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
                 bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
                 Debug.WriteLine(string.Format("OnKeyDn {0} CtrlDn={1}", e.Key, isCtrlDown));
 
@@ -1057,7 +1058,8 @@ namespace AvalonDock
             if (DockableContents.Count > 0 ||
                Documents.Count > 0)
             {
-                bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
+                //bool isCtrlDown = Keyboard.Modifiers == ModifierKeys.Control;
+                bool isCtrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
                 bool _navigatorWindowIsVisible = navigatorWindow != null ? navigatorWindow.IsVisible : false;
                 Debug.WriteLine(string.Format("OnKeyUp {0} CtrlDn={1}", e.Key, isCtrlDown));
 
@@ -1066,6 +1068,7 @@ namespace AvalonDock
                     if (!_navigatorWindowIsVisible && e.Key == Key.Tab)
                     {
                         ShowNavigatorWindow();
+                        _navigatorWindowIsVisible = true;
                     }
 
                     if (_navigatorWindowIsVisible)
@@ -1741,7 +1744,7 @@ namespace AvalonDock
         }
         #endregion
 
-        bool RemoveContentFromTabGroup(DockableContent contentToRemove)
+        internal bool RemoveContentFromTabGroup(DockableContent contentToRemove)
         {
             foreach (Panel anchorTabPanel in _anchorTabPanels)
             {
@@ -1769,7 +1772,7 @@ namespace AvalonDock
         /// </summary>
         /// <param name="pane">Pane to remove</param>
         /// <returns>True if pane was removed, false otherwise</returns>
-        bool RemovePaneFromTabGroups(DockablePane paneToRemove)
+        internal bool RemovePaneFromTabGroups(DockablePane paneToRemove)
         {
             foreach (Panel anchorTabPanel in _anchorTabPanels)
             {
@@ -3419,85 +3422,6 @@ namespace AvalonDock
 
 
         #region Restore Layout Core
-        ///// <summary>
-        ///// Restore from xml a document pane
-        ///// </summary>
-        ///// <param name="childElement"></param>
-        ///// <param name="mainExistingDocumentPane"></param>
-        ///// <param name="existingDocumentPanel"></param>
-        ///// <param name="dockableContents"></param>
-        //void RestoreDocumentPaneLayout(XmlElement childElement, out DocumentPane mainExistingDocumentPane, out DocumentPaneResizingPanel existingDocumentPanel, DockableContent[] dockableContents)
-        //{
-        //    mainExistingDocumentPane = (Content is DocumentPane) ? Content as DocumentPane : GetMainDocumentPane(Content as ResizingPanel);
-        //    if (mainExistingDocumentPane != null)
-        //    {
-        //        existingDocumentPanel = mainExistingDocumentPane.GetParentDocumentPaneResizingPanel();
-        //    }
-        //    else
-        //    {
-        //        existingDocumentPanel = null;
-        //    }
-
-        //    if (existingDocumentPanel != null)
-        //    {
-        //        if (existingDocumentPanel.Parent is ResizingPanel)
-        //        {
-        //            ((ResizingPanel)existingDocumentPanel.Parent).RemoveChild(existingDocumentPanel);
-        //        }
-        //        else if (existingDocumentPanel.Parent is DockingManager)
-        //        {
-        //            ((DockingManager)existingDocumentPanel.Parent).Content = null;
-        //        }
-        //    }
-        //    else if (mainExistingDocumentPane != null)
-        //    {
-        //        if (mainExistingDocumentPane.Parent is ResizingPanel)
-        //        {
-        //            ((ResizingPanel)mainExistingDocumentPane.Parent).RemoveChild(mainExistingDocumentPane);
-        //        }
-        //        else if (mainExistingDocumentPane.Parent is DockingManager)
-        //        {
-        //            ((DockingManager)mainExistingDocumentPane.Parent).Content = null;
-        //        }
-        //    }
-
-        //    foreach (XmlElement contentElement in childElement.ChildNodes)
-        //    {
-        //        if (contentElement.HasAttribute("Name"))
-        //        {
-        //            DockableContent foundContent = null;
-        //            string contentName = contentElement.GetAttribute("Name");
-        //            foreach (DockableContent content in dockableContents)
-        //            {
-        //                if (content.Name == contentName)
-        //                {
-        //                    foundContent = content;
-        //                    break;
-        //                }
-        //            }
-
-        //            if (foundContent == null &&
-        //                DeserializationCallback != null)
-        //            {
-        //                DeserializationCallbackEventArgs e = new DeserializationCallbackEventArgs(contentName);
-        //                DeserializationCallback(this, e);
-
-        //                foundContent = e.Content as DockableContent;
-        //            }
-
-
-        //            if (foundContent != null)
-        //            {
-        //                DetachContentFromDockingManager(foundContent);
-        //                mainExistingDocumentPane.Items.Add(foundContent);
-        //                foundContent.SetStateToDocument();
-
-        //                //call custom layout persistence method
-        //                foundContent.RestoreLayout(contentElement);
-        //            }
-        //        }
-        //    }
-        //}
 
         DocumentPane RestoreDocumentPaneLayout(XmlElement mainElement, DockableContent[] actualContents, DocumentContent[] actualDocuments)
         {
@@ -3757,7 +3681,12 @@ namespace AvalonDock
                 throw new FileFormatException("Unsupported layout file version");
 
             if (doc.DocumentElement.ChildNodes.Count != 3 ||
-                (doc.DocumentElement.ChildNodes[0].Name != "ResizingPanel" && doc.DocumentElement.ChildNodes[0].Name != "DocumentPane") ||
+                //(doc.DocumentElement.ChildNodes[0].Name != "ResizingPanel" && doc.DocumentElement.ChildNodes[0].Name != "DocumentPane") ||
+                (
+                    doc.DocumentElement.ChildNodes[0].Name != "ResizingPanel" && 
+                    doc.DocumentElement.ChildNodes[0].Name != "DocumentPane" && 
+                    doc.DocumentElement.ChildNodes[0].Name != "DocumentPaneResizingPanel"
+                ) ||
                 doc.DocumentElement.ChildNodes[1].Name != "Hidden" ||
                 doc.DocumentElement.ChildNodes[2].Name != "Windows")
             {
