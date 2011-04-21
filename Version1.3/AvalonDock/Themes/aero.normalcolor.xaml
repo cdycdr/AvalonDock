@@ -340,7 +340,7 @@
                                         Background="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Background}">
                                     <ContentPresenter 
                                         x:Name="contentPresenter"
-                                        
+                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Content}"
                                         Margin="2"
 								        KeyboardNavigation.TabNavigation="Local"
 								        KeyboardNavigation.DirectionalNavigation="Contained"

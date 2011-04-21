@@ -327,24 +327,6 @@ namespace AvalonDock
         #endregion
 
 
-        //ManagedContent _activeContent = null;
-
-        ///// <summary>
-        ///// Get or set the active content
-        ///// </summary>
-        ///// <remarks>An activated content is automatically selected in its container pane and receive logical as well keyboard focus.</remarks>
-        //public ManagedContent ActiveContent
-        //{
-        //    get
-        //    {
-        //        return _activeContent;
-        //    }
-        //    internal set
-        //    {
- 
-        //    }
-        //}
-
         #region ActiveContent
 
         /// <summary>
@@ -845,68 +827,6 @@ namespace AvalonDock
             }
         }
 
-        //internal List<T> FindContents<T>() where T : ManagedContent
-        //{
-        //    List<T> resList = new List<T>();
-
-        //    if (Content is Pane)
-        //    {
-        //        foreach (ManagedContent c in ((Pane)Content).Items)
-        //        {
-        //            if (c is T)
-        //            {
-        //                resList.Add((T)c);
-        //            }
-        //        }
-        //    }
-        //    else if (Content is ResizingPanel)
-        //    {
-        //        FindContents<T>(resList, Content as ResizingPanel);
-        //    }
-
-        //    foreach (FloatingWindow flWindow in _floatingWindows)
-        //    {
-        //        foreach (ManagedContent c in flWindow.HostedPane.Items)
-        //        {
-        //            if (c is T)
-        //                resList.Add(c as T);
-        //        }
-        //    }
-
-        //    if (_flyoutWindow != null && _flyoutWindow.ReferencedPane != null)
-        //    {
-        //        foreach (ManagedContent c in _flyoutWindow.ReferencedPane.Items)
-        //        {
-        //            if (c is T)
-        //                resList.Add(c as T);
-        //        }
-        //    }
-
-
-        //    return resList;
-        //}
-
-        //void FindContents<T>(List<T> listOfFoundContents, ResizingPanel parentPanel) where T : ManagedContent
-        //{
-        //    foreach (UIElement child in parentPanel.Children)
-        //    {
-        //        if (child is Pane)
-        //        {
-        //            foreach (ManagedContent c in ((Pane)child).Items)
-        //            {
-        //                if (c is T)
-        //                {
-        //                    listOfFoundContents.Add((T)c);
-        //                }
-        //            }
-        //        }
-        //        else if (child is ResizingPanel)
-        //        {
-        //            FindContents<T>(listOfFoundContents, child as ResizingPanel);
-        //        }
-        //    }
-        //}
-
         #endregion
 
         #region Floating windows management
@@ -948,30 +868,6 @@ namespace AvalonDock
             base.OnInitialized(e);
 
             this.CommandBindings.Clear();
-
-            //Keyboard.AddKeyDownHandler(this, (s, ke) =>
-            //    {
-            //        if (ke.Key == Key.Tab && Keyboard.IsKeyDown(Key.LeftCtrl))
-            //        {
-            //            ShowNavigatorWindow();
-            //            ke.Handled = true;
-            //        }
-            //    });
-
-            //Keyboard.AddKeyDownHandler(this, (s, ke) =>
-            //{
-            //    if (ke.Key == Key.Tab)
-            //    {
-            //        if (navigatorWindow != null && navigatorWindow.IsVisible)
-            //        {
-            //            HideNavigatorWindow();
-            //            ke.Handled = true;
-            //        }
-            //    }
-            //});
-
-            //this.CommandBindings.Add(new CommandBinding(ShowNavigatorWindowCommand, OnExecuteCommand, OnCanExecuteCommand));
-            //this.CommandBindings.Add(new CommandBinding(ShowDocumentNavigatorWindowCommand, OnExecuteCommand, OnCanExecuteCommand));
         }
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
