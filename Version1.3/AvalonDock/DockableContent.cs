@@ -683,38 +683,41 @@ namespace AvalonDock
         /// </summary>
         internal virtual bool CloseOrHide(bool force)
         {
-            if (!force &&
-                !IsCloseable)
-                return false; 
-            
-            if (HideOnClose)
+			bool closed = false;
+
+			if( !force && !IsCloseable ) {
+				closed = false;
+			}
+			else if (!force && HideOnClose)
             {
                 Hide();
-                return true;
+                closed = true;
             }
             else
             {
-                if (!CanExecuteCommand(ManagedContentCommands.Close))
-                    throw new InvalidOperationException("This operation can be executed in this state");
+				if( !CanExecuteCommand( ManagedContentCommands.Close ) ) {
+					throw new InvalidOperationException( "This operation can be executed in this state" );
+				}
 
-                CancelEventArgs e = new CancelEventArgs(false);
-                OnClosing(e);
+                CancelEventArgs e = new CancelEventArgs( false );
+                OnClosing( e );
 
-                if (e.Cancel)
-                    return false;
-                
-                if (ContainerPane != null)
-                {
-                    ContainerPane.RemoveContent(
-                        ContainerPane.Items.IndexOf(this));
-                }
-                
-                //Patch 8244 
-                Manager.RemoveContentFromTabGroup(this);
+				if( e.Cancel ) {
+					closed = false;
+				}
+				else {
+					if( ContainerPane != null ) {
+						ContainerPane.RemoveContent( ContainerPane.Items.IndexOf( this ) );
+					}
 
-                OnClosed();
-                return true;
-            }            
+					//Patch 8244 
+					Manager.RemoveContentFromTabGroup( this );
+
+					OnClosed();
+					closed = true;
+				}
+            }
+			return closed;
         }
 
         /// <summary>
