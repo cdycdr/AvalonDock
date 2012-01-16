@@ -41,7 +41,6 @@ namespace AvalonDock
             return v1 * v2;
         }
 
-
         public static bool IsLessThen(double v1, double v2)
         {
             if (AreClose(v1, v2))
