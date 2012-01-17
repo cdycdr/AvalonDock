@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace AvalonDock.Layout
+{
+    public class LayoutDocument : LayoutContent
+    {
+        public bool IsVisible
+        {
+            get { return true; }
+        }
+    }
+}

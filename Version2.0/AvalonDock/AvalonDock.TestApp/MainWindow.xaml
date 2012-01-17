@@ -1,0 +1,35 @@
+﻿<Window x:Class="AvalonDock.TestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
+        xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
+        xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        
+        <avalonDock:DockingManager>
+            <avalonDockLayout:LayoutRoot>
+                <avalonDockLayout:LayoutPanel Orientation="Horizontal">
+                    <avalonDockLayout:LayoutDocumentPaneGroup>
+                        <avalonDockLayout:LayoutDocumentPane>
+                            <avalonDockLayout:LayoutDocument Title="Document 1">
+                                <TextBox Text="Document 1 Content"/>
+                            </avalonDockLayout:LayoutDocument>
+                            <avalonDockLayout:LayoutDocument Title="Document 2">
+                                <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Document 2 Attached to Timer ->\{0\}'}"/>
+                            </avalonDockLayout:LayoutDocument>
+                        </avalonDockLayout:LayoutDocumentPane>
+                    </avalonDockLayout:LayoutDocumentPaneGroup>
+                    <avalonDockLayout:LayoutAnchorablePaneGroup DockWidth="150">
+                        <avalonDockLayout:LayoutAnchorablePane>
+                            <avalonDockLayout:LayoutAnchorable Title="Tool Window 1">
+                                <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
+                            </avalonDockLayout:LayoutAnchorable>
+                            <avalonDockLayout:LayoutAnchorable Title="Tool Window 2"/>
+                        </avalonDockLayout:LayoutAnchorablePane>
+                    </avalonDockLayout:LayoutAnchorablePaneGroup>
+                </avalonDockLayout:LayoutPanel>
+            </avalonDockLayout:LayoutRoot>
+        </avalonDock:DockingManager>
+    </Grid>
+</Window>
