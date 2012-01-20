@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace AvalonDock.Layout
 {
-    public interface ILayoutOrientableElement : ILayoutPanelElement
+    public interface ILayoutOrientableGroup : ILayoutGroup
     {
         Orientation Orientation { get; set; }
     }

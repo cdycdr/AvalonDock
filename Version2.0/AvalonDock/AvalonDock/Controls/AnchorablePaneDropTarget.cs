@@ -38,7 +38,7 @@ namespace AvalonDock.Controls
                     #region DropTargetType.AnchorablePaneDockBottom
                     {
                         var parentModel = targetModel.Parent as ILayoutGroup;
-                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
+                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableGroup;
 
                         if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Vertical &&
                             parentModel.ChildrenCount == 1)
@@ -77,7 +77,7 @@ namespace AvalonDock.Controls
                     #region DropTargetType.AnchorablePaneDockTop
                     {
                         var parentModel = targetModel.Parent as ILayoutGroup;
-                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
+                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableGroup;
 
                         if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Vertical &&
                             parentModel.ChildrenCount == 1)
@@ -116,7 +116,7 @@ namespace AvalonDock.Controls
                     #region DropTargetType.AnchorablePaneDockLeft
                     {
                         var parentModel = targetModel.Parent as ILayoutGroup;
-                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
+                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableGroup;
                         int insertToIndex = parentModel.IndexOfChild(targetModel);
 
                         if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Horizontal &&
@@ -155,7 +155,7 @@ namespace AvalonDock.Controls
                     #region DropTargetType.AnchorablePaneDockRight
                     {
                         var parentModel = targetModel.Parent as ILayoutGroup;
-                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
+                        var parentModelOrientable = targetModel.Parent as ILayoutOrientableGroup;
                         int insertToIndex = parentModel.IndexOfChild(targetModel);
 
                         if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Horizontal &&

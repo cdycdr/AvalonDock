@@ -37,17 +37,21 @@ namespace AvalonDock.Controls
 
         private void OnModelChildrenCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.OldItems != null)
+            if (e.OldItems != null && 
+                (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove || 
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
             {
                 foreach (var childModel in e.OldItems)
                     _childViews.Remove(_childViews.First(cv => cv.Model == childModel));
             }
 
-            if (e.NewItems != null)
+            if (e.NewItems != null &&
+                (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
             {
                 var manager = _model.Root.Manager;
                 int insertIndex = e.NewStartingIndex;
-                foreach (var childModel in _model.Children)
+                foreach (LayoutAnchorGroup childModel in e.NewItems)
                 {
                     _childViews.Insert(insertIndex++, manager.GetUIElementForModel(childModel) as LayoutAnchorGroupControl);
                 }

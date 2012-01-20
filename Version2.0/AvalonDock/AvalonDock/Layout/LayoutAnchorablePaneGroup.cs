@@ -10,7 +10,7 @@ using System.Windows.Markup;
 namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
-    public class LayoutAnchorablePaneGroup : LayoutPositionableGroup<ILayoutAnchorablePane>, ILayoutAnchorablePane, ILayoutOrientableElement
+    public class LayoutAnchorablePaneGroup : LayoutPositionableGroup<ILayoutAnchorablePane>, ILayoutAnchorablePane, ILayoutOrientableGroup
     {
         public LayoutAnchorablePaneGroup()
         {

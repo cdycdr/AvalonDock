@@ -53,7 +53,8 @@
     <Compile Include="Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Controls\AnchorablePaneTabPanel.cs" />
     <Compile Include="Controls\AnchorablePaneTitle.cs" />
-    <Compile Include="Controls\AnchorSide.cs" />
+    <Compile Include="Controls\ILogicalChildrenContainer.cs" />
+    <Compile Include="Layout\AnchorSide.cs" />
     <Compile Include="Controls\DockingManagerDropTarget.cs" />
     <Compile Include="Controls\DockingManagerOverlayArea.cs" />
     <Compile Include="Controls\DocumentPaneControlOverlayArea.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Controls\DropTargetType.cs" />
     <Compile Include="Controls\Extentions.cs" />
     <Compile Include="Controls\IDropTarget.cs" />
+    <Compile Include="Controls\LayoutAnchorableControl.cs" />
     <Compile Include="Controls\LayoutAnchorableFloatingWindowControl.cs" />
     <Compile Include="Controls\LayoutAnchorablePaneControl.cs" />
     <Compile Include="Controls\LayoutAnchorablePaneGroupControl.cs" />

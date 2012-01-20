@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AvalonDock.Layout
 {
-    public interface ILayoutGroup
+    public interface ILayoutGroup : ILayoutContainer
     {
         int IndexOfChild(ILayoutElement element);
         void InsertChildAt(int index, ILayoutElement element);

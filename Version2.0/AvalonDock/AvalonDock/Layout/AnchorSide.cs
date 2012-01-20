@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock.Controls
+namespace AvalonDock.Layout
 {
     public enum AnchorSide
     {

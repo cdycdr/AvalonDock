@@ -224,7 +224,8 @@ namespace AvalonDock.Layout
 
                 foreach (var emptyPane in _rootPanel.Descendents().OfType<LayoutAnchorablePane>().Where(p => p.Children.Count == 0))
                 {
-                    foreach (var contentReferencingEmptyPane in _rootPanel.Descendents().OfType<LayoutContent>().Where(c => c.PreviousContainer == emptyPane && c.FindParent<LayoutFloatingWindow>() == null))
+                    foreach (var contentReferencingEmptyPane in _rootPanel.Descendents().OfType<LayoutContent>()
+                        .Where(c => c.PreviousContainer == emptyPane && c.FindParent<LayoutFloatingWindow>() == null))
                     {
                         contentReferencingEmptyPane.PreviousContainer = null;
                         contentReferencingEmptyPane.PreviousContainerIndex = -1;

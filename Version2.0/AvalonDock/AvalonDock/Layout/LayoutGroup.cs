@@ -34,7 +34,9 @@ namespace AvalonDock.Layout
                 if (e.NewItems != null)
                 {
                     foreach (LayoutElement element in e.NewItems)
+                    {
                         element.Parent = this;
+                    }
                 }
             }
 

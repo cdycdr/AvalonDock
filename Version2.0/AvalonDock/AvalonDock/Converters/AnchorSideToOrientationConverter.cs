@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Controls;
-using AvalonDock.Controls;
+using AvalonDock.Layout;
 
 namespace AvalonDock.Converters
 {

@@ -104,17 +104,36 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <avalonDockControls:AnchorablePaneTitle>
-                            <TextBlock Text="{Binding Title}"/>
-                        </avalonDockControls:AnchorablePaneTitle>
-                        <ContentControl Content="{Binding Content}" Grid.Row="1"/>
-                    </Grid>
+                    <avalonDockControls:LayoutAnchorableControl Content="{Binding}"/>
                 </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="avalonDockControls:AnchorablePaneTitle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Title}"/>
+                        <Border x:Name="PART_MenuPin" Grid.Column="1" IsHitTestVisible="True" >
+                            <Image Source="/AvalonDock;component/Images/PinMenu.png"/>
+                        </Border>
+                        <Border x:Name="PART_AutoHidePin" Grid.Column="2" IsHitTestVisible="True">
+                            <Image Source="/AvalonDock;component/Images/PinAutoHide.png"/>
+                        </Border>
+                        <Border x:Name="PART_ClosePin" Grid.Column="3" IsHitTestVisible="True">
+                            <Image Source="/AvalonDock;component/Images/PinClose.png"/>
+                        </Border>
+                    </Grid>
+
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -127,44 +146,6 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        
-
-        
-        <!--<StackPanel>
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type ad:DockablePaneAnchorTabGroup}">
-                    <Setter Property="LayoutTransform">
-                        <Setter.Value >
-                            <RotateTransform Angle="90"/>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Margin" Value="0,2,2,0"/>
-                </Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="0,0,3,3"/>
-                </Style>
-            </StackPanel.Resources>
-        </StackPanel>-->
-        
-        
-        <!--<StackPanel Name="PART_RightAnchorTabPanel" Grid.Column="2" Grid.Row="1"  Orientation="Vertical">
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type ad:DockablePaneAnchorTabGroup}">
-                    <Setter Property="LayoutTransform">
-                        <Setter.Value >
-                            <RotateTransform Angle="90"/>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Margin" Value="2,2,0,0"/>
-                </Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="3,3,0,0"/>
-                </Style>
-            </StackPanel.Resources>
-        </StackPanel>
-        <StackPanel Name="PART_TopAnchorTabPanel" Grid.Column="1" Grid.Row="0" Orientation="Horizontal"/>
-        <StackPanel Name="PART_BottomAnchorTabPanel" Grid.Column="1" Grid.Row="2" Orientation="Horizontal"/>-->
-
     </ControlTemplate>
 
     <ControlTemplate x:Key="AnchorGroupTemplate" TargetType="{x:Type avalonDockControls:LayoutAnchorGroupControl}">
@@ -176,7 +157,7 @@
             </ItemsControl.LayoutTransform>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel />
+                    <StackPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
@@ -328,6 +309,27 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter Content="{Binding Model.Content, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type avalonDockControls:LayoutAnchorableControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorableControl}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <avalonDockControls:AnchorablePaneTitle Content="{Binding}"/>
+                            <ContentPresenter Content="{Binding Content}" Grid.Row="1"/>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

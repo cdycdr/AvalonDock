@@ -9,16 +9,51 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
+
+    [TemplatePart(Name = "PART_MenuPin", Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = "PART_AutoHidePin", Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = "PART_ClosePin", Type = typeof(FrameworkElement))]
     public class AnchorablePaneTitle : ContentControl
     {
         static AnchorablePaneTitle()
         {
-            IsHitTestVisibleProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(true));
+            AnchorablePaneTitle.IsHitTestVisibleProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(true));
+            AnchorablePaneTitle.DefaultStyleKeyProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(typeof(AnchorablePaneTitle)));
         }
 
 
         internal AnchorablePaneTitle()
         { }
+
+
+        Border _menuPinContainer = null;
+        Border _menuAutoHideContainer = null;
+        Border _menuCloseContainer = null;
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            _menuPinContainer = this.GetTemplateChild("PART_MenuPin") as Border;
+            _menuAutoHideContainer = this.GetTemplateChild("PART_AutoHidePin") as Border;
+            _menuCloseContainer = this.GetTemplateChild("PART_ClosePin") as Border;
+
+            if (_menuAutoHideContainer != null)
+                _menuAutoHideContainer.MouseLeftButtonUp += (s, e) => OnToggleAutoHide();
+        }
+
+        LayoutAnchorable GetModel()
+        {
+            return DataContext as LayoutAnchorable;
+        }
+
+        private void OnToggleAutoHide()
+        {
+            var anchorableModel = GetModel();
+            var manager = anchorableModel.Root.Manager;
+
+            manager.ToggleAutoHide(anchorableModel);
+        }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
         {

@@ -16,7 +16,7 @@ namespace AvalonDock
 {
     [ContentProperty("Layout")]
     [TemplatePart(Name="PART_AutoHideArea")]
-    public class DockingManager : Control, IOverlayWindowHost
+    public class DockingManager : Control, IOverlayWindowHost, ILogicalChildrenContainer
     {
         static DockingManager()
         {
@@ -532,9 +532,9 @@ namespace AvalonDock
         protected virtual void OnLayoutRootPanelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                InternalRemoveLogicalChild(e.OldValue);
+                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                InternalAddLogicalChild(e.NewValue);
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -573,9 +573,9 @@ namespace AvalonDock
         protected virtual void OnRightSidePanelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                InternalRemoveLogicalChild(e.OldValue);
+                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                InternalAddLogicalChild(e.NewValue);
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -592,7 +592,8 @@ namespace AvalonDock
             }
         }
 
-        internal void InternalAddLogicalChild(object element)
+
+        void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
         {
             if (_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
@@ -600,7 +601,7 @@ namespace AvalonDock
             AddLogicalChild(element);
         }
 
-        internal void InternalRemoveLogicalChild(object element)
+        void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
         {
             if (!_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
@@ -608,11 +609,10 @@ namespace AvalonDock
             RemoveLogicalChild(element);
         }
 
-
         #endregion  
     
         #region AutoHide window
-        internal void OnShowAutoHideWindow(LayoutAnchorControl anchor)
+        internal void ShowAutoHideWindow(LayoutAnchorControl anchor)
         {
             if (_autohideArea == null)
                 return;
@@ -620,59 +620,20 @@ namespace AvalonDock
             if (AutoHideWindow != null && AutoHideWindow.Model == anchor.Model)
                 return;
 
+            HideAutoHideWindow();
+
+            SetAutoHideWindow(new LayoutAutoHideWindow(anchor));
+        }
+
+        internal void HideAutoHideWindow()
+        {
             if (AutoHideWindow != null)
             {
                 AutoHideWindow.Dispose();
                 SetAutoHideWindow(null);
             }
-
-            SetAutoHideWindow(new LayoutAutoHideWindow(anchor));
         }
 
-        //private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        //{
-        //    // Handle messages...
-
-        //    return IntPtr.Zero;
-        //}
-
-        //List<HwndSource> _childrenHwndSources = new List<HwndSource>();
-
-        //void AttachMessageHookToChildHwndSources()
-        //{
-        //    var foundChildrenHwndSources = new List<HwndSource>();
-
-        //    foreach (var childRootElement in this.FindVisualChildren<HwndHost>())
-        //    {
-        //        HwndSource source = HwndSource.FromVisual(childRootElement) as HwndSource;
-        //        if (!_childrenHwndSources.Contains(source))
-        //        {
-        //            if (!foundChildrenHwndSources.Contains(source))
-        //            {
-        //                foundChildrenHwndSources.Add(source);
-        //                source.AddHook(WndProc);
-        //            }
-        //        }
-        //        else
-        //            foundChildrenHwndSources.Add(source);
-        //    }
-
-        //    foreach (var hostToRemove in _childrenHwndSources.Except(foundChildrenHwndSources))
-        //    {
-        //        hostToRemove.RemoveHook(WndProc);
-        //    }
-
-        //    _childrenHwndSources = foundChildrenHwndSources;
-        //}
-
-        //void DetachMessageHookToChildHwndSources()
-        //{
-        //    foreach (var hostToRemove in _childrenHwndSources)
-        //    {
-        //        hostToRemove.RemoveHook(WndProc);
-        //    }
-        //    _childrenHwndSources.Clear();
-        //}
         FrameworkElement _autohideArea;
         internal FrameworkElement GetAutoHideAreaElement()
         {
@@ -730,9 +691,9 @@ namespace AvalonDock
         protected virtual void OnAutoHideWindowChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                InternalRemoveLogicalChild(e.OldValue);
+                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                InternalAddLogicalChild(e.NewValue);
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -982,6 +943,75 @@ namespace AvalonDock
 
             return _areas;
         }
+
+
+
+        public void ToggleAutoHide(LayoutAnchorable anchorableModel)
+        {
+            #region Anchorable is already auto hidden
+            if (anchorableModel.Parent is LayoutAnchorGroup)
+            {
+                var parentGroup = anchorableModel.Parent as LayoutAnchorGroup;
+                var parentSide = parentGroup.Parent as LayoutAnchorSide;
+                var previousContainer = parentGroup.PreviousContainer;
+
+                if (previousContainer == null)
+                {
+                    AnchorSide side = (parentGroup.Parent as LayoutAnchorSide).Side;
+                    switch (side)
+                    { 
+                        case AnchorSide.Right:
+                            if (parentGroup.Root.RootPanel.Orientation == Orientation.Horizontal)
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                parentGroup.Root.RootPanel.Children.Add(previousContainer);
+                            }
+                            else
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                LayoutPanel panel = new LayoutPanel() { Orientation = Orientation.Horizontal };
+                                LayoutRoot root = parentGroup.Root as LayoutRoot;
+                                LayoutPanel oldRootPanel = parentGroup.Root.RootPanel as LayoutPanel;
+                                root.RootPanel = panel;
+                                panel.Children.Add(oldRootPanel);
+                                panel.Children.Add(previousContainer);
+                            }
+                            break;
+                    }
+                }
+               
+
+                foreach (var anchorableToToggle in parentGroup.Children)
+                    previousContainer.Children.Add(anchorableToToggle);
+                parentGroup.Children.Clear();
+                parentSide.Children.Remove(parentGroup);
+
+                HideAutoHideWindow();
+            }
+            #endregion
+            else if (anchorableModel.Parent is LayoutAnchorablePane)
+            {
+                var parentPane = anchorableModel.Parent as LayoutAnchorablePane;
+
+                var newAnchorGroup = new LayoutAnchorGroup() { PreviousContainer = parentPane};
+                
+                foreach (var anchorableToImport in parentPane.Children)
+                    newAnchorGroup.Children.Add(anchorableToImport);
+                parentPane.Children.Clear();
+                
+                //detect anchor side for the pane
+                var anchorSide = parentPane.GetSide();
+
+                switch (anchorSide)
+                { 
+                    case AnchorSide.Right:
+                        Layout.RightSide.Children.Add(newAnchorGroup);
+                        break;
+                }
+            }
+        }
+
+
 
 
     }

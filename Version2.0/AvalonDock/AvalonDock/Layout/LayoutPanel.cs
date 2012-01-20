@@ -10,7 +10,7 @@ using System.Windows.Controls;
 namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
-    public class LayoutPanel : LayoutPositionableGroup<ILayoutPanelElement>, ILayoutPanelElement, ILayoutOrientableElement
+    public class LayoutPanel : LayoutPositionableGroup<ILayoutPanelElement>, ILayoutPanelElement, ILayoutOrientableGroup
     {
         public LayoutPanel()
         {
@@ -41,5 +41,6 @@ namespace AvalonDock.Layout
         {
             return Children.Any(c => c.IsVisible);
         }
+
     }
 }

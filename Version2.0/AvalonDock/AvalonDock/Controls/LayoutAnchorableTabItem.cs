@@ -25,14 +25,16 @@ namespace AvalonDock.Controls
         void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var parentPaneControl = this.FindAncestor<LayoutAnchorablePaneControl>();
-            if (e.OldValue != null && parentPaneControl != null)
+            var oldModel = e.OldValue as LayoutContent;
+            var newModel = e.NewValue as LayoutContent;
+            if (oldModel != null && parentPaneControl != null)
             {
-                parentPaneControl.InternalRemoveLogicalChild(e.OldValue);
+                ((ILogicalChildrenContainer)parentPaneControl).InternalRemoveLogicalChild(oldModel);
             }
 
-            if (e.NewValue != null && parentPaneControl != null)
+            if (newModel != null && parentPaneControl != null)
             {
-                parentPaneControl.InternalAddLogicalChild(e.NewValue);
+                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(newModel);
             }
         }
 
@@ -42,19 +44,22 @@ namespace AvalonDock.Controls
 
             var contentModel = GetModel();
 
+            if (contentModel == null)
+                return;
+
             if (oldParent != null && contentModel != null)
             {
                 var oldParentPaneControl = oldParent.FindAncestor<LayoutAnchorablePaneControl>();
                 if (oldParentPaneControl != null)
                 {
-                    oldParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
+                    ((ILogicalChildrenContainer) oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
                 }
             }
 
             if (contentModel.Content != null)
             {
                 var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as DependencyObject)
-                    as LayoutAnchorablePaneControl;
+                    as ILogicalChildrenContainer;
                 if (oldLogicalParentPaneControl != null)
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
             }
@@ -62,7 +67,7 @@ namespace AvalonDock.Controls
             var parentPaneControl = this.FindAncestor<LayoutAnchorablePaneControl>();
             if (contentModel != null && parentPaneControl != null && contentModel.Content != null)
             {
-                parentPaneControl.InternalAddLogicalChild(contentModel.Content);
+                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(contentModel.Content);
             }
         }
 

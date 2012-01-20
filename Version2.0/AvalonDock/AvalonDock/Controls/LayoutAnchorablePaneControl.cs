@@ -10,7 +10,7 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    class LayoutAnchorablePaneControl : TabControl, ILayoutControl
+    class LayoutAnchorablePaneControl : TabControl, ILayoutControl, ILogicalChildrenContainer
     {
         static LayoutAnchorablePaneControl()
         {
@@ -43,16 +43,6 @@ namespace AvalonDock.Controls
             return new LayoutAnchorableTabItem();
         }
 
-        internal void InternalAddLogicalChild(object value)
-        {
-            AddLogicalChild(value);
-        }
-
-        internal void InternalRemoveLogicalChild(object value)
-        {
-            RemoveLogicalChild(value);
-        }
-
         protected override System.Collections.IEnumerator LogicalChildren
         {
             get
@@ -60,61 +50,6 @@ namespace AvalonDock.Controls
                 return _model.Children.Select(a => a.Content).GetEnumerator();
             }
         }
-        //protected override void OnInitialized(EventArgs e)
-        //{
-        //    base.OnInitialized(e);
-
-        //    var docs = Anchorables;
-        //    foreach (LayoutAnchorable content in _model.Children)
-        //    {
-        //        var contentView = new LayoutAnchorableControl(content);
-        //        docs.Add(contentView);
-        //        AddLogicalChild(contentView.Model.Content);
-        //    }
-
-
-        //    _model.Children.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(ModelChildrenCollectionChanged);
-        //    _model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(OnModelPropertyChanged);
-        //}
-
-        //void OnModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-
-        //}
-
-        //protected override System.Collections.IEnumerator LogicalChildren
-        //{
-        //    get
-        //    {
-        //        return Anchorables.Select(a => a.Model.Content).GetEnumerator();
-        //    }
-        //}
-
-        //void ModelChildrenCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        //{
-        //    var docs = Anchorables;
-        //    if (e.NewItems != null)
-        //    {
-        //        int index = e.NewStartingIndex;
-        //        foreach (LayoutAnchorable content in e.NewItems)
-        //        {
-        //            var contentView = new LayoutAnchorableControl(content);
-        //            docs.Insert(index, contentView);
-        //            AddLogicalChild(contentView.Model.Content);
-        //            index++;
-        //        }
-        //    }
-
-        //    if (e.OldItems != null)
-        //    {
-        //        for (int i = e.OldStartingIndex; i < e.OldItems.Count; i++)
-        //        {
-        //            var docToRemove = docs[e.OldStartingIndex];
-        //            docs.RemoveAt(e.OldStartingIndex);
-        //            RemoveLogicalChild(docToRemove.Model.Content);
-        //        }
-        //    }
-        //}
 
         LayoutAnchorablePane _model;
 
@@ -124,5 +59,15 @@ namespace AvalonDock.Controls
         }
 
 
+
+        void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
+        {
+            AddLogicalChild(element);
+        }
+
+        void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
+        {
+            RemoveLogicalChild(element);
+        }
     }
 }

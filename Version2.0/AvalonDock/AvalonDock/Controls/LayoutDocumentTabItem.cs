@@ -26,12 +26,12 @@ namespace AvalonDock.Controls
             var parentPaneControl = this.FindAncestor<LayoutDocumentPaneControl>();
             if (e.OldValue != null && parentPaneControl != null)
             {
-                parentPaneControl.InternalRemoveLogicalChild(e.OldValue);
+                ((ILogicalChildrenContainer)parentPaneControl).InternalRemoveLogicalChild(e.OldValue);
             }
 
             if (e.NewValue != null && parentPaneControl != null)
             {
-                parentPaneControl.InternalAddLogicalChild(e.NewValue);
+                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(e.NewValue);
             }
         }
 
@@ -46,21 +46,21 @@ namespace AvalonDock.Controls
                 var oldParentPaneControl = oldParent.FindAncestor<LayoutDocumentPaneControl>();
                 if (oldParentPaneControl != null)
                 {
-                    oldParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
+                    ((ILogicalChildrenContainer)oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
                 }
             }
 
             if (contentModel.Content != null)
             {
                 var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as DependencyObject)
-                    as LayoutDocumentPaneControl;
+                    as ILogicalChildrenContainer;
                 if (oldLogicalParentPaneControl != null)
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
             }
             if (contentModel.Content != null)
             {
                 var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as DependencyObject)
-                    as LayoutAnchorablePaneControl;
+                    as ILogicalChildrenContainer;
                 if (oldLogicalParentPaneControl != null)
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
             }
@@ -68,7 +68,7 @@ namespace AvalonDock.Controls
             var parentPaneControl = this.FindAncestor<LayoutDocumentPaneControl>();
             if (contentModel != null && parentPaneControl != null && contentModel.Content != null)
             {
-                parentPaneControl.InternalAddLogicalChild(contentModel.Content);
+                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(contentModel.Content);
             }
         }
 

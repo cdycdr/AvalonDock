@@ -36,7 +36,7 @@ namespace AvalonDock.Controls
 
         public Orientation Orientation
         {
-            get { return (_model as ILayoutOrientableElement).Orientation; }
+            get { return (_model as ILayoutOrientableGroup).Orientation; }
         }
 
         protected override void OnInitialized(EventArgs e)

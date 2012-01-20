@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using System.Diagnostics;
 
 namespace AvalonDock.Layout
 {
@@ -44,19 +45,47 @@ namespace AvalonDock.Layout
             return false;
         }
 
-        public static bool ContainsChildOfType<T, S>(this ILayoutContainer element)
+        public static bool ContainsChildOfType<T, S>(this ILayoutContainer container)
         {
-            foreach (var childElement in element.Descendents())
+            foreach (var childElement in container.Descendents())
                 if (childElement is T || childElement is S)
                     return true;
 
             return false;
         }
 
-        public static bool IsOfType<T, S>(this ILayoutContainer element)
+        public static bool IsOfType<T, S>(this ILayoutContainer container)
         {
-            return element is T || element is S;
+            return container is T || container is S;
         }
 
+        public static AnchorSide GetSide(this ILayoutElement element)
+        {
+            var parentContainer = element.Parent as ILayoutOrientableGroup;
+            if (parentContainer != null)
+            {
+                if (!parentContainer.ContainsChildOfType<LayoutDocumentPaneGroup, LayoutDocumentPane>())
+                    return GetSide(parentContainer);
+
+                foreach (var childElement in parentContainer.Children)
+                {
+                    if (childElement == element)
+                        return parentContainer.Orientation == System.Windows.Controls.Orientation.Horizontal ?
+                            AnchorSide.Left : AnchorSide.Top;
+
+                    var childElementAsContainer = childElement as ILayoutContainer;
+                    if (childElementAsContainer != null &&
+                        (childElementAsContainer.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>() ||
+                        childElementAsContainer.ContainsChildOfType<LayoutDocumentPane, LayoutAnchorablePaneGroup>()))
+                    {
+                        return parentContainer.Orientation == System.Windows.Controls.Orientation.Horizontal ?
+                           AnchorSide.Right : AnchorSide.Bottom;
+                    }
+                }
+            }
+
+            Debug.Fail("Unable to find the side for an element, possible layout problem!");
+            return AnchorSide.Right;
+        }
     }
 }

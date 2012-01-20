@@ -9,6 +9,8 @@ namespace AvalonDock.Layout
     {
         DockingManager Manager { get; }
 
+        LayoutPanel RootPanel { get; }
+
         LayoutAnchorSide TopSide { get; }
         LayoutAnchorSide LeftSide { get; }
         LayoutAnchorSide RightSide { get; }

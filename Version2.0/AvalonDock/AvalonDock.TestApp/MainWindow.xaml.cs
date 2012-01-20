@@ -21,13 +21,21 @@ namespace AvalonDock.TestApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
 
             DispatcherTimer timer = new DispatcherTimer();
+            Random rnd = new Random();
             timer.Interval = TimeSpan.FromSeconds(1.0);
-            timer.Tick += (s, e) => TestTimer++;
+            timer.Tick += (s, e) =>
+                {
+                    TestTimer++;
+
+                    TestBackground = new SolidColorBrush(Color.FromRgb(
+                        (byte)rnd.Next(0, 255), (byte)rnd.Next(0, 255), (byte)rnd.Next(0, 255)));
+                };
             timer.Start();
 
             this.DataContext = this;
@@ -53,6 +61,28 @@ namespace AvalonDock.TestApp
         }
 
         #endregion
+
+        #region TestBackground
+
+        /// <summary>
+        /// TestBackground Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty TestBackgroundProperty =
+            DependencyProperty.Register("TestBackground", typeof(Brush), typeof(MainWindow),
+                new FrameworkPropertyMetadata((Brush)null));
+
+        /// <summary>
+        /// Gets or sets the TestBackground property.  This dependency property 
+        /// indicates a randomly changing brush (just for testing).
+        /// </summary>
+        public Brush TestBackground
+        {
+            get { return (Brush)GetValue(TestBackgroundProperty); }
+            set { SetValue(TestBackgroundProperty, value); }
+        }
+
+        #endregion
+
 
 
     }

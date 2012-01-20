@@ -15,43 +15,10 @@ namespace AvalonDock.Controls
 {
     public class LayoutAutoHideWindow : HwndHost, ILayoutControl
     {
-        //class LayoutAutoHideWindowHost : 
-        //{
-        //    public LayoutAutoHideWindowHost(LayoutAutoHideWindow owner)
-        //    {
-        //        _owner = owner;
-        //    }
-
-        //    LayoutAutoHideWindow _owner;
-        //    LayoutAutoHideWindowHost _internalHost = null;
-        //    HwndSource _internalHwndSource = null;
-        //    ContentPresenter _contentPresenter = null;
-
-
-        //    //protected override void OnContentChanged(object oldContent, object newContent)
-        //    //{
-        //    //    base.OnContentChanged(oldContent, newContent);
-
-        //    //    if (oldContent != null)
-        //    //    {
-        //    //        _owner._model.Root.Manager.InternalRemoveLogicalChild(oldContent);
-        //    //    }
-
-        //    //    if (newContent != null)
-        //    //    {
-        //    //        RemoveLogicalChild(newContent);
-        //    //        _owner._model.Root.Manager.InternalAddLogicalChild(newContent);
-        //    //    }
-        //    //}
-        //}
-
-
         internal LayoutAutoHideWindow(LayoutAnchorControl anchor)
         {
             _model = anchor.Model as LayoutAnchorable;
             _side = (anchor.Model.Parent.Parent as LayoutAnchorSide).Side;
-
-            
         }
 
         LayoutAnchorable _model;
@@ -85,56 +52,7 @@ namespace AvalonDock.Controls
             if (msg == Win32Helper.WM_WINDOWPOSCHANGING)
             {
                 Win32Helper.SetWindowPos(_internalHwndSource.Handle, IntPtr.Zero, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
-                //Win32Helper.WINDOWPOS mwp;
-                //mwp = (Win32Helper.WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(Win32Helper.WINDOWPOS));
-                //Console.WriteLine(string.Format("WM_WINDOWPOSCHANGING {0}-{1}-{2}", _internalHwndSource.Handle, mwp.hwndInsertAfter, (Win32Helper.SetWindowPosFlags)mwp.flags));
-                //if (mwp.hwnd != _internalHwndSource.Handle
-                //    && mwp.hwndInsertAfter == IntPtr.Zero)
-                //{
-                //    Win32Helper.SetWindowPos(_internalHwndSource.Handle, IntPtr.Zero, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
-                //    handled = true;
-                //}
             }
-            //if (msg == Win32Helper.WM_WINDOWPOSCHANGED)
-            //{
-            //    Win32Helper.WINDOWPOS mwp;
-            //    mwp = (Win32Helper.WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(Win32Helper.WINDOWPOS));
-            //    Console.WriteLine(string.Format("WM_WINDOWPOSCHANGED {0}-{1}-{2}", _internalHwndSource.Handle, mwp.hwndInsertAfter, (Win32Helper.SetWindowPosFlags)mwp.flags));
-            //    if (mwp.hwnd != _internalHwndSource.Handle
-            //        && mwp.hwndInsertAfter == IntPtr.Zero)
-            //    {
-            //        Win32Helper.SetWindowPos(_internalHwndSource.Handle, IntPtr.Zero, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
-            //        handled = true;
-            //    }
-            //}
-            //WINDOWPOS pos = (WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
-            //if ((pos.flags & (int)SWP.NOMOVE) != 0)
-            //{
-            //    return IntPtr.Zero;
-            //}
-
-            //Window wnd = (Window)HwndSource.FromHwnd(hwnd).RootVisual;
-            //if (wnd == null)
-            //{
-            //    return IntPtr.Zero;
-            //}
-
-            //bool changedPos = false;
-
-            //// ***********************
-            //// Here you check the values inside the pos structure
-            //// if you want to override tehm just change the pos
-            //// structure and set changedPos to true
-            //// ***********************
-
-            //if (!changedPos)
-            //{
-            //    return IntPtr.Zero;
-            //}
-
-            //Marshal.StructureToPtr(pos, lParam, true);
-            //handeled = true;
- 
 
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
@@ -145,7 +63,7 @@ namespace AvalonDock.Controls
         }
 
         Grid _internalGrid = null;
-        ContentPresenter _internalHost = null;
+        LayoutAnchorableControl _internalHost = null;
         AnchorSide _side;
         LayoutGridResizerControl _resizer = null;
 
@@ -154,7 +72,7 @@ namespace AvalonDock.Controls
             _internalGrid = new Grid();
             _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("DataContext.Background") { Source = _model.Root.Manager });
 
-            _internalHost = new ContentPresenter() { Content = _model.Content };
+            _internalHost = new LayoutAnchorableControl() { DataContext = _model } ;
             _resizer = new LayoutGridResizerControl();
 
             _resizer.DragStarted += new System.Windows.Controls.Primitives.DragStartedEventHandler(OnResizerDragStarted);
@@ -243,19 +161,6 @@ namespace AvalonDock.Controls
                 return new UIElement[] { _internalGrid }.GetEnumerator();
             }
         }
-
-        //protected override int VisualChildrenCount
-        //{
-        //    get
-        //    {
-        //        return 1;
-        //    }
-        //}
-
-        //protected override System.Windows.Media.Visual GetVisualChild(int index)
-        //{
-        //    return _internalGrid;
-        //}
 
         Border _resizerGhost = null;
         Window _resizerWindowHost = null;

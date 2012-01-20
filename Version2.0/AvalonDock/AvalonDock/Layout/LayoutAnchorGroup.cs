@@ -18,6 +18,25 @@ namespace AvalonDock.Layout
         {
             return Children.Count > 0;
         }
-        
+
+
+        #region PreviousContainer
+
+        private LayoutAnchorablePane _previousContainer = null;
+        public LayoutAnchorablePane PreviousContainer
+        {
+            get { return _previousContainer; }
+            internal set
+            {
+                if (_previousContainer != value)
+                {
+                    _previousContainer = value;
+                    RaisePropertyChanged("PreviousContainer");
+                }
+            }
+        }
+
+        #endregion
+
     }
 }
