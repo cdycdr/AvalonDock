@@ -39,6 +39,7 @@ namespace AvalonDock.Controls
                     {
                         var parentModel = targetModel.Parent as ILayoutGroup;
                         var parentModelOrientable = targetModel.Parent as ILayoutOrientableGroup;
+                        int insertToIndex = parentModel.IndexOfChild(targetModel);
 
                         if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Vertical &&
                             parentModel.ChildrenCount == 1)
@@ -47,7 +48,6 @@ namespace AvalonDock.Controls
                         if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Vertical)
                         {
                             var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                            int insertToIndex = parentModel.IndexOfChild(targetModel);
                             if (layoutAnchorablePaneGroup != null &&
                                 (layoutAnchorablePaneGroup.Children.Count == 1 ||
                                     layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Vertical))
@@ -68,7 +68,7 @@ namespace AvalonDock.Controls
                             newOrientedPanel.Children.Add(targetModel);
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
 
-                            parentModel.ReplaceChildAt(parentModel.IndexOfChild(targetModel), newOrientedPanel);
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;
@@ -78,6 +78,7 @@ namespace AvalonDock.Controls
                     {
                         var parentModel = targetModel.Parent as ILayoutGroup;
                         var parentModelOrientable = targetModel.Parent as ILayoutOrientableGroup;
+                        int insertToIndex = parentModel.IndexOfChild(targetModel);
 
                         if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Vertical &&
                             parentModel.ChildrenCount == 1)
@@ -86,7 +87,6 @@ namespace AvalonDock.Controls
                         if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Vertical)
                         {
                             var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                            int insertToIndex = parentModel.IndexOfChild(targetModel);
                             if (layoutAnchorablePaneGroup != null &&
                                 (layoutAnchorablePaneGroup.Children.Count == 1 ||
                                     layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Vertical))
@@ -107,7 +107,7 @@ namespace AvalonDock.Controls
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
                             newOrientedPanel.Children.Add(targetModel);
 
-                            parentModel.ReplaceChildAt(parentModel.IndexOfChild(targetModel), newOrientedPanel);
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;
@@ -146,7 +146,7 @@ namespace AvalonDock.Controls
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
                             newOrientedPanel.Children.Add(targetModel);
 
-                            parentModel.ReplaceChildAt(insertToIndex, newOrientedPanel);
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;
@@ -185,7 +185,7 @@ namespace AvalonDock.Controls
                             newOrientedPanel.Children.Add(targetModel);
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
 
-                            parentModel.ReplaceChildAt(insertToIndex, newOrientedPanel);
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;
@@ -199,7 +199,7 @@ namespace AvalonDock.Controls
                         var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
 
                         int i = _tabIndex == -1 ? 0 : _tabIndex;
-                        foreach (var anchorableToImport in layoutAnchorablePaneGroup.Descendents().OfType<LayoutAnchorable>())
+                        foreach (var anchorableToImport in layoutAnchorablePaneGroup.Descendents().OfType<LayoutAnchorable>().ToArray())
                         {
                             paneModel.Children.Insert(i, anchorableToImport);
                             i++;

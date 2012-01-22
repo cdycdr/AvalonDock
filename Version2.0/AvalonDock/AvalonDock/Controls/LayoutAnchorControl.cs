@@ -37,7 +37,7 @@ namespace AvalonDock.Controls
 
             if (oldParent != null && contentModel != null)
             {
-                var oldParentPaneControl = oldParent.FindAncestor<LayoutAnchorablePaneControl>();
+                var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutAnchorablePaneControl>();
                 if (oldParentPaneControl != null)
                 {
                     ((ILogicalChildrenContainer)oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
@@ -52,7 +52,7 @@ namespace AvalonDock.Controls
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
             }
 
-            if (contentModel != null && contentModel.Content != null)
+            if (contentModel != null && contentModel.Content != null && contentModel.Root != null)
             {
                 ((ILogicalChildrenContainer)contentModel.Root.Manager).InternalAddLogicalChild(contentModel.Content);
             }

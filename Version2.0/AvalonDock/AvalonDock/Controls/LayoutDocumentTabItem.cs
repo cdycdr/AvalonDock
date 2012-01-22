@@ -23,7 +23,7 @@ namespace AvalonDock.Controls
 
         void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var parentPaneControl = this.FindAncestor<LayoutDocumentPaneControl>();
+            var parentPaneControl = this.FindVisualAncestor<LayoutDocumentPaneControl>();
             if (e.OldValue != null && parentPaneControl != null)
             {
                 ((ILogicalChildrenContainer)parentPaneControl).InternalRemoveLogicalChild(e.OldValue);
@@ -43,7 +43,7 @@ namespace AvalonDock.Controls
 
             if (oldParent != null && contentModel != null)
             {
-                var oldParentPaneControl = oldParent.FindAncestor<LayoutDocumentPaneControl>();
+                var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutDocumentPaneControl>();
                 if (oldParentPaneControl != null)
                 {
                     ((ILogicalChildrenContainer)oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
@@ -65,7 +65,7 @@ namespace AvalonDock.Controls
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
             }
 
-            var parentPaneControl = this.FindAncestor<LayoutDocumentPaneControl>();
+            var parentPaneControl = this.FindVisualAncestor<LayoutDocumentPaneControl>();
             if (contentModel != null && parentPaneControl != null && contentModel.Content != null)
             {
                 ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(contentModel.Content);

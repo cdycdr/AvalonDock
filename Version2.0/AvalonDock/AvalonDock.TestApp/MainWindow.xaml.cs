@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
 using System.Windows.Threading;
+using AvalonDock.Layout;
+using System.Diagnostics;
 
 namespace AvalonDock.TestApp
 {
@@ -35,10 +37,16 @@ namespace AvalonDock.TestApp
 
                     TestBackground = new SolidColorBrush(Color.FromRgb(
                         (byte)rnd.Next(0, 255), (byte)rnd.Next(0, 255), (byte)rnd.Next(0, 255)));
+
+                    FocusedElement = Keyboard.FocusedElement == null ? string.Empty : Keyboard.FocusedElement.ToString();
+                    
+
                 };
             timer.Start();
 
             this.DataContext = this;
+
+            winFormsHost.Child = new UserControl1();
         }
 
         #region TestTimer
@@ -82,6 +90,39 @@ namespace AvalonDock.TestApp
         }
 
         #endregion
+
+
+        #region FocusedElement
+
+        /// <summary>
+        /// FocusedElement Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty FocusedElementProperty =
+            DependencyProperty.Register("FocusedElement", typeof(string), typeof(MainWindow),
+                new FrameworkPropertyMetadata((IInputElement)null));
+
+        /// <summary>
+        /// Gets or sets the FocusedElement property.  This dependency property 
+        /// indicates ....
+        /// </summary>
+        public string FocusedElement
+        {
+            get { return (string)GetValue(FocusedElementProperty); }
+            set { SetValue(FocusedElementProperty, value); }
+        }
+
+        #endregion
+
+
+        private void OnLayoutRootPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ActiveContent")
+            {
+                Debug.WriteLine(string.Format("ActiveContent-> {0}", ((LayoutRoot)sender).ActiveContent.Title));
+            }
+        }
+
+        
 
 
 

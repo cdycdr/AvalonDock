@@ -123,13 +123,18 @@ namespace AvalonDock
         internal const int WM_ENTERSIZEMOVE = 0x0231;
         internal const int WM_MOVE = 0x0003;
         internal const int WM_MOVING = 0x0216;
-
+        internal const int WM_KILLFOCUS = 0x0008;
+        internal const int WM_SETFOCUS = 0x0007;
+        internal const int WM_ACTIVATE = 0x0006;
         internal const int WM_NCHITTEST = 0x0084;
-
+        
+        internal const int WA_INACTIVE = 0x0000;
 
         internal const int
             WM_CREATE = 0x0001;
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
         [DllImport("user32.dll", EntryPoint = "DestroyWindow", CharSet = CharSet.Unicode)]
         internal static extern bool DestroyWindow(IntPtr hwnd);
@@ -146,6 +151,45 @@ namespace AvalonDock
         static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
         [DllImport("user32.dll")]
         static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+        // Hook Types  
+        public enum HookType : int
+        {
+            WH_JOURNALRECORD = 0,
+            WH_JOURNALPLAYBACK = 1,
+            WH_KEYBOARD = 2,
+            WH_GETMESSAGE = 3,
+            WH_CALLWNDPROC = 4,
+            WH_CBT = 5,
+            WH_SYSMSGFILTER = 6,
+            WH_MOUSE = 7,
+            WH_HARDWARE = 8,
+            WH_DEBUG = 9,
+            WH_SHELL = 10,
+            WH_FOREGROUNDIDLE = 11,
+            WH_CALLWNDPROCRET = 12,
+            WH_KEYBOARD_LL = 13,
+            WH_MOUSE_LL = 14
+        }
+
+        public const int HCBT_SETFOCUS = 9;
+
+        [DllImport("kernel32.dll")]
+        public static extern uint GetCurrentThreadId();
+
+        public delegate int HookProc(int code, IntPtr wParam,
+           IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowsHookEx(HookType code,
+            HookProc func,
+            IntPtr hInstance,
+            int threadID);
+        [DllImport("user32.dll")]
+        public static extern int UnhookWindowsHookEx(IntPtr hhook);
+        [DllImport("user32.dll")]
+        public static extern int CallNextHookEx(IntPtr hhook,
+            int code, IntPtr wParam, IntPtr lParam);
 
         [Serializable, StructLayout(LayoutKind.Sequential)]
         internal struct RECT

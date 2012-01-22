@@ -16,5 +16,9 @@ namespace AvalonDock.Layout
 
 
         public abstract IEnumerable<ILayoutElement> Children { get; }
+
+        public abstract void RemoveChild(ILayoutElement element);
+
+        public abstract int ChildrenCount { get; }
     }
 }

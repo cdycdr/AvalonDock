@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Markup;
+using System.Diagnostics;
 
 namespace AvalonDock.Layout
 {
@@ -38,6 +39,17 @@ namespace AvalonDock.Layout
         public override IEnumerable<ILayoutElement> Children
         {
             get { yield return RootDocument; }
+        }
+
+        public override void RemoveChild(ILayoutElement element)
+        {
+            Debug.Assert(element == RootDocument && element != null);
+            RootDocument = null;
+        }
+
+        public override int ChildrenCount
+        {
+            get { return 1; }
         }
     }
 

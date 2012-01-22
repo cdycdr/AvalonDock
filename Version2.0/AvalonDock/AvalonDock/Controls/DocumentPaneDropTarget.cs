@@ -350,7 +350,7 @@ namespace AvalonDock.Controls
                         var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
 
                         int i = _tabIndex == -1 ? 0 : _tabIndex;
-                        foreach (var anchorableToImport in layoutAnchorablePaneGroup.Descendents().OfType<LayoutAnchorable>())
+                        foreach (var anchorableToImport in layoutAnchorablePaneGroup.Descendents().OfType<LayoutAnchorable>().ToArray())
                         {
                             paneModel.Children.Insert(i, anchorableToImport);
                             i++;

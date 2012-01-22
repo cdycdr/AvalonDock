@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using AvalonDock.Layout;
+using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
@@ -51,7 +52,8 @@ namespace AvalonDock.Controls
                     Height = 1
                 });
 
-                _rootPresenter = new Border() { Child = Content };
+                _rootPresenter = new Border() { Child = Content, Focusable = true };
+                _rootPresenter.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(_rootPresenter_GotKeyboardFocus);
                 _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("DataContext.Background"));
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;
@@ -61,11 +63,39 @@ namespace AvalonDock.Controls
                 return new HandleRef(this, _wpfContentHost.Handle);
             }
 
+            void _rootPresenter_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+            {
+                Debug.WriteLine("_rootPresenter_GotKeyboardFocus");
+            }
+
+            protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+            {
+                Debug.WriteLine("FloatingWindowContentHost.GotKeyboardFocus");
+                base.OnGotKeyboardFocus(e);
+            }
             protected override void DestroyWindowCore(HandleRef hwnd)
             {
                 var manager = _owner.Model.Root.Manager;
                 ((ILogicalChildrenContainer)manager).InternalRemoveLogicalChild(_rootPresenter);
-                Win32Helper.DestroyWindow(hwnd.Handle);
+                //Win32Helper.DestroyWindow(hwnd.Handle);
+                if (_wpfContentHost != null)
+                {
+                    _wpfContentHost.Dispose();
+                    _wpfContentHost = null;
+                }
+            }
+            protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+            {
+                switch (msg)
+                {
+                    case Win32Helper.WM_SETFOCUS:
+                        Debug.WriteLine("FloatingWindowContentHost.WM_SETFOCUS");
+                        break;
+                    case Win32Helper.WM_KILLFOCUS:
+                        Debug.WriteLine("FloatingWindowContentHost.WM_KILLFOCUS");
+                        break;
+                }                
+                return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
             }
 
             public Visual RootVisual
@@ -126,12 +156,6 @@ namespace AvalonDock.Controls
         {
             Model = model;
             this.Loaded += new RoutedEventHandler(OnLoaded);
-            this.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
-        }
-
-        void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //UpdatePositionAndSizeOfPanes();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -253,15 +277,6 @@ namespace AvalonDock.Controls
         Vector _dragOffest;
         Point _dragClickPoint;
 
-        protected override void OnLocationChanged(EventArgs e)
-        {
-            //UpdatePositionAndSizeOfPanes();
-
-          
-            base.OnLocationChanged(e);
-        }
-
-
         void UpdatePositionAndSizeOfPanes()
         {
             var rootVisual = (Content as FloatingWindowContentHost).RootVisual;
@@ -295,6 +310,23 @@ namespace AvalonDock.Controls
 
             switch (msg)
             {
+                case Win32Helper.WM_SETFOCUS:
+                    Debug.WriteLine("WM_SETFOCUS");
+                    break;
+                case Win32Helper.WM_KILLFOCUS:
+                    Debug.WriteLine("WM_KILLFOCUS");
+                    break;
+                case Win32Helper.WM_ACTIVATE:
+                    if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
+                    {
+                        if (lParam == new WindowInteropHelper(this.Owner).Handle)
+                        {
+                            Win32Helper.SetActiveWindow(_hwndSrc.Handle);
+                            handled = true;
+                        }
+                        
+                    }
+                    break;
                 case Win32Helper.WM_NCRBUTTONDOWN: //Right button click on title area -> show context menu
                     //if (e.WParam.ToInt32() == HTCAPTION)
                     //{
@@ -379,6 +411,16 @@ namespace AvalonDock.Controls
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
+        }
+
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            
+            base.OnGotKeyboardFocus(e);
+        }
+        protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnPreviewGotKeyboardFocus(e);
         }
     }
 }

@@ -55,7 +55,10 @@ namespace AvalonDock.Layout
                 }
             }
         }
-
+        public LayoutContent SelectedContent
+        {
+            get { return Children[_selectedIndex]; }
+        }
         #endregion
 
         public int IndexOf(LayoutContent content)

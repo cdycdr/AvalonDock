@@ -11,6 +11,7 @@ using System.Diagnostics;
 
 using AvalonDock.Layout;
 using AvalonDock.Controls;
+using System.Windows.Input;
 
 namespace AvalonDock
 {
@@ -21,8 +22,37 @@ namespace AvalonDock
         static DockingManager()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
+            FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(true));
+            HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
+            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
+
+            InputManager.Current.EnterMenuMode += new EventHandler(InputManager_EnterMenuMode);
+            InputManager.Current.LeaveMenuMode += new EventHandler(InputManager_LeaveMenuMode);
         }
 
+        static IInputElement _lastFocusedElement = null;
+        static void InputManager_EnterMenuMode(object sender, EventArgs e)
+        {
+            _lastFocusedElement = Keyboard.FocusedElement;
+
+            if (_lastFocusedElement != null)
+            {
+                var lastfocusDepObj = _lastFocusedElement as DependencyObject;
+                if (lastfocusDepObj.FindLogicalAncestor<DockingManager>() == null)
+                    _lastFocusedElement = null;
+            }
+
+            Debug.WriteLine(string.Format("Current_EnterMenuMode({0})", Keyboard.FocusedElement));
+        }
+        static void InputManager_LeaveMenuMode(object sender, EventArgs e)
+        {
+            Debug.WriteLine(string.Format("Current_LeaveMenuMode({0})", Keyboard.FocusedElement));
+            if (_lastFocusedElement != null)
+            {
+                if (_lastFocusedElement != Keyboard.Focus(_lastFocusedElement))
+                    Debug.WriteLine("Unable to activate the element");
+            }
+        }
         public DockingManager()
         {
             Layout = new LayoutRoot();
@@ -189,7 +219,7 @@ namespace AvalonDock
 
             if (model is LayoutDocument)
             {
-                var templateModelView = new LayoutDocumentControl(model as LayoutDocument);
+                var templateModelView = new LayoutDocumentControl() { Model = model as LayoutDocument};
 
                 return templateModelView;
             }
@@ -477,7 +507,8 @@ namespace AvalonDock
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            Console.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
+            if (e.NewFocus is Grid)
+                Console.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
             base.OnGotKeyboardFocus(e);
         }
         protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
@@ -981,9 +1012,9 @@ namespace AvalonDock
                 }
                
 
-                foreach (var anchorableToToggle in parentGroup.Children)
+                foreach (var anchorableToToggle in parentGroup.Children.ToArray())
                     previousContainer.Children.Add(anchorableToToggle);
-                parentGroup.Children.Clear();
+                
                 parentSide.Children.Remove(parentGroup);
 
                 HideAutoHideWindow();
@@ -995,9 +1026,8 @@ namespace AvalonDock
 
                 var newAnchorGroup = new LayoutAnchorGroup() { PreviousContainer = parentPane};
                 
-                foreach (var anchorableToImport in parentPane.Children)
+                foreach (var anchorableToImport in parentPane.Children.ToArray())
                     newAnchorGroup.Children.Add(anchorableToImport);
-                parentPane.Children.Clear();
                 
                 //detect anchor side for the pane
                 var anchorSide = parentPane.GetSide();

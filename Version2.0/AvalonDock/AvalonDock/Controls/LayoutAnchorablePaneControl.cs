@@ -14,7 +14,9 @@ namespace AvalonDock.Controls
     {
         static LayoutAnchorablePaneControl()
         {
+            FocusableProperty.OverrideMetadata(typeof(LayoutAnchorablePaneControl), new FrameworkPropertyMetadata(false));
         }
+
 
 
         public LayoutAnchorablePaneControl(LayoutAnchorablePane model)
@@ -58,7 +60,17 @@ namespace AvalonDock.Controls
             get { return _model; }
         }
 
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+        }
 
+        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+            _model.SelectedContent.IsActive = true;
+            
+            base.OnGotKeyboardFocus(e);
+        }
 
         void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
         {

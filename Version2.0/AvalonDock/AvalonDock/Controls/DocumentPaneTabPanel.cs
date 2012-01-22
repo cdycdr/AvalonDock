@@ -16,8 +16,8 @@ namespace AvalonDock.Controls
             var visibleChildren = Children.Cast<UIElement>().Where(ch => ch.Visibility != System.Windows.Visibility.Collapsed); 
             
             Size desideredSize = new Size();
-            int i = 1;
-            bool skipAllOthers = false;
+            //int i = 1;
+            //bool skipAllOthers = false;
 
             foreach (FrameworkElement child in Children)
             {

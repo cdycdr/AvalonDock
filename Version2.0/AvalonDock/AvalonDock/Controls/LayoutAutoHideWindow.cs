@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Data;
 using System.Windows.Media;
 using AvalonDock.Layout;
+using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
@@ -34,6 +35,7 @@ namespace AvalonDock.Controls
         {
             _internalHwndSource = new HwndSource(new HwndSourceParameters()
             {
+                AcquireHwndFocusInMenuMode = false,
                 ParentWindow = hwndParent.Handle,
                 WindowStyle = Win32Helper.WS_CHILD | Win32Helper.WS_VISIBLE | Win32Helper.WS_CLIPSIBLINGS | Win32Helper.WS_CLIPCHILDREN,
                 Width = 1,
@@ -53,13 +55,25 @@ namespace AvalonDock.Controls
             {
                 Win32Helper.SetWindowPos(_internalHwndSource.Handle, IntPtr.Zero, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
             }
+            else if (msg == Win32Helper.WM_KILLFOCUS)
+            {
+                Debug.WriteLine("WM_KILLFOCUS");
+            }
+            else if (msg == Win32Helper.WM_SETFOCUS)
+            {
+                Debug.WriteLine("WM_SETFOCUS");
+            }
 
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
 
         protected override void DestroyWindowCore(System.Runtime.InteropServices.HandleRef hwnd)
         {
-            Win32Helper.DestroyWindow(hwnd.Handle);
+            if (_internalHwndSource != null)
+            {
+                _internalHwndSource.Dispose();
+                _internalHwndSource = null;
+            }
         }
 
         Grid _internalGrid = null;
@@ -72,7 +86,7 @@ namespace AvalonDock.Controls
             _internalGrid = new Grid();
             _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("DataContext.Background") { Source = _model.Root.Manager });
 
-            _internalHost = new LayoutAnchorableControl() { DataContext = _model } ;
+            _internalHost = new LayoutAnchorableControl() { Model = _model };
             _resizer = new LayoutGridResizerControl();
 
             _resizer.DragStarted += new System.Windows.Controls.Primitives.DragStartedEventHandler(OnResizerDragStarted);
@@ -95,7 +109,6 @@ namespace AvalonDock.Controls
             }
 
             AddLogicalChild(_internalGrid);
-
         }
 
         void OnResizerDragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
@@ -264,6 +277,22 @@ namespace AvalonDock.Controls
             //return base.ArrangeOverride(finalSize);
             _internalGrid.Arrange(new Rect(finalSize));
             return finalSize;
+        }
+
+        IInputElement _lastFocusedElement = null;
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnGotKeyboardFocus(e);
+            if (!e.Handled)
+            {
+                if (e.NewFocus == _internalGrid)
+                {
+                    Keyboard.Focus(_lastFocusedElement);
+                    e.Handled = true;
+                }
+                else
+                    _lastFocusedElement = e.NewFocus;
+            }
         }
     }
 }

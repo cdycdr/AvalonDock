@@ -4,12 +4,32 @@
         xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
         xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
         xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+        xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Edit">
+                <MenuItem Command="Undo" />
+                <MenuItem Command="Redo" />
+                <Separator/>
+                <MenuItem Command="Cut" />
+                <MenuItem Command="Copy" />
+                <MenuItem Command="Paste" />
+            </MenuItem>
+        </Menu>
         
-        <avalonDock:DockingManager>
-            <avalonDockLayout:LayoutRoot>
+        <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager">
+            <avalonDockLayout:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDockLayout:LayoutPanel Orientation="Horizontal">
+                    <avalonDockLayout:LayoutAnchorablePane DockWidth="100">
+                        <avalonDockLayout:LayoutAnchorable Title="WinForms Window">
+                            <winformsIntegration:WindowsFormsHost x:Name="winFormsHost"/>
+                        </avalonDockLayout:LayoutAnchorable>
+                    </avalonDockLayout:LayoutAnchorablePane>
                     <avalonDockLayout:LayoutDocumentPaneGroup>
                         <avalonDockLayout:LayoutDocumentPane>
                             <avalonDockLayout:LayoutDocument Title="Document 1">
@@ -25,7 +45,9 @@
                             <avalonDockLayout:LayoutAnchorable Title="Tool Window 1">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
                             </avalonDockLayout:LayoutAnchorable>
-                            <avalonDockLayout:LayoutAnchorable Title="Tool Window 2"/>
+                            <avalonDockLayout:LayoutAnchorable Title="Tool Window 2">
+                                <TextBlock Text="{Binding FocusedElement}"/>
+                            </avalonDockLayout:LayoutAnchorable>
                         </avalonDockLayout:LayoutAnchorablePane>
                     </avalonDockLayout:LayoutAnchorablePaneGroup>
                 </avalonDockLayout:LayoutPanel>

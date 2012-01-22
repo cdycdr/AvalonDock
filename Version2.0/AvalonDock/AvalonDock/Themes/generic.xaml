@@ -16,16 +16,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
                     <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition  Width="0"/>
-                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <avalonDockControls:DocumentPaneTabPanel x:Name="HeaderPanel" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
-                        <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                        <Border x:Name="ContentPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </Grid>
@@ -55,7 +51,7 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <ContentControl Content="{Binding Content}"/>
+                    <avalonDockControls:LayoutDocumentControl Model="{Binding}"/>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -101,10 +97,11 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+        
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <avalonDockControls:LayoutAnchorableControl Content="{Binding}"/>
+                    <avalonDockControls:LayoutAnchorableControl Model="{Binding}"/>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -121,7 +118,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Title}"/>
+                        <TextBlock Text="{Binding Model.Title, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <Border x:Name="PART_MenuPin" Grid.Column="1" IsHitTestVisible="True" >
                             <Image Source="/AvalonDock;component/Images/PinMenu.png"/>
                         </Border>
@@ -177,10 +174,10 @@
                     <Canvas x:Name="PART_DropTargetsContainer" Opacity="0.9">
                         <Path x:Name="PART_PreviewBox" Fill="AliceBlue" StrokeThickness="3" Stroke="Green"/>
                         <Grid x:Name="PART_DockingManagerDropTargets" >
-                            <Image x:Name="PART_DockingManagerDropTargetLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Source="Images/DockLeft.PNG" Stretch="None" />
-                            <Image x:Name="PART_DockingManagerDropTargetRight" VerticalAlignment="Center" HorizontalAlignment="Right" Source="Images/DockRight.PNG" Stretch="None" />
-                            <Image x:Name="PART_DockingManagerDropTargetBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Source="Images/DockBottom.PNG" Stretch="None" />
-                            <Image x:Name="PART_DockingManagerDropTargetTop" VerticalAlignment="Top" HorizontalAlignment="Center" Source="Images/DockTop.PNG" Stretch="None"/>
+                            <Image x:Name="PART_DockingManagerDropTargetLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/AvalonDock;component/Images/DockLeft.PNG" Stretch="None" />
+                            <Image x:Name="PART_DockingManagerDropTargetRight" VerticalAlignment="Center" HorizontalAlignment="Right" Source="/AvalonDock;component/Images/DockRight.PNG" Stretch="None" />
+                            <Image x:Name="PART_DockingManagerDropTargetBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Source="/AvalonDock;component/Images/DockBottom.PNG" Stretch="None" />
+                            <Image x:Name="PART_DockingManagerDropTargetTop" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/AvalonDock;component/Images/DockTop.PNG" Stretch="None"/>
                         </Grid>
                         <Grid x:Name="PART_AnchorablePaneDropTargets">
                             <Grid Width="88" Height="88" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -299,8 +296,6 @@
         </Setter>
     </Style>
 
-
-
     <Style TargetType="{x:Type avalonDockControls:LayoutDocumentControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -327,8 +322,8 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <avalonDockControls:AnchorablePaneTitle Content="{Binding}"/>
-                            <ContentPresenter Content="{Binding Content}" Grid.Row="1"/>
+                            <avalonDockControls:AnchorablePaneTitle Model="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <ContentPresenter Content="{Binding Model.Content, RelativeSource={RelativeSource TemplatedParent}}" Grid.Row="1"/>
                         </Grid>
                     </Border>
                 </ControlTemplate>

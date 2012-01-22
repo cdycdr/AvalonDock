@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AvalonDock.Layout;
+using System.Reflection;
 
 namespace AvalonDock.Controls
 {
@@ -24,7 +25,7 @@ namespace AvalonDock.Controls
 
         void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var parentPaneControl = this.FindAncestor<LayoutAnchorablePaneControl>();
+            var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
             var oldModel = e.OldValue as LayoutContent;
             var newModel = e.NewValue as LayoutContent;
             if (oldModel != null && parentPaneControl != null)
@@ -49,7 +50,7 @@ namespace AvalonDock.Controls
 
             if (oldParent != null && contentModel != null)
             {
-                var oldParentPaneControl = oldParent.FindAncestor<LayoutAnchorablePaneControl>();
+                var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutAnchorablePaneControl>();
                 if (oldParentPaneControl != null)
                 {
                     ((ILogicalChildrenContainer) oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
@@ -64,7 +65,7 @@ namespace AvalonDock.Controls
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
             }
 
-            var parentPaneControl = this.FindAncestor<LayoutAnchorablePaneControl>();
+            var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
             if (contentModel != null && parentPaneControl != null && contentModel.Content != null)
             {
                 ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(contentModel.Content);
@@ -152,6 +153,10 @@ namespace AvalonDock.Controls
             //return base.ToString();
         }
 
+        protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnPreviewGotKeyboardFocus(e);
 
+        }
     }
 }

@@ -35,7 +35,13 @@ namespace AvalonDock.Layout
                 {
                     foreach (LayoutElement element in e.NewItems)
                     {
-                        element.Parent = this;
+                        if (element.Parent != this)
+                        {
+                            if (element.Parent != null)
+                                element.Parent.RemoveChild(element);
+                            element.Parent = this;
+                        }
+                        
                     }
                 }
             }

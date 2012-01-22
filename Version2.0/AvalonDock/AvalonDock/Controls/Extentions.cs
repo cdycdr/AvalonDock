@@ -54,7 +54,7 @@ namespace AvalonDock.Controls
             return result;
         }
 
-        public static T FindAncestor<T>(this DependencyObject dependencyObject) where T : class
+        public static T FindVisualAncestor<T>(this DependencyObject dependencyObject) where T : class
         {
             DependencyObject target = dependencyObject;
             do
@@ -65,6 +65,19 @@ namespace AvalonDock.Controls
             return target as T;
         }
 
+        public static T FindLogicalAncestor<T>(this DependencyObject dependencyObject) where T : class
+        {
+            DependencyObject target = dependencyObject;
+            do
+            {
+                var current = target;
+                target = LogicalTreeHelper.GetParent(target);
+                if (target == null)
+                    target = VisualTreeHelper.GetParent(current);
 
+            }
+            while (target != null && !(target is T));
+            return target as T;
+        }
     }
 }

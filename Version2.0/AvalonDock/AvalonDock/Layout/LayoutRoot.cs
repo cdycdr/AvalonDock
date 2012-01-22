@@ -161,11 +161,32 @@ namespace AvalonDock.Layout
                 if (RightSide != null)
                     yield return RightSide;
                 if (BottomSide != null)
-                    yield return RightSide;
+                    yield return BottomSide;
                 if (LeftSide != null)
-                    yield return RightSide;
+                    yield return LeftSide;
 
             }
+        }
+        public void RemoveChild(ILayoutElement element)
+        {
+            if (element == RootPanel)
+                RootPanel = null;
+            else if (_floatingWindows.Contains(element))
+                _floatingWindows.Remove(element as LayoutFloatingWindow);
+            else if (element == TopSide)
+                TopSide = null;
+            else if (element == RightSide)
+                RightSide = null;
+            else if (element == BottomSide)
+                BottomSide = null;
+            else if (element == LeftSide)
+                LeftSide = null;
+
+        }
+
+        public int ChildrenCount
+        {
+            get { return 5 + _floatingWindows.Count; }
         }
         #endregion
 
@@ -210,7 +231,6 @@ namespace AvalonDock.Layout
         }
 
         #endregion
-
 
         #region CollectGarbage
 
@@ -259,5 +279,8 @@ namespace AvalonDock.Layout
         }
 
         #endregion
+
+
+
     }
 }

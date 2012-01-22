@@ -13,7 +13,7 @@ namespace AvalonDock.Controls
     [TemplatePart(Name = "PART_MenuPin", Type = typeof(FrameworkElement))]
     [TemplatePart(Name = "PART_AutoHidePin", Type = typeof(FrameworkElement))]
     [TemplatePart(Name = "PART_ClosePin", Type = typeof(FrameworkElement))]
-    public class AnchorablePaneTitle : ContentControl
+    public class AnchorablePaneTitle : Control
     {
         static AnchorablePaneTitle()
         {
@@ -42,17 +42,32 @@ namespace AvalonDock.Controls
                 _menuAutoHideContainer.MouseLeftButtonUp += (s, e) => OnToggleAutoHide();
         }
 
-        LayoutAnchorable GetModel()
+        #region Model
+
+        /// <summary>
+        /// Model Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof(LayoutAnchorable), typeof(AnchorablePaneTitle),
+                new FrameworkPropertyMetadata((LayoutAnchorable)null));
+
+        /// <summary>
+        /// Gets or sets the Model property.  This dependency property 
+        /// indicates model attached to this view.
+        /// </summary>
+        public LayoutAnchorable Model
         {
-            return DataContext as LayoutAnchorable;
+            get { return (LayoutAnchorable)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
         }
+
+        #endregion
 
         private void OnToggleAutoHide()
         {
-            var anchorableModel = GetModel();
-            var manager = anchorableModel.Root.Manager;
+            var manager = Model.Root.Manager;
 
-            manager.ToggleAutoHide(anchorableModel);
+            manager.ToggleAutoHide(Model);
         }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
@@ -71,7 +86,7 @@ namespace AvalonDock.Controls
 
             if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
             {
-                var paneModel = this.FindAncestor<LayoutAnchorablePaneControl>().Model as LayoutAnchorablePane;
+                var paneModel = this.FindVisualAncestor<LayoutAnchorablePaneControl>().Model as LayoutAnchorablePane;
                 var manager = paneModel.Root.Manager;
 
                 manager.StartDraggingFloatingWindowForPane(paneModel);                

@@ -38,6 +38,13 @@ namespace AvalonDock.Controls
             modelWithAtcualSize.ActualHeight = ActualHeight;
         }
 
+        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+            _model.SelectedContent.IsActive = true;
+
+            base.OnGotKeyboardFocus(e);
+        }
+
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new LayoutDocumentTabItem();
