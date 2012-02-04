@@ -266,7 +266,7 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
         {
-            Console.WriteLine("IsDragging={0}", e.NewValue);
+            Debug.WriteLine("IsDragging={0}", e.NewValue);
         }
 
         #endregion

@@ -29,7 +29,26 @@ namespace AvalonDock.Controls
                 }
             }
         }
-       
+
+        public static IEnumerable<T> FindLogicalChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                foreach (DependencyObject child in LogicalTreeHelper.GetChildren(depObj).OfType<DependencyObject>())
+                {
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindLogicalChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
         public static DependencyObject FindVisualTreeRoot(this DependencyObject initial)
         {
             DependencyObject current = initial;

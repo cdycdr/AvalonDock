@@ -192,5 +192,54 @@ namespace AvalonDock.Layout
                 _actualHeight = value;
             }
         }
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            if (DockWidth.Value != 1.0 || !DockWidth.IsStar)
+                writer.WriteAttributeString("DockWidth", DockWidth.ToString());
+            if (DockHeight.Value != 1.0 || !DockHeight.IsStar)
+                writer.WriteAttributeString("DockHeight", DockHeight.ToString());
+
+            if (DockMinWidth != 25.0)
+                writer.WriteAttributeString("DocMinWidth", DockMinWidth.ToString());
+            if (DockMinHeight != 25.0)
+                writer.WriteAttributeString("DockMinHeight", DockMinHeight.ToString());
+
+            if (FloatingWidth != 0.0)
+                writer.WriteAttributeString("FloatingWidth", FloatingWidth.ToString());
+            if (FloatingHeight != 0.0)
+                writer.WriteAttributeString("FloatingHeight", FloatingHeight.ToString());
+            if (FloatingLeft != 0.0)
+                writer.WriteAttributeString("FloatingLeft", FloatingLeft.ToString());
+            if (FloatingTop != 0.0)
+                writer.WriteAttributeString("FloatingTop", FloatingTop.ToString());
+            
+            base.WriteXml(writer);
+        }
+
+        static GridLengthConverter _gridLengthConverter = new GridLengthConverter();
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToAttribute("DockWidth"))
+                _dockWidth = (GridLength)_gridLengthConverter.ConvertFromInvariantString(reader.Value);
+            if (reader.MoveToAttribute("DockHeight"))
+                _dockHeight = (GridLength)_gridLengthConverter.ConvertFromInvariantString(reader.Value);
+
+            if (reader.MoveToAttribute("DocMinWidth"))
+                _dockMinWidth = double.Parse(reader.Value);
+            if (reader.MoveToAttribute("DocMinHeight"))
+                _dockMinHeight = double.Parse(reader.Value);
+
+            if (reader.MoveToAttribute("FloatingWidth"))
+                _floatingWidth = double.Parse(reader.Value);
+            if (reader.MoveToAttribute("FloatingHeight"))
+                _floatingHeight = double.Parse(reader.Value);
+            if (reader.MoveToAttribute("FloatingLeft"))
+                _floatingLeft = double.Parse(reader.Value);
+            if (reader.MoveToAttribute("FloatingTop"))
+                _floatingTop = double.Parse(reader.Value);
+
+            base.ReadXml(reader);
+        }
     }
 }

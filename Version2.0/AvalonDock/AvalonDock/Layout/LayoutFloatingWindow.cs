@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Markup;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
+    [Serializable]
+    [XmlInclude(typeof(LayoutAnchorableFloatingWindow))]
+    [XmlInclude(typeof(LayoutDocumentFloatingWindow))]
     public abstract class LayoutFloatingWindow : LayoutElement, ILayoutContainer
     {
         public LayoutFloatingWindow()

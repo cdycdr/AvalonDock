@@ -20,6 +20,10 @@
                 <MenuItem Command="Copy" />
                 <MenuItem Command="Paste" />
             </MenuItem>
+            <MenuItem Header="Layout">
+                <MenuItem Header="Save" Click="OnSaveLayout"/>
+                <MenuItem Header="Load" Click="OnLoadLayout"/>
+            </MenuItem>
         </Menu>
         
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager">

@@ -15,6 +15,9 @@ using System.Timers;
 using System.Windows.Threading;
 using AvalonDock.Layout;
 using System.Diagnostics;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
 
 namespace AvalonDock.TestApp
 {
@@ -120,6 +123,20 @@ namespace AvalonDock.TestApp
             {
                 Debug.WriteLine(string.Format("ActiveContent-> {0}", ((LayoutRoot)sender).ActiveContent.Title));
             }
+        }
+
+        private void OnLoadLayout(object sender, RoutedEventArgs e)
+        {
+            var serializer = new XmlSerializer(typeof(LayoutRoot));
+            using (var stream = new StreamReader(@".\AvalonDock.config"))
+                dockManager.Layout = serializer.Deserialize(stream) as LayoutRoot;
+        }
+
+        private void OnSaveLayout(object sender, RoutedEventArgs e)
+        {
+            var serializer = new XmlSerializer(typeof(LayoutRoot));
+            using (var stream = new StreamWriter(@".\AvalonDock.config"))
+                serializer.Serialize(stream, dockManager.Layout);
         }
 
         

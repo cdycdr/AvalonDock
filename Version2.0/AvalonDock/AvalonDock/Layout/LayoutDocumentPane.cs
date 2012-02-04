@@ -8,6 +8,7 @@ using System.Windows.Markup;
 namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
+    [Serializable]
     public class LayoutDocumentPane : LayoutPositionableGroup<LayoutContent>, ILayoutDocumentPane, ILayoutPositionableElement, ILayoutContentSelector
     {
         public LayoutDocumentPane()

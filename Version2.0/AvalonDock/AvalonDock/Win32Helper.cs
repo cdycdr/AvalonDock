@@ -97,6 +97,11 @@ namespace AvalonDock
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        internal static extern bool IsChild(IntPtr hWndParent, IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr SetFocus(IntPtr hWnd);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct WINDOWPOS

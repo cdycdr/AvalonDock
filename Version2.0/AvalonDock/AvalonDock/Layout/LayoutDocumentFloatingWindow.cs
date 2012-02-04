@@ -8,6 +8,7 @@ using System.Diagnostics;
 namespace AvalonDock.Layout
 {
     [ContentProperty("RootDocument")]
+    [Serializable]
     public class LayoutDocumentFloatingWindow : LayoutFloatingWindow
     {
         public LayoutDocumentFloatingWindow()

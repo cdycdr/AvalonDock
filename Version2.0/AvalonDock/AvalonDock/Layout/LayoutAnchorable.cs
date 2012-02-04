@@ -6,6 +6,7 @@ using System.Windows;
 
 namespace AvalonDock.Layout
 {
+    [Serializable]
     public class LayoutAnchorable : LayoutContent
     {
         #region IsVisible
@@ -40,8 +41,6 @@ namespace AvalonDock.Layout
         }
 
         #endregion
-
-
 
         #region AutoHideWidth
 
@@ -81,7 +80,6 @@ namespace AvalonDock.Layout
 
         #endregion
 
-
         #region AutoHideHeight
 
         private double _autohideHeight = 0.0;
@@ -101,7 +99,6 @@ namespace AvalonDock.Layout
 
         #endregion
 
-
         #region AutoHideMinHeight
 
         private double _autohideMinHeight = 0.0;
@@ -120,11 +117,6 @@ namespace AvalonDock.Layout
         }
 
         #endregion
-
-
-
-
-
-        
+       
     }
 }

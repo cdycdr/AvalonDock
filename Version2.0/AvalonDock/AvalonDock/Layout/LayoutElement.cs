@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
@@ -13,7 +14,10 @@ namespace AvalonDock.Layout
         internal LayoutElement()
         { }
 
+        [NonSerialized]
         ILayoutContainer _parent;
+
+        [XmlIgnore]
         public ILayoutContainer Parent
         {
             get { return _parent; }
@@ -33,6 +37,7 @@ namespace AvalonDock.Layout
         { }
 
         [field: NonSerialized]
+        [field: XmlIgnore]
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void RaisePropertyChanged(string propertyName)
@@ -42,6 +47,7 @@ namespace AvalonDock.Layout
         }
 
         [field: NonSerialized]
+        [field: XmlIgnore]
         public event PropertyChangingEventHandler PropertyChanging;
 
         protected virtual void RaisePropertyChanging(string propertyName)

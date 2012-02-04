@@ -36,14 +36,11 @@ namespace AvalonDock.Controls
             {
                 if (skipAllOthers || offset + doc.DesiredSize.Width > finalSize.Width)
                 {
-                    //SetIsHeaderVisible(doc, false);
-                    //doc.Arrange(new Rect());
                     doc.Visibility = System.Windows.Visibility.Hidden;
                     skipAllOthers = true;
                 }
                 else
                 {
-                    //SetIsHeaderVisible(doc, true);
                     doc.Visibility = System.Windows.Visibility.Visible;
                     doc.Arrange(new Rect(offset, 0.0, doc.DesiredSize.Width, finalSize.Height));
                     offset += doc.ActualWidth + doc.Margin.Left + doc.Margin.Right;

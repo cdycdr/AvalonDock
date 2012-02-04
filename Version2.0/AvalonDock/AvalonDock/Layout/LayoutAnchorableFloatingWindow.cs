@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace AvalonDock.Layout
 {
+    [Serializable]
     [ContentProperty("RootPanel")]
     public class LayoutAnchorableFloatingWindow : LayoutFloatingWindow
     {

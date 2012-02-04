@@ -37,7 +37,7 @@ namespace AvalonDock.Controls
 
         //protected override void OnLocationChanged(EventArgs e)
         //{
-        //    //Console.WriteLine("LocationChanged(Left={0}, Top={1})", Left, Top);
+        //    //Debug.WriteLine("LocationChanged(Left={0}, Top={1})", Left, Top);
 
 
         //    var manager = _model.Root.Manager;

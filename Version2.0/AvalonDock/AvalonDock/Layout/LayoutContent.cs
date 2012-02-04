@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Markup;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
     [ContentProperty("Content")]
     [Serializable]
-    public abstract class LayoutContent : LayoutElement
+    public abstract class LayoutContent : LayoutElement, IXmlSerializable
     {
         internal LayoutContent()
         { }
@@ -35,6 +36,7 @@ namespace AvalonDock.Layout
         #region Content
         [NonSerialized]
         private object _content = null;
+        [XmlIgnore]
         public object Content
         {
             get { return _content; }
@@ -118,7 +120,10 @@ namespace AvalonDock.Layout
 
         #region PreviousContainer
 
+        [field: NonSerialized]
         private ILayoutPane _previousContainer = null;
+
+        [XmlIgnore]
         public ILayoutPane PreviousContainer
         {
             get { return _previousContainer; }
@@ -128,6 +133,11 @@ namespace AvalonDock.Layout
                 {
                     _previousContainer = value;
                     RaisePropertyChanged("PreviousContainer");
+
+                    var paneSerializable = _previousContainer as ILayoutPaneSerializable;
+                    if (paneSerializable != null &&
+                        paneSerializable.Id == null)
+                        paneSerializable.Id = Guid.NewGuid().ToString();
                 }
             }
         }
@@ -135,8 +145,9 @@ namespace AvalonDock.Layout
         #endregion
 
         #region PreviousContainerIndex
-
+        [field: NonSerialized]
         private int _previousContainerIndex = -1;
+        [XmlIgnore]
         public int PreviousContainerIndex
         {
             get { return _previousContainerIndex; }
@@ -159,7 +170,49 @@ namespace AvalonDock.Layout
                 var parentSelector = (Parent as ILayoutContentSelector);
                 parentSelector.SelectedContentIndex = parentSelector.IndexOf(this);
             }
+
+            var root = Root;
+            if (root != null && _isActive)
+                root.ActiveContent = this;
+
             base.OnParentChanged();
+        }
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToAttribute("Title"))
+                Title = reader.Value;
+            if (reader.MoveToAttribute("IsSelected"))
+                IsSelected = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("IsActive"))
+                IsActive = bool.Parse(reader.Value);
+
+            reader.Read();
+        }
+
+        public void WriteXml(System.Xml.XmlWriter writer)
+        {
+            if (!string.IsNullOrWhiteSpace(Title))
+                writer.WriteAttributeString("Title", Title);
+            
+            if (IsSelected)
+                writer.WriteAttributeString("IsSelected", IsSelected.ToString());
+            
+            if (IsActive)
+                writer.WriteAttributeString("IsActive", IsActive.ToString());
+            
+            if (_previousContainer != null)
+            {
+                var paneSerializable = _previousContainer as ILayoutPaneSerializable;
+                writer.WriteAttributeString("PreviousContainer", paneSerializable.Id);
+                writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
+            }
+
         }
     }
 }

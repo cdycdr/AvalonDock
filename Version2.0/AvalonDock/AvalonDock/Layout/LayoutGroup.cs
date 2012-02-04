@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
     [Serializable]
-    public abstract class LayoutGroup<T> : LayoutElement, ILayoutContainer, ILayoutGroup where T : class, ILayoutElement
+    public abstract class LayoutGroup<T> : LayoutElement, ILayoutContainer, ILayoutGroup, IXmlSerializable where T : class, ILayoutElement
     {
         internal LayoutGroup()
         {
@@ -86,8 +87,6 @@ namespace AvalonDock.Layout
         public void ComputeVisibility()
         {
             IsVisible = GetVisibility();
-
-            
         }
 
         protected abstract bool GetVisibility();
@@ -128,6 +127,64 @@ namespace AvalonDock.Layout
         public void ReplaceChildAt(int index, ILayoutElement element)
         {
             _children[index] = (T)element;
+        }
+
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public virtual void ReadXml(System.Xml.XmlReader reader)
+        {
+            reader.MoveToContent();
+            if (reader.IsEmptyElement)
+            {
+                reader.Read();
+                ComputeVisibility();
+                return;
+            }
+            string localName = reader.LocalName;
+            reader.Read();
+            while (true)
+            {
+                if (reader.LocalName == localName &&
+                    reader.NodeType == System.Xml.XmlNodeType.EndElement)
+                {
+                    break;
+                }
+
+                XmlSerializer serializer = null;
+                if (reader.LocalName == "LayoutAnchorablePaneGroup")
+                    serializer = new XmlSerializer(typeof(LayoutAnchorablePaneGroup));
+                else if (reader.LocalName == "LayoutAnchorablePane")
+                    serializer = new XmlSerializer(typeof(LayoutAnchorablePane));
+                else if (reader.LocalName == "LayoutAnchorable")
+                    serializer = new XmlSerializer(typeof(LayoutAnchorable));
+                else if (reader.LocalName == "LayoutDocumentPaneGroup")
+                    serializer = new XmlSerializer(typeof(LayoutDocumentPaneGroup));
+                else if (reader.LocalName == "LayoutDocumentPane")
+                    serializer = new XmlSerializer(typeof(LayoutDocumentPane));
+                else if (reader.LocalName == "LayoutDocument")
+                    serializer = new XmlSerializer(typeof(LayoutDocument));
+                else if (reader.LocalName == "LayoutAnchorGroup")
+                    serializer = new XmlSerializer(typeof(LayoutAnchorGroup));
+
+                Children.Add((T)serializer.Deserialize(reader));
+            }
+
+            reader.ReadEndElement();
+        }
+
+        public virtual void WriteXml(System.Xml.XmlWriter writer)
+        {
+            foreach (var child in Children)
+            {
+                var type = child.GetType();
+                XmlSerializer serializer = new XmlSerializer(type);
+                serializer.Serialize(writer, child);
+            }
+
         }
     }
 }

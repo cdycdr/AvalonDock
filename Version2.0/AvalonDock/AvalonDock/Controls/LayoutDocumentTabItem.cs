@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AvalonDock.Layout;
+using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
@@ -115,6 +116,8 @@ namespace AvalonDock.Controls
             _isMouseDown = false;
 
             base.OnMouseLeftButtonUp(e);
+
+            FocusElementManager.SetFocusOnLastElement(GetModel());
         }
 
         protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
@@ -137,7 +140,7 @@ namespace AvalonDock.Controls
                 _draggingItem != this &&
                 e.LeftButton == MouseButtonState.Pressed)
             {
-                Console.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
+                Debug.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
 
                 var model = GetModel();
                 var container = model.Parent as ILayoutContainer;

@@ -232,6 +232,34 @@ namespace AvalonDock.Controls
 
                         return new RectangleGeometry(targetScreenRect);
                     }
+                case DropTargetType.AnchorablePaneDockTop:
+                    {
+                        var targetScreenRect = TargetElement.GetScreenArea();
+                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+
+                        targetScreenRect.Height /= 2.0;
+
+                        return new RectangleGeometry(targetScreenRect);
+                    }
+                case DropTargetType.AnchorablePaneDockLeft:
+                    {
+                        var targetScreenRect = TargetElement.GetScreenArea();
+                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+
+                        targetScreenRect.Width /= 2.0;
+
+                        return new RectangleGeometry(targetScreenRect);
+                    }
+                case DropTargetType.AnchorablePaneDockRight:
+                    {
+                        var targetScreenRect = TargetElement.GetScreenArea();
+                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+
+                        targetScreenRect.Offset(targetScreenRect.Width / 2.0, 0.0);
+                        targetScreenRect.Width /= 2.0;
+
+                        return new RectangleGeometry(targetScreenRect);
+                    }
                 case DropTargetType.AnchorablePaneDockInside:
                     {
                         var targetScreenRect = TargetElement.GetScreenArea();

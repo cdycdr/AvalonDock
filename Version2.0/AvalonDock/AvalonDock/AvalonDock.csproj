@@ -53,8 +53,9 @@
     <Compile Include="Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Controls\AnchorablePaneTabPanel.cs" />
     <Compile Include="Controls\AnchorablePaneTitle.cs" />
-    <Compile Include="Controls\EnhancedFocusScope.cs" />
     <Compile Include="Controls\FocusHookHandler.cs" />
+    <Compile Include="Controls\FocusElementManager.cs" />
+    <Compile Include="Controls\IFocusControlOwner.cs" />
     <Compile Include="Controls\ILogicalChildrenContainer.cs" />
     <Compile Include="Layout\AnchorSide.cs" />
     <Compile Include="Controls\DockingManagerDropTarget.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Layout\ILayoutOrientableElement.cs" />
     <Compile Include="Layout\ILayoutPane.cs" />
     <Compile Include="Layout\ILayoutPanelElement.cs" />
+    <Compile Include="Layout\ILayoutPaneSerializable.cs" />
     <Compile Include="Layout\ILayoutPositionableElement.cs" />
     <Compile Include="Layout\ILayoutRoot.cs" />
     <Compile Include="Controls\IOverlayWindow.cs" />

@@ -17,8 +17,9 @@ namespace AvalonDock.Controls
     {
         static AnchorablePaneTitle()
         {
-            AnchorablePaneTitle.IsHitTestVisibleProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(true));
-            AnchorablePaneTitle.DefaultStyleKeyProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(typeof(AnchorablePaneTitle)));
+            IsHitTestVisibleProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(true));
+            FocusableProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(false));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(AnchorablePaneTitle), new FrameworkPropertyMetadata(typeof(AnchorablePaneTitle)));
         }
 
 
@@ -110,6 +111,9 @@ namespace AvalonDock.Controls
         {
             _isMouseDown = false;
             base.OnMouseLeftButtonUp(e);
+
+            if (Model != null)
+                FocusElementManager.SetFocusOnLastElement(Model);
         }
     }
 }

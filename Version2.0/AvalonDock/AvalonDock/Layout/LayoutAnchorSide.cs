@@ -9,6 +9,7 @@ using AvalonDock.Controls;
 namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
+    [Serializable]
     public class LayoutAnchorSide : LayoutGroup<LayoutAnchorGroup>
     {
         public LayoutAnchorSide()

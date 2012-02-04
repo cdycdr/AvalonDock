@@ -12,8 +12,5 @@ namespace AvalonDock.Layout
         void RemoveChildAt(int childIndex);
 
         void ComputeVisibility();
-
-
-
     }
 }

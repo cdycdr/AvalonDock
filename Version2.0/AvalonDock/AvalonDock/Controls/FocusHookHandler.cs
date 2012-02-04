@@ -34,12 +34,13 @@ namespace AvalonDock.Controls
         }
         
         IntPtr _focusHook;
-
+        Win32Helper.HookProc _hookProc;
         public void Attach()
         {
+            _hookProc = new Win32Helper.HookProc(this.HookProc);
             _focusHook = Win32Helper.SetWindowsHookEx(
                 Win32Helper.HookType.WH_CBT,
-                new Win32Helper.HookProc(this.HookProc),
+                _hookProc,
                 IntPtr.Zero,
                 (int)Win32Helper.GetCurrentThreadId());
         }

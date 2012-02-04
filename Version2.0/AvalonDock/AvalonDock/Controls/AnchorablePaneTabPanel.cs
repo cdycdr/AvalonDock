@@ -42,6 +42,8 @@ namespace AvalonDock.Controls
         protected override Size ArrangeOverride(Size finalSize)
         {
             var visibleChildren = Children.Cast<UIElement>().Where(ch => ch.Visibility != System.Windows.Visibility.Collapsed);
+
+
             double finalWidth = finalSize.Width;
             double desideredWidth = visibleChildren.Sum(ch => ch.DesiredSize.Width);
             double offsetX = 0.0;
@@ -67,7 +69,7 @@ namespace AvalonDock.Controls
                 }   
             }
 
-            return new Size(finalSize.Width, finalSize.Height);
+            return finalSize;
         }
 
         protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)

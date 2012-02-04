@@ -15,5 +15,13 @@ namespace AvalonDock.TestApp
         {
             InitializeComponent();
         }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            label1.Text = textBox1.Handle.ToString();
+            label2.Text = textBox2.Handle.ToString();
+        }
     }
 }

@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows.Markup;
+using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
-    public class LayoutAnchorablePane : LayoutPositionableGroup<LayoutAnchorable>, ILayoutAnchorablePane, ILayoutPositionableElement, ILayoutContentSelector
+    [Serializable]
+    public class LayoutAnchorablePane : LayoutPositionableGroup<LayoutAnchorable>, ILayoutAnchorablePane, ILayoutPositionableElement, ILayoutContentSelector, ILayoutPaneSerializable
     {
         public LayoutAnchorablePane()
         {
@@ -83,7 +86,34 @@ namespace AvalonDock.Layout
         }
 
 
+        string _id;
 
+        string ILayoutPaneSerializable.Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
 
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            if (_id != null)
+                writer.WriteAttributeString("Id", _id);
+
+            base.WriteXml(writer);
+        }
+
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToAttribute("Id"))
+                _id = reader.Value;
+
+            base.ReadXml(reader);
+        }
     }
 }

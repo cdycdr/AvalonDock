@@ -8,6 +8,7 @@ using System.Windows.Markup;
 namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
+    [Serializable]
     public class LayoutAnchorGroup : LayoutGroup<LayoutAnchorable>
     {
         public LayoutAnchorGroup()

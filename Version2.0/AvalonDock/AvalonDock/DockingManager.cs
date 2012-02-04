@@ -26,40 +26,15 @@ namespace AvalonDock
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
             Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
 
-            InputManager.Current.EnterMenuMode += new EventHandler(InputManager_EnterMenuMode);
-            InputManager.Current.LeaveMenuMode += new EventHandler(InputManager_LeaveMenuMode);
         }
 
-        static IInputElement _lastFocusedElement = null;
-        static void InputManager_EnterMenuMode(object sender, EventArgs e)
-        {
-            _lastFocusedElement = Keyboard.FocusedElement;
 
-            if (_lastFocusedElement != null)
-            {
-                var lastfocusDepObj = _lastFocusedElement as DependencyObject;
-                if (lastfocusDepObj.FindLogicalAncestor<DockingManager>() == null)
-                    _lastFocusedElement = null;
-            }
-
-            Debug.WriteLine(string.Format("Current_EnterMenuMode({0})", Keyboard.FocusedElement));
-        }
-        static void InputManager_LeaveMenuMode(object sender, EventArgs e)
-        {
-            Debug.WriteLine(string.Format("Current_LeaveMenuMode({0})", Keyboard.FocusedElement));
-            if (_lastFocusedElement != null)
-            {
-                if (_lastFocusedElement != Keyboard.Focus(_lastFocusedElement))
-                    Debug.WriteLine("Unable to activate the element");
-            }
-        }
         public DockingManager()
         {
             Layout = new LayoutRoot();
             this.Loaded += new RoutedEventHandler(DockingManager_Loaded);
             this.Unloaded += new RoutedEventHandler(DockingManager_Unloaded);
         }
-
 
         #region Layout
 
@@ -99,12 +74,29 @@ namespace AvalonDock
                 oldLayout.PropertyChanged -= new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
             }
 
+            if (oldLayout != null &&
+                oldLayout.Manager == this)
+                oldLayout.Manager = null;
+
             Layout.Manager = this;
 
             if (IsInitialized)
             {
-                var layoutRootPanel = GetUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
-                LayoutRootPanel = layoutRootPanel;
+                LayoutRootPanel = GetUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
+                LeftSidePanel = GetUIElementForModel(Layout.LeftSide) as LayoutAnchorSideControl;
+                TopSidePanel = GetUIElementForModel(Layout.TopSide) as LayoutAnchorSideControl;
+                RightSidePanel = GetUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
+                BottomSidePanel = GetUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
+
+                foreach (var fwc in _fwList)
+                    fwc.InternalClose();
+                _fwList.Clear();
+
+                foreach (var fw in Layout.FloatingWindows)
+                    _fwList.Add(GetUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
+
+                foreach (var fw in _fwList)
+                    fw.Owner = Window.GetWindow(this);
             }
 
             if (newLayout != null)
@@ -112,6 +104,8 @@ namespace AvalonDock
                 newLayout.PropertyChanged += new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
             }
 
+            if (LayoutChanged != null)
+                LayoutChanged(this, EventArgs.Empty);
         }
 
         void OnLayoutRootPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -126,8 +120,9 @@ namespace AvalonDock
             }
         }
 
-        #endregion
+        public event EventHandler LayoutChanged;
 
+        #endregion
 
         public override void OnApplyTemplate()
         {
@@ -140,13 +135,15 @@ namespace AvalonDock
         {
             base.OnInitialized(e);
 
-            if (Layout.Manager == this)
+            if (!DesignerProperties.GetIsInDesignMode(this) && Layout.Manager == this)
             {
                 LayoutRootPanel = GetUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
                 LeftSidePanel = GetUIElementForModel(Layout.LeftSide) as LayoutAnchorSideControl;
                 TopSidePanel = GetUIElementForModel(Layout.TopSide) as LayoutAnchorSideControl;
                 RightSidePanel = GetUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
                 BottomSidePanel = GetUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
+                foreach (var fw in Layout.FloatingWindows)
+                    _fwList.Add(GetUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
             }
 
         }
@@ -155,28 +152,28 @@ namespace AvalonDock
         {
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                foreach (var fw in Layout.FloatingWindows)
-                    _fwList.Add(GetUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
                 foreach (var fw in _fwList)
-                {
                     fw.Owner = Window.GetWindow(this);
-                }
 
                 CreateOverlayWindow();
+                FocusElementManager.SetupFocusManagement(this);
             } 
         }
 
         void DockingManager_Unloaded(object sender, RoutedEventArgs e)
         {
-            foreach (var fw in _fwList.ToArray())
+            if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                fw.Owner = null;
-                fw.InternalClose();
+                foreach (var fw in _fwList.ToArray())
+                {
+                    fw.Owner = null;
+                    fw.InternalClose();
+                }
+
+                DestroyOverlayWindow();
+                FocusElementManager.FinalizeFocusManagement(this);
             }
-
-            DestroyOverlayWindow();
         }
-
 
         internal UIElement GetUIElementForModel(ILayoutElement model)
         {
@@ -215,7 +212,18 @@ namespace AvalonDock
             {
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return null;
-                var newFW = new LayoutAnchorableFloatingWindowControl(model as LayoutAnchorableFloatingWindow);
+                var modelFW = model as LayoutAnchorableFloatingWindow;
+                var newFW = new LayoutAnchorableFloatingWindowControl(modelFW);
+
+                var paneForExtentions = modelFW.RootPanel.Children.OfType<LayoutAnchorablePane>().FirstOrDefault();
+                if (paneForExtentions != null)
+                {
+                    newFW.Left = paneForExtentions.FloatingLeft;
+                    newFW.Top = paneForExtentions.FloatingTop;
+                    newFW.Width = paneForExtentions.FloatingWidth;
+                    newFW.Height = paneForExtentions.FloatingHeight;
+                }
+
                 newFW.ShowInTaskbar = false;
                 newFW.Show();
                 return newFW;
@@ -443,29 +451,34 @@ namespace AvalonDock
 
         #endregion
 
-        
-
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             if (e.NewFocus is Grid)
-                Console.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
+                Debug.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
             base.OnGotKeyboardFocus(e);
         }
+
         protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            Console.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
+            Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
             base.OnPreviewGotKeyboardFocus(e);
+        }
+
+        protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            Debug.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
+            base.OnPreviewLostKeyboardFocus(e);
         }
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {
-            Console.WriteLine(string.Format("DockingManager.OnMouseLeftButtonDown([{0}])", e.GetPosition(this)));
+            Debug.WriteLine(string.Format("DockingManager.OnMouseLeftButtonDown([{0}])", e.GetPosition(this)));
             base.OnMouseLeftButtonDown(e);
         }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
         {
-            //Console.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
+            //Debug.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
             base.OnMouseMove(e);
         }
 
@@ -963,7 +976,7 @@ namespace AvalonDock
         }
         #endregion
 
-
+        #region OverlayWindow
 
         bool IOverlayWindowHost.HitTest(Point dragPoint)
         {
@@ -1051,7 +1064,9 @@ namespace AvalonDock
         }
 
 
+        #endregion
 
+        #region AutoHide
         public void ToggleAutoHide(LayoutAnchorable anchorableModel)
         {
             #region Anchorable is already auto hidden
@@ -1065,7 +1080,7 @@ namespace AvalonDock
                 {
                     AnchorSide side = (parentGroup.Parent as LayoutAnchorSide).Side;
                     switch (side)
-                    { 
+                    {
                         case AnchorSide.Right:
                             if (parentGroup.Root.RootPanel.Orientation == Orientation.Horizontal)
                             {
@@ -1136,11 +1151,11 @@ namespace AvalonDock
                             break;
                     }
                 }
-               
+
 
                 foreach (var anchorableToToggle in parentGroup.Children.ToArray())
                     previousContainer.Children.Add(anchorableToToggle);
-                
+
                 parentSide.Children.Remove(parentGroup);
 
                 HideAutoHideWindow();
@@ -1151,11 +1166,11 @@ namespace AvalonDock
             {
                 var parentPane = anchorableModel.Parent as LayoutAnchorablePane;
 
-                var newAnchorGroup = new LayoutAnchorGroup() { PreviousContainer = parentPane};
-                
+                var newAnchorGroup = new LayoutAnchorGroup() { PreviousContainer = parentPane };
+
                 foreach (var anchorableToImport in parentPane.Children.ToArray())
                     newAnchorGroup.Children.Add(anchorableToImport);
-                
+
                 //detect anchor side for the pane
                 var anchorSide = parentPane.GetSide();
 
@@ -1178,7 +1193,7 @@ namespace AvalonDock
             #endregion
         }
 
-
+        #endregion
 
 
     }

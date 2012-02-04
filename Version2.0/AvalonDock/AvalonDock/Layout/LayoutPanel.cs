@@ -10,6 +10,7 @@ using System.Windows.Controls;
 namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
+    [Serializable]
     public class LayoutPanel : LayoutPositionableGroup<ILayoutPanelElement>, ILayoutPanelElement, ILayoutOrientableGroup
     {
         public LayoutPanel()

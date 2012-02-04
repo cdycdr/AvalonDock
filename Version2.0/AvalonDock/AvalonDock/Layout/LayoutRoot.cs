@@ -5,10 +5,12 @@ using System.Text;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Markup;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
     [ContentProperty("RootPanel")]
+    [Serializable]
     public class LayoutRoot : LayoutElement, ILayoutContainer, ILayoutRoot
     {
         public LayoutRoot()
@@ -220,7 +222,11 @@ namespace AvalonDock.Layout
 
         #region Manager
 
+        
+        [NonSerialized]
         private DockingManager _manager = null;
+
+        [XmlIgnore]
         public DockingManager Manager
         {
             get { return _manager; }
