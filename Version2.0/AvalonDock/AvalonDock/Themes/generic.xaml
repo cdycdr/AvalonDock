@@ -271,6 +271,9 @@
                             </Grid.ColumnDefinitions>
                             <ContentPresenter Content="{TemplateBinding LayoutRootPanel}" Grid.Column="1" Grid.Row="1"/>
                             <ContentPresenter Content="{TemplateBinding RightSidePanel}" Grid.Column="2" Grid.Row="1"/>
+                            <ContentPresenter Content="{TemplateBinding LeftSidePanel}" Grid.Column="0" Grid.Row="1"/>
+                            <ContentPresenter Content="{TemplateBinding TopSidePanel}" Grid.Column="1" Grid.Row="0"/>
+                            <ContentPresenter Content="{TemplateBinding BottomSidePanel}" Grid.Column="1" Grid.Row="2"/>
                             <ContentPresenter 
                                 x:Name="PART_AutoHideArea"
                                 Content="{TemplateBinding AutoHideWindow}"

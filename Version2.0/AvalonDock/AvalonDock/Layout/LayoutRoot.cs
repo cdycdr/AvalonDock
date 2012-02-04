@@ -14,10 +14,10 @@ namespace AvalonDock.Layout
         public LayoutRoot()
         { 
             _floatingWindows.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_floatingWindows_CollectionChanged);
-            _rightSide = new LayoutAnchorSide() { Parent = this };
-            _leftSide = new LayoutAnchorSide() { Parent = this };
-            _topSide = new LayoutAnchorSide() { Parent = this };
-            _bottomSide = new LayoutAnchorSide() { Parent = this };
+            RightSide = new LayoutAnchorSide();
+            LeftSide = new LayoutAnchorSide();
+            TopSide = new LayoutAnchorSide();
+            BottomSide = new LayoutAnchorSide();
         }
 
 
@@ -33,7 +33,8 @@ namespace AvalonDock.Layout
                 {
                     RaisePropertyChanging("RootPanel");
                     _rootPanel = value;
-                    _rootPanel.Parent = this;
+                    if (_rootPanel != null)
+                        _rootPanel.Parent = this;
                     RaisePropertyChanged("RootPanel");
                 }
             }
@@ -53,7 +54,8 @@ namespace AvalonDock.Layout
                 {
                     RaisePropertyChanging("TopSide");
                     _topSide = value;
-                    _topSide.Parent = this;
+                    if (_topSide != null)
+                        _topSide.Parent = this;
                     RaisePropertyChanged("TopSide");
                 }
             }
@@ -73,7 +75,8 @@ namespace AvalonDock.Layout
                 {
                     RaisePropertyChanging("RightSide");
                     _rightSide = value;
-                    _rightSide.Parent = this;
+                    if (_rightSide != null)
+                        _rightSide.Parent = this;
                     RaisePropertyChanged("RightSide");
                 }
             }
@@ -93,7 +96,8 @@ namespace AvalonDock.Layout
                 {
                     RaisePropertyChanging("LeftSide");
                     _leftSide = value;
-                    _leftSide.Parent = this;
+                    if (_leftSide != null)
+                        _leftSide.Parent = this;
                     RaisePropertyChanged("LeftSide");
                 }
             }
@@ -113,7 +117,8 @@ namespace AvalonDock.Layout
                 {
                     RaisePropertyChanging("BottomSide");
                     _bottomSide = value;
-                    _bottomSide.Parent = this;
+                    if (_bottomSide != null)
+                        _bottomSide.Parent = this;
                     RaisePropertyChanged("BottomSide");
                 }
             }
@@ -241,9 +246,10 @@ namespace AvalonDock.Layout
             do
             {
                 exitFlag = true;
-
-                foreach (var emptyPane in _rootPanel.Descendents().OfType<LayoutAnchorablePane>().Where(p => p.Children.Count == 0))
+                //for each pane that is empty
+                foreach (var emptyPane in _rootPanel.Descendents().OfType<ILayoutPane>().Where(p => p.ChildrenCount == 0))
                 {
+                    //...set null any reference coming from contents not yet hosted in a floating window
                     foreach (var contentReferencingEmptyPane in _rootPanel.Descendents().OfType<LayoutContent>()
                         .Where(c => c.PreviousContainer == emptyPane && c.FindParent<LayoutFloatingWindow>() == null))
                     {
@@ -251,6 +257,7 @@ namespace AvalonDock.Layout
                         contentReferencingEmptyPane.PreviousContainerIndex = -1;
                     }
 
+                    //...if this empty panes is not referenced by anyone, than removes it from its parent container
                     if (!_rootPanel.Descendents().OfType<LayoutContent>().Any(c => c.PreviousContainer == emptyPane))
                     {
                         var parentGroup = emptyPane.Parent as ILayoutGroup;
@@ -262,6 +269,7 @@ namespace AvalonDock.Layout
 
                 if (!exitFlag)
                 {
+                    //removes any empty anchorable pane group
                     foreach (var emptyPaneGroup in _rootPanel.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.Children.Count == 0))
                     {
                         var parentGroup = emptyPaneGroup.Parent as ILayoutGroup;

@@ -16,24 +16,10 @@ namespace AvalonDock.Controls
             var visibleChildren = Children.Cast<UIElement>().Where(ch => ch.Visibility != System.Windows.Visibility.Collapsed); 
             
             Size desideredSize = new Size();
-            //int i = 1;
-            //bool skipAllOthers = false;
-
             foreach (FrameworkElement child in Children)
             {
-                //Panel.SetZIndex(child, Selector.GetIsSelected(child) ? 1 : -i);
-                //i++;
-
-                //if (skipAllOthers || desideredSize.Width + child.DesiredSize.Width > availableSize.Width)
-                //{
-                //    skipAllOthers = true;
-                //    child.Measure(new Size(0.0, double.PositiveInfinity));
-                //}
-                //else
-                //{
-                    child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     desideredSize.Width += child.DesiredSize.Width;
-                //}
 
                 desideredSize.Height = Math.Max(desideredSize.Height, child.DesiredSize.Height);
             }

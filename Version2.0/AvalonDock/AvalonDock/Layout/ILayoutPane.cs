@@ -13,5 +13,7 @@ namespace AvalonDock.Layout
 
         void ComputeVisibility();
 
+
+
     }
 }

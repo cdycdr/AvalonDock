@@ -56,124 +56,66 @@ namespace AvalonDock.Controls
                     }
                     break;
                     #endregion
-                //case DropTargetType.AnchorablePaneDockTop:
-                //    #region DropTargetType.AnchorablePaneDockTop
-                //    {
-                //        var parentModel = targetModel.Parent as ILayoutGroup;
-                //        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
+                case DropTargetType.DocumentPaneDockTop:
+                    #region DropTargetType.DocumentPaneDockTop
+                    {
+                        var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
 
-                //        if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Vertical &&
-                //            parentModel.ChildrenCount == 1)
-                //            parentModelOrientable.Orientation = System.Windows.Controls.Orientation.Vertical;
+                        if (parentModel == null)
+                        {
+                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
+                            parentModel.Children.Add(new LayoutDocumentPane(floatingWindow.RootDocument));
+                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                        }
+                        else
+                        {
+                            parentModel.Orientation = System.Windows.Controls.Orientation.Vertical;
+                            int targetPaneIndex = parentModel.IndexOfChild(targetModel);
+                            parentModel.Children.Insert(targetPaneIndex, new LayoutDocumentPane(floatingWindow.RootDocument));
+                        }
+                    }
+                    break;
+                    #endregion
+                case DropTargetType.DocumentPaneDockLeft:
+                    #region DropTargetType.DocumentPaneDockLeft
+                    {
+                        var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
 
-                //        if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Vertical)
-                //        {
-                //            var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                //            int insertToIndex = parentModel.IndexOfChild(targetModel);
-                //            if (layoutAnchorablePaneGroup != null &&
-                //                (layoutAnchorablePaneGroup.Children.Count == 1 ||
-                //                    layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Vertical))
-                //            {
-                //                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
-                //                    parentModel.InsertChildAt(insertToIndex + i, layoutAnchorablePaneGroup.Children[i]);
-                //            }
-                //            else
-                //                parentModel.InsertChildAt(insertToIndex, floatingWindow.RootPanel);
-                //        }
-                //        else
-                //        {
-                //            var newOrientedPanel = new LayoutAnchorablePaneGroup()
-                //            {
-                //                Orientation = System.Windows.Controls.Orientation.Vertical
-                //            };
+                        if (parentModel == null)
+                        {
+                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentModel.Children.Add(new LayoutDocumentPane(floatingWindow.RootDocument));
+                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                        }
+                        else
+                        {
+                            parentModel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                            int targetPaneIndex = parentModel.IndexOfChild(targetModel);
+                            parentModel.Children.Insert(targetPaneIndex, new LayoutDocumentPane(floatingWindow.RootDocument));
+                        }
+                    }
+                    break;
+                    #endregion
+                case DropTargetType.DocumentPaneDockRight:
+                    #region DropTargetType.DocumentPaneDockRight
+                    {
+                        var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
 
-                //            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
-                //            newOrientedPanel.Children.Add(targetModel);
-
-                //            parentModel.ReplaceChildAt(parentModel.IndexOfChild(targetModel), newOrientedPanel);
-                //        }
-                //    }
-                //    break;
-                //    #endregion
-                //case DropTargetType.AnchorablePaneDockLeft:
-                //    #region DropTargetType.AnchorablePaneDockLeft
-                //    {
-                //        var parentModel = targetModel.Parent as ILayoutGroup;
-                //        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
-                //        int insertToIndex = parentModel.IndexOfChild(targetModel);
-
-                //        if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Horizontal &&
-                //            parentModel.ChildrenCount == 1)
-                //            parentModelOrientable.Orientation = System.Windows.Controls.Orientation.Horizontal;
-
-                //        if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Horizontal)
-                //        {
-                //            var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                //            if (layoutAnchorablePaneGroup != null &&
-                //                (layoutAnchorablePaneGroup.Children.Count == 1 ||
-                //                    layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Horizontal))
-                //            {
-                //                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
-                //                    parentModel.InsertChildAt(insertToIndex + i, layoutAnchorablePaneGroup.Children[i]);
-                //            }
-                //            else
-                //                parentModel.InsertChildAt(insertToIndex, floatingWindow.RootPanel);
-                //        }
-                //        else
-                //        {
-                //            var newOrientedPanel = new LayoutAnchorablePaneGroup()
-                //            {
-                //                Orientation = System.Windows.Controls.Orientation.Horizontal
-                //            };
-
-                //            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
-                //            newOrientedPanel.Children.Add(targetModel);
-
-                //            parentModel.ReplaceChildAt(insertToIndex, newOrientedPanel);
-                //        }
-                //    }
-                //    break;
-                //    #endregion
-                //case DropTargetType.AnchorablePaneDockRight:
-                //    #region DropTargetType.AnchorablePaneDockRight
-                //    {
-                //        var parentModel = targetModel.Parent as ILayoutGroup;
-                //        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
-                //        int insertToIndex = parentModel.IndexOfChild(targetModel);
-
-                //        if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Horizontal &&
-                //            parentModel.ChildrenCount == 1)
-                //            parentModelOrientable.Orientation = System.Windows.Controls.Orientation.Horizontal;
-
-                //        if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Horizontal)
-                //        {
-                //            var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                //            if (layoutAnchorablePaneGroup != null &&
-                //                (layoutAnchorablePaneGroup.Children.Count == 1 ||
-                //                    layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Horizontal))
-                //            {
-                //                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
-                //                    parentModel.InsertChildAt(insertToIndex + 1 + i, layoutAnchorablePaneGroup.Children[i]);
-                //            }
-                //            else
-                //                parentModel.InsertChildAt(insertToIndex + 1, floatingWindow.RootPanel);
-                //        }
-                //        else
-                //        {
-                //            var newOrientedPanel = new LayoutAnchorablePaneGroup()
-                //            {
-                //                Orientation = System.Windows.Controls.Orientation.Horizontal
-                //            };
-
-                //            newOrientedPanel.Children.Add(targetModel);
-                //            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
-
-                //            parentModel.ReplaceChildAt(insertToIndex, newOrientedPanel);
-                //        }
-                //    }
-                //    break;
-                //    #endregion
-
+                        if (parentModel == null)
+                        {
+                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            parentModel.Children.Add(new LayoutDocumentPane(floatingWindow.RootDocument));
+                        }
+                        else
+                        {
+                            parentModel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                            int targetPaneIndex = parentModel.IndexOfChild(targetModel);
+                            parentModel.Children.Insert(targetPaneIndex + 1, new LayoutDocumentPane(floatingWindow.RootDocument));
+                        }
+                    }
+                    break;
+                    #endregion
 
                 case DropTargetType.DocumentPaneDockInside:
                     #region DropTargetType.DocumentPaneDockInside
@@ -218,131 +160,88 @@ namespace AvalonDock.Controls
                             parentModel.Children.Insert(targetPaneIndex + 1, newLayoutDocumentPane);
                         }
 
-                        foreach (var cntToTransfer in floatingWindow.RootPanel.Descendents().OfType<LayoutAnchorable>())
+                        foreach (var cntToTransfer in floatingWindow.RootPanel.Descendents().OfType<LayoutAnchorable>().ToArray())
                             newLayoutDocumentPane.Children.Add(cntToTransfer);
 
                     }
                     break;
                     #endregion
-                //case DropTargetType.AnchorablePaneDockTop:
-                //    #region DropTargetType.AnchorablePaneDockTop
-                //    {
-                //        var parentModel = targetModel.Parent as ILayoutGroup;
-                //        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
+                case DropTargetType.DocumentPaneDockTop:
+                    #region DropTargetType.DocumentPaneDockTop
+                    {
+                        var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
+                        var newLayoutDocumentPane = new LayoutDocumentPane();
 
-                //        if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Vertical &&
-                //            parentModel.ChildrenCount == 1)
-                //            parentModelOrientable.Orientation = System.Windows.Controls.Orientation.Vertical;
+                        if (parentModel == null)
+                        {
+                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
+                            parentModel.Children.Add(newLayoutDocumentPane);
+                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                        }
+                        else
+                        {
+                            //Debug.Assert(parentModel.Orientation == System.Windows.Controls.Orientation.Vertical);
+                            parentModel.Orientation = System.Windows.Controls.Orientation.Vertical;
+                            int targetPaneIndex = parentModel.IndexOfChild(targetModel);
+                            parentModel.Children.Insert(targetPaneIndex, newLayoutDocumentPane);
+                        }
 
-                //        if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Vertical)
-                //        {
-                //            var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                //            int insertToIndex = parentModel.IndexOfChild(targetModel);
-                //            if (layoutAnchorablePaneGroup != null &&
-                //                (layoutAnchorablePaneGroup.Children.Count == 1 ||
-                //                    layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Vertical))
-                //            {
-                //                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
-                //                    parentModel.InsertChildAt(insertToIndex + i, layoutAnchorablePaneGroup.Children[i]);
-                //            }
-                //            else
-                //                parentModel.InsertChildAt(insertToIndex, floatingWindow.RootPanel);
-                //        }
-                //        else
-                //        {
-                //            var newOrientedPanel = new LayoutAnchorablePaneGroup()
-                //            {
-                //                Orientation = System.Windows.Controls.Orientation.Vertical
-                //            };
+                        foreach (var cntToTransfer in floatingWindow.RootPanel.Descendents().OfType<LayoutAnchorable>().ToArray())
+                            newLayoutDocumentPane.Children.Add(cntToTransfer);
 
-                //            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
-                //            newOrientedPanel.Children.Add(targetModel);
+                    }
+                    break;
+                    #endregion
+                case DropTargetType.DocumentPaneDockLeft:
+                    #region DropTargetType.DocumentPaneDockLeft
+                    {
+                        var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
+                        var newLayoutDocumentPane = new LayoutDocumentPane();
 
-                //            parentModel.ReplaceChildAt(parentModel.IndexOfChild(targetModel), newOrientedPanel);
-                //        }
-                //    }
-                //    break;
-                //    #endregion
-                //case DropTargetType.AnchorablePaneDockLeft:
-                //    #region DropTargetType.AnchorablePaneDockLeft
-                //    {
-                //        var parentModel = targetModel.Parent as ILayoutGroup;
-                //        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
-                //        int insertToIndex = parentModel.IndexOfChild(targetModel);
+                        if (parentModel == null)
+                        {
+                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentModel.Children.Add(newLayoutDocumentPane);
+                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                        }
+                        else
+                        {
+                            parentModel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                            int targetPaneIndex = parentModel.IndexOfChild(targetModel);
+                            parentModel.Children.Insert(targetPaneIndex, newLayoutDocumentPane);
+                        }
 
-                //        if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Horizontal &&
-                //            parentModel.ChildrenCount == 1)
-                //            parentModelOrientable.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                        foreach (var cntToTransfer in floatingWindow.RootPanel.Descendents().OfType<LayoutAnchorable>().ToArray())
+                            newLayoutDocumentPane.Children.Add(cntToTransfer);
 
-                //        if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Horizontal)
-                //        {
-                //            var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                //            if (layoutAnchorablePaneGroup != null &&
-                //                (layoutAnchorablePaneGroup.Children.Count == 1 ||
-                //                    layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Horizontal))
-                //            {
-                //                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
-                //                    parentModel.InsertChildAt(insertToIndex + i, layoutAnchorablePaneGroup.Children[i]);
-                //            }
-                //            else
-                //                parentModel.InsertChildAt(insertToIndex, floatingWindow.RootPanel);
-                //        }
-                //        else
-                //        {
-                //            var newOrientedPanel = new LayoutAnchorablePaneGroup()
-                //            {
-                //                Orientation = System.Windows.Controls.Orientation.Horizontal
-                //            };
+                    }
+                    break;
+                    #endregion
+                case DropTargetType.DocumentPaneDockRight:
+                    #region DropTargetType.DocumentPaneDockRight
+                    {
+                        var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
+                        var newLayoutDocumentPane = new LayoutDocumentPane();
 
-                //            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
-                //            newOrientedPanel.Children.Add(targetModel);
+                        if (parentModel == null)
+                        {
+                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            parentModel.Children.Add(newLayoutDocumentPane);
+                        }
+                        else
+                        {
+                            parentModel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                            int targetPaneIndex = parentModel.IndexOfChild(targetModel);
+                            parentModel.Children.Insert(targetPaneIndex + 1, newLayoutDocumentPane);
+                        }
 
-                //            parentModel.ReplaceChildAt(insertToIndex, newOrientedPanel);
-                //        }
-                //    }
-                //    break;
-                //    #endregion
-                //case DropTargetType.AnchorablePaneDockRight:
-                //    #region DropTargetType.AnchorablePaneDockRight
-                //    {
-                //        var parentModel = targetModel.Parent as ILayoutGroup;
-                //        var parentModelOrientable = targetModel.Parent as ILayoutOrientableElement;
-                //        int insertToIndex = parentModel.IndexOfChild(targetModel);
+                        foreach (var cntToTransfer in floatingWindow.RootPanel.Descendents().OfType<LayoutAnchorable>().ToArray())
+                            newLayoutDocumentPane.Children.Add(cntToTransfer);
 
-                //        if (parentModelOrientable.Orientation != System.Windows.Controls.Orientation.Horizontal &&
-                //            parentModel.ChildrenCount == 1)
-                //            parentModelOrientable.Orientation = System.Windows.Controls.Orientation.Horizontal;
-
-                //        if (parentModelOrientable.Orientation == System.Windows.Controls.Orientation.Horizontal)
-                //        {
-                //            var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
-                //            if (layoutAnchorablePaneGroup != null &&
-                //                (layoutAnchorablePaneGroup.Children.Count == 1 ||
-                //                    layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Horizontal))
-                //            {
-                //                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
-                //                    parentModel.InsertChildAt(insertToIndex + 1 + i, layoutAnchorablePaneGroup.Children[i]);
-                //            }
-                //            else
-                //                parentModel.InsertChildAt(insertToIndex + 1, floatingWindow.RootPanel);
-                //        }
-                //        else
-                //        {
-                //            var newOrientedPanel = new LayoutAnchorablePaneGroup()
-                //            {
-                //                Orientation = System.Windows.Controls.Orientation.Horizontal
-                //            };
-
-                //            newOrientedPanel.Children.Add(targetModel);
-                //            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
-
-                //            parentModel.ReplaceChildAt(insertToIndex, newOrientedPanel);
-                //        }
-                //    }
-                //    break;
-                //    #endregion
-
-
+                    }
+                    break;
+                    #endregion
                 case DropTargetType.DocumentPaneDockInside:
                     #region DropTargetType.DocumentPaneDockInside
                     {
@@ -358,10 +257,8 @@ namespace AvalonDock.Controls
                     }
                     break;
                     #endregion
-
-
-
             }
+
             base.Drop(floatingWindow);
         }
 
@@ -371,11 +268,6 @@ namespace AvalonDock.Controls
             {
                 case DropTargetType.DocumentPaneDockInside:
                     {
-                        //var anchorableFloatingWindowModel = floatingWindowModel as LayoutAnchorableFloatingWindow;
-                        //var layoutAnchorablePane = anchorableFloatingWindowModel.RootPanel as ILayoutPositionableElement;
-                        //var layoutAnchorablePaneWithActualSize = anchorableFloatingWindowModel.RootPanel as ILayoutPositionableElementWithActualSize;
-
-
                         var targetScreenRect = TargetElement.GetScreenArea();
                         targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
 
@@ -402,6 +294,36 @@ namespace AvalonDock.Controls
                             pathFigure.Freeze();
                             return new PathGeometry(new PathFigure[] { pathFigure });
                         }
+                    }
+                case DropTargetType.DocumentPaneDockBottom:
+                    {
+                        var targetScreenRect = TargetElement.GetScreenArea();
+                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                        targetScreenRect.Offset(0.0, targetScreenRect.Height / 2.0);
+                        targetScreenRect.Height /= 2.0;
+                        return new RectangleGeometry(targetScreenRect);
+                    }
+                case DropTargetType.DocumentPaneDockTop:
+                    {
+                        var targetScreenRect = TargetElement.GetScreenArea();
+                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                        targetScreenRect.Height /= 2.0;
+                        return new RectangleGeometry(targetScreenRect);
+                    }
+                case DropTargetType.DocumentPaneDockLeft:
+                    {
+                        var targetScreenRect = TargetElement.GetScreenArea();
+                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                        targetScreenRect.Width /= 2.0;
+                        return new RectangleGeometry(targetScreenRect);
+                    }
+                case DropTargetType.DocumentPaneDockRight:
+                    {
+                        var targetScreenRect = TargetElement.GetScreenArea();
+                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                        targetScreenRect.Offset(targetScreenRect.Width / 2.0, 0.0);
+                        targetScreenRect.Width /= 2.0;
+                        return new RectangleGeometry(targetScreenRect);
                     }
             }
 

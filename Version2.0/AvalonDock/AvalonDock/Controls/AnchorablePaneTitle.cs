@@ -86,10 +86,14 @@ namespace AvalonDock.Controls
 
             if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
             {
-                var paneModel = this.FindVisualAncestor<LayoutAnchorablePaneControl>().Model as LayoutAnchorablePane;
-                var manager = paneModel.Root.Manager;
+                var pane = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+                if (pane != null)
+                {
+                    var paneModel = pane.Model as LayoutAnchorablePane;
+                    var manager = paneModel.Root.Manager;
 
-                manager.StartDraggingFloatingWindowForPane(paneModel);                
+                    manager.StartDraggingFloatingWindowForPane(paneModel);
+                }
             }
 
             _isMouseDown = false;

@@ -238,6 +238,13 @@ namespace AvalonDock.Controls
                         _documentPaneDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
                         _documentPaneDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
                     }
+                    else
+                    {
+                        _documentPaneDropTargetLeft.Visibility = Visibility.Visible;
+                        _documentPaneDropTargetRight.Visibility = Visibility.Visible;
+                        _documentPaneDropTargetTop.Visibility = Visibility.Visible;
+                        _documentPaneDropTargetBottom.Visibility = Visibility.Visible;
+                    }
                     break;
             }
 

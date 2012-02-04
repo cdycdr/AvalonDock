@@ -143,9 +143,10 @@ namespace AvalonDock
             if (Layout.Manager == this)
             {
                 LayoutRootPanel = GetUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
+                LeftSidePanel = GetUIElementForModel(Layout.LeftSide) as LayoutAnchorSideControl;
+                TopSidePanel = GetUIElementForModel(Layout.TopSide) as LayoutAnchorSideControl;
                 RightSidePanel = GetUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
-
-
+                BottomSidePanel = GetUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
             }
 
         }
@@ -156,11 +157,13 @@ namespace AvalonDock
             {
                 foreach (var fw in Layout.FloatingWindows)
                     _fwList.Add(GetUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
+                foreach (var fw in _fwList)
+                {
+                    fw.Owner = Window.GetWindow(this);
+                }
+
+                CreateOverlayWindow();
             } 
-            foreach (var fw in _fwList)
-            {
-                fw.Owner = Window.GetWindow(this);
-            }   
         }
 
         void DockingManager_Unloaded(object sender, RoutedEventArgs e)
@@ -170,6 +173,8 @@ namespace AvalonDock
                 fw.Owner = null;
                 fw.InternalClose();
             }
+
+            DestroyOverlayWindow();
         }
 
 
@@ -438,71 +443,6 @@ namespace AvalonDock
 
         #endregion
 
-        //#region OverlayAreaStyle
-
-        ///// <summary>
-        ///// OverlayAreaStyle Dependency Property
-        ///// </summary>
-        //public static readonly DependencyProperty OverlayAreaStyleProperty =
-        //    DependencyProperty.Register("OverlayAreaStyle", typeof(Style), typeof(DockingManager),
-        //        new FrameworkPropertyMetadata((Style)null));
-
-        ///// <summary>
-        ///// Gets or sets the OverlayAreaStyle property.  This dependency property 
-        ///// indicates style to apply to overlay area of the docking manager.
-        ///// </summary>
-        //public Style OverlayAreaStyle
-        //{
-        //    get { return (Style)GetValue(OverlayAreaStyleProperty); }
-        //    set { SetValue(OverlayAreaStyleProperty, value); }
-        //}
-
-        //#endregion
-
-        //#region DocumentPaneOverlayAreaStyle
-
-        ///// <summary>
-        ///// DocumentPaneOverlayAreaStyle Dependency Property
-        ///// </summary>
-        //public static readonly DependencyProperty DocumentPaneOverlayAreaStyleProperty =
-        //    DependencyProperty.Register("DocumentPaneOverlayAreaStyle", typeof(Style), typeof(DockingManager),
-        //        new FrameworkPropertyMetadata((Style)null));
-
-        ///// <summary>
-        ///// Gets or sets the DocumentPaneOverlayAreaStyle property.  This dependency property 
-        ///// indicates ....
-        ///// </summary>
-        //public Style DocumentPaneOverlayAreaStyle
-        //{
-        //    get { return (Style)GetValue(DocumentPaneOverlayAreaStyleProperty); }
-        //    set { SetValue(DocumentPaneOverlayAreaStyleProperty, value); }
-        //}
-
-        //#endregion
-
-
-        //#region AnchorablePaneOverlayAreaStyle
-
-        ///// <summary>
-        ///// AnchorablePaneOverlayAreaStyle Dependency Property
-        ///// </summary>
-        //public static readonly DependencyProperty AnchorablePaneOverlayAreaStyleProperty =
-        //    DependencyProperty.Register("AnchorablePaneOverlayAreaStyle", typeof(Style), typeof(DockingManager),
-        //        new FrameworkPropertyMetadata((Style)null));
-
-        ///// <summary>
-        ///// Gets or sets the AnchorablePaneOverlayAreaStyle property.  This dependency property 
-        ///// indicates ....
-        ///// </summary>
-        //public Style AnchorablePaneOverlayAreaStyle
-        //{
-        //    get { return (Style)GetValue(AnchorablePaneOverlayAreaStyleProperty); }
-        //    set { SetValue(AnchorablePaneOverlayAreaStyleProperty, value); }
-        //}
-
-        //#endregion
-
-
         
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
@@ -610,6 +550,132 @@ namespace AvalonDock
         }
 
         #endregion
+
+        #region LeftSidePanel
+
+        /// <summary>
+        /// LeftSidePanel Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty LeftSidePanelProperty =
+            DependencyProperty.Register("LeftSidePanel", typeof(LayoutAnchorSideControl), typeof(DockingManager),
+                new FrameworkPropertyMetadata((LayoutAnchorSideControl)null,
+                    new PropertyChangedCallback(OnLeftSidePanelChanged)));
+
+        /// <summary>
+        /// Gets or sets the LeftSidePanel property.  This dependency property 
+        /// indicates the left side panel control.
+        /// </summary>
+        public LayoutAnchorSideControl LeftSidePanel
+        {
+            get { return (LayoutAnchorSideControl)GetValue(LeftSidePanelProperty); }
+            set { SetValue(LeftSidePanelProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the LeftSidePanel property.
+        /// </summary>
+        private static void OnLeftSidePanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnLeftSidePanelChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the LeftSidePanel property.
+        /// </summary>
+        protected virtual void OnLeftSidePanelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue != null)
+                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+            if (e.NewValue != null)
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+        }
+
+        #endregion
+
+        #region TopSidePanel
+
+        /// <summary>
+        /// TopSidePanel Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty TopSidePanelProperty =
+            DependencyProperty.Register("TopSidePanel", typeof(LayoutAnchorSideControl), typeof(DockingManager),
+                new FrameworkPropertyMetadata((LayoutAnchorSideControl)null,
+                    new PropertyChangedCallback(OnTopSidePanelChanged)));
+
+        /// <summary>
+        /// Gets or sets the TopSidePanel property.  This dependency property 
+        /// indicates top side control panel.
+        /// </summary>
+        public LayoutAnchorSideControl TopSidePanel
+        {
+            get { return (LayoutAnchorSideControl)GetValue(TopSidePanelProperty); }
+            set { SetValue(TopSidePanelProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the TopSidePanel property.
+        /// </summary>
+        private static void OnTopSidePanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnTopSidePanelChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the TopSidePanel property.
+        /// </summary>
+        protected virtual void OnTopSidePanelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue != null)
+                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+            if (e.NewValue != null)
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+        }
+
+        #endregion
+
+        #region BottomSidePanel
+
+        /// <summary>
+        /// BottomSidePanel Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty BottomSidePanelProperty =
+            DependencyProperty.Register("BottomSidePanel", typeof(LayoutAnchorSideControl), typeof(DockingManager),
+                new FrameworkPropertyMetadata((LayoutAnchorSideControl)null,
+                    new PropertyChangedCallback(OnBottomSidePanelChanged)));
+
+        /// <summary>
+        /// Gets or sets the BottomSidePanel property.  This dependency property 
+        /// indicates bottom side panel control.
+        /// </summary>
+        public LayoutAnchorSideControl BottomSidePanel
+        {
+            get { return (LayoutAnchorSideControl)GetValue(BottomSidePanelProperty); }
+            set { SetValue(BottomSidePanelProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the BottomSidePanel property.
+        /// </summary>
+        private static void OnBottomSidePanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnBottomSidePanelChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the BottomSidePanel property.
+        /// </summary>
+        protected virtual void OnBottomSidePanelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue != null)
+                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+            if (e.NewValue != null)
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+        }
+
+        #endregion
+
+
+
 
         #region LogicalChildren
 
@@ -917,6 +983,15 @@ namespace AvalonDock
             _overlayWindow.Height = rectWindow.Height;
         }
 
+        void DestroyOverlayWindow()
+        {
+            if (_overlayWindow != null)
+            {
+                _overlayWindow.Close();
+                _overlayWindow = null;
+            }
+        }
+
         IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
         {
             Debug.WriteLine("ShowOverlayWindow");
@@ -1008,6 +1083,57 @@ namespace AvalonDock
                                 panel.Children.Add(previousContainer);
                             }
                             break;
+                        case AnchorSide.Left:
+                            if (parentGroup.Root.RootPanel.Orientation == Orientation.Horizontal)
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                parentGroup.Root.RootPanel.Children.Insert(0, previousContainer);
+                            }
+                            else
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                LayoutPanel panel = new LayoutPanel() { Orientation = Orientation.Horizontal };
+                                LayoutRoot root = parentGroup.Root as LayoutRoot;
+                                LayoutPanel oldRootPanel = parentGroup.Root.RootPanel as LayoutPanel;
+                                root.RootPanel = panel;
+                                panel.Children.Add(previousContainer);
+                                panel.Children.Add(oldRootPanel);
+                            }
+                            break;
+                        case AnchorSide.Top:
+                            if (parentGroup.Root.RootPanel.Orientation == Orientation.Vertical)
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                parentGroup.Root.RootPanel.Children.Insert(0, previousContainer);
+                            }
+                            else
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                LayoutPanel panel = new LayoutPanel() { Orientation = Orientation.Vertical };
+                                LayoutRoot root = parentGroup.Root as LayoutRoot;
+                                LayoutPanel oldRootPanel = parentGroup.Root.RootPanel as LayoutPanel;
+                                root.RootPanel = panel;
+                                panel.Children.Add(previousContainer);
+                                panel.Children.Add(oldRootPanel);
+                            }
+                            break;
+                        case AnchorSide.Bottom:
+                            if (parentGroup.Root.RootPanel.Orientation == Orientation.Vertical)
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                parentGroup.Root.RootPanel.Children.Add(previousContainer);
+                            }
+                            else
+                            {
+                                previousContainer = new LayoutAnchorablePane();
+                                LayoutPanel panel = new LayoutPanel() { Orientation = Orientation.Vertical };
+                                LayoutRoot root = parentGroup.Root as LayoutRoot;
+                                LayoutPanel oldRootPanel = parentGroup.Root.RootPanel as LayoutPanel;
+                                root.RootPanel = panel;
+                                panel.Children.Add(oldRootPanel);
+                                panel.Children.Add(previousContainer);
+                            }
+                            break;
                     }
                 }
                
@@ -1020,6 +1146,7 @@ namespace AvalonDock
                 HideAutoHideWindow();
             }
             #endregion
+            #region Anchorable is docked
             else if (anchorableModel.Parent is LayoutAnchorablePane)
             {
                 var parentPane = anchorableModel.Parent as LayoutAnchorablePane;
@@ -1033,12 +1160,22 @@ namespace AvalonDock
                 var anchorSide = parentPane.GetSide();
 
                 switch (anchorSide)
-                { 
+                {
                     case AnchorSide.Right:
                         Layout.RightSide.Children.Add(newAnchorGroup);
                         break;
+                    case AnchorSide.Left:
+                        Layout.LeftSide.Children.Add(newAnchorGroup);
+                        break;
+                    case AnchorSide.Top:
+                        Layout.TopSide.Children.Add(newAnchorGroup);
+                        break;
+                    case AnchorSide.Bottom:
+                        Layout.BottomSide.Children.Add(newAnchorGroup);
+                        break;
                 }
             }
+            #endregion
         }
 
 

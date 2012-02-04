@@ -52,7 +52,7 @@
                     </avalonDockLayout:LayoutAnchorablePaneGroup>
                 </avalonDockLayout:LayoutPanel>
 
-                <avalonDockLayout:LayoutRoot.RightSide>
+                <avalonDockLayout:LayoutRoot.LeftSide>
                     <avalonDockLayout:LayoutAnchorSide>
                         <avalonDockLayout:LayoutAnchorGroup>
                             <avalonDockLayout:LayoutAnchorable Title="AutoHide1 Content">
@@ -63,7 +63,7 @@
                             </avalonDockLayout:LayoutAnchorable>
                         </avalonDockLayout:LayoutAnchorGroup>
                     </avalonDockLayout:LayoutAnchorSide>
-                </avalonDockLayout:LayoutRoot.RightSide>
+                </avalonDockLayout:LayoutRoot.LeftSide>
             </avalonDockLayout:LayoutRoot>
         </avalonDock:DockingManager>
     </Grid>
