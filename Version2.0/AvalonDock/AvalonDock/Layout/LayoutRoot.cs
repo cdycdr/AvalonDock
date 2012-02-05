@@ -199,7 +199,10 @@ namespace AvalonDock.Layout
 
         #region ActiveContent
 
+        [field:NonSerialized]
         private LayoutContent _activeContent = null;
+        
+        [XmlIgnore]
         public LayoutContent ActiveContent
         {
             get { return _activeContent; }
@@ -214,11 +217,44 @@ namespace AvalonDock.Layout
                     if (_activeContent != null)
                         _activeContent.IsActive = true;
                     RaisePropertyChanged("ActiveContent");
+
+                    if (_activeContent != null && _activeContent.Parent is LayoutDocumentPane)
+                    {
+                        LastFocusedDocument = _activeContent;
+                    }
                 }
             }
         }
 
         #endregion
+
+        #region LastFocusedDocument
+
+        [field: NonSerialized]
+        private LayoutContent _lastFocusedDocument = null;
+        
+        [XmlIgnore]
+        public LayoutContent LastFocusedDocument
+        {
+            get { return _lastFocusedDocument; }
+            private set
+            {
+                if (_lastFocusedDocument != value)
+                {
+                    RaisePropertyChanging("LastFocusedDocument");
+                    if (_lastFocusedDocument != null)
+                        _lastFocusedDocument.IsLastFocusedDocument = false;
+                    _lastFocusedDocument = value;
+                    if (_lastFocusedDocument != null)
+                        _lastFocusedDocument.IsLastFocusedDocument = true;
+                    RaisePropertyChanged("LastFocusedDocument");
+                }
+            }
+        }
+
+        #endregion
+
+
 
         #region Manager
 

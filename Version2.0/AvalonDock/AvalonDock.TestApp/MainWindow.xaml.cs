@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
+using AvalonDock.Layout.Serialization;
 
 namespace AvalonDock.TestApp
 {
@@ -127,16 +128,21 @@ namespace AvalonDock.TestApp
 
         private void OnLoadLayout(object sender, RoutedEventArgs e)
         {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
+            var serializer = new XmlLayoutSerializer(dockManager);
+            serializer.LayoutSerializationCallback += (s, args) =>
+                {
+                    if (args.Model.ContentId == "winFormsHost")
+                        args.Content = winFormsHost;
+                };
             using (var stream = new StreamReader(@".\AvalonDock.config"))
-                dockManager.Layout = serializer.Deserialize(stream) as LayoutRoot;
+                serializer.Deserialize(stream);
         }
 
         private void OnSaveLayout(object sender, RoutedEventArgs e)
         {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
+            var serializer = new XmlLayoutSerializer(dockManager);
             using (var stream = new StreamWriter(@".\AvalonDock.config"))
-                serializer.Serialize(stream, dockManager.Layout);
+                serializer.Serialize(stream);
         }
 
         

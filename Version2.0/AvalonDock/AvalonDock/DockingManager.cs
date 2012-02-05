@@ -78,6 +78,8 @@ namespace AvalonDock
                 oldLayout.Manager == this)
                 oldLayout.Manager = null;
 
+            ClearLogicalChildrenList();
+
             Layout.Manager = this;
 
             if (IsInitialized)
@@ -121,6 +123,7 @@ namespace AvalonDock
         }
 
         public event EventHandler LayoutChanged;
+
 
         #endregion
 
@@ -717,6 +720,15 @@ namespace AvalonDock
                 throw new InvalidOperationException();
             _logicalChildren.Remove(element);
             RemoveLogicalChild(element);
+        }
+
+        void ClearLogicalChildrenList()
+        {
+            foreach (var child in _logicalChildren.ToArray())
+            {
+                _logicalChildren.Remove(child);
+                RemoveLogicalChild(child);
+            }
         }
 
         #endregion  

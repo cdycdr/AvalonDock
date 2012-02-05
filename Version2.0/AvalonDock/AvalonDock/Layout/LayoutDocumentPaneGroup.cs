@@ -38,7 +38,7 @@ namespace AvalonDock.Layout
 
         protected override bool GetVisibility()
         {
-            return true;// Children.Any(c => c.IsVisible);
+            return true;
         }
     }
 }

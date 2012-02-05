@@ -27,10 +27,10 @@ namespace AvalonDock.Layout
             }
         }
 
-        protected override void OnParentChanged()
+        protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
-            UpdateParentVisibility();
-            base.OnParentChanged();
+            UpdateParentVisibility(); 
+            base.OnParentChanged(oldValue, newValue);
         }
 
         void UpdateParentVisibility()

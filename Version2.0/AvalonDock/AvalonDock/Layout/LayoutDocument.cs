@@ -12,5 +12,9 @@ namespace AvalonDock.Layout
         {
             get { return true; }
         }
+
+
+
+
     }
 }

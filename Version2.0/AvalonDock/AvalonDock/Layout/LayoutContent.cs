@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Markup;
 using System.Xml.Serialization;
+using System.Windows;
 
 namespace AvalonDock.Layout
 {
@@ -47,6 +48,33 @@ namespace AvalonDock.Layout
                     RaisePropertyChanging("Content");
                     _content = value;
                     RaisePropertyChanged("Content");
+                }
+            }
+        }
+
+        #endregion
+
+        #region ContentId
+
+        private string _contentId = null;
+        public string ContentId
+        {
+            get 
+            {
+                if (_contentId == null)
+                { 
+                    var contentAsControl = _content as FrameworkElement;
+                    if (contentAsControl != null && !string.IsNullOrWhiteSpace(contentAsControl.Name))
+                        return contentAsControl.Name;
+                }
+                return _contentId; 
+            }
+            set
+            {
+                if (_contentId != value)
+                {
+                    _contentId = value;
+                    RaisePropertyChanged("ContentId");
                 }
             }
         }
@@ -117,6 +145,24 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        #region IsLastFocusedDocument
+
+        private bool _lastFocusedDocument = false;
+        public bool IsLastFocusedDocument
+        {
+            get { return _lastFocusedDocument; }
+            set
+            {
+                if (_lastFocusedDocument != value)
+                {
+                    RaisePropertyChanging("IsLastFocusedDocument");
+                    _lastFocusedDocument = value;
+                    RaisePropertyChanged("IsLastFocusedDocument");
+                }
+            }
+        }
+
+        #endregion
 
         #region PreviousContainer
 
@@ -142,6 +188,12 @@ namespace AvalonDock.Layout
             }
         }
 
+        internal string PreviousContainerId
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region PreviousContainerIndex
@@ -163,7 +215,16 @@ namespace AvalonDock.Layout
 
         #endregion
 
-        protected override void OnParentChanged()
+        protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
+        {
+            var root = Root;
+            if (root != null && _isActive)
+                root.ActiveContent = null;
+
+            base.OnParentChanging(oldValue, newValue);
+        }
+
+        protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
             if (IsSelected && Parent != null && Parent is ILayoutContentSelector)
             {
@@ -175,7 +236,7 @@ namespace AvalonDock.Layout
             if (root != null && _isActive)
                 root.ActiveContent = this;
 
-            base.OnParentChanged();
+            base.OnParentChanged(oldValue, newValue);
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()
@@ -191,6 +252,14 @@ namespace AvalonDock.Layout
                 IsSelected = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("IsActive"))
                 IsActive = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("ContentId"))
+                ContentId = reader.Value;
+            if (reader.MoveToAttribute("IsLastFocusedDocument"))
+                IsLastFocusedDocument = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("PreviousContainerId"))
+                PreviousContainerId = reader.Value;
+            if (reader.MoveToAttribute("PreviousContainerIndex"))
+                PreviousContainerIndex = int.Parse(reader.Value);
 
             reader.Read();
         }
@@ -202,14 +271,20 @@ namespace AvalonDock.Layout
             
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
-            
+
             if (IsActive)
                 writer.WriteAttributeString("IsActive", IsActive.ToString());
+
+            if (IsLastFocusedDocument)
+                writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
+            
+            if (!string.IsNullOrWhiteSpace(ContentId))
+                writer.WriteAttributeString("ContentId", ContentId);
             
             if (_previousContainer != null)
             {
                 var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-                writer.WriteAttributeString("PreviousContainer", paneSerializable.Id);
+                writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
                 writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
             }
 

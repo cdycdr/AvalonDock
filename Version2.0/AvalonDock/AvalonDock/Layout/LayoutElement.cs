@@ -14,27 +14,45 @@ namespace AvalonDock.Layout
         internal LayoutElement()
         { }
 
-        [NonSerialized]
-        ILayoutContainer _parent;
+        #region Parent
 
+        [NonSerialized]
+        private ILayoutContainer _parent = null;
         [XmlIgnore]
         public ILayoutContainer Parent
         {
             get { return _parent; }
-            internal set
+            set
             {
                 if (_parent != value)
                 {
+                    ILayoutContainer oldValue = _parent;
                     RaisePropertyChanging("Parent");
+                    OnParentChanging(oldValue, value);
                     _parent = value;
-                    OnParentChanged();
+                    OnParentChanged(oldValue, value);
                     RaisePropertyChanged("Parent");
                 }
             }
         }
 
-        protected virtual void OnParentChanged()
-        { }
+        /// <summary>
+        /// Provides derived classes an opportunity to handle execute code before to the Parent property changes.
+        /// </summary>
+        protected virtual void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
+        {
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the Parent property.
+        /// </summary>
+        protected virtual void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
+        {
+        }
+
+        #endregion
+
+
 
         [field: NonSerialized]
         [field: XmlIgnore]

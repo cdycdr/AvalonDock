@@ -22,9 +22,9 @@ namespace AvalonDock.Layout
         }
 
 
-        protected override void OnParentChanged()
+        protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
-            base.OnParentChanged();
+ 	        base.OnParentChanged(oldValue, newValue);
 
             UpdateSide();
         }

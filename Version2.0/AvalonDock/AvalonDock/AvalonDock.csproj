@@ -131,6 +131,9 @@
     <Compile Include="Layout\LayoutPanel.cs" />
     <Compile Include="Layout\LayoutPositionableGroup.cs" />
     <Compile Include="Layout\LayoutRoot.cs" />
+    <Compile Include="Layout\Serialization\LayoutSerializationCallbackEventArgs.cs" />
+    <Compile Include="Layout\Serialization\LayoutSerializer.cs" />
+    <Compile Include="Layout\Serialization\XmlLayoutSerializer.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
