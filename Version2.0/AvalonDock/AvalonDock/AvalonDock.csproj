@@ -55,7 +55,6 @@
     <Compile Include="Controls\AnchorablePaneTitle.cs" />
     <Compile Include="Controls\FocusHookHandler.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
-    <Compile Include="Controls\IFocusControlOwner.cs" />
     <Compile Include="Controls\ILogicalChildrenContainer.cs" />
     <Compile Include="Layout\AnchorSide.cs" />
     <Compile Include="Controls\DockingManagerDropTarget.cs" />

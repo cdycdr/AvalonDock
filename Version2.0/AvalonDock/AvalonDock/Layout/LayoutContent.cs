@@ -218,9 +218,17 @@ namespace AvalonDock.Layout
         protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
             var root = Root;
-            if (root != null && _isActive)
+            if (root != null && _isActive && newValue == null)
                 root.ActiveContent = null;
 
+            if (IsSelected && newValue == null && Parent is ILayoutContentSelector)
+            {
+                var parentSelector = (Parent as ILayoutContentSelector);
+                if (parentSelector.SelectedContentIndex == oldValue.ChildrenCount)
+                    parentSelector.SelectedContentIndex--;
+                
+            }
+            
             base.OnParentChanging(oldValue, newValue);
         }
 

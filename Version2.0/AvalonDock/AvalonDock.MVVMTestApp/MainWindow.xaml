@@ -1,0 +1,39 @@
+﻿<Window x:Class="AvalonDock.MVVMTestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
+        xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
+        xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <avalonDock:DockingManager x:Name="dockManager">
+            <avalonDock:DockingManager.DocumentTemplate>
+                <DataTemplate>
+                    <TextBox Text="{Binding Mode=OneWay}"/>
+                </DataTemplate>
+            </avalonDock:DockingManager.DocumentTemplate>
+            <avalonDock:DockingManager.ContentHeaderTemplate>
+                <DataTemplate>
+                    <Border Background="Purple">
+                        <TextBlock Text="{Binding Title}"/>
+                    </Border>
+                </DataTemplate>
+            </avalonDock:DockingManager.ContentHeaderTemplate>
+            <avalonDockLayout:LayoutRoot>
+                <avalonDockLayout:LayoutPanel>
+                    <avalonDockLayout:LayoutDocumentPaneGroup>
+                        <avalonDockLayout:LayoutDocumentPane>
+                            <avalonDockLayout:LayoutDocument Title="doc1">
+                                <sys:String>Document 1</sys:String>
+                            </avalonDockLayout:LayoutDocument>
+                            <avalonDockLayout:LayoutDocument Title="doc2">
+                                <sys:String>Document 2</sys:String>
+                            </avalonDockLayout:LayoutDocument>
+                        </avalonDockLayout:LayoutDocumentPane>
+                    </avalonDockLayout:LayoutDocumentPaneGroup>
+                </avalonDockLayout:LayoutPanel>
+            </avalonDockLayout:LayoutRoot>
+        </avalonDock:DockingManager>
+    </Grid>
+</Window>

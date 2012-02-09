@@ -235,7 +235,7 @@ namespace AvalonDock
 
             if (model is LayoutDocument)
             {
-                var templateModelView = new LayoutDocumentControl() { Model = model as LayoutDocument};
+                var templateModelView = new LayoutDocumentControl() { Model = model as LayoutDocument };
 
                 return templateModelView;
             }
@@ -450,6 +450,111 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnAnchorablePaneControlStyleChanged(DependencyPropertyChangedEventArgs e)
         {
+        }
+
+        #endregion
+
+        #region ContentHeaderTemplate
+
+        /// <summary>
+        /// ContentHeaderTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ContentHeaderTemplateProperty =
+            DependencyProperty.Register("ContentHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null));
+
+        /// <summary>
+        /// Gets or sets the ContentHeaderTemplate property.  This dependency property 
+        /// indicates data template to use when create tab item content for Documents and Anchorables.
+        /// </summary>
+        public DataTemplate ContentHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(ContentHeaderTemplateProperty); }
+            set { SetValue(ContentHeaderTemplateProperty, value); }
+        }
+
+        #endregion
+
+        #region DocumentHeaderTemplate
+
+        /// <summary>
+        /// DocumentHeaderTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentHeaderTemplateProperty =
+            DependencyProperty.Register("DocumentHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null));
+
+        /// <summary>
+        /// Gets or sets the DocumentHeaderTemplate property.  This dependency property 
+        /// indicates data template to use when creating document headers.
+        /// </summary>
+        public DataTemplate DocumentHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(DocumentHeaderTemplateProperty); }
+            set { SetValue(DocumentHeaderTemplateProperty, value); }
+        }
+
+        #endregion
+
+        #region DocumentHeaderTemplateSelector
+
+        /// <summary>
+        /// DocumentHeaderTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentHeaderTemplateSelectorProperty =
+            DependencyProperty.Register("DocumentHeaderTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+
+        /// <summary>
+        /// Gets or sets the DocumentHeaderTemplateSelector property.  This dependency property 
+        /// indicates data template selector to use when selecting data template for documents header.
+        /// </summary>
+        public DataTemplateSelector DocumentHeaderTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(DocumentHeaderTemplateSelectorProperty); }
+            set { SetValue(DocumentHeaderTemplateSelectorProperty, value); }
+        }
+
+        #endregion
+
+        #region AnchorableHeaderTemplate
+
+        /// <summary>
+        /// AnchorableHeaderTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableHeaderTemplateProperty =
+            DependencyProperty.Register("AnchorableHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null));
+
+        /// <summary>
+        /// Gets or sets the AnchorableHeaderTemplate property.  This dependency property 
+        /// indicates data template to use when creating anchorable headers.
+        /// </summary>
+        public DataTemplate AnchorableHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(AnchorableHeaderTemplateProperty); }
+            set { SetValue(AnchorableHeaderTemplateProperty, value); }
+        }
+
+        #endregion
+
+        #region AnchorableHeaderTemplateSelector
+
+        /// <summary>
+        /// AnchorableHeaderTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableHeaderTemplateSelectorProperty =
+            DependencyProperty.Register("AnchorableHeaderTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+
+        /// <summary>
+        /// Gets or sets the AnchorableHeaderTemplateSelector property.  This dependency property 
+        /// indicates data template selector to use when creating data template for anchorable headers.
+        /// </summary>
+        public DataTemplateSelector AnchorableHeaderTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(AnchorableHeaderTemplateSelectorProperty); }
+            set { SetValue(AnchorableHeaderTemplateSelectorProperty, value); }
         }
 
         #endregion
@@ -1208,5 +1313,82 @@ namespace AvalonDock
         #endregion
 
 
+        #region LayoutDocument & LayoutAnchorable Templates
+
+        #region DocumentTemplate
+
+        /// <summary>
+        /// DocumentTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentTemplateProperty =
+            DependencyProperty.Register("DocumentTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null,
+                    new PropertyChangedCallback(OnDocumentTemplateChanged)));
+
+        /// <summary>
+        /// Gets or sets the DocumentTemplate property.  This dependency property 
+        /// indicates data template to used when creating document contents.
+        /// </summary>
+        public DataTemplate DocumentTemplate
+        {
+            get { return (DataTemplate)GetValue(DocumentTemplateProperty); }
+            set { SetValue(DocumentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentTemplate property.
+        /// </summary>
+        private static void OnDocumentTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentTemplateChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentTemplate property.
+        /// </summary>
+        protected virtual void OnDocumentTemplateChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        #endregion
+
+        #region DocumentTemplateSelector
+
+        /// <summary>
+        /// DocumentTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentTemplateSelectorProperty =
+            DependencyProperty.Register("DocumentTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null,
+                    new PropertyChangedCallback(OnDocumentTemplateSelectorChanged)));
+
+        /// <summary>
+        /// Gets or sets the DocumentTemplateSelector property.  This dependency property 
+        /// indicates the data template selector to use when creating data templates for documents.
+        /// </summary>
+        public DataTemplateSelector DocumentTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(DocumentTemplateSelectorProperty); }
+            set { SetValue(DocumentTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentTemplateSelector property.
+        /// </summary>
+        private static void OnDocumentTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentTemplateSelectorChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentTemplateSelector property.
+        /// </summary>
+        protected virtual void OnDocumentTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        #endregion
+
+        #endregion
     }
 }

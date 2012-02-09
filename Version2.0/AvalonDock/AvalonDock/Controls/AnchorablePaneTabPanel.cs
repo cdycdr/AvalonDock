@@ -77,7 +77,7 @@ namespace AvalonDock.Controls
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed &&
                 LayoutAnchorableTabItem.IsDraggingItem())
             {
-                var contentModel = LayoutAnchorableTabItem.GetDraggingItem().GetModel() as LayoutAnchorable;
+                var contentModel = LayoutAnchorableTabItem.GetDraggingItem().Model as LayoutAnchorable;
                 var manager = contentModel.Root.Manager;
                 LayoutAnchorableTabItem.ResetDraggingItem();
 

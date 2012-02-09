@@ -14,7 +14,10 @@ namespace AvalonDock.Controls
             :base(model)
         {
             _model = model;
+
+            this.Activated += new EventHandler(LayoutDocumentFloatingWindowControl_Activated);
         }
+
 
         LayoutDocumentFloatingWindow _model;
 
@@ -28,7 +31,25 @@ namespace AvalonDock.Controls
             SetBinding(BackgroundProperty, new Binding("DataContext.Background") { Source = Content });
         }
 
+        void LayoutDocumentFloatingWindowControl_Activated(object sender, EventArgs e)
+        {
+            
+        }
 
-        
+
+        protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case Win32Helper.WM_NCLBUTTONDOWN: //Left button down on title -> start dragging over docking manager
+                    if (wParam.ToInt32() == Win32Helper.HT_CAPTION)
+                    {
+                        FocusElementManager.SetFocusOnLastElement(_model.RootDocument);
+                    }
+                    break;
+            }
+               
+            return base.FilterMessage(hwnd, msg, wParam, lParam, ref handled);
+        }
     }
 }

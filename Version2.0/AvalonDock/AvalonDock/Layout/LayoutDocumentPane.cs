@@ -58,7 +58,7 @@ namespace AvalonDock.Layout
         }
         public LayoutContent SelectedContent
         {
-            get { return Children[_selectedIndex]; }
+            get { return _selectedIndex == -1 ? null : Children[_selectedIndex]; }
         }
         #endregion
 

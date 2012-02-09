@@ -12,70 +12,127 @@ using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAnchorableTabItem : TabItem
+    public class LayoutAnchorableTabItem : Control
     {
         static LayoutAnchorableTabItem()
         {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutAnchorableTabItem), new FrameworkPropertyMetadata(typeof(LayoutAnchorableTabItem)));
         }
 
         public LayoutAnchorableTabItem()
         {
-            DataContextChanged += new DependencyPropertyChangedEventHandler(OnDataContextChanged);
+            //DataContextChanged += new DependencyPropertyChangedEventHandler(OnDataContextChanged);
         }
 
-        internal LayoutContent GetModel()
+        //internal LayoutContent GetModel()
+        //{
+        //    return DataContext as LayoutContent;
+        //}
+
+        #region Model
+
+        /// <summary>
+        /// Model Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof(LayoutContent), typeof(LayoutAnchorableTabItem),
+                new FrameworkPropertyMetadata((LayoutContent)null,
+                    new PropertyChangedCallback(OnModelChanged)));
+
+        /// <summary>
+        /// Gets or sets the Model property.  This dependency property 
+        /// indicates model attached to the anchorable tab item.
+        /// </summary>
+        public LayoutContent Model
         {
-            return DataContext as LayoutContent;
+            get { return (LayoutContent)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
         }
 
-        void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Handles changes to the Model property.
+        /// </summary>
+        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
-            var oldModel = e.OldValue as LayoutContent;
-            var newModel = e.NewValue as LayoutContent;
-            if (oldModel != null && parentPaneControl != null)
-            {
-                ((ILogicalChildrenContainer)parentPaneControl).InternalRemoveLogicalChild(oldModel);
-            }
-
-            if (newModel != null && parentPaneControl != null)
-            {
-                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(newModel);
-            }
+            ((LayoutAnchorableTabItem)d).OnModelChanged(e);
         }
 
-        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the Model property.
+        /// </summary>
+        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
-            base.OnVisualParentChanged(oldParent);
+            UpdateLogicalParent();
+        }
 
-            var contentModel = GetModel();
+        #endregion
 
-            if (contentModel == null)
-                return;
+        //void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+        //    var oldModel = e.OldValue as LayoutContent;
+        //    var newModel = e.NewValue as LayoutContent;
+        //    if (oldModel != null && parentPaneControl != null)
+        //    {
+        //        ((ILogicalChildrenContainer)parentPaneControl).InternalRemoveLogicalChild(oldModel);
+        //    }
 
-            if (oldParent != null && contentModel != null)
+        //    if (newModel != null && parentPaneControl != null)
+        //    {
+        //        ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(newModel);
+        //    }
+        //}
+
+        //protected override void OnVisualParentChanged(DependencyObject oldParent)
+        //{
+        //    base.OnVisualParentChanged(oldParent);
+
+        //    var contentModel = GetModel();
+
+        //    if (contentModel == null)
+        //        return;
+
+        //    if (oldParent != null && contentModel != null)
+        //    {
+        //        var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutAnchorablePaneControl>();
+        //        if (oldParentPaneControl != null)
+        //        {
+        //            ((ILogicalChildrenContainer) oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
+        //        }
+        //    }
+
+        //    if (contentModel != null && contentModel.Content != null && contentModel.Content is DependencyObject)
+        //    {
+        //        var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as DependencyObject)
+        //            as ILogicalChildrenContainer;
+        //        if (oldLogicalParentPaneControl != null)
+        //            oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
+        //    }
+
+        //    var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+        //    if (contentModel != null && parentPaneControl != null && contentModel.Content != null)
+        //    {
+        //        ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(contentModel.Content);
+        //    }
+        //}
+
+        void UpdateLogicalParent()
+        {
+            if (Model != null && Model.Content != null && Model.Content is DependencyObject)
             {
-                var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutAnchorablePaneControl>();
-                if (oldParentPaneControl != null)
-                {
-                    ((ILogicalChildrenContainer) oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
-                }
-            }
-
-            if (contentModel.Content != null)
-            {
-                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as DependencyObject)
+                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as DependencyObject)
                     as ILogicalChildrenContainer;
                 if (oldLogicalParentPaneControl != null)
-                    oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
+                    oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
             }
 
             var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
-            if (contentModel != null && parentPaneControl != null && contentModel.Content != null)
+            if (Model != null && parentPaneControl != null && Model.Content != null)
             {
-                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(contentModel.Content);
+                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
             }
         }
+
 
         bool _isMouseDown = false;
         static LayoutAnchorableTabItem _draggingItem = null;
@@ -121,7 +178,7 @@ namespace AvalonDock.Controls
 
             base.OnMouseLeftButtonUp(e);
 
-            FocusElementManager.SetFocusOnLastElement(GetModel());
+            FocusElementManager.SetFocusOnLastElement(Model);
 
         }
 
@@ -147,17 +204,17 @@ namespace AvalonDock.Controls
             {
                 Debug.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
 
-                var model = GetModel();
+                var model = Model;
                 var container = model.Parent as ILayoutContainer;
                 var containerPane = model.Parent as ILayoutPane;
                 var childrenList = container.Children.ToList();
-                containerPane.MoveChild(childrenList.IndexOf(_draggingItem.GetModel()), childrenList.IndexOf(model));
+                containerPane.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
             }
         }
 
         public override string ToString()
         {
-            return string.Format("TabItem({0})", GetModel().Title);
+            return string.Format("TabItem({0})", Model.Title);
             //return base.ToString();
         }
 

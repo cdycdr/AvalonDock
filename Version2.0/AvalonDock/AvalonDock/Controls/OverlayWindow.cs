@@ -130,7 +130,7 @@ namespace AvalonDock.Controls
                             LayoutAnchorableTabItem lastAreaTabItem = null;
                             foreach (var dropAreaTabItem in dropAreaAnchorablePane.AreaElement.FindVisualChildren<LayoutAnchorableTabItem>())
                             {
-                                var tabItemModel = dropAreaTabItem.GetModel() as LayoutAnchorable;
+                                var tabItemModel = dropAreaTabItem.Model as LayoutAnchorable;
                                 lastAreaTabItem = lastAreaTabItem == null || lastAreaTabItem.GetScreenArea().Right < dropAreaTabItem.GetScreenArea().Right ?
                                     dropAreaTabItem : lastAreaTabItem;
                                 int tabIndex = parentPaneModel.Children.IndexOf(tabItemModel);
@@ -168,7 +168,7 @@ namespace AvalonDock.Controls
                             LayoutDocumentTabItem lastAreaTabItem = null;
                             foreach (var dropAreaTabItem in dropAreaDocumentPane.AreaElement.FindVisualChildren<LayoutDocumentTabItem>())
                             {
-                                var tabItemModel = dropAreaTabItem.GetModel();
+                                var tabItemModel = dropAreaTabItem.Model;
                                 lastAreaTabItem = lastAreaTabItem == null || lastAreaTabItem.GetScreenArea().Right < dropAreaTabItem.GetScreenArea().Right ?
                                     dropAreaTabItem : lastAreaTabItem;
                                 int tabIndex = parentPaneModel.Children.IndexOf(tabItemModel);

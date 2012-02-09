@@ -28,7 +28,6 @@ namespace AvalonDock.Controls
             return new FloatingWindowContentHost(sender as LayoutFloatingWindowControl) { Content = content as UIElement };
         }
 
-
         protected class FloatingWindowContentHost : HwndHost
         {
             LayoutFloatingWindowControl _owner;
@@ -298,7 +297,7 @@ namespace AvalonDock.Controls
             }
         }
 
-        private IntPtr FilterMessage(
+        protected virtual IntPtr FilterMessage(
             IntPtr hwnd,
             int msg,
             IntPtr wParam,
@@ -348,8 +347,11 @@ namespace AvalonDock.Controls
                              this.TransformToDeviceDPI(new Point(Left, Top));
 
                         _dragClickPoint = clickPoint;
+
                     }
                     break;
+
+
 
                 //case Win32Helper.WM_ENTERSIZEMOVE:
                 //    {

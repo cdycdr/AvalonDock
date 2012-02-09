@@ -15,7 +15,7 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAnchorableControl : Control, IFocusControlOwner
+    public class LayoutAnchorableControl : Control
     {
         static LayoutAnchorableControl()
         {
@@ -61,16 +61,6 @@ namespace AvalonDock.Controls
             base.OnLostKeyboardFocus(e);
         }
 
-        public IntPtr LastFocusedWindowHandle
-        {
-            get;
-            private set;
-        }
 
-        public IInputElement LastFocusedElement
-        {
-            get;
-            private set;
-        }
     }
 }

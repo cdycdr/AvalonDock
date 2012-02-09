@@ -120,7 +120,7 @@ namespace AvalonDock.TestApp
 
         private void OnLayoutRootPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ActiveContent")
+            if (e.PropertyName == "ActiveContent" && ((LayoutRoot)sender).ActiveContent != null)
             {
                 Debug.WriteLine(string.Format("ActiveContent-> {0}", ((LayoutRoot)sender).ActiveContent.Title));
             }

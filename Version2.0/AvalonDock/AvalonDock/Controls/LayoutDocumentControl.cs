@@ -15,7 +15,7 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutDocumentControl : Control, IFocusControlOwner
+    public class LayoutDocumentControl : Control
     {
         static LayoutDocumentControl()
         {
@@ -63,16 +63,6 @@ namespace AvalonDock.Controls
             base.OnLostKeyboardFocus(e);
         }
 
-        public IntPtr LastFocusedWindowHandle
-        {
-            get;
-            private set;
-        }
 
-        public IInputElement LastFocusedElement
-        {
-            get;
-            private set;
-        }
     }
 }

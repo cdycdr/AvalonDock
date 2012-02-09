@@ -40,10 +40,10 @@ namespace AvalonDock.Controls
             modelWithAtcualSize.ActualHeight = ActualHeight;
         }
 
-        protected override DependencyObject GetContainerForItemOverride()
-        {
-            return new LayoutAnchorableTabItem();
-        }
+        //protected override DependencyObject GetContainerForItemOverride()
+        //{
+        //    return new LayoutAnchorableTabItem();
+        //}
 
         protected override System.Collections.IEnumerator LogicalChildren
         {
