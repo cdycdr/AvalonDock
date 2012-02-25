@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace AvalonDock.Layout
 {
-    public interface ILayoutPositionableElement : ILayoutElement
+    internal interface ILayoutPositionableElement : ILayoutElement, ILayoutElementForFloatingWindow
     {
         GridLength DockWidth
         {
@@ -23,10 +23,7 @@ namespace AvalonDock.Layout
         double DockMinWidth { get; set; }
         double DockMinHeight { get; set; }
 
-        double FloatingWidth { get; set; }
-        double FloatingHeight { get; set; }
-        double FloatingLeft { get; set; }
-        double FloatingTop { get; set; }
+
 
         bool IsVisible { get; }
     }
@@ -36,5 +33,14 @@ namespace AvalonDock.Layout
     {
         double ActualWidth { get; set; }
         double ActualHeight { get; set; }
+    }
+
+    internal interface ILayoutElementForFloatingWindow
+    {
+        double FloatingWidth { get; set; }
+        double FloatingHeight { get; set; }
+        double FloatingLeft { get; set; }
+        double FloatingTop { get; set; }
+        bool IsMaximized { get; set; }
     }
 }

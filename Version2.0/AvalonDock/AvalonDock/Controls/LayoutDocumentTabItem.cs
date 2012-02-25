@@ -183,7 +183,8 @@ namespace AvalonDock.Controls
 
             base.OnMouseLeftButtonUp(e);
 
-            FocusElementManager.SetFocusOnLastElement(Model);
+            Model.IsActive = true;
+            //FocusElementManager.SetFocusOnLastElement(Model);
         }
 
         protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)

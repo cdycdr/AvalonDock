@@ -15,6 +15,11 @@ namespace AvalonDock.Controls
 {
     public class LayoutAnchorableFloatingWindowControl : LayoutFloatingWindowControl, ILayoutControl, IOverlayWindowHost
     {
+        static LayoutAnchorableFloatingWindowControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutAnchorableFloatingWindowControl), new FrameworkPropertyMetadata(typeof(LayoutAnchorableFloatingWindowControl)));
+        } 
+
 
         internal LayoutAnchorableFloatingWindowControl(LayoutAnchorableFloatingWindow model)
             :base(model)
@@ -33,27 +38,6 @@ namespace AvalonDock.Controls
             Content = manager.GetUIElementForModel(_model.RootPanel);
             SetBinding(BackgroundProperty, new Binding("DataContext.Background") { Source = Content });
         }
-
-
-        //protected override void OnLocationChanged(EventArgs e)
-        //{
-        //    //Debug.WriteLine("LocationChanged(Left={0}, Top={1})", Left, Top);
-
-
-        //    var manager = _model.Root.Manager;
-        //    var managerWindowHandle  = new WindowInteropHelper(Window.GetWindow(manager)).Handle;
-
-        //    //int x = lParam.ToInt32() & 0x0000FFFF;
-        //    //int y = (int)((lParam.ToInt32() & 0xFFFF0000) >> 16)
-
-        //    //uint pos = 0x00000000;
-        //    //pos |= ((uint)Left & 0x0000FFFF);
-        //    //pos |= ((uint)Top & 0x0000FFFF) << 16;
-
-        //    //Win32Helper.PostMessage(managerWindowHandle, (int)Win32Helper.WM_MOUSEMOVE, 0, Win32Helper.MakeLParam((int)Left, (int)Top));
-
-        //    base.OnLocationChanged(e);
-        //}
 
 
         bool IOverlayWindowHost.HitTest(Point dragPoint)
@@ -89,6 +73,7 @@ namespace AvalonDock.Controls
             _overlayWindow.Owner = null;
             _overlayWindow.Hide();
         }
+
         List<IDropArea> _dropAreas = null;
         IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
         {
@@ -118,6 +103,17 @@ namespace AvalonDock.Controls
             return _dropAreas;
         }
 
-        
+        protected override void OnClosed(EventArgs e)
+        {
+            if (!CloseInitiatedByUser)
+            {
+                var root = Model.Root;
+                root.Manager.RemoveFloatingWindow(this);
+                root.CollectGarbage();
+            }
+
+
+            base.OnClosed(e);
+        }
     }
 }

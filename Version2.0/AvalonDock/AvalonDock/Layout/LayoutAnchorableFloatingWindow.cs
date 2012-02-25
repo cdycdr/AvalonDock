@@ -9,7 +9,7 @@ namespace AvalonDock.Layout
 {
     [Serializable]
     [ContentProperty("RootPanel")]
-    public class LayoutAnchorableFloatingWindow : LayoutFloatingWindow
+    public class LayoutAnchorableFloatingWindow : LayoutFloatingWindow, ILayoutElementWithVisibility
     {
         public LayoutAnchorableFloatingWindow()
         { 
@@ -27,11 +27,43 @@ namespace AvalonDock.Layout
                 if (_rootPanel != value)
                 {
                     RaisePropertyChanging("RootPanel");
+
+                    if (_rootPanel != null)
+                        _rootPanel.ChildrenCollectionChanged -= new EventHandler(_rootPanel_ChildrenCollectionChanged);
+
                     _rootPanel = value;
                     if (_rootPanel != null)
                         _rootPanel.Parent = this;
+
+                    if (_rootPanel != null)
+                        _rootPanel.ChildrenCollectionChanged += new EventHandler(_rootPanel_ChildrenCollectionChanged);
+
                     RaisePropertyChanged("RootPanel");
+                    RaisePropertyChanged("IsSinglePane");
+                    RaisePropertyChanged("SinglePane");
                 }
+            }
+        }
+
+        void _rootPanel_ChildrenCollectionChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("IsSinglePane");
+            RaisePropertyChanged("SinglePane");
+        }
+
+        public bool IsSinglePane
+        {
+            get
+            {
+                return RootPanel != null && RootPanel.ChildrenCount == 1;
+            }
+        }
+
+        public ILayoutAnchorablePane SinglePane
+        {
+            get
+            {
+                return IsSinglePane ? RootPanel.Children[0] : null;
             }
         }
 
@@ -51,6 +83,34 @@ namespace AvalonDock.Layout
         public override int ChildrenCount
         {
             get { return 1; }
+        }
+
+        #region IsVisible
+
+        private bool _isVisible = false;
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            private set
+            {
+                if (_isVisible != value)
+                {
+                    RaisePropertyChanging("IsVisible");
+                    _isVisible = value;
+                    RaisePropertyChanged("IsVisible");
+                    if (IsVisibleChanged != null)
+                        IsVisibleChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public event EventHandler IsVisibleChanged;
+
+        #endregion
+        
+        void ILayoutElementWithVisibility.ComputeVisibility()
+        {
+            IsVisible = RootPanel.IsVisible;
         }
     }
 }

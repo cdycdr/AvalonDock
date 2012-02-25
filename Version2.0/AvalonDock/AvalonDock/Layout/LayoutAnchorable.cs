@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
@@ -35,7 +36,7 @@ namespace AvalonDock.Layout
 
         void UpdateParentVisibility()
         {
-            var parentPane = Parent as ILayoutAnchorablePane;
+            var parentPane = Parent as ILayoutElementWithVisibility;
             if (parentPane != null)
                 parentPane.ComputeVisibility();
         }
@@ -117,6 +118,54 @@ namespace AvalonDock.Layout
         }
 
         #endregion
-       
+        
+        /// <summary>
+        /// Hide this contents
+        /// </summary>
+        /// <remarks>Add this content to <see cref="ILayoutRoot.Hidden"/> collection of parent root.</remarks>
+        public void Hide()
+        {
+            if (IsHidden)
+            {
+                IsSelected = true;
+                IsActive = true;
+                return;
+            }
+            RaisePropertyChanging("IsHidden");
+            PreviousContainer = Parent as ILayoutPane;
+            PreviousContainerIndex = (Parent as ILayoutContentSelector).SelectedContentIndex;
+            Root.Hidden.Add(this);
+            RaisePropertyChanged("IsHidden");
+        }
+
+        /// <summary>
+        /// Show the content
+        /// </summary>
+        /// <remarks>Try to show the content where it was previously hidden.</remarks>
+        public void Show()
+        {
+            if (!IsHidden)
+                return;
+
+            RaisePropertyChanging("IsHidden");
+            if (PreviousContainer != null)
+            {
+                var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
+                previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
+                IsSelected = true;
+                IsActive = true;
+            }
+            RaisePropertyChanged("IsHidden");
+        }
+
+
+        [XmlIgnore]
+        public bool IsHidden
+        {
+            get
+            {
+                return Parent is LayoutRoot;
+            }
+        }
     }
 }

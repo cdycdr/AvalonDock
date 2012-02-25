@@ -11,5 +11,6 @@ namespace AvalonDock.Layout
         void InsertChildAt(int index, ILayoutElement element);
         void RemoveChildAt(int index);
         void ReplaceChildAt(int index, ILayoutElement element);
+        event EventHandler ChildrenCollectionChanged;
     }
 }

@@ -40,17 +40,11 @@ namespace AvalonDock.Controls
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            if (_model.SelectedContent != null)
-                _model.SelectedContent.IsActive = true;
+            //if (_model.SelectedContent != null)
+            //    _model.SelectedContent.IsActive = true;
 
             base.OnGotKeyboardFocus(e);
         }
-
-        //protected override DependencyObject GetContainerForItemOverride()
-        //{
-        //    return new LayoutDocumentTabItem();
-        //}
-
 
         protected override System.Collections.IEnumerator LogicalChildren
         {

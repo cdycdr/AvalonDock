@@ -165,6 +165,26 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        #region IsMaximized
+
+        private bool _isMaximized = false;
+        public bool IsMaximized
+        {
+            get { return _isMaximized; }
+            set
+            {
+                if (_isMaximized != value)
+                {
+                    _isMaximized = value;
+                    RaisePropertyChanged("IsMaximized");
+                }
+            }
+        }
+
+        #endregion
+
+
+
         [NonSerialized]
         double _actualWidth;
         double ILayoutPositionableElementWithActualSize.ActualWidth

@@ -18,6 +18,8 @@ namespace AvalonDock.Controls
         DocumentPaneDockBottom,
         DocumentPaneDockInside,
 
+        DocumentPaneGroupDockInside,
+
         AnchorablePaneDockLeft,
         AnchorablePaneDockTop,
         AnchorablePaneDockRight,

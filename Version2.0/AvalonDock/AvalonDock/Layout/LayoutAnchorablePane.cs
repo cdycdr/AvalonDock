@@ -41,7 +41,8 @@ namespace AvalonDock.Layout
 
                 if (_selectedIndex != value)
                 {
-                    RaisePropertyChanged("SelectedContentIndex");
+                    RaisePropertyChanging("SelectedContentIndex");
+                    RaisePropertyChanging("SelectedContent");
                     if (_selectedIndex >= 0 &&
                         _selectedIndex < Children.Count)
                         Children[_selectedIndex].IsSelected = false;
@@ -53,15 +54,23 @@ namespace AvalonDock.Layout
                         Children[_selectedIndex].IsSelected = true;
 
                     RaisePropertyChanged("SelectedContentIndex");
+                    RaisePropertyChanged("SelectedContent");
                 }
             }
         }
 
         public LayoutContent SelectedContent
         {
-            get { return Children[_selectedIndex]; }
+            get { return _selectedIndex == -1 ? null : Children[_selectedIndex]; }
         }
         #endregion
+
+        protected override void OnChildrenCollectionChanged()
+        {
+            if (SelectedContentIndex >= ChildrenCount)
+                SelectedContentIndex = Children.Count - 1;
+            base.OnChildrenCollectionChanged();
+        }
 
         public int IndexOf(LayoutContent content)
         {
@@ -80,11 +89,38 @@ namespace AvalonDock.Layout
 
         void UpdateParentVisibility()
         {
-            var parentPane = Parent as ILayoutAnchorablePane;
+            var parentPane = Parent as ILayoutElementWithVisibility;
             if (parentPane != null)
                 parentPane.ComputeVisibility();
         }
 
+        public bool IsDirectlyHostedInFloatingWindow
+        {
+            get
+            {
+                return Parent != null && Parent.ChildrenCount == 1 && Parent.Parent is LayoutFloatingWindow;
+            }
+        }
+
+        protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
+        {
+            var oldGroup = oldValue as ILayoutGroup;
+            if (oldGroup != null)
+                oldGroup.ChildrenCollectionChanged -= new EventHandler(OnParentChildrenCollectionChanged);
+            
+            RaisePropertyChanged("IsDirectlyHostedInFloatingWindow");
+
+            var newGroup = newValue as ILayoutGroup;
+            if (newGroup != null)
+                newGroup.ChildrenCollectionChanged += new EventHandler(OnParentChildrenCollectionChanged);
+
+            base.OnParentChanged(oldValue, newValue);
+        }
+
+        void OnParentChildrenCollectionChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("IsDirectlyHostedInFloatingWindow");
+        }
 
         string _id;
 

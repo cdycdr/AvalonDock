@@ -41,6 +41,9 @@ namespace AvalonDock.Controls
 
             if (_menuAutoHideContainer != null)
                 _menuAutoHideContainer.MouseLeftButtonUp += (s, e) => OnToggleAutoHide();
+
+            if (_menuCloseContainer != null)
+                _menuCloseContainer.MouseLeftButtonUp += (s, e) => OnHide();
         }
 
         #region Model
@@ -63,6 +66,13 @@ namespace AvalonDock.Controls
         }
 
         #endregion
+
+
+        private void OnHide()
+        {
+            Model.Hide();
+        }
+
 
         private void OnToggleAutoHide()
         {
@@ -113,7 +123,7 @@ namespace AvalonDock.Controls
             base.OnMouseLeftButtonUp(e);
 
             if (Model != null)
-                FocusElementManager.SetFocusOnLastElement(Model);
+                Model.IsActive = true;//FocusElementManager.SetFocusOnLastElement(Model);
         }
     }
 }

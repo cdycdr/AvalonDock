@@ -165,8 +165,6 @@ namespace AvalonDock.Controls
             _hwndSrc.RemoveHook(_hwndSrcHook);
             _hwndSrc.Dispose();
 
-            Model.Root.Manager.RemoveFloatingWindow(this);
-
             base.OnClosed(e);
         }
 
@@ -211,7 +209,21 @@ namespace AvalonDock.Controls
                 Win32Helper.SendMessage(windowHandle, Win32Helper.WM_NCLBUTTONDOWN, Win32Helper.HT_CAPTION, lParam);
             }
         }
-        
+
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            CommandBindings.Add(new CommandBinding(Microsoft.Windows.Shell.SystemCommands.CloseWindowCommand,
+                new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.CloseWindow((Window)args.Parameter))));
+            CommandBindings.Add(new CommandBinding(Microsoft.Windows.Shell.SystemCommands.MaximizeWindowCommand,
+                new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.MaximizeWindow((Window)args.Parameter))));
+            CommandBindings.Add(new CommandBinding(Microsoft.Windows.Shell.SystemCommands.MinimizeWindowCommand,
+                new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.MinimizeWindow((Window)args.Parameter))));
+            CommandBindings.Add(new CommandBinding(Microsoft.Windows.Shell.SystemCommands.RestoreWindowCommand,
+                new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.RestoreWindow((Window)args.Parameter))));
+
+            base.OnInitialized(e);
+        }
 
         public ILayoutElement Model
         {
@@ -278,23 +290,31 @@ namespace AvalonDock.Controls
 
         void UpdatePositionAndSizeOfPanes()
         {
-            var rootVisual = (Content as FloatingWindowContentHost).RootVisual;
-            foreach (var pane in rootVisual.FindVisualChildren<LayoutAnchorablePaneControl>())
+            foreach (var posElement in Model.Descendents().OfType<ILayoutElementForFloatingWindow>())
             {
-                var paneModelAsPositionableElement = pane.Model as ILayoutPositionableElement;
-                paneModelAsPositionableElement.FloatingLeft = Left;
-                paneModelAsPositionableElement.FloatingTop = Top;
-                paneModelAsPositionableElement.FloatingWidth = Width;
-                paneModelAsPositionableElement.FloatingHeight = Height;
+                posElement.FloatingLeft = Left;
+                posElement.FloatingTop = Top;
+                posElement.FloatingWidth = Width;
+                posElement.FloatingHeight = Height;
+                posElement.IsMaximized = this.WindowState == System.Windows.WindowState.Maximized;
             }
-            foreach (var pane in rootVisual.FindVisualChildren<LayoutDocumentPaneControl>())
-            {
-                var paneModelAsPositionableElement = pane.Model as ILayoutPositionableElement;
-                paneModelAsPositionableElement.FloatingLeft = Left;
-                paneModelAsPositionableElement.FloatingTop = Top;
-                paneModelAsPositionableElement.FloatingWidth = Width;
-                paneModelAsPositionableElement.FloatingHeight = Height;
-            }
+            //var rootVisual = (Content as FloatingWindowContentHost).RootVisual;
+            //foreach (var pane in rootVisual.FindVisualChildren<LayoutAnchorablePaneControl>())
+            //{
+            //    var paneModelAsPositionableElement = pane.Model as ILayoutPositionableElement;
+            //    paneModelAsPositionableElement.FloatingLeft = Left;
+            //    paneModelAsPositionableElement.FloatingTop = Top;
+            //    paneModelAsPositionableElement.FloatingWidth = Width;
+            //    paneModelAsPositionableElement.FloatingHeight = Height;
+            //}
+            //foreach (var pane in rootVisual.FindVisualChildren<LayoutDocumentPaneControl>())
+            //{
+            //    var paneModelAsPositionableElement = pane.Model as ILayoutPositionableElement;
+            //    paneModelAsPositionableElement.FloatingLeft = Left;
+            //    paneModelAsPositionableElement.FloatingTop = Top;
+            //    paneModelAsPositionableElement.FloatingWidth = Width;
+            //    paneModelAsPositionableElement.FloatingHeight = Height;
+            //}
         }
 
         protected virtual IntPtr FilterMessage(
@@ -404,10 +424,16 @@ namespace AvalonDock.Controls
         }
 
         bool _internalCloseFlag = false;
+
         internal void InternalClose()
         {
             _internalCloseFlag = true;
             Close();
+        }
+
+        protected bool CloseInitiatedByUser
+        {
+            get { return !_internalCloseFlag; }
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)

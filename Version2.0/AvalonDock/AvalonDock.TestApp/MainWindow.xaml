@@ -24,13 +24,16 @@
                 <MenuItem Header="Save" Click="OnSaveLayout"/>
                 <MenuItem Header="Load" Click="OnLoadLayout"/>
             </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="WinForms Window" Click="OnShowWinformsWindow"/>
+            </MenuItem>
         </Menu>
         
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager">
             <avalonDockLayout:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDockLayout:LayoutPanel Orientation="Horizontal">
                     <avalonDockLayout:LayoutAnchorablePane DockWidth="100">
-                        <avalonDockLayout:LayoutAnchorable Title="WinForms Window">
+                        <avalonDockLayout:LayoutAnchorable x:Name="winFormsWindow" Title="WinForms Window">
                             <winformsIntegration:WindowsFormsHost x:Name="winFormsHost"/>
                         </avalonDockLayout:LayoutAnchorable>
                     </avalonDockLayout:LayoutAnchorablePane>

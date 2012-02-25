@@ -29,6 +29,7 @@ namespace AvalonDock.Layout
                     }
                 }
             }
+
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
                 e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
             {
@@ -48,6 +49,17 @@ namespace AvalonDock.Layout
             }
 
             ComputeVisibility();
+            OnChildrenCollectionChanged();
+        }
+
+        [field: NonSerialized]
+        [field: XmlIgnore]
+        public event EventHandler ChildrenCollectionChanged;
+
+        protected virtual void OnChildrenCollectionChanged()
+        {
+            if (ChildrenCollectionChanged != null)
+                ChildrenCollectionChanged(this, EventArgs.Empty);
         }
 
         ObservableCollection<T> _children = new ObservableCollection<T>();

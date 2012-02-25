@@ -41,7 +41,8 @@ namespace AvalonDock.Layout
 
                 if (_selectedIndex != value)
                 {
-                    RaisePropertyChanged("SelectedContentIndex");
+                    RaisePropertyChanging("SelectedContentIndex");
+                    RaisePropertyChanging("SelectedContent");
                     if (_selectedIndex >= 0 &&
                         _selectedIndex < Children.Count)
                         Children[_selectedIndex].IsSelected = false;
@@ -53,6 +54,7 @@ namespace AvalonDock.Layout
                         Children[_selectedIndex].IsSelected = true;
 
                     RaisePropertyChanged("SelectedContentIndex");
+                    RaisePropertyChanged("SelectedContent");
                 }
             }
         }
@@ -61,6 +63,13 @@ namespace AvalonDock.Layout
             get { return _selectedIndex == -1 ? null : Children[_selectedIndex]; }
         }
         #endregion
+
+        protected override void OnChildrenCollectionChanged()
+        {
+            if (SelectedContentIndex >= ChildrenCount)
+                SelectedContentIndex = Children.Count - 1;
+            base.OnChildrenCollectionChanged();
+        }
 
         public int IndexOf(LayoutContent content)
         {
@@ -75,7 +84,7 @@ namespace AvalonDock.Layout
 
         void UpdateParentVisibility()
         {
-            var parentPane = Parent as ILayoutDocumentPane;
+            var parentPane = Parent as ILayoutElementWithVisibility;
             if (parentPane != null)
                 parentPane.ComputeVisibility();
         }

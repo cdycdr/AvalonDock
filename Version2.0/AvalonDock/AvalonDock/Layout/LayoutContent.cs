@@ -10,7 +10,7 @@ namespace AvalonDock.Layout
 {
     [ContentProperty("Content")]
     [Serializable]
-    public abstract class LayoutContent : LayoutElement, IXmlSerializable
+    public abstract class LayoutContent : LayoutElement, IXmlSerializable, ILayoutElementForFloatingWindow
     {
         internal LayoutContent()
         { }
@@ -226,7 +226,6 @@ namespace AvalonDock.Layout
                 var parentSelector = (Parent as ILayoutContentSelector);
                 if (parentSelector.SelectedContentIndex == oldValue.ChildrenCount)
                     parentSelector.SelectedContentIndex--;
-                
             }
             
             base.OnParentChanging(oldValue, newValue);
@@ -297,5 +296,101 @@ namespace AvalonDock.Layout
             }
 
         }
+
+        #region FloatingWidth
+
+        private double _floatingWidth = 0.0;
+        public double FloatingWidth
+        {
+            get { return _floatingWidth; }
+            set
+            {
+                if (_floatingWidth != value)
+                {
+                    RaisePropertyChanging("FloatingWidth");
+                    _floatingWidth = value;
+                    RaisePropertyChanged("FloatingWidth");
+                }
+            }
+        }
+
+        #endregion
+
+        #region FloatingHeight
+
+        private double _floatingHeight = 0.0;
+        public double FloatingHeight
+        {
+            get { return _floatingHeight; }
+            set
+            {
+                if (_floatingHeight != value)
+                {
+                    RaisePropertyChanging("FloatingHeight");
+                    _floatingHeight = value;
+                    RaisePropertyChanged("FloatingHeight");
+                }
+            }
+        }
+
+        #endregion
+
+        #region FloatingLeft
+
+        private double _floatingLeft = 0.0;
+        public double FloatingLeft
+        {
+            get { return _floatingLeft; }
+            set
+            {
+                if (_floatingLeft != value)
+                {
+                    RaisePropertyChanging("FloatingLeft");
+                    _floatingLeft = value;
+                    RaisePropertyChanged("FloatingLeft");
+                }
+            }
+        }
+
+        #endregion
+
+        #region FloatingTop
+
+        private double _floatingTop = 0.0;
+        public double FloatingTop
+        {
+            get { return _floatingTop; }
+            set
+            {
+                if (_floatingTop != value)
+                {
+                    RaisePropertyChanging("FloatingTop");
+                    _floatingTop = value;
+                    RaisePropertyChanged("FloatingTop");
+                }
+            }
+        }
+
+        #endregion
+
+        #region IsMaximized
+
+        private bool _isMaximized = false;
+        public bool IsMaximized
+        {
+            get { return _isMaximized; }
+            set
+            {
+                if (_isMaximized != value)
+                {
+                    RaisePropertyChanging("IsMaximized");
+                    _isMaximized = value;
+                    RaisePropertyChanged("IsMaximized");
+                }
+            }
+        }
+
+        #endregion
+
     }
 }

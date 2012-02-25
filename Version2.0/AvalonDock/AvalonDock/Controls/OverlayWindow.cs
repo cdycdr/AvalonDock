@@ -184,6 +184,13 @@ namespace AvalonDock.Controls
                             }
                         }
                         break;
+                    case DropAreaType.DocumentPaneGroup:
+                        {
+                            var dropAreaDocumentPane = visibleArea as DropArea<LayoutDocumentPaneGroupControl>;
+                            if (_documentPaneDropTargetInto.IsVisible)
+                                yield return new DocumentPaneGroupDropTarget(dropAreaDocumentPane.AreaElement, _documentPaneDropTargetInto.GetScreenArea(), DropTargetType.DocumentPaneGroupDockInside);
+                        }
+                        break;
                 }
 
             }
@@ -223,27 +230,42 @@ namespace AvalonDock.Controls
                 case DropAreaType.AnchorablePane:
                     areaElement = _gridAnchorablePaneDropTargets;
                     break;
+                case DropAreaType.DocumentPaneGroup:
+                    {
+                        areaElement = _gridDocumentPaneDropTargets;
+                        var dropAreaDocumentPaneGroup = area as DropArea<LayoutDocumentPaneGroupControl>;
+                        var layoutDocumentPane = (dropAreaDocumentPaneGroup.AreaElement.Model as LayoutDocumentPaneGroup).Children.First() as LayoutDocumentPane;
+                        var parentDocumentPaneGroup = layoutDocumentPane.Parent as LayoutDocumentPaneGroup;
+
+                        _documentPaneDropTargetLeft.Visibility = Visibility.Hidden;
+                        _documentPaneDropTargetRight.Visibility = Visibility.Hidden;
+                        _documentPaneDropTargetTop.Visibility = Visibility.Hidden;
+                        _documentPaneDropTargetBottom.Visibility = Visibility.Hidden;
+                    }
+                    break;
                 case DropAreaType.DocumentPane:
                 default:
-                    areaElement = _gridDocumentPaneDropTargets;
-                    var dropAreaDocumentPane = area as DropArea<LayoutDocumentPaneControl>;
-                    var layoutDocumentPane = dropAreaDocumentPane.AreaElement.Model as LayoutDocumentPane;
-                    var parentDocumentPaneGroup = layoutDocumentPane.Parent as LayoutDocumentPaneGroup;
+                    {
+                        areaElement = _gridDocumentPaneDropTargets;
+                        var dropAreaDocumentPaneGroup = area as DropArea<LayoutDocumentPaneControl>;
+                        var layoutDocumentPane = dropAreaDocumentPaneGroup.AreaElement.Model as LayoutDocumentPane;
+                        var parentDocumentPaneGroup = layoutDocumentPane.Parent as LayoutDocumentPaneGroup;
 
-                    if (parentDocumentPaneGroup != null &&
-                        parentDocumentPaneGroup.ChildrenCount > 1)
-                    {
-                        _documentPaneDropTargetLeft.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
-                        _documentPaneDropTargetRight.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
-                        _documentPaneDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
-                        _documentPaneDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
-                    }
-                    else
-                    {
-                        _documentPaneDropTargetLeft.Visibility = Visibility.Visible;
-                        _documentPaneDropTargetRight.Visibility = Visibility.Visible;
-                        _documentPaneDropTargetTop.Visibility = Visibility.Visible;
-                        _documentPaneDropTargetBottom.Visibility = Visibility.Visible;
+                        if (parentDocumentPaneGroup != null &&
+                            parentDocumentPaneGroup.Children.Where(c => c.IsVisible).Count() > 1)
+                        {
+                            _documentPaneDropTargetLeft.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
+                            _documentPaneDropTargetRight.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
+                            _documentPaneDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                            _documentPaneDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                        }
+                        else
+                        {
+                            _documentPaneDropTargetLeft.Visibility = Visibility.Visible;
+                            _documentPaneDropTargetRight.Visibility = Visibility.Visible;
+                            _documentPaneDropTargetTop.Visibility = Visibility.Visible;
+                            _documentPaneDropTargetBottom.Visibility = Visibility.Visible;
+                        }
                     }
                     break;
             }
@@ -269,9 +291,9 @@ namespace AvalonDock.Controls
                     areaElement = _gridAnchorablePaneDropTargets;
                     break;
                 case DropAreaType.DocumentPane:
+                case DropAreaType.DocumentPaneGroup:
                 default:
                     areaElement = _gridDocumentPaneDropTargets;
-                    
                     break;
             }
 
@@ -286,29 +308,6 @@ namespace AvalonDock.Controls
                 _previewBox.Data = previewBoxPath;
                 _previewBox.Visibility = System.Windows.Visibility.Visible;
             }
-
-
-            //switch (target.Type)
-            //{
-            //    case DropTargetType.DockingManagerDockLeft:
-            //        {
-            //            _previewBox.Data = target.GetPreviewPath(this, _floatingWindow.Model as LayoutFloatingWindow);
-            //            _previewBox.Visibility = System.Windows.Visibility.Visible;
-            //        }
-            //        break;
-            //    case DropTargetType.AnchorablePaneDockInside:
-            //        {
-            //            _previewBox.Data = target.GetPreviewPath(this, _floatingWindow.Model as LayoutFloatingWindow);
-            //            _previewBox.Visibility = System.Windows.Visibility.Visible;
-            //        }
-            //        break;
-            //    case DropTargetType.DocumentPaneDockInside:
-            //        {
-            //            _previewBox.Data = target.GetPreviewPath(this, _floatingWindow.Model as LayoutFloatingWindow);
-            //            _previewBox.Visibility = System.Windows.Visibility.Visible;
-            //        }
-            //        break;
-            //}
         }
 
         void IOverlayWindow.DragLeave(IDropTarget target)

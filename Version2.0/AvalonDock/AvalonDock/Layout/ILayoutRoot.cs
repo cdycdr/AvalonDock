@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace AvalonDock.Layout
 {
@@ -19,5 +20,8 @@ namespace AvalonDock.Layout
         LayoutContent ActiveContent { get; set; }
 
         void CollectGarbage();
+
+        ObservableCollection<LayoutFloatingWindow> FloatingWindows { get; }
+        ObservableCollection<LayoutAnchorable> Hidden { get; }
     }
 }

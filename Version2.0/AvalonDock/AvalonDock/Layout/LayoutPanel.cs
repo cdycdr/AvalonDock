@@ -18,6 +18,12 @@ namespace AvalonDock.Layout
             
         }
 
+        public LayoutPanel(ILayoutPanelElement firstChild)
+        {
+            Children.Add(firstChild);
+        }
+
+
         #region Orientation
 
         private Orientation _orientation;

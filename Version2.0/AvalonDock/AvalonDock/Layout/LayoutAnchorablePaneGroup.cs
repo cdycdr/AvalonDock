@@ -54,7 +54,7 @@ namespace AvalonDock.Layout
 
         void UpdateParentVisibility()
         {
-            var parentPane = Parent as ILayoutAnchorablePane;
+            var parentPane = Parent as ILayoutElementWithVisibility;
             if (parentPane != null)
                 parentPane.ComputeVisibility();
         }

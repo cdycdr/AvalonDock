@@ -41,6 +41,8 @@ namespace AvalonDock.Controls
                 }
             }
 
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+                _childViews.Clear();
 
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
                 e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)

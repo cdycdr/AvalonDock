@@ -49,13 +49,33 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Controls\AnchorablePaneControlOverlayArea.cs" />
     <Compile Include="Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Controls\AnchorablePaneTabPanel.cs" />
     <Compile Include="Controls\AnchorablePaneTitle.cs" />
+    <Compile Include="Controls\DocumentPaneGroupDropTarget.cs" />
     <Compile Include="Controls\FocusHookHandler.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\ILogicalChildrenContainer.cs" />
+    <Compile Include="Controls\Shell\Standard\ComGuids.cs" />
+    <Compile Include="Controls\Shell\Standard\Debug.cs" />
+    <Compile Include="Controls\Shell\Standard\DoubleUtil.cs" />
+    <Compile Include="Controls\Shell\Standard\DpiHelper.cs" />
+    <Compile Include="Controls\Shell\Standard\ErrorCodes.cs" />
+    <Compile Include="Controls\Shell\Standard\MessageWindow.cs" />
+    <Compile Include="Controls\Shell\Standard\NativeMethods.cs" />
+    <Compile Include="Controls\Shell\Standard\ShellProvider.cs" />
+    <Compile Include="Controls\Shell\Standard\StreamHelper.cs" />
+    <Compile Include="Controls\Shell\Standard\Utilities.cs" />
+    <Compile Include="Controls\Shell\Standard\Verify.cs" />
+    <Compile Include="Controls\Shell\SystemCommands.cs" />
+    <Compile Include="Controls\Shell\SystemParameters2.cs" />
+    <Compile Include="Controls\Shell\WindowChrome.cs" />
+    <Compile Include="Controls\Shell\WindowChromeWorker.cs" />
+    <Compile Include="DocumentCloseEventArgs.cs" />
+    <Compile Include="DocumentClosingEventArgs.cs" />
+    <Compile Include="Extentions.cs" />
     <Compile Include="Layout\AnchorSide.cs" />
     <Compile Include="Controls\DockingManagerDropTarget.cs" />
     <Compile Include="Controls\DockingManagerOverlayArea.cs" />
@@ -101,6 +121,7 @@
     <Compile Include="Layout\ILayoutControl.cs" />
     <Compile Include="Layout\ILayoutDocumentPane.cs" />
     <Compile Include="Layout\ILayoutElement.cs" />
+    <Compile Include="Layout\ILayoutElementWithVisibility.cs" />
     <Compile Include="Layout\ILayoutGroup.cs" />
     <Compile Include="Layout\ILayoutOrientableElement.cs" />
     <Compile Include="Layout\ILayoutPane.cs" />
@@ -187,6 +208,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinMaximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinRestore.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,29 +7,35 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <avalonDock:DockingManager x:Name="dockManager">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="Documents">
+                <MenuItem Header="Add" Click="OnAdd"/>
+                <MenuItem Header="Remove" Click="OnRemove"/>
+                <Separator/>
+                <MenuItem Header="Clear" Click="OnClear"/>
+            </MenuItem>
+        </Menu>
+        <avalonDock:DockingManager x:Name="dockManager" DocumentsSource="{Binding ViewModelItems}" Grid.Row="1">
             <avalonDock:DockingManager.DocumentTemplate>
                 <DataTemplate>
                     <TextBox Text="{Binding Mode=OneWay}"/>
                 </DataTemplate>
             </avalonDock:DockingManager.DocumentTemplate>
-            <avalonDock:DockingManager.ContentHeaderTemplate>
+            <avalonDock:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>
                     <Border Background="Purple">
                         <TextBlock Text="{Binding Title}"/>
                     </Border>
                 </DataTemplate>
-            </avalonDock:DockingManager.ContentHeaderTemplate>
+            </avalonDock:DockingManager.DocumentHeaderTemplate>
             <avalonDockLayout:LayoutRoot>
                 <avalonDockLayout:LayoutPanel>
                     <avalonDockLayout:LayoutDocumentPaneGroup>
                         <avalonDockLayout:LayoutDocumentPane>
-                            <avalonDockLayout:LayoutDocument Title="doc1">
-                                <sys:String>Document 1</sys:String>
-                            </avalonDockLayout:LayoutDocument>
-                            <avalonDockLayout:LayoutDocument Title="doc2">
-                                <sys:String>Document 2</sys:String>
-                            </avalonDockLayout:LayoutDocument>
                         </avalonDockLayout:LayoutDocumentPane>
                     </avalonDockLayout:LayoutDocumentPaneGroup>
                 </avalonDockLayout:LayoutPanel>

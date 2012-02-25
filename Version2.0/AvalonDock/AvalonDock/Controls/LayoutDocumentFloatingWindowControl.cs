@@ -4,18 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using AvalonDock.Layout;
+using System.Windows;
 
 namespace AvalonDock.Controls
 {
     public class LayoutDocumentFloatingWindowControl : LayoutFloatingWindowControl
     {
+        static LayoutDocumentFloatingWindowControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutDocumentFloatingWindowControl), new FrameworkPropertyMetadata(typeof(LayoutDocumentFloatingWindowControl)));
+        } 
 
         internal LayoutDocumentFloatingWindowControl(LayoutDocumentFloatingWindow model)
             :base(model)
         {
             _model = model;
-
-            this.Activated += new EventHandler(LayoutDocumentFloatingWindowControl_Activated);
         }
 
 
@@ -31,12 +34,6 @@ namespace AvalonDock.Controls
             SetBinding(BackgroundProperty, new Binding("DataContext.Background") { Source = Content });
         }
 
-        void LayoutDocumentFloatingWindowControl_Activated(object sender, EventArgs e)
-        {
-            
-        }
-
-
         protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             switch (msg)
@@ -44,12 +41,28 @@ namespace AvalonDock.Controls
                 case Win32Helper.WM_NCLBUTTONDOWN: //Left button down on title -> start dragging over docking manager
                     if (wParam.ToInt32() == Win32Helper.HT_CAPTION)
                     {
-                        FocusElementManager.SetFocusOnLastElement(_model.RootDocument);
+                        _model.RootDocument.IsActive = true;
+                        //FocusElementManager.SetFocusOnLastElement(_model.RootDocument);
                     }
                     break;
             }
                
             return base.FilterMessage(hwnd, msg, wParam, lParam, ref handled);
+        }
+
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+           
+            if (CloseInitiatedByUser)
+            {
+                var root = Model.Root;
+                root.Manager.RemoveFloatingWindow(this);
+                root.FloatingWindows.Remove(_model);
+                root.CollectGarbage();
+            }
+            
         }
     }
 }

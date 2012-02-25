@@ -12,6 +12,11 @@ using System.Diagnostics;
 using AvalonDock.Layout;
 using AvalonDock.Controls;
 using System.Windows.Input;
+using System.Collections;
+using System.Collections.Specialized;
+using System.Windows.Data;
+using System.Windows.Threading;
+using AvalonDock.Commands;
 
 namespace AvalonDock
 {
@@ -44,7 +49,8 @@ namespace AvalonDock
         public static readonly DependencyProperty LayoutProperty =
             DependencyProperty.Register("Layout", typeof(LayoutRoot), typeof(DockingManager),
                 new FrameworkPropertyMetadata((LayoutRoot)null,
-                    new PropertyChangedCallback(OnLayoutChanged)));
+                    new PropertyChangedCallback(OnLayoutChanged),
+                    new CoerceValueCallback(CoerceLayoutValue)));
 
         /// <summary>
         /// Gets or sets the Layout property.  This dependency property 
@@ -65,7 +71,7 @@ namespace AvalonDock
         }
 
         /// <summary>
-        /// Provides derived classes an opportunity to handle changes to the Layout property.
+        /// Provides derived classes an opportunity to handle changes to the <see cref="DockingManager.Layout"/> property.
         /// </summary>
         protected virtual void OnLayoutChanged(LayoutRoot oldLayout, LayoutRoot newLayout)
         {
@@ -73,6 +79,8 @@ namespace AvalonDock
             {
                 oldLayout.PropertyChanged -= new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
             }
+
+            DetachDocumentsSource(oldLayout, DocumentsSource);
 
             if (oldLayout != null &&
                 oldLayout.Manager == this)
@@ -101,6 +109,8 @@ namespace AvalonDock
                     fw.Owner = Window.GetWindow(this);
             }
 
+            AttachDocumentsSource(newLayout, DocumentsSource);
+
             if (newLayout != null)
             {
                 newLayout.PropertyChanged += new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
@@ -120,10 +130,35 @@ namespace AvalonDock
                     LayoutRootPanel = layoutRootPanel;
                 }
             }
+            else if (e.PropertyName == "ActiveContent")
+            {
+                if (Layout.ActiveContent != null)
+                {
+                    //set focus on active element only after a layout pass is completed
+                    //it's possible that it is not yet visible in the visual tree
+                    Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
+                        }), DispatcherPriority.Loaded);
+                }
+            }
         }
 
+        /// <summary>
+        /// Event fired when <see cref="DockingManager.Layout"/> property changes
+        /// </summary>
         public event EventHandler LayoutChanged;
 
+        /// <summary>
+        /// Coerces the <see cref="DockingManager.Layout"/> value.
+        /// </summary>
+        private static object CoerceLayoutValue(DependencyObject d, object value)
+        {
+            if (value == null)
+                return new LayoutRoot() { RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup()) };
+
+            return value;
+        }
 
         #endregion
 
@@ -189,25 +224,27 @@ namespace AvalonDock
 
             if (model is LayoutAnchorSide)
             {
-                var templateModelView = new LayoutAnchorSideControl(model as LayoutAnchorSide) { Template = AnchorSideTemplate };
+                var templateModelView = new LayoutAnchorSideControl(model as LayoutAnchorSide);
+                templateModelView.SetBinding(LayoutAnchorSideControl.TemplateProperty, new Binding("AnchorSideTemplate") { Source = this });
                 return templateModelView;
             }
             if (model is LayoutAnchorGroup)
             {
-                var templateModelView = new LayoutAnchorGroupControl(model as LayoutAnchorGroup) { Template = AnchorGroupTemplate };
+                var templateModelView = new LayoutAnchorGroupControl(model as LayoutAnchorGroup);
+                templateModelView.SetBinding(LayoutAnchorGroupControl.TemplateProperty, new Binding("AnchorGroupTemplate") { Source = this });
                 return templateModelView;
             }
 
             if (model is LayoutDocumentPane)
             {
-                var templateModelView = new LayoutDocumentPaneControl(model as LayoutDocumentPane) { Style = DocumentPaneControlStyle };
-
+                var templateModelView = new LayoutDocumentPaneControl(model as LayoutDocumentPane);
+                templateModelView.SetBinding(LayoutDocumentPaneControl.StyleProperty, new Binding("DocumentPaneControlStyle") { Source = this });
                 return templateModelView;
             }
             if (model is LayoutAnchorablePane)
             {
-                var templateModelView = new LayoutAnchorablePaneControl(model as LayoutAnchorablePane) { Style = AnchorablePaneControlStyle };
-
+                var templateModelView = new LayoutAnchorablePaneControl(model as LayoutAnchorablePane);
+                templateModelView.SetBinding(LayoutAnchorablePaneControl.StyleProperty, new Binding("AnchorablePaneControlStyle") { Source = this });
                 return templateModelView;
             }
 
@@ -236,7 +273,6 @@ namespace AvalonDock
             if (model is LayoutDocument)
             {
                 var templateModelView = new LayoutDocumentControl() { Model = model as LayoutDocument };
-
                 return templateModelView;
             }
 
@@ -450,27 +486,6 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnAnchorablePaneControlStyleChanged(DependencyPropertyChangedEventArgs e)
         {
-        }
-
-        #endregion
-
-        #region ContentHeaderTemplate
-
-        /// <summary>
-        /// ContentHeaderTemplate Dependency Property
-        /// </summary>
-        public static readonly DependencyProperty ContentHeaderTemplateProperty =
-            DependencyProperty.Register("ContentHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplate)null));
-
-        /// <summary>
-        /// Gets or sets the ContentHeaderTemplate property.  This dependency property 
-        /// indicates data template to use when create tab item content for Documents and Anchorables.
-        /// </summary>
-        public DataTemplate ContentHeaderTemplate
-        {
-            get { return (DataTemplate)GetValue(ContentHeaderTemplateProperty); }
-            set { SetValue(ContentHeaderTemplateProperty, value); }
         }
 
         #endregion
@@ -1000,6 +1015,8 @@ namespace AvalonDock
             fwc.Owner = Window.GetWindow(this);
 
             _fwList.Add(fwc);
+            
+            Layout.CollectGarbage();
 
             fwc.AttachDrag();
             fwc.Show();
@@ -1026,12 +1043,17 @@ namespace AvalonDock
                 DockMinWidth = paneAsPositionableElement.DockMinWidth
             };
 
+            bool savePreviousContainer = paneModel.FindParent<LayoutFloatingWindow>() == null;
+
             while (paneModel.Children.Count > 0)
             {
                 var contentModel = paneModel.Children[paneModel.Children.Count - 1] as LayoutAnchorable;
 
-                contentModel.PreviousContainer = paneModel;
-                contentModel.PreviousContainerIndex = paneModel.Children.Count - 1;
+                if (savePreviousContainer)
+                {
+                    contentModel.PreviousContainer = paneModel;
+                    contentModel.PreviousContainerIndex = paneModel.Children.Count - 1;
+                }
 
                 paneModel.RemoveChildAt(paneModel.Children.Count - 1);
                 destPane.Children.Insert(0, contentModel);
@@ -1060,8 +1082,11 @@ namespace AvalonDock
 
             _fwList.Add(fwc);
 
+            Layout.CollectGarbage();
+
             fwc.AttachDrag();
             fwc.Show();
+
         }
 
 
@@ -1087,9 +1112,7 @@ namespace AvalonDock
 
         internal void RemoveFloatingWindow(LayoutFloatingWindowControl floatingWindow)
         {
-            Layout.FloatingWindows.Remove(floatingWindow.Model as LayoutFloatingWindow);
             _fwList.Remove(floatingWindow);
-            Layout.CollectGarbage();
         }
         #endregion
 
@@ -1158,22 +1181,27 @@ namespace AvalonDock
 
                 foreach (var areaHost in this.FindVisualChildren<LayoutAnchorablePaneControl>())
                 {
-                    if (areaHost is LayoutAnchorablePaneControl)
-                    {
-                        _areas.Add(new DropArea<LayoutAnchorablePaneControl>(
-                            areaHost,
-                            DropAreaType.AnchorablePane));
-                    }
+                    _areas.Add(new DropArea<LayoutAnchorablePaneControl>(
+                        areaHost,
+                        DropAreaType.AnchorablePane));
                 }
             }
 
             foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneControl>())
             {
-                if (areaHost is LayoutDocumentPaneControl)
+                _areas.Add(new DropArea<LayoutDocumentPaneControl>(
+                    areaHost,
+                    DropAreaType.DocumentPane));
+            }
+
+            foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneGroupControl>())
+            {
+                var documentGroupModel = areaHost.Model as LayoutDocumentPaneGroup;
+                if (documentGroupModel.Children.Where(c => c.IsVisible).Count() == 0)
                 {
-                    _areas.Add(new DropArea<LayoutDocumentPaneControl>(
+                    _areas.Add(new DropArea<LayoutDocumentPaneGroupControl>(
                         areaHost,
-                        DropAreaType.DocumentPane));
+                        DropAreaType.DocumentPaneGroup));
                 }
             }
 
@@ -1312,7 +1340,6 @@ namespace AvalonDock
 
         #endregion
 
-
         #region LayoutDocument & LayoutAnchorable Templates
 
         #region DocumentTemplate
@@ -1390,5 +1417,268 @@ namespace AvalonDock
         #endregion
 
         #endregion
+
+        #region DocumentsSource
+
+        /// <summary>
+        /// DocumentsSource Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentsSourceProperty =
+            DependencyProperty.Register("DocumentsSource", typeof(IEnumerable), typeof(DockingManager),
+                new FrameworkPropertyMetadata((IEnumerable)null,
+                    new PropertyChangedCallback(OnDocumentsSourceChanged)));
+
+        /// <summary>
+        /// Gets or sets the DocumentsSource property.  This dependency property 
+        /// indicates the source collection of documents.
+        /// </summary>
+        public IEnumerable DocumentsSource
+        {
+            get { return (IEnumerable)GetValue(DocumentsSourceProperty); }
+            set { SetValue(DocumentsSourceProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentsSource property.
+        /// </summary>
+        private static void OnDocumentsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentsSourceChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentsSource property.
+        /// </summary>
+        protected virtual void OnDocumentsSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            DetachDocumentsSource(Layout, e.OldValue as IEnumerable);
+            AttachDocumentsSource(Layout, e.NewValue as IEnumerable);
+        }
+
+
+        void AttachDocumentsSource(LayoutRoot layout, IEnumerable documentsSource)
+        {
+            if (documentsSource == null)
+                return;
+
+            if (layout == null)
+                return;
+
+            if (layout.Descendents().OfType<LayoutDocument>().Any())
+                throw new InvalidOperationException("Unable to set the DocumentsSource property if LayoutDocument objects are already present in the model");
+
+            var documents = documentsSource as IEnumerable;
+            LayoutDocumentPane documentPane = null;
+            if (layout.LastFocusedDocument != null)
+            {
+                documentPane = layout.LastFocusedDocument.Parent as LayoutDocumentPane;
+            }
+
+            if (documentPane == null)
+            {
+                documentPane = layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            }
+
+            if (documentPane != null)
+            {
+                foreach (var documentToImport in (documentsSource as IEnumerable))
+                {
+                    documentPane.Children.Add(new LayoutDocument() { Content = documentToImport });
+                }
+            }
+
+            var documentsSourceAsNotifier = documentsSource as INotifyCollectionChanged;
+            if (documentsSourceAsNotifier != null)
+                documentsSourceAsNotifier.CollectionChanged += new NotifyCollectionChangedEventHandler(documentsSourceElementsChanged);
+        }
+
+        void documentsSourceElementsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (Layout == null)
+                return;
+
+            //handle remove
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            {
+                if (e.OldItems != null)
+                {
+                    var documentsToRemove = Layout.Descendents().OfType<LayoutDocument>().Where(d => e.OldItems.Contains(d.Content)).ToArray();
+                    foreach (var documentToRemove in documentsToRemove)
+                    {
+                        (documentToRemove.Parent as LayoutDocumentPane).Children.Remove(
+                            documentToRemove);
+                    }
+                }
+            }
+
+            //handle add
+            if (e.NewItems != null &&
+                (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
+            {
+                if (e.NewItems != null)
+                {
+                    LayoutDocumentPane documentPane = null;
+                    if (Layout.LastFocusedDocument != null)
+                    {
+                        documentPane = Layout.LastFocusedDocument.Parent as LayoutDocumentPane;
+                    }
+
+                    if (documentPane == null)
+                    {
+                        documentPane = Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                    }
+
+                    if (documentPane != null)
+                    {
+                        foreach (var documentToImport in e.NewItems)
+                        {
+                            documentPane.Children.Add(new LayoutDocument() { Content = documentToImport });
+                        }
+                    }
+                }
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                //NOTE: I'm going to clear every document present in layout but
+                //some documents may have been added directly to layout, for now I clear them too
+                var documentsToRemove = Layout.Descendents().OfType<LayoutDocument>().ToArray();
+                foreach (var documentToRemove in documentsToRemove)
+                {
+                    (documentToRemove.Parent as LayoutDocumentPane).Children.Remove(
+                        documentToRemove);
+                }                
+            }
+        }
+
+        void DetachDocumentsSource(LayoutRoot layout, IEnumerable documentsSource)
+        {
+            if (documentsSource == null)
+                return;
+
+            if (layout == null)
+                return;
+
+            var documentsToRemove = layout.Descendents().OfType<LayoutDocument>()
+                .Where(d => documentsSource.Contains(d.Content)).ToArray();
+
+            foreach (var documentToRemove in documentsToRemove)
+            {
+                (documentToRemove.Parent as LayoutDocumentPane).Children.Remove(
+                    documentToRemove);
+            }
+
+            var documentsSourceAsNotifier = documentsSource as INotifyCollectionChanged;
+            if (documentsSourceAsNotifier != null)
+                documentsSourceAsNotifier.CollectionChanged -= new NotifyCollectionChangedEventHandler(documentsSourceElementsChanged);
+        }
+
+        #region DocumentCloseCommand
+
+        static ICommand _defaultDocumentCloseCommand = new RelayCommand((p)=>ExecuteDocumentCloseCommand(p), (p) => CanExecuteDocumentCloseCommand(p));
+
+        /// <summary>
+        /// DocumentCloseCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentCloseCommandProperty =
+            DependencyProperty.Register("DocumentCloseCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata(_defaultDocumentCloseCommand,
+                    new PropertyChangedCallback(OnDocumentCloseCommandChanged),
+                    new CoerceValueCallback(CoerceDocumentCloseCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the DocumentCloseCommand property.  This dependency property 
+        /// indicates the command to execute when user click the document close button.
+        /// </summary>
+        public ICommand DocumentCloseCommand
+        {
+            get { return (ICommand)GetValue(DocumentCloseCommandProperty); }
+            set { SetValue(DocumentCloseCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentCloseCommand property.
+        /// </summary>
+        private static void OnDocumentCloseCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentCloseCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentCloseCommand property.
+        /// </summary>
+        protected virtual void OnDocumentCloseCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the DocumentCloseCommand value.
+        /// </summary>
+        private static object CoerceDocumentCloseCommandValue(DependencyObject d, object value)
+        {
+            if (value == null)
+                return _defaultDocumentCloseCommand;
+
+            return value;
+        }
+
+        private static bool CanExecuteDocumentCloseCommand(object parameter)
+        {
+            return true;
+        }
+
+        private static void ExecuteDocumentCloseCommand(object parameter)
+        {
+            var document = parameter as LayoutDocument;
+            if (document == null)
+                return;
+
+            var dockingManager = document.Root.Manager;
+            dockingManager._ExecuteDocumentCloseCommand(document);
+        }
+
+        void _ExecuteDocumentCloseCommand(LayoutDocument document)
+        {
+            if (DocumentClosing != null)
+            {
+                var evargs = new DocumentClosingEventArgs(document);
+                DocumentClosing(this, evargs);
+                if (evargs.Cancel)
+                    return;
+            }
+
+            document.Close();
+
+            if (DocumentClose != null)
+            { 
+                var evargs = new DocumentCloseEventArgs(document);
+                DocumentClose(this, evargs);
+            }
+        }
+
+        /// <summary>
+        /// Event fired when a document is about to be closed
+        /// </summary>
+        /// <remarks>Subscribers have the opportuniy to cancel the operation.</remarks>
+        public event EventHandler<CancelEventArgs> DocumentClosing;
+
+        /// <summary>
+        /// Event fired after a document is closed
+        /// </summary>
+        public event EventHandler DocumentClose;
+
+
+
+        #endregion
+
+
+
+
+
+        #endregion
+
+
     }
 }

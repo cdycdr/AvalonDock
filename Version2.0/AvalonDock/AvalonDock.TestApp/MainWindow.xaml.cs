@@ -145,6 +145,11 @@ namespace AvalonDock.TestApp
                 serializer.Serialize(stream);
         }
 
+        private void OnShowWinformsWindow(object sender, RoutedEventArgs e)
+        {
+            winFormsWindow.Show();
+        }
+
         
 
 

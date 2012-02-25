@@ -13,8 +13,10 @@ namespace AvalonDock.Layout
             get { return true; }
         }
 
-
-
-
+        internal void Close()
+        {
+            var parentAsDocuPane = Parent as ILayoutDocumentPane;
+            parentAsDocuPane.RemoveChild(this);
+        }
     }
 }

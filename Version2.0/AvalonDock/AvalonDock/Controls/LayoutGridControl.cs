@@ -62,8 +62,7 @@ namespace AvalonDock.Controls
 
         void UpdateChildren()
         {
-            var manager = _model.Root.Manager;
-            var alreadyContainedChidlren = Children.OfType<ILayoutControl>().ToArray();
+            var alreadyContainedChildren = Children.OfType<ILayoutControl>().ToArray();
 
             DetachOldSplitters();
             DetachPropertChangeHandler();
@@ -71,9 +70,19 @@ namespace AvalonDock.Controls
             Children.Clear();
             ColumnDefinitions.Clear();
             RowDefinitions.Clear();
+
+            if (_model == null ||
+                _model.Root == null)
+                return;
+
+            var manager = _model.Root.Manager;
+            if (manager == null)
+                return;
+
+
             foreach (ILayoutElement child in _model.Children)
             {
-                var foundContainedChild = alreadyContainedChidlren.FirstOrDefault(chVM => chVM.Model == child);
+                var foundContainedChild = alreadyContainedChildren.FirstOrDefault(chVM => chVM.Model == child);
                 if (foundContainedChild != null)
                     Children.Add(foundContainedChild as UIElement);
                 else

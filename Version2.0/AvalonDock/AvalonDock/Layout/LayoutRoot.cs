@@ -15,7 +15,6 @@ namespace AvalonDock.Layout
     {
         public LayoutRoot()
         { 
-            _floatingWindows.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_floatingWindows_CollectionChanged);
             RightSide = new LayoutAnchorSide();
             LeftSide = new LayoutAnchorSide();
             TopSide = new LayoutAnchorSide();
@@ -129,29 +128,98 @@ namespace AvalonDock.Layout
         #endregion
 
         #region FloatingWindows
+        ObservableCollection<LayoutFloatingWindow> _floatingWindows = null;
+
+        public ObservableCollection<LayoutFloatingWindow> FloatingWindows
+        {
+            get 
+            {
+                if (_floatingWindows == null)
+                {
+                    _floatingWindows = new ObservableCollection<LayoutFloatingWindow>();
+                    _floatingWindows.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_floatingWindows_CollectionChanged);
+                }
+
+                return _floatingWindows; 
+            }
+        }
+
         void _floatingWindows_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            if (e.OldItems != null && (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
+            {
+                foreach (LayoutFloatingWindow element in e.OldItems)
+                {
+                    if (element.Parent == this)
+                        element.Parent = null;
+                }
+            } 
+
             if (e.NewItems != null && (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
                 e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
             {
                 foreach (LayoutFloatingWindow element in e.NewItems)
                     element.Parent = this;
             }
+        }
+        #endregion
 
-            if (e.OldItems != null && (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
-                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
+        #region HiddenAnchorables
+
+        ObservableCollection<LayoutAnchorable> _hiddenAnchorables = null;
+
+        public ObservableCollection<LayoutAnchorable> Hidden
+        {
+            get
             {
-                foreach (LayoutFloatingWindow element in e.OldItems)
-                    element.Parent = null;
+                if (_hiddenAnchorables == null)
+                {
+                    _hiddenAnchorables = new ObservableCollection<LayoutAnchorable>();
+                    _hiddenAnchorables.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_hiddenAnchorables_CollectionChanged);
+                }
+
+                return _hiddenAnchorables;
             }
         }
 
-        ObservableCollection<LayoutFloatingWindow> _floatingWindows = new ObservableCollection<LayoutFloatingWindow>();
-
-        public ObservableCollection<LayoutFloatingWindow> FloatingWindows
+        void _hiddenAnchorables_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            get { return _floatingWindows; }
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            {
+                if (e.OldItems != null)
+                {
+                    foreach (LayoutAnchorable element in e.OldItems)
+                    {
+                        if (element.Parent == this)
+                            element.Parent = null;
+                    }
+                }
+            }
+
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            {
+                if (e.NewItems != null)
+                {
+                    foreach (LayoutAnchorable element in e.NewItems)
+                    {
+                        if (element.Parent != this)
+                        {
+                            if (element.Parent != null)
+                                element.Parent.RemoveChild(element);
+                            element.Parent = this;
+                        }
+
+                    }
+                }
+            }
+
+
+
         }
+
         #endregion
 
         #region Children
@@ -161,8 +229,11 @@ namespace AvalonDock.Layout
             {
                 if (RootPanel != null)
                     yield return RootPanel;
-                foreach (var floatingWindow in _floatingWindows)
-                    yield return floatingWindow;
+                if (_floatingWindows != null)
+                {
+                    foreach (var floatingWindow in _floatingWindows)
+                        yield return floatingWindow;
+                }
                 if (TopSide != null)
                     yield return TopSide;
                 if (RightSide != null)
@@ -171,15 +242,21 @@ namespace AvalonDock.Layout
                     yield return BottomSide;
                 if (LeftSide != null)
                     yield return LeftSide;
-
+                if (_hiddenAnchorables != null)
+                {
+                    foreach (var hiddenAnchorable in _hiddenAnchorables)
+                        yield return hiddenAnchorable;
+                }
             }
         }
         public void RemoveChild(ILayoutElement element)
         {
             if (element == RootPanel)
                 RootPanel = null;
-            else if (_floatingWindows.Contains(element))
+            else if (_floatingWindows != null && _floatingWindows.Contains(element))
                 _floatingWindows.Remove(element as LayoutFloatingWindow);
+            else if (_hiddenAnchorables != null && _hiddenAnchorables.Contains(element))
+                _hiddenAnchorables.Remove(element as LayoutAnchorable);
             else if (element == TopSide)
                 TopSide = null;
             else if (element == RightSide)
@@ -190,10 +267,9 @@ namespace AvalonDock.Layout
                 LeftSide = null;
 
         }
-
         public int ChildrenCount
         {
-            get { return 5 + _floatingWindows.Count; }
+            get { return 5 + _floatingWindows.Count + _hiddenAnchorables.Count; }
         }
         #endregion
 
@@ -254,8 +330,6 @@ namespace AvalonDock.Layout
 
         #endregion
 
-
-
         #region Manager
 
         
@@ -285,14 +359,15 @@ namespace AvalonDock.Layout
         {
             bool exitFlag = true;
 
+            #region collect empty panes
             do
             {
                 exitFlag = true;
                 //for each pane that is empty
-                foreach (var emptyPane in _rootPanel.Descendents().OfType<ILayoutPane>().Where(p => p.ChildrenCount == 0))
+                foreach (var emptyPane in this.Descendents().OfType<ILayoutPane>().Where(p => p.ChildrenCount == 0))
                 {
                     //...set null any reference coming from contents not yet hosted in a floating window
-                    foreach (var contentReferencingEmptyPane in _rootPanel.Descendents().OfType<LayoutContent>()
+                    foreach (var contentReferencingEmptyPane in this.Descendents().OfType<LayoutContent>()
                         .Where(c => c.PreviousContainer == emptyPane && c.FindParent<LayoutFloatingWindow>() == null))
                     {
                         contentReferencingEmptyPane.PreviousContainer = null;
@@ -300,9 +375,9 @@ namespace AvalonDock.Layout
                     }
 
                     //...if this empty panes is not referenced by anyone, than removes it from its parent container
-                    if (!_rootPanel.Descendents().OfType<LayoutContent>().Any(c => c.PreviousContainer == emptyPane))
+                    if (!this.Descendents().OfType<LayoutContent>().Any(c => c.PreviousContainer == emptyPane))
                     {
-                        var parentGroup = emptyPane.Parent as ILayoutGroup;
+                        var parentGroup = emptyPane.Parent as ILayoutContainer;
                         parentGroup.RemoveChild(emptyPane);
                         exitFlag = false;
                         break;
@@ -312,9 +387,9 @@ namespace AvalonDock.Layout
                 if (!exitFlag)
                 {
                     //removes any empty anchorable pane group
-                    foreach (var emptyPaneGroup in _rootPanel.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.Children.Count == 0))
+                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.Children.Count == 0))
                     {
-                        var parentGroup = emptyPaneGroup.Parent as ILayoutGroup;
+                        var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
                         parentGroup.RemoveChild(emptyPaneGroup);
                         exitFlag = false;
                         break;
@@ -325,7 +400,61 @@ namespace AvalonDock.Layout
 
             }
             while (!exitFlag);
+            #endregion
 
+            #region collapse single child anchorable pane groups
+            do
+            {
+                exitFlag = true;
+                //for each pane that is empty
+                foreach (var paneGroupToCollapse in this.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutAnchorablePaneGroup))
+                {
+                    var singleChild = paneGroupToCollapse.Children[0] as LayoutAnchorablePaneGroup;
+                    paneGroupToCollapse.Orientation = singleChild.Orientation;
+                    paneGroupToCollapse.RemoveChild(singleChild);
+                    while (singleChild.ChildrenCount > 0)
+                    {
+                        paneGroupToCollapse.InsertChildAt(
+                            paneGroupToCollapse.ChildrenCount, singleChild.Children[0]);
+                    }
+
+                    exitFlag = false;
+                    break;
+                }
+
+            }
+            while (!exitFlag);
+
+
+
+            #endregion
+
+            #region collapse single child document pane groups
+            do
+            {
+                exitFlag = true;
+                //for each pane that is empty
+                foreach (var paneGroupToCollapse in this.Descendents().OfType<LayoutDocumentPaneGroup>().Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutDocumentPaneGroup))
+                {
+                    var singleChild = paneGroupToCollapse.Children[0] as LayoutDocumentPaneGroup;
+                    paneGroupToCollapse.Orientation = singleChild.Orientation;
+                    paneGroupToCollapse.RemoveChild(singleChild);
+                    while (singleChild.ChildrenCount > 0)
+                    {
+                        paneGroupToCollapse.InsertChildAt(
+                            paneGroupToCollapse.ChildrenCount, singleChild.Children[0]);
+                    }
+
+                    exitFlag = false;
+                    break;
+                }
+
+            }
+            while (!exitFlag);
+
+
+
+            #endregion
         }
 
         #endregion

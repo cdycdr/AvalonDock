@@ -12,7 +12,10 @@ namespace AvalonDock.Controls
 
         DocumentPane,
 
-        AnchorablePane
+        DocumentPaneGroup,
+
+        AnchorablePane,
+
     }
 
 
