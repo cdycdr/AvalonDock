@@ -158,7 +158,6 @@ namespace AvalonDock.Layout
             RaisePropertyChanged("IsHidden");
         }
 
-
         [XmlIgnore]
         public bool IsHidden
         {

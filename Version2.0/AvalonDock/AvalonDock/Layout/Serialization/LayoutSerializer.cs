@@ -52,5 +52,14 @@ namespace AvalonDock.Layout.Serialization
 
         }
 
+        protected void StartDeserialization()
+        {
+            Manager.SuspendDocumentsSourceBinding = true;
+        }
+
+        protected void EndDeserialization()
+        {
+            Manager.SuspendDocumentsSourceBinding = false;
+        }
     }
 }

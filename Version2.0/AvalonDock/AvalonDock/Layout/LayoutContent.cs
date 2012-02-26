@@ -246,6 +246,16 @@ namespace AvalonDock.Layout
             base.OnParentChanged(oldValue, newValue);
         }
 
+        /// <summary>
+        /// Close the content
+        /// </summary>
+        public void Close()
+        {
+            var parentAsDocuPane = Parent as ILayoutPane;
+            parentAsDocuPane.RemoveChild(this);
+        }
+
+
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
@@ -291,8 +301,12 @@ namespace AvalonDock.Layout
             if (_previousContainer != null)
             {
                 var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-                writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
-                writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
+                if (paneSerializable != null)
+                {
+                    //at moment only anchorable panes are serializable as referenced panes
+                    writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
+                    writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
+                }
             }
 
         }

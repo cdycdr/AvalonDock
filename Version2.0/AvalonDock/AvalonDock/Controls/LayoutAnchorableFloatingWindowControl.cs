@@ -37,6 +37,8 @@ namespace AvalonDock.Controls
 
             Content = manager.GetUIElementForModel(_model.RootPanel);
             SetBinding(BackgroundProperty, new Binding("DataContext.Background") { Source = Content });
+
+            SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
         }
 
 
@@ -105,15 +107,33 @@ namespace AvalonDock.Controls
 
         protected override void OnClosed(EventArgs e)
         {
+            var root = Model.Root;
+            root.Manager.RemoveFloatingWindow(this);
+            root.CollectGarbage();
+            if (_overlayWindow != null)
+            {
+                _overlayWindow.Close();
+                _overlayWindow = null;
+            }
+
+            base.OnClosed(e);
+
             if (!CloseInitiatedByUser)
             {
-                var root = Model.Root;
-                root.Manager.RemoveFloatingWindow(this);
-                root.CollectGarbage();
+                root.FloatingWindows.Remove(_model);
+            }
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (CloseInitiatedByUser)
+            {
+                e.Cancel = true;
+                _model.Descendents().OfType<LayoutAnchorable>().ToArray().ForEach<LayoutAnchorable>((a) => a.Hide());
             }
 
 
-            base.OnClosed(e);
+            base.OnClosing(e);
         }
     }
 }

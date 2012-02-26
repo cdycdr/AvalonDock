@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Markup;
 using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace AvalonDock.Layout
 {
@@ -55,6 +56,7 @@ namespace AvalonDock.Layout
         {
             get
             {
+                Debug.WriteLine("IsSinglePane={0}", RootPanel != null && RootPanel.ChildrenCount == 1);
                 return RootPanel != null && RootPanel.ChildrenCount == 1;
             }
         }
@@ -86,8 +88,10 @@ namespace AvalonDock.Layout
         }
 
         #region IsVisible
+        [NonSerialized]
+        private bool _isVisible = true;
 
-        private bool _isVisible = false;
+        [XmlIgnore]
         public bool IsVisible
         {
             get { return _isVisible; }
@@ -107,7 +111,8 @@ namespace AvalonDock.Layout
         public event EventHandler IsVisibleChanged;
 
         #endregion
-        
+
+       
         void ILayoutElementWithVisibility.ComputeVisibility()
         {
             IsVisible = RootPanel.IsVisible;

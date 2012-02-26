@@ -441,14 +441,48 @@ namespace AvalonDock.Controls
             base.OnMouseLeftButtonUp(e);
         }
 
-        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        #region IsMaximized
+
+        /// <summary>
+        /// IsMaximized Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey IsMaximizedPropertyKey
+            = DependencyProperty.RegisterReadOnly("IsMaximized", typeof(bool), typeof(LayoutFloatingWindowControl),
+                new FrameworkPropertyMetadata((bool)false));
+
+        public static readonly DependencyProperty IsMaximizedProperty
+            = IsMaximizedPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the IsMaximized property.  This dependency property 
+        /// indicates if the window is maximized.
+        /// </summary>
+        public bool IsMaximized
         {
-            
-            base.OnGotKeyboardFocus(e);
+            get { return (bool)GetValue(IsMaximizedProperty); }
         }
-        protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+
+        /// <summary>
+        /// Provides a secure method for setting the IsMaximized property.  
+        /// This dependency property indicates if the window is maximized.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetIsMaximized(bool value)
         {
-            base.OnPreviewGotKeyboardFocus(e);
+            SetValue(IsMaximizedPropertyKey, value);
         }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            SetIsMaximized(WindowState == System.Windows.WindowState.Maximized);
+            base.OnStateChanged(e);
+        }
+
+        #endregion
+
+
+
+        
+        
     }
 }

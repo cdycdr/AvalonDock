@@ -49,10 +49,10 @@
                     </avalonDockLayout:LayoutDocumentPaneGroup>
                     <avalonDockLayout:LayoutAnchorablePaneGroup DockWidth="150">
                         <avalonDockLayout:LayoutAnchorablePane>
-                            <avalonDockLayout:LayoutAnchorable Title="Tool Window 1">
+                            <avalonDockLayout:LayoutAnchorable x:Name="ToolWindow1" Title="Tool Window 1">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
                             </avalonDockLayout:LayoutAnchorable>
-                            <avalonDockLayout:LayoutAnchorable Title="Tool Window 2">
+                            <avalonDockLayout:LayoutAnchorable x:Name="ToolWindow2" Title="Tool Window 2">
                                 <TextBlock Text="{Binding FocusedElement}"/>
                             </avalonDockLayout:LayoutAnchorable>
                         </avalonDockLayout:LayoutAnchorablePane>

@@ -16,5 +16,12 @@ namespace AvalonDock
 
             return false;
         }
+
+
+        public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+        {
+            foreach (T v in collection)
+                action(v);
+        }
     }
 }

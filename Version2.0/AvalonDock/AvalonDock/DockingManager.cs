@@ -138,7 +138,8 @@ namespace AvalonDock
                     //it's possible that it is not yet visible in the visual tree
                     Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
+                            if (Layout.ActiveContent != null)
+                                FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
                         }), DispatcherPriority.Loaded);
                 }
             }
@@ -836,10 +837,11 @@ namespace AvalonDock
 
         void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
         {
-            if (!_logicalChildren.Contains(element))
-                throw new InvalidOperationException();
-            _logicalChildren.Remove(element);
-            RemoveLogicalChild(element);
+            if (_logicalChildren.Contains(element))
+            {
+                _logicalChildren.Remove(element);
+                RemoveLogicalChild(element);
+            }
         }
 
         void ClearLogicalChildrenList()
@@ -1492,9 +1494,15 @@ namespace AvalonDock
                 documentsSourceAsNotifier.CollectionChanged += new NotifyCollectionChangedEventHandler(documentsSourceElementsChanged);
         }
 
+        internal bool SuspendDocumentsSourceBinding = false;
+
         void documentsSourceElementsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (Layout == null)
+                return;
+
+            //When deserializing documents are created automatically by the deserializer
+            if (SuspendDocumentsSourceBinding)
                 return;
 
             //handle remove
@@ -1673,12 +1681,381 @@ namespace AvalonDock
 
         #endregion
 
+        #endregion
+
+        #region AnchorableCloseCommand
+
+        static ICommand _defaultAnchorableCloseCommand = new RelayCommand((p) => ExecuteAnchorableCloseCommand(p), (p) => CanExecuteAnchorableCloseCommand(p));
+
+        /// <summary>
+        /// AnchorableCloseCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableCloseCommandProperty =
+            DependencyProperty.Register("AnchorableCloseCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ICommand)_defaultAnchorableCloseCommand,
+                    new PropertyChangedCallback(OnAnchorableCloseCommandChanged),
+                    new CoerceValueCallback(CoerceAnchorableCloseCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableCloseCommand property.  This dependency property 
+        /// indicates the command to execute when an anchorable is closed.
+        /// </summary>
+        public ICommand AnchorableCloseCommand
+        {
+            get { return (ICommand)GetValue(AnchorableCloseCommandProperty); }
+            set { SetValue(AnchorableCloseCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableCloseCommand property.
+        /// </summary>
+        private static void OnAnchorableCloseCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableCloseCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableCloseCommand property.
+        /// </summary>
+        protected virtual void OnAnchorableCloseCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableCloseCommand value.
+        /// </summary>
+        private static object CoerceAnchorableCloseCommandValue(DependencyObject d, object value)
+        {
+            if (value == null)
+                return _defaultAnchorableCloseCommand;
+
+            return value;
+        }
 
 
+        private static bool CanExecuteAnchorableCloseCommand(object anchorable)
+        {
+            return true;
+        }
 
+        private static void ExecuteAnchorableCloseCommand(object anchorable)
+        {
+            var model = anchorable as LayoutAnchorable;
+            if (model != null)
+            { 
+                model.Close();
+            }
+        }
 
         #endregion
 
+        #region AnchorableHideCommand
+
+        static ICommand _defaultAnchorableHideCommand = new RelayCommand((p) => ExecuteAnchorableHideCommand(p), (p) => CanExecuteAnchorableHideCommand(p));
+
+        /// <summary>
+        /// AnchorableHideCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableHideCommandProperty =
+            DependencyProperty.Register("AnchorableHideCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ICommand)_defaultAnchorableHideCommand,
+                    new PropertyChangedCallback(OnAnchorableHideCommandChanged),
+                    new CoerceValueCallback(CoerceAnchorableHideCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableHideCommand property.  This dependency property 
+        /// indicates the command to execute when an anchorable is hidden.
+        /// </summary>
+        public ICommand AnchorableHideCommand
+        {
+            get { return (ICommand)GetValue(AnchorableHideCommandProperty); }
+            set { SetValue(AnchorableHideCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableHideCommand property.
+        /// </summary>
+        private static void OnAnchorableHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableHideCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableHideCommand property.
+        /// </summary>
+        protected virtual void OnAnchorableHideCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableHideCommand value.
+        /// </summary>
+        private static object CoerceAnchorableHideCommandValue(DependencyObject d, object value)
+        {
+            if (value == null)
+                return _defaultAnchorableHideCommand;
+
+            return value;
+        }
+
+
+        private static bool CanExecuteAnchorableHideCommand(object anchorable)
+        {
+            return true;
+        }
+
+        private static void ExecuteAnchorableHideCommand(object anchorable)
+        {
+            var model = anchorable as LayoutAnchorable;
+            if (model != null)
+            {
+                //by default hide the anchorable
+                model.Hide();
+            }
+        }
+
+        #endregion
+
+        #region AnchorableAutoHideCommand
+
+        static ICommand _defaultAnchorableAutoHideCommand = new RelayCommand((p) => ExecuteAnchorableAutoHideCommand(p), (p) => CanExecuteAnchorableAutoHideCommand(p));
+
+        /// <summary>
+        /// AnchorableAutoHideCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableAutoHideCommandProperty =
+            DependencyProperty.Register("AnchorableAutoHideCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ICommand)_defaultAnchorableAutoHideCommand,
+                    new PropertyChangedCallback(OnAnchorableAutoHideCommandChanged),
+                    new CoerceValueCallback(CoerceAnchorableAutoHideCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableAutoHideCommand property.  This dependency property 
+        /// indicates the command to execute when user click the auto hide button.
+        /// </summary>
+        /// <remarks>By default this command toggles auto hide state for an anchorable.</remarks>
+        public ICommand AnchorableAutoHideCommand
+        {
+            get { return (ICommand)GetValue(AnchorableAutoHideCommandProperty); }
+            set { SetValue(AnchorableAutoHideCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableAutoHideCommand property.
+        /// </summary>
+        private static void OnAnchorableAutoHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableAutoHideCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableAutoHideCommand property.
+        /// </summary>
+        protected virtual void OnAnchorableAutoHideCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableAutoHideCommand value.
+        /// </summary>
+        private static object CoerceAnchorableAutoHideCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
+        private static bool CanExecuteAnchorableAutoHideCommand(object p)
+        {
+            return true;
+        }
+
+        private static void ExecuteAnchorableAutoHideCommand(object anchorable)
+        {
+            var model = anchorable as LayoutAnchorable;
+            if (model != null)
+                model.Root.Manager.ToggleAutoHide(model);
+        }
+
+        #endregion
+
+        #region AnchorableFloatCommand
+
+        static ICommand _defaultAnchorableFloatCommand = new RelayCommand((p) => ExecuteAnchorableFloatCommand(p), (p) => CanExecuteAnchorableFloatCommand(p));
+
+        /// <summary>
+        /// AnchorableFloatCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableFloatCommandProperty =
+            DependencyProperty.Register("AnchorableFloatCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ICommand)_defaultAnchorableFloatCommand,
+                    new PropertyChangedCallback(OnAnchorableFloatCommandChanged),
+                    new CoerceValueCallback(CoerceAnchorableFloatCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableFloatCommand property.  This dependency property 
+        /// indicates the command to execute when user click the float button.
+        /// </summary>
+        /// <remarks>By default this command move the anchorable inside new floating window.</remarks>
+        public ICommand AnchorableFloatCommand
+        {
+            get { return (ICommand)GetValue(AnchorableFloatCommandProperty); }
+            set { SetValue(AnchorableFloatCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableFloatCommand property.
+        /// </summary>
+        private static void OnAnchorableFloatCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableFloatCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableFloatCommand property.
+        /// </summary>
+        protected virtual void OnAnchorableFloatCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableFloatCommand value.
+        /// </summary>
+        private static object CoerceAnchorableFloatCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
+        private static bool CanExecuteAnchorableFloatCommand(object p)
+        {
+            return true;
+        }
+
+        private static void ExecuteAnchorableFloatCommand(object anchorable)
+        {
+            var model = anchorable as LayoutAnchorable;
+            
+        }
+
+        #endregion
+
+        #region AnchorableDockCommand
+
+        static ICommand _defaultAnchorableDockCommand = new RelayCommand((p) => ExecuteAnchorableDockCommand(p), (p) => CanExecuteAnchorableDockCommand(p));
+
+        /// <summary>
+        /// AnchorableDockCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableDockCommandProperty =
+            DependencyProperty.Register("AnchorableDockCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ICommand)_defaultAnchorableDockCommand,
+                    new PropertyChangedCallback(OnAnchorableDockCommandChanged),
+                    new CoerceValueCallback(CoerceAnchorableDockCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableDockCommand property.  This dependency property 
+        /// indicates the command to execute when user click the Dock button.
+        /// </summary>
+        /// <remarks>By default this command moves the anchorable inside the container pane which previously hosted the object.</remarks>
+        public ICommand AnchorableDockCommand
+        {
+            get { return (ICommand)GetValue(AnchorableDockCommandProperty); }
+            set { SetValue(AnchorableDockCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableDockCommand property.
+        /// </summary>
+        private static void OnAnchorableDockCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableDockCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableDockCommand property.
+        /// </summary>
+        protected virtual void OnAnchorableDockCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableDockCommand value.
+        /// </summary>
+        private static object CoerceAnchorableDockCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
+        private static bool CanExecuteAnchorableDockCommand(object p)
+        {
+            return true;
+        }
+
+        private static void ExecuteAnchorableDockCommand(object anchorable)
+        {
+            var model = anchorable as LayoutAnchorable;
+
+        }
+
+        #endregion
+
+        #region AnchorableDockAsDocumentCommand
+
+        static ICommand _defaultAnchorableDockAsDocumentCommand = new RelayCommand((p) => ExecuteAnchorableDockAsDocumentCommand(p), (p) => CanExecuteAnchorableDockAsDocumentCommand(p));
+
+        /// <summary>
+        /// AnchorableDockAsDocumentCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableDockAsDocumentCommandProperty =
+            DependencyProperty.Register("AnchorableDockAsDocumentCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ICommand)_defaultAnchorableDockAsDocumentCommand,
+                    new PropertyChangedCallback(OnAnchorableDockAsDocumentCommandChanged),
+                    new CoerceValueCallback(CoerceAnchorableDockAsDocumentCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableDockAsDocumentCommand property.  This dependency property 
+        /// indicates the command to execute when user click the DockAsDocument button.
+        /// </summary>
+        /// <remarks>By default this command move the anchorable inside the last focused document pane.</remarks>
+        public ICommand AnchorableDockAsDocumentCommand
+        {
+            get { return (ICommand)GetValue(AnchorableDockAsDocumentCommandProperty); }
+            set { SetValue(AnchorableDockAsDocumentCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableDockAsDocumentCommand property.
+        /// </summary>
+        private static void OnAnchorableDockAsDocumentCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableDockAsDocumentCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableDockAsDocumentCommand property.
+        /// </summary>
+        protected virtual void OnAnchorableDockAsDocumentCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableDockAsDocumentCommand value.
+        /// </summary>
+        private static object CoerceAnchorableDockAsDocumentCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
+        private static bool CanExecuteAnchorableDockAsDocumentCommand(object p)
+        {
+            return true;
+        }
+
+        private static void ExecuteAnchorableDockAsDocumentCommand(object anchorable)
+        {
+            var model = anchorable as LayoutAnchorable;
+
+        }
+
+        #endregion
 
     }
 }

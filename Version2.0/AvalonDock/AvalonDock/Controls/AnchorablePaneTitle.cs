@@ -10,9 +10,6 @@ using AvalonDock.Layout;
 namespace AvalonDock.Controls
 {
 
-    [TemplatePart(Name = "PART_MenuPin", Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = "PART_AutoHidePin", Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = "PART_ClosePin", Type = typeof(FrameworkElement))]
     public class AnchorablePaneTitle : Control
     {
         static AnchorablePaneTitle()
@@ -24,10 +21,12 @@ namespace AvalonDock.Controls
 
 
         internal AnchorablePaneTitle()
-        { }
+        { 
+            
+        }
 
 
-        Border _menuPinContainer = null;
+        FrameworkElement _menuPinContainer = null;
         Border _menuAutoHideContainer = null;
         Border _menuCloseContainer = null;
 
@@ -35,15 +34,25 @@ namespace AvalonDock.Controls
         {
             base.OnApplyTemplate();
 
-            _menuPinContainer = this.GetTemplateChild("PART_MenuPin") as Border;
-            _menuAutoHideContainer = this.GetTemplateChild("PART_AutoHidePin") as Border;
-            _menuCloseContainer = this.GetTemplateChild("PART_ClosePin") as Border;
+            //_menuPinContainer = this.GetTemplateChild("PART_MenuPin") as FrameworkElement;
+            //_menuAutoHideContainer = this.GetTemplateChild("PART_AutoHidePin") as Border;
+            //_menuCloseContainer = this.GetTemplateChild("PART_ClosePin") as Border;
 
-            if (_menuAutoHideContainer != null)
-                _menuAutoHideContainer.MouseLeftButtonUp += (s, e) => OnToggleAutoHide();
+            //if (_menuAutoHideContainer != null)
+            //    _menuAutoHideContainer.MouseLeftButtonUp += (s, e) => OnToggleAutoHide();
 
-            if (_menuCloseContainer != null)
-                _menuCloseContainer.MouseLeftButtonUp += (s, e) => OnHide();
+            //if (_menuCloseContainer != null)
+            //    _menuCloseContainer.MouseLeftButtonUp += (s, e) => OnHide();
+
+            //if (_menuPinContainer != null)
+            //    _menuPinContainer.MouseLeftButtonDown += (s, e) =>
+            //        {
+            //            if (_menuPinContainer.ContextMenu != null)
+            //            {
+            //                _menuPinContainer.ContextMenu.PlacementTarget = _menuPinContainer;
+            //                _menuPinContainer.ContextMenu.IsOpen = true;
+            //            }
+            //        };
         }
 
         #region Model

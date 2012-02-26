@@ -32,24 +32,50 @@ namespace AvalonDock.Layout.Serialization
 
         public void Deserialize(System.IO.Stream stream)
         {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
-            var layout = serializer.Deserialize(stream) as LayoutRoot;
-            FixupLayout(layout);
-            Manager.Layout = layout;
+            try
+            {
+                StartDeserialization();
+                var serializer = new XmlSerializer(typeof(LayoutRoot));
+                var layout = serializer.Deserialize(stream) as LayoutRoot;
+                FixupLayout(layout);
+                Manager.Layout = layout;
+            }
+            finally
+            {
+                EndDeserialization();
+            }
         }
+
         public void Deserialize(System.IO.TextReader reader)
         {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
-            var layout = serializer.Deserialize(reader) as LayoutRoot;
-            FixupLayout(layout);
-            Manager.Layout = layout;
+            try
+            {
+                StartDeserialization();
+                var serializer = new XmlSerializer(typeof(LayoutRoot));
+                var layout = serializer.Deserialize(reader) as LayoutRoot;
+                FixupLayout(layout);
+                Manager.Layout = layout;
+            }
+            finally
+            {
+                EndDeserialization();
+            }
         }
+
         public void Deserialize(System.Xml.XmlReader reader)
         {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
-            var layout = serializer.Deserialize(reader) as LayoutRoot;
-            FixupLayout(layout);
-            Manager.Layout = layout;
+            try
+            {
+                StartDeserialization();
+                var serializer = new XmlSerializer(typeof(LayoutRoot));
+                var layout = serializer.Deserialize(reader) as LayoutRoot;
+                FixupLayout(layout);
+                Manager.Layout = layout;
+            }
+            finally
+            {
+                EndDeserialization();
+            }
         }
     }
 }

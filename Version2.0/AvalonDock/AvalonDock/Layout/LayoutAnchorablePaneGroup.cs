@@ -59,6 +59,19 @@ namespace AvalonDock.Layout
                 parentPane.ComputeVisibility();
         }
 
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            writer.WriteAttributeString("Orientation", Orientation.ToString());
+            base.WriteXml(writer);
+        }
+
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToAttribute("Orientation"))
+                Orientation = (Orientation)Enum.Parse(typeof(Orientation), reader.Value, true);
+            base.ReadXml(reader);
+        }
     }
 
 }

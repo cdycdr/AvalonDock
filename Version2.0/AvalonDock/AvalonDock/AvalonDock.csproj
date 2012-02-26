@@ -55,6 +55,7 @@
     <Compile Include="Controls\AnchorablePaneTabPanel.cs" />
     <Compile Include="Controls\AnchorablePaneTitle.cs" />
     <Compile Include="Controls\DocumentPaneGroupDropTarget.cs" />
+    <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\FocusHookHandler.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\ILogicalChildrenContainer.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Controls\Shell\SystemParameters2.cs" />
     <Compile Include="Controls\Shell\WindowChrome.cs" />
     <Compile Include="Controls\Shell\WindowChromeWorker.cs" />
+    <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="DocumentCloseEventArgs.cs" />
     <Compile Include="DocumentClosingEventArgs.cs" />
     <Compile Include="Extentions.cs" />
