@@ -17,6 +17,11 @@ namespace AvalonDock.Layout
         {
         }
 
+        public LayoutDocumentPaneGroup(LayoutDocumentPane documentPane)
+        {
+            Children.Add(documentPane);
+        }
+
         #region Orientation
 
         private Orientation _orientation;

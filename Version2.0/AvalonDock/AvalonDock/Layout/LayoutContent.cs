@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Markup;
 using System.Xml.Serialization;
 using System.Windows;
+using System.Globalization;
 
 namespace AvalonDock.Layout
 {
@@ -129,6 +130,9 @@ namespace AvalonDock.Layout
                     var root = Root;
                     if (root != null && _isActive)
                         root.ActiveContent = this;
+
+                    if (_isActive)
+                        IsSelected = true;
 
                     OnIsActiveChanged(oldValue, value);
                     RaisePropertyChanged("IsActive");
@@ -278,6 +282,17 @@ namespace AvalonDock.Layout
             if (reader.MoveToAttribute("PreviousContainerIndex"))
                 PreviousContainerIndex = int.Parse(reader.Value);
 
+            if (reader.MoveToAttribute("FloatingLeft"))
+                FloatingLeft = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            if (reader.MoveToAttribute("FloatingTop"))
+                FloatingTop = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            if (reader.MoveToAttribute("FloatingWidth"))
+                FloatingWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            if (reader.MoveToAttribute("FloatingHeight"))
+                FloatingHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            if (reader.MoveToAttribute("IsMaximized"))
+                IsMaximized = bool.Parse(reader.Value);
+
             reader.Read();
         }
 
@@ -297,7 +312,19 @@ namespace AvalonDock.Layout
             
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
+
+            if (FloatingLeft != 0.0)
+                writer.WriteAttributeString("FloatingLeft", FloatingLeft.ToString(CultureInfo.InvariantCulture));
+            if (FloatingTop != 0.0)
+                writer.WriteAttributeString("FloatingTop", FloatingTop.ToString(CultureInfo.InvariantCulture));
+            if (FloatingWidth != 0.0)
+                writer.WriteAttributeString("FloatingWidth", FloatingWidth.ToString(CultureInfo.InvariantCulture));
+            if (FloatingHeight != 0.0)
+                writer.WriteAttributeString("FloatingHeight", FloatingHeight.ToString(CultureInfo.InvariantCulture));
             
+            if (IsMaximized)
+                writer.WriteAttributeString("IsMaximized", IsMaximized.ToString());
+
             if (_previousContainer != null)
             {
                 var paneSerializable = _previousContainer as ILayoutPaneSerializable;

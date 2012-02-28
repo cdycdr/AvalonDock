@@ -31,9 +31,15 @@ namespace AvalonDock.Layout
                     if (_rootDocument != null)
                         _rootDocument.Parent = this;
                     RaisePropertyChanged("RootDocument");
+
+                    if (RootDocumentChanged != null)
+                        RootDocumentChanged(this, EventArgs.Empty);
                 }
             }
         }
+
+
+        public event EventHandler RootDocumentChanged;
 
         #endregion
 

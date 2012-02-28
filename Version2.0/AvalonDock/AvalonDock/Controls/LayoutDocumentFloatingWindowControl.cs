@@ -19,6 +19,11 @@ namespace AvalonDock.Controls
             :base(model)
         {
             _model = model;
+            _model.RootDocumentChanged += (s, e) =>
+            {
+                if (_model.RootDocument == null)
+                    InternalClose(); 
+            };
         }
 
 
@@ -31,7 +36,7 @@ namespace AvalonDock.Controls
             var manager = _model.Root.Manager;
 
             Content = manager.GetUIElementForModel(_model.RootDocument);
-            SetBinding(BackgroundProperty, new Binding("DataContext.Background") { Source = Content });
+            SetBinding(BackgroundProperty, new Binding("Background") { Source = manager });
         }
 
         protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -64,5 +69,7 @@ namespace AvalonDock.Controls
             }
             
         }
+
+        
     }
 }

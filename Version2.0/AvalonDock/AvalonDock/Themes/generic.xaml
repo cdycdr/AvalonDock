@@ -386,7 +386,9 @@
                                               ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                               ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
                             <!-- Close button should be moved out to the container style -->
-                            <Button x:Name="DocumentCloseButton" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Column="1" Margin="5,0,0,0" Visibility="Hidden" Command="{Binding DocumentCloseCommand, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}" CommandParameter="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}">
+                            <Button x:Name="DocumentCloseButton" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Column="1" Margin="5,0,0,0" Visibility="Hidden" 
+                                    Command="{Binding DocumentCloseCommand, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
+                                    CommandParameter="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}">
                                 <Image Source="/AvalonDock;component/Images/PinClose.png"/>
                             </Button>
                         </Grid>
@@ -496,14 +498,22 @@
                                         Grid.Column="2">
                                         <Image Source="/AvalonDock;component/Images/PinRestore.png"/>
                                     </Button>
-                                    
+
                                     <Button shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                            Focusable="False"
+                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Command="{Binding Path=Model.Root.Manager.DocumentCloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                            CommandParameter="{Binding Path=Model.RootDocument, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Grid.Column="3">
+                                        <Image Source="/AvalonDock;component/Images/PinClose.png"/>
+                                    </Button>
+                                    <!--<Button shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                         Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                         Command="{x:Static shell:SystemCommands.CloseWindowCommand}"
                                         CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                         Grid.Column="3">
                                         <Image Source="/AvalonDock;component/Images/PinClose.png"/>
-                                    </Button>
+                                    </Button>-->
                                 </Grid>
                                 <ContentPresenter Content="{TemplateBinding Content}" Grid.Row="1"/>
                             </Grid>

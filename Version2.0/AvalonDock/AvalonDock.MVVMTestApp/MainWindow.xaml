@@ -12,34 +12,33 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="Documents">
-                <MenuItem Header="Add" Click="OnAdd"/>
-                <MenuItem Header="Remove" Click="OnRemove"/>
+            <MenuItem Header="File">
+                <MenuItem Header="New" Command="{Binding NewCommand}"/>
+                <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                 <Separator/>
-                <MenuItem Header="Clear" Click="OnClear"/>
+                <MenuItem Header="Save" Command="{Binding SaveCommand}"/>
+                <MenuItem Header="Save As..." Command="{Binding SaveAsCommand}"/>
+                <Separator/>
+                <MenuItem Header="Close" Command="{Binding CloseCommand}"/>
             </MenuItem>
         </Menu>
-        <avalonDock:DockingManager x:Name="dockManager" DocumentsSource="{Binding ViewModelItems}" Grid.Row="1">
+        <avalonDock:DockingManager x:Name="dockManager" 
+                                   DocumentsSource="{Binding Files}"
+                                   ActiveContent="{Binding ActiveDocument, Mode=TwoWay}"
+                                   DocumentCloseCommand="{Binding CloseCommand}"
+                                   Grid.Row="1">
             <avalonDock:DockingManager.DocumentTemplate>
                 <DataTemplate>
-                    <TextBox Text="{Binding Mode=OneWay}"/>
+                    <TextBox Text="{Binding TextContent, UpdateSourceTrigger=PropertyChanged}"/>
                 </DataTemplate>
             </avalonDock:DockingManager.DocumentTemplate>
             <avalonDock:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>
-                    <Border Background="Purple">
-                        <TextBlock Text="{Binding Title}"/>
+                    <Border>
+                        <TextBlock Text="{Binding Path=Content.FileName}"/>
                     </Border>
                 </DataTemplate>
             </avalonDock:DockingManager.DocumentHeaderTemplate>
-            <avalonDockLayout:LayoutRoot>
-                <avalonDockLayout:LayoutPanel>
-                    <avalonDockLayout:LayoutDocumentPaneGroup>
-                        <avalonDockLayout:LayoutDocumentPane>
-                        </avalonDockLayout:LayoutDocumentPane>
-                    </avalonDockLayout:LayoutDocumentPaneGroup>
-                </avalonDockLayout:LayoutPanel>
-            </avalonDockLayout:LayoutRoot>
         </avalonDock:DockingManager>
     </Grid>
 </Window>

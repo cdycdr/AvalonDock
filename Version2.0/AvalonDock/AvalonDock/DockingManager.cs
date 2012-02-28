@@ -36,7 +36,7 @@ namespace AvalonDock
 
         public DockingManager()
         {
-            Layout = new LayoutRoot();
+            Layout = new LayoutRoot() { RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup(new LayoutDocumentPane())) };
             this.Loaded += new RoutedEventHandler(DockingManager_Loaded);
             this.Unloaded += new RoutedEventHandler(DockingManager_Unloaded);
         }
@@ -48,7 +48,7 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty LayoutProperty =
             DependencyProperty.Register("Layout", typeof(LayoutRoot), typeof(DockingManager),
-                new FrameworkPropertyMetadata((LayoutRoot)null,
+                new FrameworkPropertyMetadata(null,
                     new PropertyChangedCallback(OnLayoutChanged),
                     new CoerceValueCallback(CoerceLayoutValue)));
 
@@ -103,7 +103,7 @@ namespace AvalonDock
                 _fwList.Clear();
 
                 foreach (var fw in Layout.FloatingWindows)
-                    _fwList.Add(GetUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
+                    _fwList.Add(GetUIElementForModel(fw) as LayoutFloatingWindowControl);
 
                 foreach (var fw in _fwList)
                     fw.Owner = Window.GetWindow(this);
@@ -142,6 +142,10 @@ namespace AvalonDock
                                 FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
                         }), DispatcherPriority.Loaded);
                 }
+
+                if (!_insideInternalSetActiveContent)
+                    ActiveContent = Layout.ActiveContent != null ?
+                        Layout.ActiveContent.Content : null;
             }
         }
 
@@ -156,7 +160,7 @@ namespace AvalonDock
         private static object CoerceLayoutValue(DependencyObject d, object value)
         {
             if (value == null)
-                return new LayoutRoot() { RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup()) };
+                return new LayoutRoot() { RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup(new LayoutDocumentPane())) };
 
             return value;
         }
@@ -270,6 +274,26 @@ namespace AvalonDock
                 return newFW;
             }
 
+            if (model is LayoutDocumentFloatingWindow)
+            {
+                if (DesignerProperties.GetIsInDesignMode(this))
+                    return null;
+                var modelFW = model as LayoutDocumentFloatingWindow;
+                var newFW = new LayoutDocumentFloatingWindowControl(modelFW);
+
+                var paneForExtentions = modelFW.RootDocument;
+                if (paneForExtentions != null)
+                {
+                    newFW.Left = paneForExtentions.FloatingLeft;
+                    newFW.Top = paneForExtentions.FloatingTop;
+                    newFW.Width = paneForExtentions.FloatingWidth;
+                    newFW.Height = paneForExtentions.FloatingHeight;
+                }
+
+                newFW.ShowInTaskbar = false;
+                newFW.Show();
+                return newFW;
+            }
 
             if (model is LayoutDocument)
             {
@@ -1514,7 +1538,7 @@ namespace AvalonDock
                     var documentsToRemove = Layout.Descendents().OfType<LayoutDocument>().Where(d => e.OldItems.Contains(d.Content)).ToArray();
                     foreach (var documentToRemove in documentsToRemove)
                     {
-                        (documentToRemove.Parent as LayoutDocumentPane).Children.Remove(
+                        (documentToRemove.Parent as ILayoutContainer).RemoveChild(
                             documentToRemove);
                     }
                 }
@@ -1551,7 +1575,7 @@ namespace AvalonDock
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 //NOTE: I'm going to clear every document present in layout but
-                //some documents may have been added directly to layout, for now I clear them too
+                //some documents may have been added directly to the layout, for now I clear them too
                 var documentsToRemove = Layout.Descendents().OfType<LayoutDocument>().ToArray();
                 foreach (var documentToRemove in documentsToRemove)
                 {
@@ -1634,7 +1658,7 @@ namespace AvalonDock
 
         private static bool CanExecuteDocumentCloseCommand(object parameter)
         {
-            return true;
+            return parameter != null;
         }
 
         private static void ExecuteDocumentCloseCommand(object parameter)
@@ -2056,6 +2080,57 @@ namespace AvalonDock
         }
 
         #endregion
+
+
+        #region ActiveContent
+
+        /// <summary>
+        /// ActiveContent Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ActiveContentProperty =
+            DependencyProperty.Register("ActiveContent", typeof(object), typeof(DockingManager),
+                new FrameworkPropertyMetadata((object)null,
+                    new PropertyChangedCallback(OnActiveContentChanged)));
+
+        /// <summary>
+        /// Gets or sets the ActiveContent property.  This dependency property 
+        /// indicates the content currently active.
+        /// </summary>
+        public object ActiveContent
+        {
+            get { return (object)GetValue(ActiveContentProperty); }
+            set { SetValue(ActiveContentProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the ActiveContent property.
+        /// </summary>
+        private static void OnActiveContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnActiveContentChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the ActiveContent property.
+        /// </summary>
+        protected virtual void OnActiveContentChanged(DependencyPropertyChangedEventArgs e)
+        {
+            InternalSetActiveContent(Layout.Descendents().OfType<LayoutContent>().FirstOrDefault(lc => lc.Content == e.NewValue));
+        }
+
+
+        bool _insideInternalSetActiveContent = false;
+        void InternalSetActiveContent(LayoutContent content)
+        {
+            _insideInternalSetActiveContent = true;
+            Layout.ActiveContent = content;
+            _insideInternalSetActiveContent = false;
+        }
+
+
+
+        #endregion
+
 
     }
 }

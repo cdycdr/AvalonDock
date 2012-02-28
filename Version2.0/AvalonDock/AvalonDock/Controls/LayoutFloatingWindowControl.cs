@@ -53,7 +53,7 @@ namespace AvalonDock.Controls
 
                 _rootPresenter = new Border() { Child = Content, Focusable = true };
                 _rootPresenter.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(_rootPresenter_GotKeyboardFocus);
-                _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("DataContext.Background"));
+                _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("Background") { Source = _owner });
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;
                 var manager = _owner.Model.Root.Manager;

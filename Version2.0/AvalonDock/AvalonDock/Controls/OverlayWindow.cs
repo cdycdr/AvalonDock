@@ -320,6 +320,6 @@ namespace AvalonDock.Controls
             target.Drop(_floatingWindow.Model as LayoutFloatingWindow);
         }
 
-
+        
     }
 }
