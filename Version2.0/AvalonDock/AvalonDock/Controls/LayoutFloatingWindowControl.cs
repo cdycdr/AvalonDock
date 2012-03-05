@@ -76,7 +76,6 @@ namespace AvalonDock.Controls
             {
                 var manager = _owner.Model.Root.Manager;
                 ((ILogicalChildrenContainer)manager).InternalRemoveLogicalChild(_rootPresenter);
-                //Win32Helper.DestroyWindow(hwnd.Handle);
                 if (_wpfContentHost != null)
                 {
                     _wpfContentHost.Dispose();

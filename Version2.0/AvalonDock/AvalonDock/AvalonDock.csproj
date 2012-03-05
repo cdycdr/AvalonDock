@@ -141,7 +141,7 @@
     <Compile Include="Layout\LayoutAnchorablePaneGroup.cs" />
     <Compile Include="Layout\LayoutAnchorGroup.cs" />
     <Compile Include="Layout\LayoutAnchorSide.cs" />
-    <Compile Include="Controls\LayoutAutoHideWindow.cs" />
+    <Compile Include="Controls\LayoutAutoHideWindowControl.cs" />
     <Compile Include="Layout\LayoutContent.cs" />
     <Compile Include="Layout\LayoutDocument.cs" />
     <Compile Include="Layout\LayoutDocumentFloatingWindow.cs" />

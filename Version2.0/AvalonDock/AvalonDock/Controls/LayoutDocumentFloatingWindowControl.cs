@@ -36,7 +36,6 @@ namespace AvalonDock.Controls
             var manager = _model.Root.Manager;
 
             Content = manager.GetUIElementForModel(_model.RootDocument);
-            SetBinding(BackgroundProperty, new Binding("Background") { Source = manager });
         }
 
         protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

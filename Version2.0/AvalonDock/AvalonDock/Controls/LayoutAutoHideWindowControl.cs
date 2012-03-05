@@ -14,9 +14,14 @@ using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAutoHideWindow : HwndHost, ILayoutControl
+    public class LayoutAutoHideWindowControl : HwndHost, ILayoutControl
     {
-        internal LayoutAutoHideWindow(LayoutAnchorControl anchor)
+        static LayoutAutoHideWindowControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(typeof(LayoutAutoHideWindowControl)));
+        }
+
+        internal LayoutAutoHideWindowControl(LayoutAnchorControl anchor)
         {
             _model = anchor.Model as LayoutAnchorable;
             _side = (anchor.Model.Parent.Parent as LayoutAnchorSide).Side;
@@ -30,6 +35,8 @@ namespace AvalonDock.Controls
         }
 
         HwndSource _internalHwndSource = null;
+
+
 
         protected override System.Runtime.InteropServices.HandleRef BuildWindowCore(System.Runtime.InteropServices.HandleRef hwndParent)
         {
@@ -84,7 +91,7 @@ namespace AvalonDock.Controls
         void CreateInternalGrid()
         {
             _internalGrid = new Grid();
-            _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("DataContext.Background") { Source = _model.Root.Manager });
+            _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("Background") { Source = this });
 
             _internalHost = new LayoutAnchorableControl() { Model = _model };
             _resizer = new LayoutGridResizerControl();
@@ -367,5 +374,29 @@ namespace AvalonDock.Controls
                     _lastFocusedElement = e.NewFocus;
             }
         }
+
+
+        #region Background
+
+        /// <summary>
+        /// Background Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty BackgroundProperty =
+            DependencyProperty.Register("Background", typeof(Brush), typeof(LayoutAutoHideWindowControl),
+                new FrameworkPropertyMetadata((Brush)null));
+
+        /// <summary>
+        /// Gets or sets the Background property.  This dependency property 
+        /// indicates background of the autohide childwindow.
+        /// </summary>
+        public Brush Background
+        {
+            get { return (Brush)GetValue(BackgroundProperty); }
+            set { SetValue(BackgroundProperty, value); }
+        }
+
+        #endregion
+
+
     }
 }

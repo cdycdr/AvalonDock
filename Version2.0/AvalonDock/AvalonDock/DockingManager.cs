@@ -78,6 +78,7 @@ namespace AvalonDock
             if (oldLayout != null)
             {
                 oldLayout.PropertyChanged -= new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
+                oldLayout.Updated -= new EventHandler(OnLayoutRootUpdated);
             }
 
             DetachDocumentsSource(oldLayout, DocumentsSource);
@@ -114,10 +115,13 @@ namespace AvalonDock
             if (newLayout != null)
             {
                 newLayout.PropertyChanged += new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
+                newLayout.Updated += new EventHandler(OnLayoutRootUpdated);
             }
 
             if (LayoutChanged != null)
                 LayoutChanged(this, EventArgs.Empty);
+
+            CommandManager.InvalidateRequerySuggested();
         }
 
         void OnLayoutRootPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -148,6 +152,12 @@ namespace AvalonDock
                         Layout.ActiveContent.Content : null;
             }
         }
+
+        void OnLayoutRootUpdated(object sender, EventArgs e)
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
+
 
         /// <summary>
         /// Event fired when <see cref="DockingManager.Layout"/> property changes
@@ -557,6 +567,90 @@ namespace AvalonDock
 
         #endregion
 
+        #region DocumentTitleTemplate
+
+        /// <summary>
+        /// DocumentTitleTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentTitleTemplateProperty =
+            DependencyProperty.Register("DocumentTitleTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null));
+
+        /// <summary>
+        /// Gets or sets the DocumentTitleTemplate property.  This dependency property 
+        /// indicates the data template to use when rendering documents title.
+        /// </summary>
+        public DataTemplate DocumentTitleTemplate
+        {
+            get { return (DataTemplate)GetValue(DocumentTitleTemplateProperty); }
+            set { SetValue(DocumentTitleTemplateProperty, value); }
+        }
+
+        #endregion
+
+        #region DocumentTitleTemplateSelector
+
+        /// <summary>
+        /// DocumentTitleTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentTitleTemplateSelectorProperty =
+            DependencyProperty.Register("DocumentTitleTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+
+        /// <summary>
+        /// Gets or sets the DocumentTitleTemplateSelector property.  This dependency property 
+        /// indicates the data template selector to use when selecting a data template for the document title.
+        /// </summary>
+        public DataTemplateSelector DocumentTitleTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(DocumentTitleTemplateSelectorProperty); }
+            set { SetValue(DocumentTitleTemplateSelectorProperty, value); }
+        }
+
+        #endregion
+
+        #region AnchorableTitleTemplate
+
+        /// <summary>
+        /// AnchorableTitleTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableTitleTemplateProperty =
+            DependencyProperty.Register("AnchorableTitleTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null));
+
+        /// <summary>
+        /// Gets or sets the AnchorableTitleTemplate property.  This dependency property 
+        /// indicates the data template to use when instatiating the anchorable title part.
+        /// </summary>
+        public DataTemplate AnchorableTitleTemplate
+        {
+            get { return (DataTemplate)GetValue(AnchorableTitleTemplateProperty); }
+            set { SetValue(AnchorableTitleTemplateProperty, value); }
+        }
+
+        #endregion
+
+        #region AnchorableTitleTemplateSelector
+
+        /// <summary>
+        /// AnchorableTitleTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableTitleTemplateSelectorProperty =
+            DependencyProperty.Register("AnchorableTitleTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+
+        /// <summary>
+        /// Gets or sets the AnchorableTitleTemplateSelector property.  This dependency property 
+        /// indicates the data template selector to use when selecting the data template for the anchorable title.
+        /// </summary>
+        public DataTemplateSelector AnchorableTitleTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(AnchorableTitleTemplateSelectorProperty); }
+            set { SetValue(AnchorableTitleTemplateSelectorProperty, value); }
+        }
+
+        #endregion
+
         #region AnchorableHeaderTemplate
 
         /// <summary>
@@ -890,7 +984,7 @@ namespace AvalonDock
 
             HideAutoHideWindow();
 
-            SetAutoHideWindow(new LayoutAutoHideWindow(anchor));
+            SetAutoHideWindow(new LayoutAutoHideWindowControl(anchor));
         }
 
         internal void HideAutoHideWindow()
@@ -919,8 +1013,8 @@ namespace AvalonDock
         /// AutoHideWindow Read-Only Dependency Property
         /// </summary>
         private static readonly DependencyPropertyKey AutoHideWindowPropertyKey
-            = DependencyProperty.RegisterReadOnly("AutoHideWindow", typeof(LayoutAutoHideWindow), typeof(DockingManager),
-                new FrameworkPropertyMetadata((LayoutAutoHideWindow)null,
+            = DependencyProperty.RegisterReadOnly("AutoHideWindow", typeof(LayoutAutoHideWindowControl), typeof(DockingManager),
+                new FrameworkPropertyMetadata((LayoutAutoHideWindowControl)null,
                     new PropertyChangedCallback(OnAutoHideWindowChanged)));
 
         public static readonly DependencyProperty AutoHideWindowProperty
@@ -930,9 +1024,9 @@ namespace AvalonDock
         /// Gets the AutoHideWindow property.  This dependency property 
         /// indicates ....
         /// </summary>
-        public LayoutAutoHideWindow AutoHideWindow
+        public LayoutAutoHideWindowControl AutoHideWindow
         {
-            get { return (LayoutAutoHideWindow)GetValue(AutoHideWindowProperty); }
+            get { return (LayoutAutoHideWindowControl)GetValue(AutoHideWindowProperty); }
         }
 
         /// <summary>
@@ -940,7 +1034,7 @@ namespace AvalonDock
         /// This dependency property indicates ....
         /// </summary>
         /// <param name="value">The new value for the property.</param>
-        protected void SetAutoHideWindow(LayoutAutoHideWindow value)
+        protected void SetAutoHideWindow(LayoutAutoHideWindowControl value)
         {
             SetValue(AutoHideWindowPropertyKey, value);
         }
@@ -1154,7 +1248,9 @@ namespace AvalonDock
         void CreateOverlayWindow()
         {
             if (_overlayWindow == null)
+            {
                 _overlayWindow = new OverlayWindow(this);
+            }
             Rect rectWindow = new Rect(this.PointToScreenDPI(new Point()), this.TransformActualSizeToAncestor());
             _overlayWindow.Left = rectWindow.Left;
             _overlayWindow.Top = rectWindow.Top;
@@ -1176,6 +1272,7 @@ namespace AvalonDock
             Debug.WriteLine("ShowOverlayWindow");
             CreateOverlayWindow();
             _overlayWindow.Owner = draggingWindow;
+            _overlayWindow.EnableDropTargets();
             _overlayWindow.Show();
             return _overlayWindow;
         }
@@ -1185,7 +1282,7 @@ namespace AvalonDock
             Debug.WriteLine("HideOverlayWindow");
             _areas = null;
             _overlayWindow.Owner = null;
-            _overlayWindow.Hide();
+            _overlayWindow.HideDropTargets();
         }
 
         List<IDropArea> _areas = null;
@@ -1579,7 +1676,7 @@ namespace AvalonDock
                 var documentsToRemove = Layout.Descendents().OfType<LayoutDocument>().ToArray();
                 foreach (var documentToRemove in documentsToRemove)
                 {
-                    (documentToRemove.Parent as LayoutDocumentPane).Children.Remove(
+                    (documentToRemove.Parent as ILayoutContainer).RemoveChild(
                         documentToRemove);
                 }                
             }
@@ -1598,7 +1695,7 @@ namespace AvalonDock
 
             foreach (var documentToRemove in documentsToRemove)
             {
-                (documentToRemove.Parent as LayoutDocumentPane).Children.Remove(
+                (documentToRemove.Parent as ILayoutContainer).RemoveChild(
                     documentToRemove);
             }
 
@@ -1606,6 +1703,9 @@ namespace AvalonDock
             if (documentsSourceAsNotifier != null)
                 documentsSourceAsNotifier.CollectionChanged -= new NotifyCollectionChangedEventHandler(documentsSourceElementsChanged);
         }
+
+
+        #endregion
 
         #region DocumentCloseCommand
 
@@ -1704,6 +1804,197 @@ namespace AvalonDock
 
 
         #endregion
+
+        #region AnchorablesSource
+
+        /// <summary>
+        /// AnchorablesSource Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorablesSourceProperty =
+            DependencyProperty.Register("AnchorablesSource", typeof(IEnumerable), typeof(DockingManager),
+                new FrameworkPropertyMetadata((IEnumerable)null,
+                    new PropertyChangedCallback(OnAnchorablesSourceChanged)));
+
+        /// <summary>
+        /// Gets or sets the AnchorablesSource property.  This dependency property 
+        /// indicates source collection of anchorables.
+        /// </summary>
+        public IEnumerable AnchorablesSource
+        {
+            get { return (IEnumerable)GetValue(AnchorablesSourceProperty); }
+            set { SetValue(AnchorablesSourceProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorablesSource property.
+        /// </summary>
+        private static void OnAnchorablesSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorablesSourceChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorablesSource property.
+        /// </summary>
+        protected virtual void OnAnchorablesSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            DetachAnchorablesSource(Layout, e.OldValue as IEnumerable);
+            AttachAnchorablesSource(Layout, e.NewValue as IEnumerable);
+        }
+
+
+        void DetachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
+        {
+            if (anchorablesSource == null)
+                return;
+
+            if (layout == null)
+                return;
+
+            if (layout.Descendents().OfType<LayoutAnchorable>().Any())
+                throw new InvalidOperationException("Unable to set the AnchorablesSource property if LayoutAnchorable objects are already present in the model");
+
+            var anchorables = anchorablesSource as IEnumerable;
+            LayoutAnchorablePane anchorablePane = null;
+            if (layout.ActiveContent != null)
+            {
+                //look for active content parent pane
+                anchorablePane = layout.ActiveContent.Parent as LayoutAnchorablePane;
+            }
+
+            if (anchorablePane == null)
+            {
+                //look for a pane on the right side
+                anchorablePane = layout.Descendents().OfType<LayoutAnchorablePane>().Where(pane => pane.GetSide() == AnchorSide.Right).FirstOrDefault();
+            }
+
+            if (anchorablePane == null)
+            {
+                //look for an available pane
+                anchorablePane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault();
+            }
+
+            if (anchorablePane == null)
+            { 
+                //create a pane on the fly on the right side
+
+            }
+
+            if (anchorablePane != null)
+            {
+                foreach (var anchorableToImport in (anchorablesSource as IEnumerable))
+                {
+                    anchorablePane.Children.Add(new LayoutAnchorable() { Content = anchorableToImport });
+                }
+            }
+
+            var anchorablesSourceAsNotifier = anchorablesSource as INotifyCollectionChanged;
+            if (anchorablesSourceAsNotifier != null)
+                anchorablesSourceAsNotifier.CollectionChanged += new NotifyCollectionChangedEventHandler(anchorablesSourceElementsChanged);
+        }
+
+        internal bool SuspendAnchorablesSourceBinding = false;
+
+        void anchorablesSourceElementsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (Layout == null)
+                return;
+
+            //When deserializing documents are created automatically by the deserializer
+            if (SuspendAnchorablesSourceBinding)
+                return;
+
+            //handle remove
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            {
+                if (e.OldItems != null)
+                {
+                    var anchorablesToRemove = Layout.Descendents().OfType<LayoutDocument>().Where(d => e.OldItems.Contains(d.Content)).ToArray();
+                    foreach (var anchorableToRemove in anchorablesToRemove)
+                    {
+                        (anchorableToRemove.Parent as ILayoutContainer).RemoveChild(
+                            anchorableToRemove);
+                    }
+                }
+            }
+
+            //handle add
+            if (e.NewItems != null &&
+                (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
+                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
+            {
+                if (e.NewItems != null)
+                {
+                    LayoutAnchorablePane anchorablePane = null;
+                    if (Layout.ActiveContent != null)
+                    {
+                        //look for active content parent pane
+                        anchorablePane = Layout.ActiveContent.Parent as LayoutAnchorablePane;
+                    }
+
+                    if (anchorablePane == null)
+                    {
+                        //look for a pane on the right side
+                        anchorablePane = Layout.Descendents().OfType<LayoutAnchorablePane>().Where(pane => pane.GetSide() == AnchorSide.Right).FirstOrDefault();
+                    }
+
+                    if (anchorablePane == null)
+                    {
+                        //look for an available pane
+                        anchorablePane = Layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault();
+                    }
+
+                    if (anchorablePane == null)
+                    {
+                        //create a pane on the fly on the right side
+
+                    }
+
+                    if (anchorablePane != null)
+                    {
+                        foreach (var anchorableToImport in e.NewItems)
+                        {
+                            anchorablePane.Children.Add(new LayoutAnchorable() { Content = anchorableToImport });
+                        }
+                    }
+                }
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                //NOTE: I'm going to clear every document present in layout but
+                //some documents may have been added directly to the layout, for now I clear them too
+                var anchorablesToRemove = Layout.Descendents().OfType<LayoutDocument>().ToArray();
+                foreach (var anchorableToRemove in anchorablesToRemove)
+                {
+                    (anchorableToRemove.Parent as ILayoutContainer).RemoveChild(
+                        anchorableToRemove);
+                }
+            }
+        }
+
+        void AttachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
+        {
+            if (anchorablesSource == null)
+                return;
+
+            if (layout == null)
+                return;
+
+            var anchorablesToRemove = layout.Descendents().OfType<LayoutAnchorable>()
+                .Where(d => anchorablesSource.Contains(d.Content)).ToArray();
+
+            foreach (var anchorableToRemove in anchorablesToRemove)
+            {
+                (anchorableToRemove.Parent as ILayoutContainer).RemoveChild(
+                    anchorableToRemove);
+            }
+
+            var anchorablesSourceAsNotifier = anchorablesSource as INotifyCollectionChanged;
+            if (anchorablesSourceAsNotifier != null)
+                anchorablesSourceAsNotifier.CollectionChanged -= new NotifyCollectionChangedEventHandler(anchorablesSourceElementsChanged);
+        }
 
         #endregion
 
@@ -1887,8 +2178,11 @@ namespace AvalonDock
             return value;
         }
 
-        private static bool CanExecuteAnchorableAutoHideCommand(object p)
+        private static bool CanExecuteAnchorableAutoHideCommand(object anchorable)
         {
+            var model = anchorable as LayoutAnchorable;
+            if (model == null || model.FindParent<LayoutAnchorableFloatingWindow>() != null)
+                return false;//is floating
             return true;
         }
 
@@ -2081,7 +2375,6 @@ namespace AvalonDock
 
         #endregion
 
-
         #region ActiveContent
 
         /// <summary>
@@ -2107,6 +2400,7 @@ namespace AvalonDock
         /// </summary>
         private static void OnActiveContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            ((DockingManager)d).InternalSetActiveContent(e.NewValue);
             ((DockingManager)d).OnActiveContentChanged(e);
         }
 
@@ -2115,19 +2409,42 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnActiveContentChanged(DependencyPropertyChangedEventArgs e)
         {
-            InternalSetActiveContent(Layout.Descendents().OfType<LayoutContent>().FirstOrDefault(lc => lc.Content == e.NewValue));
+            if (ActiveContentChanged != null)
+                ActiveContentChanged(this, EventArgs.Empty);
         }
 
 
         bool _insideInternalSetActiveContent = false;
-        void InternalSetActiveContent(LayoutContent content)
+        void InternalSetActiveContent(object contentObject)
         {
+            var layoutContent = Layout.Descendents().OfType<LayoutContent>().FirstOrDefault(lc => lc == contentObject || lc.Content == contentObject);
             _insideInternalSetActiveContent = true;
-            Layout.ActiveContent = content;
+            Layout.ActiveContent = layoutContent;
             _insideInternalSetActiveContent = false;
         }
 
+        public event EventHandler ActiveContentChanged;
 
+        #endregion
+
+        #region AnchorableContextMenu
+
+        /// <summary>
+        /// AnchorableContextMenu Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableContextMenuProperty =
+            DependencyProperty.Register("AnchorableContextMenu", typeof(ContextMenu), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ContextMenu)null));
+
+        /// <summary>
+        /// Gets or sets the AnchorableContextMenu property.  This dependency property 
+        /// indicates the context menu to show up for anchorables.
+        /// </summary>
+        public ContextMenu AnchorableContextMenu
+        {
+            get { return (ContextMenu)GetValue(AnchorableContextMenuProperty); }
+            set { SetValue(AnchorableContextMenuProperty, value); }
+        }
 
         #endregion
 

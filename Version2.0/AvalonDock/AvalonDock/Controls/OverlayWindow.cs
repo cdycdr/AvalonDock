@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using AvalonDock.Layout;
+using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
@@ -99,6 +100,21 @@ namespace AvalonDock.Controls
             _previewBox = GetTemplateChild("PART_PreviewBox") as Path;
         }
 
+
+        internal void EnableDropTargets()
+        {
+            Debug.WriteLine("EnableDropTargets()");
+            if (_mainCanvasPanel != null)
+                _mainCanvasPanel.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        internal void HideDropTargets()
+        {
+            Debug.WriteLine("HideDropTargets()");
+            if (_mainCanvasPanel != null)
+                _mainCanvasPanel.Visibility = System.Windows.Visibility.Hidden;
+        
+        }
 
         IOverlayWindowHost _host;
 
@@ -201,7 +217,8 @@ namespace AvalonDock.Controls
         void IOverlayWindow.DragEnter(LayoutFloatingWindowControl floatingWindow)
         {
             _floatingWindow = floatingWindow;
-            Visibility = System.Windows.Visibility.Visible;
+            //Visibility = System.Windows.Visibility.Visible;
+            EnableDropTargets();
         }
 
         void IOverlayWindow.DragLeave(LayoutFloatingWindowControl floatingWindow)

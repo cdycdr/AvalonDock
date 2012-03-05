@@ -459,6 +459,13 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        public event EventHandler Updated;
+
+        internal void FireLayoutUpdated()
+        {
+            if (Updated != null)
+                Updated(this, EventArgs.Empty);
+        }
 
 
     }

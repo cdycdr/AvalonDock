@@ -36,7 +36,6 @@ namespace AvalonDock.Controls
             var manager = _model.Root.Manager;
 
             Content = manager.GetUIElementForModel(_model.RootPanel);
-            SetBinding(BackgroundProperty, new Binding("DataContext.Background") { Source = Content });
 
             SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
         }
@@ -64,6 +63,7 @@ namespace AvalonDock.Controls
         {
             CreateOverlayWindow();
             _overlayWindow.Owner = draggingWindow;
+            _overlayWindow.EnableDropTargets();
             _overlayWindow.Show();
 
             return _overlayWindow;
@@ -73,7 +73,7 @@ namespace AvalonDock.Controls
         {
             _dropAreas = null;
             _overlayWindow.Owner = null;
-            _overlayWindow.Hide();
+            _overlayWindow.HideDropTargets();
         }
 
         List<IDropArea> _dropAreas = null;

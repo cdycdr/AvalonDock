@@ -255,7 +255,7 @@ namespace AvalonDock.Layout
         /// </summary>
         public void Close()
         {
-            var parentAsDocuPane = Parent as ILayoutPane;
+            var parentAsDocuPane = Parent as ILayoutContainer;
             parentAsDocuPane.RemoveChild(this);
         }
 

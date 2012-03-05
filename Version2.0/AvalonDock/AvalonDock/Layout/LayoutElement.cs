@@ -32,6 +32,10 @@ namespace AvalonDock.Layout
                     _parent = value;
                     OnParentChanged(oldValue, value);
                     RaisePropertyChanged("Parent");
+
+                    var root = Root as LayoutRoot;
+                    if (root != null)
+                        root.FireLayoutUpdated();
                 }
             }
         }
@@ -51,8 +55,6 @@ namespace AvalonDock.Layout
         }
 
         #endregion
-
-
 
         [field: NonSerialized]
         [field: XmlIgnore]

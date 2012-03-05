@@ -132,6 +132,9 @@ namespace AvalonDock.Controls
             UpdateMouseLocation(x,y);
 
             var floatingWindowModel = _floatingWindow.Model as LayoutFloatingWindow;
+            
+            if (_currentHost != null)
+                _currentHost.HideOverlayWindow();
 
             if (_currentDropTarget != null)
             {
@@ -148,8 +151,7 @@ namespace AvalonDock.Controls
             if (_currentWindow != null)
                 _currentWindow.DragLeave(_floatingWindow);
             _currentWindow = null;
-            if (_currentHost != null)
-                _currentHost.HideOverlayWindow();
+
             _currentHost = null;
         }
 

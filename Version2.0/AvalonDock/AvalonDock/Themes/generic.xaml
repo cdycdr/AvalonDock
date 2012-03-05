@@ -121,59 +121,49 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Model.Title, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        <avalonDockControls:DropDownButton
-                                        Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
-                                        Focusable="False"
-                                        Grid.Column="1">
-                            <avalonDockControls:DropDownButton.DropDownContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Float" 
-                                              Command="{Binding Path=Model.Root.Manager.AnchorableFloatCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                              CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <MenuItem Header="Dock" 
-                                              Command="{Binding Path=Model.Root.Manager.AnchorableDockCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                              CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <MenuItem Header="Dock as Tabbed Document" 
-                                              Command="{Binding Path=Model.Root.Manager.AnchorableDockAsDocumentCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                              CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <MenuItem Header="Auto Hide" 
-                                              Command="{Binding Path=Model.Root.Manager.AnchorableAutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                              CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    <MenuItem Header="Close" 
-                                              Command="{Binding Path=Model.Root.Manager.AnchorableCloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                              CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                </ContextMenu>
-                            </avalonDockControls:DropDownButton.DropDownContextMenu>
-                            <Image Source="/AvalonDock;component/Images/PinMenu.png"/>
-                        </avalonDockControls:DropDownButton>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
+                                              ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                        <Button x:Name="PART_AutoHidePin" 
+                            <avalonDockControls:DropDownButton
+                            Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                            Focusable="False"
+                            Grid.Column="1"
+                            DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                            DropDownContextMenuDataContext="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Image Source="/AvalonDock;component/Images/PinMenu.png"/>
+                            </avalonDockControls:DropDownButton>
+
+                            <Button x:Name="PART_AutoHidePin" 
                                 Grid.Column="2" 
                                 Focusable="False"
                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                 Command="{Binding Path=Model.Root.Manager.AnchorableAutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}" 
-                                CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}" >
-                            <Image Source="/AvalonDock;component/Images/PinAutoHide.png"/>
-                        </Button>
+                                CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Image Source="/AvalonDock;component/Images/PinAutoHide.png"/>
+                            </Button>
 
-                        <Button x:Name="PART_HidePin" 
+                            <Button x:Name="PART_HidePin" 
                                 Grid.Column="3" 
                                 Focusable="False"
                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                 Command="{Binding Path=Model.Root.Manager.AnchorableHideCommand, RelativeSource={RelativeSource TemplatedParent}}" 
                                 CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}" >
-                            <Image Source="/AvalonDock;component/Images/PinClose.png"/>
-                        </Button>
-                    </Grid>
-
+                                <Image Source="/AvalonDock;component/Images/PinClose.png"/>
+                            </Button>
+                        </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -216,7 +206,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:OverlayWindow}">
                     <Canvas x:Name="PART_DropTargetsContainer" Opacity="0.9">
-                        <Path x:Name="PART_PreviewBox" Fill="AliceBlue" StrokeThickness="3" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        <Path x:Name="PART_PreviewBox" Fill="AliceBlue" StrokeThickness="2" Stroke="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         <Grid x:Name="PART_DockingManagerDropTargets" >
                             <Image x:Name="PART_DockingManagerDropTargetLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/AvalonDock;component/Images/DockLeft.PNG" Stretch="None" />
                             <Image x:Name="PART_DockingManagerDropTargetRight" VerticalAlignment="Center" HorizontalAlignment="Right" Source="/AvalonDock;component/Images/DockRight.PNG" Stretch="None" />
@@ -296,7 +286,34 @@
     <DataTemplate x:Key="AnchorableHeaderTemplate">
         <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
     </DataTemplate>
-    
+
+    <DataTemplate x:Key="DocumentTitleTemplate">
+        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AnchorableTitleTemplate">
+        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+    </DataTemplate>
+
+    <ContextMenu x:Key="AnchorableContextMenu">
+        <MenuItem Header="Float" 
+                Command="{Binding Path=Root.Manager.AnchorableFloatCommand}"
+                CommandParameter="{Binding}"/>
+        <MenuItem Header="Dock" 
+                Command="{Binding Path=Root.Manager.AnchorableDockCommand}"
+                CommandParameter="{Binding}"/>
+        <MenuItem Header="Dock as Tabbed Document" 
+                Command="{Binding Path=Root.Manager.AnchorableDockAsDocumentCommand}"
+                CommandParameter="{Binding}"/>
+        <MenuItem Header="Auto Hide" 
+                Command="{Binding Path=Root.Manager.AnchorableAutoHideCommand}"
+                CommandParameter="{Binding}"/>
+        <MenuItem Header="Close" 
+                Command="{Binding Path=Model.Root.Manager.AnchorableCloseCommand}"
+                CommandParameter="{Binding}"/>
+    </ContextMenu>
+
+
     <!--DockingManager-->
     <Style x:Key="{x:Type avalonDock:DockingManager}" TargetType="{x:Type avalonDock:DockingManager}">
         <Setter Property="DocumentPaneControlStyle" Value="{StaticResource DocumentPaneControlStyle}"/>
@@ -306,6 +323,9 @@
         <Setter Property="AnchorTemplate" Value="{StaticResource AnchorTemplate}"/>
         <Setter Property="DocumentHeaderTemplate" Value="{StaticResource DocumentHeaderTemplate}"/>
         <Setter Property="AnchorableHeaderTemplate" Value="{StaticResource AnchorableHeaderTemplate}"/>
+        <Setter Property="DocumentTitleTemplate" Value="{StaticResource DocumentTitleTemplate}"/>
+        <Setter Property="AnchorableTitleTemplate" Value="{StaticResource AnchorableTitleTemplate}"/>
+        <Setter Property="AnchorableContextMenu" Value="{StaticResource AnchorableContextMenu}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDock:DockingManager}">
@@ -477,7 +497,11 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Path=Model.RootDocument.Title, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                                    <!--<TextBlock Text="{Binding Path=Model.RootDocument.Title, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Top" HorizontalAlignment="Left" />-->
+                                    <ContentPresenter Content="{Binding Model.RootDocument, RelativeSource={RelativeSource TemplatedParent}}" 
+                                              ContentTemplate="{Binding Model.Root.Manager.DocumentTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ContentTemplateSelector="{Binding Model.Root.Manager.DocumentTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
+
 
                                     <Button shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                         Focusable="False"
@@ -525,6 +549,7 @@
     </Style>
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
@@ -551,8 +576,12 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Path=Model.SinglePane.SelectedContent.Title, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                    
+                                    <!--<TextBlock Text="{Binding Path=Model.SinglePane.SelectedContent.Title, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Left"/>-->
+                                    <ContentPresenter Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}" 
+                                              ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+
                                     <avalonDockControls:DropDownButton
                                         x:Name="SinglePaneContextMenu"
                                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
@@ -611,7 +640,8 @@
                                         <Image Source="/AvalonDock;component/Images/PinClose.png"/>
                                     </Button>
                                 </Grid>
-                                <ContentPresenter Content="{TemplateBinding Content}" Grid.Row="1"/>
+                                <ContentPresenter
+                                    Content="{TemplateBinding Content}" Grid.Row="1"/>
                             </Grid>
                         </Border>
                     </Grid>
@@ -623,6 +653,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type avalonDockControls:LayoutAutoHideWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAutoHideWindowControl}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
     </Style>
 
 </ResourceDictionary>
