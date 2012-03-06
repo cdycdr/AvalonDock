@@ -36,6 +36,10 @@ namespace AvalonDock.Controls
             var manager = _model.Root.Manager;
 
             Content = manager.GetUIElementForModel(_model.RootDocument);
+
+            ContextMenu = _model.Root.Manager.DocumentContextMenu;
+            ContextMenu.DataContext = _model.RootDocument;
+
         }
 
         protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

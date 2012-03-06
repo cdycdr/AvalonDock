@@ -16,6 +16,7 @@ namespace Microsoft.Windows.Shell
     using Standard;
 
     using HANDLE_MESSAGE = System.Collections.Generic.KeyValuePair<Standard.WM, Standard.MessageHandler>;
+    using System.Windows.Controls.Primitives;
 
     internal class WindowChromeWorker : DependencyObject
     {
@@ -553,7 +554,13 @@ namespace Microsoft.Windows.Shell
             // to bring up the system menu.
             if (HT.CAPTION == (HT)wParam.ToInt32())
             {
-                SystemCommands.ShowSystemMenuPhysicalCoordinates(_window, new Point(Utility.GET_X_LPARAM(lParam), Utility.GET_Y_LPARAM(lParam)));
+                if (_window.ContextMenu != null)
+                {
+                    _window.ContextMenu.Placement = PlacementMode.MousePoint;
+                    _window.ContextMenu.IsOpen = true;
+                }
+                else
+                    SystemCommands.ShowSystemMenuPhysicalCoordinates(_window, new Point(Utility.GET_X_LPARAM(lParam), Utility.GET_Y_LPARAM(lParam)));
             }
             handled = false;
             return IntPtr.Zero;

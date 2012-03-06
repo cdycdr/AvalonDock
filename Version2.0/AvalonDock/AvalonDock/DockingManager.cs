@@ -1539,6 +1539,80 @@ namespace AvalonDock
 
         #endregion
 
+        #region AnchorableTemplate
+
+        /// <summary>
+        /// AnchorableTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableTemplateProperty =
+            DependencyProperty.Register("AnchorableTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null,
+                    new PropertyChangedCallback(OnAnchorableTemplateChanged)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableTemplate property.  This dependency property 
+        /// indicates the template to use to render anchorable contents.
+        /// </summary>
+        public DataTemplate AnchorableTemplate
+        {
+            get { return (DataTemplate)GetValue(AnchorableTemplateProperty); }
+            set { SetValue(AnchorableTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableTemplate property.
+        /// </summary>
+        private static void OnAnchorableTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableTemplateChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableTemplate property.
+        /// </summary>
+        protected virtual void OnAnchorableTemplateChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        #endregion
+
+        #region AnchorableTemplateSelector
+
+        /// <summary>
+        /// AnchorableTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableTemplateSelectorProperty =
+            DependencyProperty.Register("AnchorableTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null,
+                    new PropertyChangedCallback(OnAnchorableTemplateSelectorChanged)));
+
+        /// <summary>
+        /// Gets or sets the AnchorableTemplateSelector property.  This dependency property 
+        /// indicates selector object to use for anchorable templates.
+        /// </summary>
+        public DataTemplateSelector AnchorableTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(AnchorableTemplateSelectorProperty); }
+            set { SetValue(AnchorableTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableTemplateSelector property.
+        /// </summary>
+        private static void OnAnchorableTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableTemplateSelectorChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableTemplateSelector property.
+        /// </summary>
+        protected virtual void OnAnchorableTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        #endregion
+
         #endregion
 
         #region DocumentsSource
@@ -1804,6 +1878,126 @@ namespace AvalonDock
 
 
         #endregion
+
+        #region DocumentCloseAllButThisCommand
+        static ICommand _defaultDocumentCloseAllButThisCommand = new RelayCommand((p) => ExecuteDocumentCloseAllButThisCommand(p), (p) => CanExecuteDocumentCloseAllButThisCommand(p));
+
+        /// <summary>
+        /// DocumentCloseAllButThisCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentCloseAllButThisCommandProperty =
+            DependencyProperty.Register("DocumentCloseAllButThisCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata(_defaultDocumentCloseAllButThisCommand,
+                    new PropertyChangedCallback(OnDocumentCloseAllButThisCommandChanged),
+                    new CoerceValueCallback(CoerceDocumentCloseAllButThisCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the DocumentCloseAllButThisCommand property.  This dependency property 
+        /// indicates the 'Close All But This' command.
+        /// </summary>
+        public ICommand DocumentCloseAllButThisCommand
+        {
+            get { return (ICommand)GetValue(DocumentCloseAllButThisCommandProperty); }
+            set { SetValue(DocumentCloseAllButThisCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentCloseAllButThisCommand property.
+        /// </summary>
+        private static void OnDocumentCloseAllButThisCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentCloseAllButThisCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentCloseAllButThisCommand property.
+        /// </summary>
+        protected virtual void OnDocumentCloseAllButThisCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the DocumentCloseAllButThisCommand value.
+        /// </summary>
+        private static object CoerceDocumentCloseAllButThisCommandValue(DependencyObject d, object value)
+        {
+            if (value == null)
+                return _defaultDocumentCloseAllButThisCommand;
+
+            return value;
+        }
+
+        private static bool CanExecuteDocumentCloseAllButThisCommand(object parameter)
+        {
+            var document = parameter as LayoutDocument;
+            if (document == null)
+                return false;
+            var root = document.Root;
+            if (root == null)
+                return false;
+
+            return document.Root.Manager.Layout.
+                Descendents().OfType<LayoutDocument>().Where(d => d != document).Any();
+        }
+
+        private static void ExecuteDocumentCloseAllButThisCommand(object parameter)
+        {
+            var document = parameter as LayoutDocument;
+            if (document == null)
+                return;
+            var root = document.Root;
+            if (root == null)
+                return;
+
+            root.Manager._ExecuteDocumentCloseAllButThisCommand(document);
+        }
+
+        void _ExecuteDocumentCloseAllButThisCommand(LayoutDocument document)
+        {
+            foreach (var documentToClose in Layout.Descendents().OfType<LayoutDocument>().Where(d => d != document).ToArray())
+            {
+                if (DocumentClosing != null)
+                {
+                    var evargs = new DocumentClosingEventArgs(documentToClose);
+                    DocumentClosing(this, evargs);
+                    if (evargs.Cancel)
+                        continue;
+                }
+
+                documentToClose.Close();
+
+                if (DocumentClose != null)
+                {
+                    var evargs = new DocumentCloseEventArgs(document);
+                    DocumentClose(this, evargs);
+                }
+            }
+        }
+
+        #endregion
+
+        #region DocumentContextMenu
+
+        /// <summary>
+        /// DocumentContextMenu Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentContextMenuProperty =
+            DependencyProperty.Register("DocumentContextMenu", typeof(ContextMenu), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ContextMenu)null));
+
+        /// <summary>
+        /// Gets or sets the DocumentContextMenu property.  This dependency property 
+        /// indicates context menu to show for documents.
+        /// </summary>
+        public ContextMenu DocumentContextMenu
+        {
+            get { return (ContextMenu)GetValue(DocumentContextMenuProperty); }
+            set { SetValue(DocumentContextMenuProperty, value); }
+        }
+
+        #endregion
+
+
 
         #region AnchorablesSource
 
