@@ -48,6 +48,12 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnDropDownContextMenuChanged(DependencyPropertyChangedEventArgs e)
         {
+            var oldContextMenu = e.OldValue as ContextMenu;
+            if (oldContextMenu != null && IsChecked.GetValueOrDefault())
+            {
+                oldContextMenu.Closed -= new RoutedEventHandler(OnContextMenuClosed);
+                IsChecked = false;
+            }
         }
 
         #endregion

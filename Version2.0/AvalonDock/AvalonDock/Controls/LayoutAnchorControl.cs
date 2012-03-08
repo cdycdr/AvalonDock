@@ -35,7 +35,7 @@ namespace AvalonDock.Controls
 
             var contentModel = _model;
 
-            if (oldParent != null && contentModel != null)
+            if (oldParent != null && contentModel != null && contentModel.Content is DependencyObject)
             {
                 var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutAnchorablePaneControl>();
                 if (oldParentPaneControl != null)
@@ -44,7 +44,7 @@ namespace AvalonDock.Controls
                 }
             }
 
-            if (contentModel.Content != null)
+            if (contentModel.Content != null && contentModel.Content is DependencyObject)
             {
                 var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as DependencyObject)
                     as ILogicalChildrenContainer;
@@ -52,7 +52,7 @@ namespace AvalonDock.Controls
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
             }
 
-            if (contentModel != null && contentModel.Content != null && contentModel.Root != null)
+            if (contentModel != null && contentModel.Content != null && contentModel.Root != null && contentModel.Content is DependencyObject)
             {
                 ((ILogicalChildrenContainer)contentModel.Root.Manager).InternalAddLogicalChild(contentModel.Content);
             }

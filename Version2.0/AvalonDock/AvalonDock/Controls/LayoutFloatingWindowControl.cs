@@ -152,7 +152,6 @@ namespace AvalonDock.Controls
 
         protected LayoutFloatingWindowControl(ILayoutElement model)
         {
-            Model = model;
             this.Loaded += new RoutedEventHandler(OnLoaded);
         }
 
@@ -185,7 +184,6 @@ namespace AvalonDock.Controls
             _hwndSrc = HwndSource.FromDependencyObject(this) as HwndSource;
             _hwndSrcHook = new HwndSourceHook(FilterMessage);
             _hwndSrc.AddHook(_hwndSrcHook);            
-
         }
 
 
@@ -224,11 +222,7 @@ namespace AvalonDock.Controls
             base.OnInitialized(e);
         }
 
-        public ILayoutElement Model
-        {
-            get;
-            private set;
-        }
+        public abstract ILayoutElement Model { get; }
 
 
         #region IsDragging

@@ -2037,7 +2037,7 @@ namespace AvalonDock
         }
 
 
-        void DetachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
+        void AttachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
         {
             if (anchorablesSource == null)
                 return;
@@ -2168,7 +2168,7 @@ namespace AvalonDock
             }
         }
 
-        void AttachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
+        void DetachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
         {
             if (anchorablesSource == null)
                 return;
@@ -2253,6 +2253,15 @@ namespace AvalonDock
             if (model != null)
             { 
                 model.Close();
+            }
+
+            var paneModel = anchorable as LayoutAnchorablePane;
+            if (paneModel != null)
+            {
+                foreach (var anchorableModel in paneModel.Children.ToArray())
+                {
+                    anchorableModel.Close();
+                }
             }
         }
 

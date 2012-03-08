@@ -13,7 +13,7 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAnchorableFloatingWindowControl : LayoutFloatingWindowControl, ILayoutControl, IOverlayWindowHost
+    public class LayoutAnchorableFloatingWindowControl : LayoutFloatingWindowControl, IOverlayWindowHost
     {
         static LayoutAnchorableFloatingWindowControl()
         {
@@ -25,9 +25,15 @@ namespace AvalonDock.Controls
             :base(model)
         {
             _model = model;
+            
         }
 
         LayoutAnchorableFloatingWindow _model;
+
+        public override ILayoutElement Model
+        {
+            get { return _model; }
+        }
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -39,6 +45,8 @@ namespace AvalonDock.Controls
 
             SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
 
+            ContextMenu = _model.Root.Manager.AnchorableContextMenu;
+            ContextMenu.DataContext = _model;
             _model.PropertyChanged += (s, args) =>
                 {
                     if (_model.IsSinglePane)

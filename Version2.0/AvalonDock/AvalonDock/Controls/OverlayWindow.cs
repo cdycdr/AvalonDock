@@ -21,7 +21,7 @@ namespace AvalonDock.Controls
             OverlayWindow.WindowStyleProperty.OverrideMetadata(typeof(OverlayWindow), new FrameworkPropertyMetadata(WindowStyle.None));
             OverlayWindow.ShowInTaskbarProperty.OverrideMetadata(typeof(OverlayWindow), new FrameworkPropertyMetadata(false));
             OverlayWindow.ShowActivatedProperty.OverrideMetadata(typeof(OverlayWindow), new FrameworkPropertyMetadata(false));
-            OverlayWindow.BackgroundProperty.OverrideMetadata(typeof(OverlayWindow), new FrameworkPropertyMetadata(Brushes.Red));
+            //OverlayWindow.BackgroundProperty.OverrideMetadata(typeof(OverlayWindow), new FrameworkPropertyMetadata(Brushes.Red));
             OverlayWindow.VisibilityProperty.OverrideMetadata(typeof(OverlayWindow), new FrameworkPropertyMetadata(Visibility.Hidden));
         }
 
@@ -275,6 +275,15 @@ namespace AvalonDock.Controls
                             _documentPaneDropTargetRight.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
                             _documentPaneDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
                             _documentPaneDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                        }
+                        else if (parentDocumentPaneGroup == null &&
+                            layoutDocumentPane != null &&
+                            layoutDocumentPane.ChildrenCount == 0)
+                        {
+                            _documentPaneDropTargetLeft.Visibility = Visibility.Hidden;
+                            _documentPaneDropTargetRight.Visibility = Visibility.Hidden;
+                            _documentPaneDropTargetTop.Visibility = Visibility.Hidden;
+                            _documentPaneDropTargetBottom.Visibility = Visibility.Hidden;                        
                         }
                         else
                         {

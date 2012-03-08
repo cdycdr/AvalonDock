@@ -4,6 +4,7 @@
         xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
         xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
         xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+        xmlns:local="clr-namespace:AvalonDock.MVVMTestApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
@@ -24,28 +25,96 @@
         </Menu>
         <avalonDock:DockingManager x:Name="dockManager" 
                                    DocumentsSource="{Binding Files}"
+                                   AnchorablesSource="{Binding Tools}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay}"
                                    DocumentCloseCommand="{Binding CloseCommand}"
                                    Grid.Row="1">
-            <avalonDock:DockingManager.DocumentTemplate>
+            <avalonDock:DockingManager.DocumentTemplateSelector>
+                <local:DocumentTemplateSelector>
+                    <local:DocumentTemplateSelector.FileViewTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding TextContent, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </local:DocumentTemplateSelector.FileViewTemplate>
+                    <local:DocumentTemplateSelector.FileStatsViewTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding FileSize}"/>
+                                <TextBlock Text="{Binding LastModified}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </local:DocumentTemplateSelector.FileStatsViewTemplate>
+                </local:DocumentTemplateSelector>
+            </avalonDock:DockingManager.DocumentTemplateSelector>
+            <avalonDock:DockingManager.DocumentHeaderTemplateSelector>
+                <local:DocumentTemplateSelector>
+                    <local:DocumentTemplateSelector.FileViewTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <TextBlock Text="{Binding Path=Content.FileName}"/>
+                            </Border>
+                        </DataTemplate>
+                    </local:DocumentTemplateSelector.FileViewTemplate>
+                    <local:DocumentTemplateSelector.FileStatsViewTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <TextBlock Text="{Binding Path=Content.Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </local:DocumentTemplateSelector.FileStatsViewTemplate>
+                </local:DocumentTemplateSelector>
+            </avalonDock:DockingManager.DocumentHeaderTemplateSelector>
+            <avalonDock:DockingManager.DocumentTitleTemplateSelector>
+                <local:DocumentTemplateSelector>
+                    <local:DocumentTemplateSelector.FileViewTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <TextBlock Text="{Binding Path=Content.FileName}"/>
+                            </Border>
+                        </DataTemplate>
+                    </local:DocumentTemplateSelector.FileViewTemplate>
+                    <local:DocumentTemplateSelector.FileStatsViewTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <TextBlock Text="{Binding Path=Content.Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </local:DocumentTemplateSelector.FileStatsViewTemplate>
+                </local:DocumentTemplateSelector>
+            </avalonDock:DockingManager.DocumentTitleTemplateSelector>
+
+            <avalonDock:DockingManager.AnchorableTemplate>
                 <DataTemplate>
-                    <TextBox Text="{Binding TextContent, UpdateSourceTrigger=PropertyChanged}"/>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding FileSize}"/>
+                        <TextBlock Text="{Binding LastModified}"/>
+                    </StackPanel>
                 </DataTemplate>
-            </avalonDock:DockingManager.DocumentTemplate>
-            <avalonDock:DockingManager.DocumentHeaderTemplate>
+            </avalonDock:DockingManager.AnchorableTemplate>
+            <avalonDock:DockingManager.AnchorableHeaderTemplate>
                 <DataTemplate>
                     <Border>
-                        <TextBlock Text="{Binding Path=Content.FileName}"/>
+                        <TextBlock Text="{Binding Path=Content.Name}"/>
                     </Border>
                 </DataTemplate>
-            </avalonDock:DockingManager.DocumentHeaderTemplate>
-            <avalonDock:DockingManager.DocumentTitleTemplate>
+            </avalonDock:DockingManager.AnchorableHeaderTemplate>
+            <avalonDock:DockingManager.AnchorableTitleTemplate>
                 <DataTemplate>
                     <Border>
-                        <TextBlock Text="{Binding Path=Content.FileName}"/>
+                        <TextBlock Text="{Binding Path=Content.Name}"/>
                     </Border>
                 </DataTemplate>
-            </avalonDock:DockingManager.DocumentTitleTemplate>            
+            </avalonDock:DockingManager.AnchorableTitleTemplate>
+
+
+
+            <avalonDockLayout:LayoutRoot>
+                <avalonDockLayout:LayoutPanel>
+                    <avalonDockLayout:LayoutDocumentPane/>
+                    <avalonDockLayout:LayoutAnchorablePane DockWidth="150">
+                    </avalonDockLayout:LayoutAnchorablePane>
+                </avalonDockLayout:LayoutPanel>
+            </avalonDockLayout:LayoutRoot>
         </avalonDock:DockingManager>
     </Grid>
 </Window>

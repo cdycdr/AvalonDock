@@ -39,6 +39,17 @@ namespace AvalonDock.MVVMTestApp
             }
         }
 
+        ToolViewModel[] _tools = null;
+
+        public IEnumerable<ToolViewModel> Tools
+        {
+            get
+            {
+                if (_tools == null)
+                    _tools = new ToolViewModel[] { new FileStatsViewModel() };
+                return _tools; }
+        }
+
         #region OpenCommand
         RelayCommand _openCommand = null;
         public ICommand OpenCommand
@@ -111,9 +122,13 @@ namespace AvalonDock.MVVMTestApp
                 {
                     _activeDocument = value;
                     RaisePropertyChanged("ActiveDocument");
+                    if (ActiveDocumentChanged != null)
+                        ActiveDocumentChanged(this, EventArgs.Empty);
                 }
             }
         }
+
+        public event EventHandler ActiveDocumentChanged;
 
         #endregion
 

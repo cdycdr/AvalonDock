@@ -29,6 +29,11 @@ namespace AvalonDock.Controls
 
         LayoutDocumentFloatingWindow _model;
 
+        public override ILayoutElement Model
+        {
+            get { return _model; }
+        }
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);

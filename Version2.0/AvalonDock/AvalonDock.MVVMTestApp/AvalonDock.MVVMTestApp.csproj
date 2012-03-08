@@ -55,8 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DocumentTemplateSelector.cs" />
+    <Compile Include="FileStatsViewModel.cs" />
     <Compile Include="FileViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="ToolViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Workspace.cs" />
     <Page Include="MainWindow.xaml">

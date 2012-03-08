@@ -82,6 +82,12 @@ namespace AvalonDock.Layout
             RootPanel = null;
         }
 
+        public override void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement)
+        {
+            Debug.Assert(oldElement == RootPanel && oldElement != null);
+            RootPanel = newElement as LayoutAnchorablePaneGroup;
+        }
+
         public override int ChildrenCount
         {
             get { return 1; }
