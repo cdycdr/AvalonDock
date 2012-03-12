@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.Windows;
 using System.Diagnostics;
 using AvalonDock.Layout;
+using System.Windows.Media;
 
 namespace AvalonDock.Controls
 {
@@ -51,7 +52,7 @@ namespace AvalonDock.Controls
 
         static void manager_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            var focusedElement = e.NewFocus as DependencyObject;
+            var focusedElement = e.NewFocus as Visual;
             if (focusedElement != null && !(focusedElement is LayoutAnchorableTabItem || focusedElement is LayoutDocumentTabItem))
             {
                 var parentAnchorable = focusedElement.FindVisualAncestor<LayoutAnchorableControl>();

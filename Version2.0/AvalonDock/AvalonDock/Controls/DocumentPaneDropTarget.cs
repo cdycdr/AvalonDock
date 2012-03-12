@@ -156,9 +156,11 @@ namespace AvalonDock.Controls
 
                         if (parentModel == null)
                         {
-                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
-                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
-                            parentModel.Children.Add(newLayoutDocumentPane);
+                            var parentContainer = targetModel.Parent as ILayoutContainer;
+                            var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
+                            parentContainer.ReplaceChild(targetModel, newParentModel);
+                            newParentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            newParentModel.Children.Add(newLayoutDocumentPane);
                         }
                         else
                         {
@@ -182,9 +184,11 @@ namespace AvalonDock.Controls
 
                         if (parentModel == null)
                         {
-                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
-                            parentModel.Children.Add(newLayoutDocumentPane);
-                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            var parentContainer = targetModel.Parent as ILayoutContainer;
+                            var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
+                            parentContainer.ReplaceChild(targetModel, newParentModel);
+                            newParentModel.Children.Add(newLayoutDocumentPane);
+                            newParentModel.Children.Add(targetModel as LayoutDocumentPane);
                         }
                         else
                         {
@@ -208,9 +212,11 @@ namespace AvalonDock.Controls
 
                         if (parentModel == null)
                         {
-                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
-                            parentModel.Children.Add(newLayoutDocumentPane);
-                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            var parentContainer = targetModel.Parent as ILayoutContainer;
+                            var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentContainer.ReplaceChild(targetModel, newParentModel);
+                            newParentModel.Children.Add(newLayoutDocumentPane);
+                            newParentModel.Children.Add(targetModel as LayoutDocumentPane);
                         }
                         else
                         {
@@ -233,9 +239,11 @@ namespace AvalonDock.Controls
 
                         if (parentModel == null)
                         {
-                            parentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
-                            parentModel.Children.Add(targetModel as LayoutDocumentPane);
-                            parentModel.Children.Add(newLayoutDocumentPane);
+                            var parentContainer = targetModel.Parent as ILayoutContainer;
+                            var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentContainer.ReplaceChild(targetModel, newParentModel);
+                            newParentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            newParentModel.Children.Add(newLayoutDocumentPane);
                         }
                         else
                         {

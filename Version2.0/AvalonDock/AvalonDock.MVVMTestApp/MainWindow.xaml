@@ -83,6 +83,13 @@
                 </local:DocumentTemplateSelector>
             </avalonDock:DockingManager.DocumentTitleTemplateSelector>
 
+            <avalonDock:DockingManager.DocumentTitleTemplate>
+                <DataTemplate>
+                    <Border>
+                        <TextBlock Text="{Binding Path=Content.FileName}"/>
+                    </Border>
+                </DataTemplate>
+            </avalonDock:DockingManager.DocumentTitleTemplate>
             <avalonDock:DockingManager.AnchorableTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">

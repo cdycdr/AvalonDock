@@ -532,16 +532,44 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty DocumentHeaderTemplateProperty =
             DependencyProperty.Register("DocumentHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplate)null));
+                new FrameworkPropertyMetadata((DataTemplate)null,
+                    new PropertyChangedCallback(OnDocumentHeaderTemplateChanged),
+                    new CoerceValueCallback(CoerceDocumentHeaderTemplateValue)));
 
         /// <summary>
         /// Gets or sets the DocumentHeaderTemplate property.  This dependency property 
-        /// indicates data template to use when creating document headers.
+        /// indicates data template to use for document header.
         /// </summary>
         public DataTemplate DocumentHeaderTemplate
         {
             get { return (DataTemplate)GetValue(DocumentHeaderTemplateProperty); }
             set { SetValue(DocumentHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentHeaderTemplate property.
+        /// </summary>
+        private static void OnDocumentHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentHeaderTemplateChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentHeaderTemplate property.
+        /// </summary>
+        protected virtual void OnDocumentHeaderTemplateChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the DocumentHeaderTemplate value.
+        /// </summary>
+        private static object CoerceDocumentHeaderTemplateValue(DependencyObject d, object value)
+        {
+            if (value != null &&
+                d.GetValue(DocumentHeaderTemplateSelectorProperty) != null)
+                return null;
+            return value;
         }
 
         #endregion
@@ -553,16 +581,44 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty DocumentHeaderTemplateSelectorProperty =
             DependencyProperty.Register("DocumentHeaderTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+                new FrameworkPropertyMetadata((DataTemplateSelector)null,
+                    new PropertyChangedCallback(OnDocumentHeaderTemplateSelectorChanged),
+                    new CoerceValueCallback(CoerceDocumentHeaderTemplateSelectorValue)));
 
         /// <summary>
         /// Gets or sets the DocumentHeaderTemplateSelector property.  This dependency property 
-        /// indicates data template selector to use when selecting data template for documents header.
+        /// indicates the template selector that is used when selcting the data template for the header.
         /// </summary>
         public DataTemplateSelector DocumentHeaderTemplateSelector
         {
             get { return (DataTemplateSelector)GetValue(DocumentHeaderTemplateSelectorProperty); }
             set { SetValue(DocumentHeaderTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentHeaderTemplateSelector property.
+        /// </summary>
+        private static void OnDocumentHeaderTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentHeaderTemplateSelectorChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentHeaderTemplateSelector property.
+        /// </summary>
+        protected virtual void OnDocumentHeaderTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null &&
+                DocumentHeaderTemplate != null)
+                DocumentHeaderTemplate = null;
+        }
+
+        /// <summary>
+        /// Coerces the DocumentHeaderTemplateSelector value.
+        /// </summary>
+        private static object CoerceDocumentHeaderTemplateSelectorValue(DependencyObject d, object value)
+        {
+            return value;
         }
 
         #endregion
@@ -574,16 +630,45 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty DocumentTitleTemplateProperty =
             DependencyProperty.Register("DocumentTitleTemplate", typeof(DataTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplate)null));
+                new FrameworkPropertyMetadata((DataTemplate)null,
+                    new PropertyChangedCallback(OnDocumentTitleTemplateChanged),
+                    new CoerceValueCallback(CoerceDocumentTitleTemplateValue)));
 
         /// <summary>
         /// Gets or sets the DocumentTitleTemplate property.  This dependency property 
-        /// indicates the data template to use when rendering documents title.
+        /// indicates the datatemplate to use when creating the title for a document.
         /// </summary>
         public DataTemplate DocumentTitleTemplate
         {
             get { return (DataTemplate)GetValue(DocumentTitleTemplateProperty); }
             set { SetValue(DocumentTitleTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentTitleTemplate property.
+        /// </summary>
+        private static void OnDocumentTitleTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentTitleTemplateChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentTitleTemplate property.
+        /// </summary>
+        protected virtual void OnDocumentTitleTemplateChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the DocumentTitleTemplate value.
+        /// </summary>
+        private static object CoerceDocumentTitleTemplateValue(DependencyObject d, object value)
+        {
+            if (value != null &&
+                d.GetValue(DocumentTitleTemplateSelectorProperty) != null)
+                return null;
+
+            return value;
         }
 
         #endregion
@@ -595,16 +680,43 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty DocumentTitleTemplateSelectorProperty =
             DependencyProperty.Register("DocumentTitleTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+                new FrameworkPropertyMetadata((DataTemplateSelector)null,
+                    new PropertyChangedCallback(OnDocumentTitleTemplateSelectorChanged),
+                    new CoerceValueCallback(CoerceDocumentTitleTemplateSelectorValue)));
 
         /// <summary>
         /// Gets or sets the DocumentTitleTemplateSelector property.  This dependency property 
-        /// indicates the data template selector to use when selecting a data template for the document title.
+        /// indicates the data template selector to use when creating the data template for the title.
         /// </summary>
         public DataTemplateSelector DocumentTitleTemplateSelector
         {
             get { return (DataTemplateSelector)GetValue(DocumentTitleTemplateSelectorProperty); }
             set { SetValue(DocumentTitleTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentTitleTemplateSelector property.
+        /// </summary>
+        private static void OnDocumentTitleTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentTitleTemplateSelectorChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentTitleTemplateSelector property.
+        /// </summary>
+        protected virtual void OnDocumentTitleTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null)
+                DocumentTitleTemplate = null;                
+        }
+
+        /// <summary>
+        /// Coerces the DocumentTitleTemplateSelector value.
+        /// </summary>
+        private static object CoerceDocumentTitleTemplateSelectorValue(DependencyObject d, object value)
+        {
+            return value;
         }
 
         #endregion
@@ -616,16 +728,44 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty AnchorableTitleTemplateProperty =
             DependencyProperty.Register("AnchorableTitleTemplate", typeof(DataTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplate)null));
+                new FrameworkPropertyMetadata((DataTemplate)null,
+                    new PropertyChangedCallback(OnAnchorableTitleTemplateChanged),
+                    new CoerceValueCallback(CoerceAnchorableTitleTemplateValue)));
 
         /// <summary>
         /// Gets or sets the AnchorableTitleTemplate property.  This dependency property 
-        /// indicates the data template to use when instatiating the anchorable title part.
+        /// indicates the data template to use for anchorables title.
         /// </summary>
         public DataTemplate AnchorableTitleTemplate
         {
             get { return (DataTemplate)GetValue(AnchorableTitleTemplateProperty); }
             set { SetValue(AnchorableTitleTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableTitleTemplate property.
+        /// </summary>
+        private static void OnAnchorableTitleTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableTitleTemplateChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableTitleTemplate property.
+        /// </summary>
+        protected virtual void OnAnchorableTitleTemplateChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableTitleTemplate value.
+        /// </summary>
+        private static object CoerceAnchorableTitleTemplateValue(DependencyObject d, object value)
+        {
+            if (value != null &&
+                d.GetValue(AnchorableTitleTemplateSelectorProperty) != null)
+                return null;
+            return value;
         }
 
         #endregion
@@ -637,16 +777,35 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty AnchorableTitleTemplateSelectorProperty =
             DependencyProperty.Register("AnchorableTitleTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+                new FrameworkPropertyMetadata((DataTemplateSelector)null,
+                    new PropertyChangedCallback(OnAnchorableTitleTemplateSelectorChanged)));
 
         /// <summary>
         /// Gets or sets the AnchorableTitleTemplateSelector property.  This dependency property 
-        /// indicates the data template selector to use when selecting the data template for the anchorable title.
+        /// indicates selctor to use when selecting data template for the title of anchorables.
         /// </summary>
         public DataTemplateSelector AnchorableTitleTemplateSelector
         {
             get { return (DataTemplateSelector)GetValue(AnchorableTitleTemplateSelectorProperty); }
             set { SetValue(AnchorableTitleTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableTitleTemplateSelector property.
+        /// </summary>
+        private static void OnAnchorableTitleTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableTitleTemplateSelectorChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableTitleTemplateSelector property.
+        /// </summary>
+        protected virtual void OnAnchorableTitleTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null &&
+                AnchorableTitleTemplate != null)
+                AnchorableTitleTemplate = null;
         }
 
         #endregion
@@ -658,16 +817,45 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty AnchorableHeaderTemplateProperty =
             DependencyProperty.Register("AnchorableHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplate)null));
+                new FrameworkPropertyMetadata((DataTemplate)null,
+                    new PropertyChangedCallback(OnAnchorableHeaderTemplateChanged),
+                    new CoerceValueCallback(CoerceAnchorableHeaderTemplateValue)));
 
         /// <summary>
         /// Gets or sets the AnchorableHeaderTemplate property.  This dependency property 
-        /// indicates data template to use when creating anchorable headers.
+        /// indicates the data template to use for anchorable templates.
         /// </summary>
         public DataTemplate AnchorableHeaderTemplate
         {
             get { return (DataTemplate)GetValue(AnchorableHeaderTemplateProperty); }
             set { SetValue(AnchorableHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableHeaderTemplate property.
+        /// </summary>
+        private static void OnAnchorableHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableHeaderTemplateChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableHeaderTemplate property.
+        /// </summary>
+        protected virtual void OnAnchorableHeaderTemplateChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the AnchorableHeaderTemplate value.
+        /// </summary>
+        private static object CoerceAnchorableHeaderTemplateValue(DependencyObject d, object value)
+        {
+            if (value != null &&
+                d.GetValue(AnchorableHeaderTemplateSelectorProperty) != null)
+                return null;
+
+            return value;
         }
 
         #endregion
@@ -679,16 +867,34 @@ namespace AvalonDock
         /// </summary>
         public static readonly DependencyProperty AnchorableHeaderTemplateSelectorProperty =
             DependencyProperty.Register("AnchorableHeaderTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+                new FrameworkPropertyMetadata((DataTemplateSelector)null,
+                    new PropertyChangedCallback(OnAnchorableHeaderTemplateSelectorChanged)));
 
         /// <summary>
         /// Gets or sets the AnchorableHeaderTemplateSelector property.  This dependency property 
-        /// indicates data template selector to use when creating data template for anchorable headers.
+        /// indicates the selector to use when selecting the data template for anchorable headers.
         /// </summary>
         public DataTemplateSelector AnchorableHeaderTemplateSelector
         {
             get { return (DataTemplateSelector)GetValue(AnchorableHeaderTemplateSelectorProperty); }
             set { SetValue(AnchorableHeaderTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the AnchorableHeaderTemplateSelector property.
+        /// </summary>
+        private static void OnAnchorableHeaderTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnAnchorableHeaderTemplateSelectorChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the AnchorableHeaderTemplateSelector property.
+        /// </summary>
+        protected virtual void OnAnchorableHeaderTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null)
+                AnchorableHeaderTemplate = null;
         }
 
         #endregion
