@@ -4,6 +4,7 @@
         xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
         xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
         xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+        xmlns:avalonDockVS2010Theme="clr-namespace:AvalonDock.Themes;assembly=AvalonDock.Themes.VS2010"
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
@@ -21,8 +22,18 @@
                 <MenuItem Command="Paste" />
             </MenuItem>
             <MenuItem Header="Layout">
-                <MenuItem Header="Save" Click="OnSaveLayout"/>
-                <MenuItem Header="Load" Click="OnLoadLayout"/>
+                <MenuItem Header="Save">
+                    <MenuItem Header="Layout_1" Click="OnSaveLayout"/>
+                    <MenuItem Header="Layout_2" Click="OnSaveLayout"/>
+                    <MenuItem Header="Layout_3" Click="OnSaveLayout"/>
+                    <MenuItem Header="Layout_4" Click="OnSaveLayout"/>
+                </MenuItem>
+                <MenuItem Header="Load">
+                    <MenuItem Header="Layout_1" Click="OnLoadLayout"/>
+                    <MenuItem Header="Layout_2" Click="OnLoadLayout"/>
+                    <MenuItem Header="Layout_3" Click="OnLoadLayout"/>
+                    <MenuItem Header="Layout_4" Click="OnLoadLayout"/>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="WinForms Window" Click="OnShowWinformsWindow"/>
@@ -30,6 +41,9 @@
         </Menu>
         
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager">
+            <avalonDock:DockingManager.Theme>
+                <avalonDockVS2010Theme:VS2010Theme/>
+            </avalonDock:DockingManager.Theme>
             <avalonDockLayout:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDockLayout:LayoutPanel Orientation="Horizontal">
                     <avalonDockLayout:LayoutAnchorablePane DockWidth="100">

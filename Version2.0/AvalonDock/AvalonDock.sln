@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.TestApp", "Avalo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.MVVMTestApp", "AvalonDock.MVVMTestApp\AvalonDock.MVVMTestApp.csproj", "{AFD48591-D66C-47F3-86E7-ACE5AD3D4FE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.Themes.VS2010", "AvalonDock.Theme.VS2010\AvalonDock.Themes.VS2010.csproj", "{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -51,6 +53,16 @@ Global
 		{AFD48591-D66C-47F3-86E7-ACE5AD3D4FE4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{AFD48591-D66C-47F3-86E7-ACE5AD3D4FE4}.Release|x86.ActiveCfg = Release|x86
 		{AFD48591-D66C-47F3-86E7-ACE5AD3D4FE4}.Release|x86.Build.0 = Release|x86
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -86,7 +86,7 @@ namespace AvalonDock.Controls
                 if (foundContainedChild != null)
                     Children.Add(foundContainedChild as UIElement);
                 else
-                    Children.Add(manager.GetUIElementForModel(child));
+                    Children.Add(manager.CreateUIElementForModel(child));
             }
 
             CreateSplitters();

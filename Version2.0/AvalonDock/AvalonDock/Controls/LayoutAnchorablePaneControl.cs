@@ -10,14 +10,12 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    class LayoutAnchorablePaneControl : TabControl, ILayoutControl, ILogicalChildrenContainer
+    public class LayoutAnchorablePaneControl : TabControl, ILayoutControl, ILogicalChildrenContainer
     {
         static LayoutAnchorablePaneControl()
         {
             FocusableProperty.OverrideMetadata(typeof(LayoutAnchorablePaneControl), new FrameworkPropertyMetadata(false));
         }
-
-
 
         public LayoutAnchorablePaneControl(LayoutAnchorablePane model)
         {

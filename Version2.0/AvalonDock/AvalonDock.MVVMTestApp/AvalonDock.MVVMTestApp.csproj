@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActiveDocumentConverter.cs" />
     <Compile Include="DocumentTemplateSelector.cs" />
     <Compile Include="FileStatsViewModel.cs" />
     <Compile Include="FileViewModel.cs" />

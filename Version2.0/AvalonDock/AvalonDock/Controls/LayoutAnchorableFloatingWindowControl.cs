@@ -41,7 +41,7 @@ namespace AvalonDock.Controls
 
             var manager = _model.Root.Manager;
 
-            Content = manager.GetUIElementForModel(_model.RootPanel);
+            Content = manager.CreateUIElementForModel(_model.RootPanel);
 
             SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
 
@@ -49,10 +49,13 @@ namespace AvalonDock.Controls
             ContextMenu.DataContext = _model;
             _model.PropertyChanged += (s, args) =>
                 {
-                    if (_model.IsSinglePane)
+                    if (_model.IsSinglePane &&
+                        _model.Root != null &&
+                        _model.Root.Manager != null)
                     {
                         ContextMenu = _model.Root.Manager.AnchorableContextMenu;
-                        ContextMenu.DataContext = _model;
+                        if (ContextMenu != null)
+                            ContextMenu.DataContext = _model;
                     }
                     else
                         ContextMenu = null;

@@ -7,6 +7,9 @@
         xmlns:local="clr-namespace:AvalonDock.MVVMTestApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -26,7 +29,7 @@
         <avalonDock:DockingManager x:Name="dockManager" 
                                    DocumentsSource="{Binding Files}"
                                    AnchorablesSource="{Binding Tools}"
-                                   ActiveContent="{Binding ActiveDocument, Mode=TwoWay}"
+                                   ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    DocumentCloseCommand="{Binding CloseCommand}"
                                    Grid.Row="1">
             <avalonDock:DockingManager.DocumentTemplateSelector>

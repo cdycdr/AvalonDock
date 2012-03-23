@@ -4,8 +4,7 @@
                     xmlns:avalonDock="clr-namespace:AvalonDock"
                     xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout"
                     xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls"
-                    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters"
-                    >
+                    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters">
 
     <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <avalonDockConverters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>

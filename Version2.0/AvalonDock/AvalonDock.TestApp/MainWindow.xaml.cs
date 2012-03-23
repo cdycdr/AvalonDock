@@ -129,20 +129,22 @@ namespace AvalonDock.TestApp
 
         private void OnLoadLayout(object sender, RoutedEventArgs e)
         {
+            string fileName = (sender as MenuItem).Header.ToString();
             var serializer = new XmlLayoutSerializer(dockManager);
             serializer.LayoutSerializationCallback += (s, args) =>
                 {
                     if (args.Model.ContentId == "winFormsHost")
                         args.Content = winFormsHost;
                 };
-            using (var stream = new StreamReader(@".\AvalonDock.config"))
+            using (var stream = new StreamReader(string.Format(@".\AvalonDock_{0}.config", fileName)))
                 serializer.Deserialize(stream);
         }
 
         private void OnSaveLayout(object sender, RoutedEventArgs e)
         {
+            string fileName = (sender as MenuItem).Header.ToString();
             var serializer = new XmlLayoutSerializer(dockManager);
-            using (var stream = new StreamWriter(@".\AvalonDock.config"))
+            using (var stream = new StreamWriter(string.Format(@".\AvalonDock_{0}.config", fileName)))
                 serializer.Serialize(stream);
         }
 

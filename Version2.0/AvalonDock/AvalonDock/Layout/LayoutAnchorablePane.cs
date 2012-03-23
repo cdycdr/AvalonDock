@@ -61,7 +61,10 @@ namespace AvalonDock.Layout
 
         public LayoutContent SelectedContent
         {
-            get { return _selectedIndex == -1 ? null : Children[_selectedIndex]; }
+            get
+            { 
+                return _selectedIndex == -1 ? null : Children[_selectedIndex]; 
+            }
         }
         #endregion
 
@@ -72,6 +75,15 @@ namespace AvalonDock.Layout
 
             if (SelectedContentIndex == -1 && ChildrenCount > 0)
                 SelectedContentIndex = 0;
+
+            for (int i = 0; i < Children.Count; i++)
+            {
+                if (Children[i].IsSelected)
+                {
+                    SelectedContentIndex = i;
+                    break;
+                }
+            }
 
             base.OnChildrenCollectionChanged();
         }

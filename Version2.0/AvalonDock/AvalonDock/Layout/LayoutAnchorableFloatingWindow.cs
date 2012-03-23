@@ -42,6 +42,8 @@ namespace AvalonDock.Layout
                     RaisePropertyChanged("RootPanel");
                     RaisePropertyChanged("IsSinglePane");
                     RaisePropertyChanged("SinglePane");
+
+                    ((ILayoutElementWithVisibility)this).ComputeVisibility();
                 }
             }
         }
@@ -121,7 +123,8 @@ namespace AvalonDock.Layout
        
         void ILayoutElementWithVisibility.ComputeVisibility()
         {
-            IsVisible = RootPanel.IsVisible;
+            if (RootPanel != null)
+                IsVisible = RootPanel.IsVisible;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace AvalonDock.Controls
 
             var manager = _model.Root.Manager;
 
-            Content = manager.GetUIElementForModel(_model.RootDocument);
+            Content = manager.CreateUIElementForModel(_model.RootDocument);
 
             ContextMenu = _model.Root.Manager.DocumentContextMenu;
             ContextMenu.DataContext = _model.RootDocument;

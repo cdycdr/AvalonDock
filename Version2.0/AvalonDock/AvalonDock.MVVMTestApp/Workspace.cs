@@ -222,13 +222,12 @@ namespace AvalonDock.MVVMTestApp
 
         private bool CanClose(object parameter)
         {
-            return ActiveDocument != null || parameter != null ;
+            return parameter != null ;
         }
 
         private void OnClose(object parameter)
         {
-            var documentToClose = ActiveDocument != null ? ActiveDocument :
-                ((LayoutDocument)parameter).Content as FileViewModel;
+            var documentToClose = ((LayoutDocument)parameter).Content as FileViewModel;
 
             if (documentToClose.IsDirty)
             {
