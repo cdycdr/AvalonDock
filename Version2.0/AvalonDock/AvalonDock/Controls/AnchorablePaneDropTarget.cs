@@ -53,7 +53,7 @@ namespace AvalonDock.Controls
                                     layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Vertical))
                             {
                                 var anchorablesToMove = layoutAnchorablePaneGroup.Children.ToArray();
-                                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
+                                for (int i = 0; i < anchorablesToMove.Length; i++)
                                     parentModel.InsertChildAt(insertToIndex + 1 + i, anchorablesToMove[i]);
                             }
                             else
@@ -93,7 +93,7 @@ namespace AvalonDock.Controls
                                     layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Vertical))
                             {
                                 var anchorablesToMove = layoutAnchorablePaneGroup.Children.ToArray();
-                                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
+                                for (int i = 0; i < anchorablesToMove.Length; i++)
                                     parentModel.InsertChildAt(insertToIndex + i, anchorablesToMove[i]);
                             }
                             else
@@ -133,7 +133,7 @@ namespace AvalonDock.Controls
                                     layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Horizontal))
                             {
                                 var anchorablesToMove = layoutAnchorablePaneGroup.Children.ToArray();
-                                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
+                                for (int i = 0; i < anchorablesToMove.Length; i++)
                                     parentModel.InsertChildAt(insertToIndex + i, anchorablesToMove[i]);
                             }
                             else
@@ -173,7 +173,7 @@ namespace AvalonDock.Controls
                                     layoutAnchorablePaneGroup.Orientation == System.Windows.Controls.Orientation.Horizontal))
                             {
                                 var anchorablesToMove = layoutAnchorablePaneGroup.Children.ToArray();
-                                for (int i = 0; i < layoutAnchorablePaneGroup.Children.Count; i++)
+                                for (int i = 0; i < anchorablesToMove.Length; i++)
                                     parentModel.InsertChildAt(insertToIndex + 1 + i, anchorablesToMove[i]);
                             }
                             else
