@@ -54,6 +54,7 @@
     <Compile Include="Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Controls\AnchorablePaneTabPanel.cs" />
     <Compile Include="Controls\AnchorablePaneTitle.cs" />
+    <Compile Include="Controls\BindingHelper.cs" />
     <Compile Include="Controls\DocumentPaneDropAsAnchorableTarget.cs" />
     <Compile Include="Controls\DocumentPaneGroupDropTarget.cs" />
     <Compile Include="Controls\DropDownButton.cs" />

@@ -97,7 +97,8 @@ namespace AvalonDock.Controls
         void OnContextMenuClosed(object sender, RoutedEventArgs e)
         {
             IsChecked = false;
-            DropDownContextMenu.Closed -= new RoutedEventHandler(OnContextMenuClosed);
+            if (DropDownContextMenu != null)
+                DropDownContextMenu.Closed -= new RoutedEventHandler(OnContextMenuClosed);
         }
 
     }

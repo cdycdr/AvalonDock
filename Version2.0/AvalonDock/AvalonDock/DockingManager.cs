@@ -83,7 +83,7 @@ namespace AvalonDock
 
             foreach (var fwc in _fwList.ToArray())
                 fwc.InternalClose();
-            Debug.Assert(_fwList.Count == 0, "FloatingWindow list must be empty at this point!");
+            //Debug.Assert(_fwList.Count == 0, "FloatingWindow list must be empty at this point!");
             _fwList.Clear();
 
             DetachDocumentsSource(oldLayout, DocumentsSource);
@@ -1167,6 +1167,8 @@ namespace AvalonDock
 
         void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
         {
+            System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
+
             if (_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
             _logicalChildren.Add(element);
@@ -1175,6 +1177,8 @@ namespace AvalonDock
 
         void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
         {
+            System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
+
             if (_logicalChildren.Contains(element))
             {
                 _logicalChildren.Remove(element);
@@ -1494,7 +1498,7 @@ namespace AvalonDock
 
         IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
         {
-            Debug.WriteLine("ShowOverlayWindow");
+            //Debug.WriteLine("ShowOverlayWindow");
             CreateOverlayWindow();
             _overlayWindow.Owner = draggingWindow;
             _overlayWindow.EnableDropTargets();
@@ -1504,7 +1508,7 @@ namespace AvalonDock
 
         void IOverlayWindowHost.HideOverlayWindow()
         {
-            Debug.WriteLine("HideOverlayWindow");
+            //Debug.WriteLine("HideOverlayWindow");
             _areas = null;
             _overlayWindow.Owner = null;
             _overlayWindow.HideDropTargets();

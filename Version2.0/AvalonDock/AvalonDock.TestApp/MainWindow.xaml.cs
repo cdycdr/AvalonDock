@@ -46,7 +46,7 @@ namespace AvalonDock.TestApp
                     
 
                 };
-            timer.Start();
+            //timer.Start();
 
             this.DataContext = this;
 

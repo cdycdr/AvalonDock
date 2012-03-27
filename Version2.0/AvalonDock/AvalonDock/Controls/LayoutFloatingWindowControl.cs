@@ -270,7 +270,7 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
         {
-            Debug.WriteLine("IsDragging={0}", e.NewValue);
+            //Debug.WriteLine("IsDragging={0}", e.NewValue);
         }
 
         #endregion
@@ -323,10 +323,10 @@ namespace AvalonDock.Controls
             switch (msg)
             {
                 case Win32Helper.WM_SETFOCUS:
-                    Debug.WriteLine("WM_SETFOCUS");
+                    //Debug.WriteLine("WM_SETFOCUS");
                     break;
                 case Win32Helper.WM_KILLFOCUS:
-                    Debug.WriteLine("WM_KILLFOCUS");
+                    //Debug.WriteLine("WM_KILLFOCUS");
                     break;
                 case Win32Helper.WM_ACTIVATE:
                     if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)

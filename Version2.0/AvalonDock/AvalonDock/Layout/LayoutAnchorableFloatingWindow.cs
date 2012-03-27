@@ -58,7 +58,7 @@ namespace AvalonDock.Layout
         {
             get
             {
-                Debug.WriteLine("IsSinglePane={0}", RootPanel != null && RootPanel.ChildrenCount == 1);
+                //Debug.WriteLine("IsSinglePane={0}", RootPanel != null && RootPanel.ChildrenCount == 1);
                 return RootPanel != null && RootPanel.ChildrenCount == 1;
             }
         }

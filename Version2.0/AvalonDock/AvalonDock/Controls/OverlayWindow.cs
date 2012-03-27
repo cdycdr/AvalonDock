@@ -117,14 +117,14 @@ namespace AvalonDock.Controls
 
         internal void EnableDropTargets()
         {
-            Debug.WriteLine("EnableDropTargets()");
+            //Debug.WriteLine("EnableDropTargets()");
             if (_mainCanvasPanel != null)
                 _mainCanvasPanel.Visibility = System.Windows.Visibility.Visible;
         }
 
         internal void HideDropTargets()
         {
-            Debug.WriteLine("HideDropTargets()");
+            //Debug.WriteLine("HideDropTargets()");
             if (_mainCanvasPanel != null)
                 _mainCanvasPanel.Visibility = System.Windows.Visibility.Hidden;
         

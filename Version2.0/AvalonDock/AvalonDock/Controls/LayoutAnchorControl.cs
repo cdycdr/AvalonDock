@@ -67,5 +67,49 @@ namespace AvalonDock.Controls
                 _model.Root.Manager.ShowAutoHideWindow(this);    
         }
 
+
+        DateTime? _mouseEnterTimeStamp;
+
+
+        protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+
+            if (!e.Handled)
+            {
+                var autohideWindow = _model.Root.Manager.AutoHideWindow;
+                if (autohideWindow != null && autohideWindow.Model != this)
+                    _model.Root.Manager.ShowAutoHideWindow(this);
+                else
+                    _mouseEnterTimeStamp = DateTime.Now;
+            }
+        }
+        protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (!e.Handled)
+            {
+                var autohideWindow = _model.Root.Manager.AutoHideWindow;
+                if (autohideWindow != null && autohideWindow.Model == this)
+                    _model.Root.Manager.AutoHideWindow.KeepOpen(true);
+                else if (_mouseEnterTimeStamp.HasValue &&
+                    ((DateTime.Now - _mouseEnterTimeStamp.Value).TotalMilliseconds >= 400))
+                    _model.Root.Manager.ShowAutoHideWindow(this);
+            }
+        }
+
+        protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            if (!e.Handled)
+            {
+                var autohideWindow = _model.Root.Manager.AutoHideWindow;
+                if (autohideWindow != null &&
+                    autohideWindow.Model == this)
+                    _model.Root.Manager.AutoHideWindow.KeepOpen(false);
+            }
+        }
+
     }
 }
