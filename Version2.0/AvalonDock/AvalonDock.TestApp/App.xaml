@@ -4,5 +4,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
+    	<ImageBrush x:Key="Image1" ImageSource="Image1.png"/>
+         
     </Application.Resources>
 </Application>

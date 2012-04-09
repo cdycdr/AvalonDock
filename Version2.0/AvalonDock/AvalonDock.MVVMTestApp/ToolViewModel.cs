@@ -17,5 +17,26 @@ namespace AvalonDock.MVVMTestApp
             get;
             private set;
         }
+
+
+        #region IsVisible
+
+        private bool _isVisible = true;
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                if (_isVisible != value)
+                {
+                    _isVisible = value;
+                    RaisePropertyChanged("IsVisible");
+                }
+            }
+        }
+
+        #endregion
+
+
     }
 }

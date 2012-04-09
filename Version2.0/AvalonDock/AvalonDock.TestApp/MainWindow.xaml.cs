@@ -19,6 +19,8 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using AvalonDock.Layout.Serialization;
+using System.Resources;
+using System.Collections;
 
 namespace AvalonDock.TestApp
 {
@@ -32,6 +34,7 @@ namespace AvalonDock.TestApp
         {
             InitializeComponent();
 
+           
             DispatcherTimer timer = new DispatcherTimer();
             Random rnd = new Random();
             timer.Interval = TimeSpan.FromSeconds(1.0);

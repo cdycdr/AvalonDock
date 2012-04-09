@@ -157,5 +157,20 @@ namespace AvalonDock.Controls
 
             base.OnClosing(e);
         }
+
+        protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case Win32Helper.WM_NCLBUTTONDOWN: //Left button down on title -> start dragging over docking manager
+                    if (wParam.ToInt32() == Win32Helper.HT_CAPTION)
+                    {
+                        _model.Descendents().OfType<LayoutAnchorablePane>().First().SelectedContent.IsActive = true;
+                    }
+                    break;
+            }
+
+            return base.FilterMessage(hwnd, msg, wParam, lParam, ref handled);
+        }
     }
 }

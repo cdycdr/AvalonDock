@@ -35,16 +35,56 @@ namespace AvalonDock.Controls
         /// </summary>
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof(LayoutAnchorable), typeof(LayoutAnchorableControl),
-                new FrameworkPropertyMetadata((LayoutAnchorable)null));
+                new FrameworkPropertyMetadata((LayoutAnchorable)null,
+                    new PropertyChangedCallback(OnModelChanged)));
 
         /// <summary>
         /// Gets or sets the Model property.  This dependency property 
-        /// indicates model attached to this view.
+        /// indicates the model attached to this view.
         /// </summary>
         public LayoutAnchorable Model
         {
             get { return (LayoutAnchorable)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the Model property.
+        /// </summary>
+        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableControl)d).OnModelChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the Model property.
+        /// </summary>
+        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateLogicalParent();
+        }
+
+        void UpdateLogicalParent()
+        {
+            if (Model != null &&
+                Model.Content != null &&
+                Model.Content is DependencyObject)
+            {
+                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as DependencyObject)
+                    as ILogicalChildrenContainer;
+                if (oldLogicalParentPaneControl != null)
+                    oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
+            }
+
+            var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+            if (Model != null &&
+                parentPaneControl != null &&
+                Model.Content != null &&
+                Model.Content is DependencyObject)
+            {
+                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
+                BindingHelper.RebindInactiveBindings(Model.Content as DependencyObject);
+            }
         }
 
         #endregion

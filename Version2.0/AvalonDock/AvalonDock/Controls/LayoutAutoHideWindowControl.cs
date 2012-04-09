@@ -48,8 +48,8 @@ namespace AvalonDock.Controls
                 Height = 1
             });
 
-            CreateInternalGrid();
-            SetupCloseTimer();
+            //CreateInternalGrid();
+            //SetupCloseTimer();
             _internalHwndSource.RootVisual = _internalGrid;
 
 
@@ -90,6 +90,13 @@ namespace AvalonDock.Controls
         LayoutAnchorableControl _internalHost = null;
         AnchorSide _side;
         LayoutGridResizerControl _resizer = null;
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            CreateInternalGrid();
+            SetupCloseTimer();
+            base.OnInitialized(e);
+        }
 
         void CreateInternalGrid()
         {
@@ -172,7 +179,7 @@ namespace AvalonDock.Controls
         void SetupCloseTimer()
         {
             _closeTimer = new DispatcherTimer(DispatcherPriority.Background);
-            _closeTimer.Interval = TimeSpan.FromMilliseconds(1000);
+            _closeTimer.Interval = TimeSpan.FromMilliseconds(1500);
             _closeTimer.Tick += (s, e) =>
                 {
                     if (IsWin32MouseOver ||
@@ -182,12 +189,6 @@ namespace AvalonDock.Controls
                     Model.Root.Manager.HideAutoHideWindow();
                 };
             _closeTimer.Start();
-        }
-
-        bool _keepOpen = true;
-        internal void KeepOpen(bool flag)
-        {
-            _keepOpen = flag;
         }
 
         void OnResizerDragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
@@ -245,6 +246,7 @@ namespace AvalonDock.Controls
             HideResizerOverlayWindow();
 
             InvalidateMeasure();
+            _closeTimer.Start();
         }
 
         void OnResizerDragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -270,6 +272,7 @@ namespace AvalonDock.Controls
         {
             var resizer = sender as LayoutGridResizerControl;
             ShowResizerOverlayWindow(resizer);
+            _closeTimer.Stop();
         }
 
         protected override System.Collections.IEnumerator LogicalChildren
@@ -372,14 +375,12 @@ namespace AvalonDock.Controls
 
         protected override Size MeasureOverride(Size constraint)
         {
-            //return base.MeasureOverride(constraint);
             _internalGrid.Measure(constraint);
             return _internalGrid.DesiredSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            //return base.ArrangeOverride(finalSize);
             _internalGrid.Arrange(new Rect(finalSize));
             return finalSize;
         }
@@ -426,23 +427,25 @@ namespace AvalonDock.Controls
         {
             get
             {
-                var pt = new Win32Helper.Win32Point();
-                if (!Win32Helper.GetCursorPos(ref pt))
+                var ptMouse = new Win32Helper.Win32Point();
+                if (!Win32Helper.GetCursorPos(ref ptMouse))
                     return false;
 
-                Point ptMouse = PointToScreen(new Point());
+                Point location = this.PointToScreenDPI(new Point());
 
-                Rect rectWindow = new Rect(ptMouse.X, ptMouse.Y, Width, Height);
-                if (rectWindow.Contains(new Point(pt.X, pt.Y)))
+                Rect rectWindow = this.GetScreenArea();
+                if (rectWindow.Contains(new Point(ptMouse.X, ptMouse.Y)))
                     return true;
 
                 var manager = Model.Root.Manager;
                 var anchor = manager.FindVisualChildren<LayoutAnchorControl>().Where(c => c.Model == Model).First();
-                ptMouse = anchor.PointToScreen(new Point());
+                location = anchor.PointToScreenDPI(new Point());
 
-                rectWindow = new Rect(ptMouse.X, ptMouse.Y, anchor.ActualWidth, anchor.ActualHeight);
-                if (rectWindow.Contains(new Point(pt.X, pt.Y)))
+                if (anchor.IsMouseOver)
                     return true;
+                //rectWindow = anchor.GetScreenArea();
+                //if (rectWindow.Contains(new Point(ptMouse.X, ptMouse.Y)))
+                //    return true;
 
                 return false;
             }

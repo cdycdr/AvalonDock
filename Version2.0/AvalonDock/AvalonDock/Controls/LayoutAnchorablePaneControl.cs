@@ -29,6 +29,12 @@ namespace AvalonDock.Controls
             this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
         }
 
+        //protected override DependencyObject GetContainerForItemOverride()
+        //{
+        //    return new LayoutAnchorablePaneItemControl();
+        //    //return base.GetContainerForItemOverride();
+        //}
+
         void OnLayoutUpdated(object sender, EventArgs e)
         {
             var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
@@ -38,16 +44,12 @@ namespace AvalonDock.Controls
             modelWithAtcualSize.ActualHeight = ActualHeight;
         }
 
-        //protected override DependencyObject GetContainerForItemOverride()
-        //{
-        //    return new LayoutAnchorableTabItem();
-        //}
         List<object> _logicalChildren = new List<object>();
         protected override System.Collections.IEnumerator LogicalChildren
         {
             get
             {
-                return _logicalChildren.GetEnumerator(); // _model.Children.Select(a => a.Content).GetEnumerator();
+                return _logicalChildren.GetEnumerator();
             }
         }
 
@@ -75,7 +77,7 @@ namespace AvalonDock.Controls
             if (_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
 
-            System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
+            //System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
             _logicalChildren.Add(element);
             AddLogicalChild(element);
         }
@@ -84,7 +86,7 @@ namespace AvalonDock.Controls
         {
             if (!_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
-            System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
+            //System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
             _logicalChildren.Remove(element); 
             RemoveLogicalChild(element);
         }

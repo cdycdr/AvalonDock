@@ -11,27 +11,30 @@ namespace AvalonDock.Layout
     public class LayoutAnchorable : LayoutContent
     {
         #region IsVisible
-
-        private bool _isVisible = true;
+        [XmlIgnore]
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get
+            {
+                return !(Parent is LayoutRoot);
+            }
             set
             {
-                if (_isVisible != value)
+                if (value)
                 {
-                    RaisePropertyChanging("IsVisible");
-                    _isVisible = value;
-                    UpdateParentVisibility();
-                    RaisePropertyChanged("IsVisible");
+                    Show();
                 }
-                    
+                else
+                {
+                    Hide();
+                }
             }
         }
 
         protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
-            UpdateParentVisibility(); 
+            UpdateParentVisibility();
+            RaisePropertyChanged("IsAutoHidden");
             base.OnParentChanged(oldValue, newValue);
         }
 
@@ -126,7 +129,7 @@ namespace AvalonDock.Layout
         /// <remarks>Add this content to <see cref="ILayoutRoot.Hidden"/> collection of parent root.</remarks>
         public void Hide()
         {
-            if (IsHidden)
+            if (!IsVisible)
             {
                 IsSelected = true;
                 IsActive = true;
@@ -139,7 +142,7 @@ namespace AvalonDock.Layout
                 PreviousContainerIndex = (Parent as ILayoutContentSelector).SelectedContentIndex;
             }
             Root.Hidden.Add(this);
-            RaisePropertyChanged("IsHidden");
+            RaisePropertyChanged("IsVisible");
         }
 
         /// <summary>
@@ -148,7 +151,7 @@ namespace AvalonDock.Layout
         /// <remarks>Try to show the content where it was previously hidden.</remarks>
         public void Show()
         {
-            if (!IsHidden)
+            if (IsVisible)
                 return;
 
             RaisePropertyChanging("IsHidden");
@@ -176,16 +179,18 @@ namespace AvalonDock.Layout
             }
             
 
-            RaisePropertyChanged("IsHidden");
+            RaisePropertyChanged("IsVisible");
         }
 
-        [XmlIgnore]
-        public bool IsHidden
+
+        /// <summary>
+        /// Get a value indicating if the anchorable is anchored to a border in an autohide status
+        /// </summary>
+        public bool IsAutoHidden
         {
-            get
-            {
-                return Parent is LayoutRoot;
-            }
+            get { return Parent is LayoutAnchorGroup; }
         }
+
+
     }
 }

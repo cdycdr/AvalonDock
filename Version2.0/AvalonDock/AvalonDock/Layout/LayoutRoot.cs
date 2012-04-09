@@ -399,7 +399,7 @@ namespace AvalonDock.Layout
                         .Where(c => c.PreviousContainer == emptyPane && !c.IsFloating))
                     {
                         if (contentReferencingEmptyPane is LayoutAnchorable &&
-                            ((LayoutAnchorable)contentReferencingEmptyPane).IsHidden)
+                            !((LayoutAnchorable)contentReferencingEmptyPane).IsVisible)
                             continue;
 
                         contentReferencingEmptyPane.PreviousContainer = null;

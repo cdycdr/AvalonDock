@@ -34,7 +34,6 @@
                         </GeometryGroup>
                     </GeometryDrawing.Geometry>
                 </GeometryDrawing>
-
             </DrawingGroup>
         </DrawingBrush.Drawing>
     </DrawingBrush>
@@ -125,11 +124,6 @@
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor18" 
         Color="Black"/>
 
-    <LinearGradientBrush x:Key="AvalonDock_ThemeVS2010_BaseColor19" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#4D6082" Offset="0" />
-        <GradientStop Color="#3D5277" Offset="1" />
-    </LinearGradientBrush>
-
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor20" 
                      Color="White"/>
 
@@ -179,9 +173,6 @@
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor28"
                          Color="White"/>
 
-    <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor29" 
-        Color="#3D5277"/>
-
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor30" 
         Color="#CED4DF"/>
 
@@ -191,4 +182,6 @@
     <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor32"
                      Color="Transparent"/>
 
+    <SolidColorBrush x:Key="AvalonDock_ThemeVS2010_BaseColor33"
+        Color="#3D5277"/>    
 </ResourceDictionary>

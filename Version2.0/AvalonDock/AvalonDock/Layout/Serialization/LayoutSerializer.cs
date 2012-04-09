@@ -55,11 +55,13 @@ namespace AvalonDock.Layout.Serialization
         protected void StartDeserialization()
         {
             Manager.SuspendDocumentsSourceBinding = true;
+            Manager.SuspendAnchorablesSourceBinding = true;
         }
 
         protected void EndDeserialization()
         {
             Manager.SuspendDocumentsSourceBinding = false;
+            Manager.SuspendAnchorablesSourceBinding = false;
         }
     }
 }

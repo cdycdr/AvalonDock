@@ -26,9 +26,9 @@ namespace AvalonDock.Controls
         }
 
 
-        FrameworkElement _menuPinContainer = null;
-        Border _menuAutoHideContainer = null;
-        Border _menuCloseContainer = null;
+        //FrameworkElement _menuPinContainer = null;
+        //Border _menuAutoHideContainer = null;
+        //Border _menuCloseContainer = null;
 
         public override void OnApplyTemplate()
         {

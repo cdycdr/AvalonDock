@@ -1167,7 +1167,7 @@ namespace AvalonDock
 
         void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
         {
-            System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
+            //System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
 
             if (_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
@@ -1177,7 +1177,7 @@ namespace AvalonDock
 
         void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
         {
-            System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
+            //System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
 
             if (_logicalChildren.Contains(element))
             {
@@ -2265,7 +2265,6 @@ namespace AvalonDock
             AttachAnchorablesSource(Layout, e.NewValue as IEnumerable);
         }
 
-
         void AttachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
         {
             if (anchorablesSource == null)
@@ -2307,7 +2306,8 @@ namespace AvalonDock
             {
                 foreach (var anchorableToImport in (anchorablesSource as IEnumerable))
                 {
-                    anchorablePane.Children.Add(new LayoutAnchorable() { Content = anchorableToImport });
+                    var newModel = new LayoutAnchorable() { Content = anchorableToImport };
+                    anchorablePane.Children.Add(newModel);
                 }
             }
 
@@ -2333,7 +2333,7 @@ namespace AvalonDock
             {
                 if (e.OldItems != null)
                 {
-                    var anchorablesToRemove = Layout.Descendents().OfType<LayoutDocument>().Where(d => e.OldItems.Contains(d.Content)).ToArray();
+                    var anchorablesToRemove = Layout.Descendents().OfType<LayoutAnchorable>().Where(d => e.OldItems.Contains(d.Content)).ToArray();
                     foreach (var anchorableToRemove in anchorablesToRemove)
                     {
                         (anchorableToRemove.Parent as ILayoutContainer).RemoveChild(
@@ -2385,12 +2385,14 @@ namespace AvalonDock
                         if (!added && anchorablePane != null)
                         {
                             anchorablePane.Children.Add(anchorableToImport);
+                            added = true;
                         }
 
                         if (!added && LayoutUpdateStrategy != null)
                         {
                             LayoutUpdateStrategy.InsertAnchorable(anchorableToImport, anchorablePane);
                         }
+
                     }
                 }
             }
@@ -2399,7 +2401,7 @@ namespace AvalonDock
             {
                 //NOTE: I'm going to clear every document present in layout but
                 //some documents may have been added directly to the layout, for now I clear them too
-                var anchorablesToRemove = Layout.Descendents().OfType<LayoutDocument>().ToArray();
+                var anchorablesToRemove = Layout.Descendents().OfType<LayoutAnchorable>().ToArray();
                 foreach (var anchorableToRemove in anchorablesToRemove)
                 {
                     (anchorableToRemove.Parent as ILayoutContainer).RemoveChild(

@@ -40,7 +40,7 @@
             </MenuItem>
         </Menu>
         
-        <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager">
+        <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" >
             <avalonDock:DockingManager.Theme>
                 <avalonDockVS2010Theme:VS2010Theme/>
             </avalonDock:DockingManager.Theme>

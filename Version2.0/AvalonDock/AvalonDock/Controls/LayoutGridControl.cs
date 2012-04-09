@@ -24,7 +24,7 @@ namespace AvalonDock.Controls
 
             _model = model;
             _orientation = orientation;
-            FlowDirection = System.Windows.FlowDirection.LeftToRight;
+            //FlowDirection = System.Windows.FlowDirection.LeftToRight;
         }
 
         LayoutPositionableGroup<T> _model;

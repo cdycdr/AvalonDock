@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using AvalonDock.Layout;
+using System.Windows.Threading;
 
 namespace AvalonDock.Controls
 {
@@ -68,8 +69,7 @@ namespace AvalonDock.Controls
         }
 
 
-        DateTime? _mouseEnterTimeStamp;
-
+        DispatcherTimer _openUpTimer = null;
 
         protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
         {
@@ -77,38 +77,30 @@ namespace AvalonDock.Controls
 
             if (!e.Handled)
             {
-                var autohideWindow = _model.Root.Manager.AutoHideWindow;
-                if (autohideWindow != null && autohideWindow.Model != this)
-                    _model.Root.Manager.ShowAutoHideWindow(this);
-                else
-                    _mouseEnterTimeStamp = DateTime.Now;
+                _openUpTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle);
+                _openUpTimer.Interval = TimeSpan.FromMilliseconds(400);
+                _openUpTimer.Tick += new EventHandler(_openUpTimer_Tick);
+                _openUpTimer.Start();
             }
         }
-        protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
 
-            if (!e.Handled)
-            {
-                var autohideWindow = _model.Root.Manager.AutoHideWindow;
-                if (autohideWindow != null && autohideWindow.Model == this)
-                    _model.Root.Manager.AutoHideWindow.KeepOpen(true);
-                else if (_mouseEnterTimeStamp.HasValue &&
-                    ((DateTime.Now - _mouseEnterTimeStamp.Value).TotalMilliseconds >= 400))
-                    _model.Root.Manager.ShowAutoHideWindow(this);
-            }
+        void _openUpTimer_Tick(object sender, EventArgs e)
+        {
+            _openUpTimer.Tick -= new EventHandler(_openUpTimer_Tick);
+            _openUpTimer.Stop();
+            _openUpTimer = null;
+            _model.Root.Manager.ShowAutoHideWindow(this);
         }
 
         protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
         {
-            base.OnMouseLeave(e);
-            if (!e.Handled)
+            if (_openUpTimer != null)
             {
-                var autohideWindow = _model.Root.Manager.AutoHideWindow;
-                if (autohideWindow != null &&
-                    autohideWindow.Model == this)
-                    _model.Root.Manager.AutoHideWindow.KeepOpen(false);
+                _openUpTimer.Tick -= new EventHandler(_openUpTimer_Tick);
+                _openUpTimer.Stop();
+                _openUpTimer = null;
             }
+            base.OnMouseLeave(e);
         }
 
     }

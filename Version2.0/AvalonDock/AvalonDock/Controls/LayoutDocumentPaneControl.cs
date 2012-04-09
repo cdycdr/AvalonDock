@@ -71,7 +71,7 @@ namespace AvalonDock.Controls
             if (_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
 
-            System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
+            //System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
 
             _logicalChildren.Add(element);
             AddLogicalChild(element);
@@ -81,7 +81,7 @@ namespace AvalonDock.Controls
         {
             if (!_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
-            System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
+            //System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
 
             _logicalChildren.Remove(element);
             RemoveLogicalChild(element);

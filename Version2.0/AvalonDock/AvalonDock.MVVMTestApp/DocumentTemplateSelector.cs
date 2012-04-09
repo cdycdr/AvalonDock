@@ -10,6 +10,12 @@ namespace AvalonDock.MVVMTestApp
 {
     class DocumentTemplateSelector : DataTemplateSelector
     {
+        public DocumentTemplateSelector()
+        {
+        
+        }
+
+
         public DataTemplate FileViewTemplate
         {
             get;

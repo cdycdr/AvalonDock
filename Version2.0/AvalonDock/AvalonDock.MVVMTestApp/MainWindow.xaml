@@ -25,6 +25,9 @@
                 <Separator/>
                 <MenuItem Header="Close" Command="{Binding CloseCommand}"/>
             </MenuItem>
+            <MenuItem Header="Tools">
+                
+            </MenuItem>
         </Menu>
         <avalonDock:DockingManager x:Name="dockManager" 
                                    DocumentsSource="{Binding Files}"

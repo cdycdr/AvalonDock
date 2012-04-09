@@ -28,7 +28,7 @@ namespace AvalonDock.Controls
         internal OverlayWindow(IOverlayWindowHost host)
         {
             _host = host;
-            FlowDirection = System.Windows.FlowDirection.LeftToRight;
+            //FlowDirection = System.Windows.FlowDirection.LeftToRight;
         }
 
         Canvas _mainCanvasPanel;

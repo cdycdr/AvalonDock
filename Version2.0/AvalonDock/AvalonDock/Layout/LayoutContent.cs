@@ -256,7 +256,6 @@ namespace AvalonDock.Layout
             parentAsDocuPane.RemoveChild(this);
         }
 
-
         public System.Xml.Schema.XmlSchema GetSchema()
         {
             return null;
