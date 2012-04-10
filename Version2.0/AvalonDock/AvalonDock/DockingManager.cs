@@ -2952,6 +2952,48 @@ namespace AvalonDock
 
         #endregion
 
+        #region GridSplitterWidth
+
+        /// <summary>
+        /// GridSplitterWidth Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty GridSplitterWidthProperty =
+            DependencyProperty.Register("GridSplitterWidth", typeof(double), typeof(DockingManager),
+                new FrameworkPropertyMetadata((double)6.0));
+
+        /// <summary>
+        /// Gets or sets the GridSplitterWidth property.  This dependency property 
+        /// indicates width of grid splitters.
+        /// </summary>
+        public double GridSplitterWidth
+        {
+            get { return (double)GetValue(GridSplitterWidthProperty); }
+            set { SetValue(GridSplitterWidthProperty, value); }
+        }
+
+        #endregion
+
+        #region GridSplitterHeight
+
+        /// <summary>
+        /// GridSplitterHeight Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty GridSplitterHeightProperty =
+            DependencyProperty.Register("GridSplitterHeight", typeof(double), typeof(DockingManager),
+                new FrameworkPropertyMetadata((double)6.0));
+
+        /// <summary>
+        /// Gets or sets the GridSplitterHeight property.  This dependency property 
+        /// indicates height of grid splitters.
+        /// </summary>
+        public double GridSplitterHeight
+        {
+            get { return (double)GetValue(GridSplitterHeightProperty); }
+            set { SetValue(GridSplitterHeightProperty, value); }
+        }
+
+        #endregion
+
 
     }
 }

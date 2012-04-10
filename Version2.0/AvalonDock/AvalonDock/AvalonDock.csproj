@@ -78,6 +78,7 @@
     <Compile Include="Controls\Shell\WindowChrome.cs" />
     <Compile Include="Controls\Shell\WindowChromeWorker.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullToDoNothingConverter.cs" />
     <Compile Include="DocumentCloseEventArgs.cs" />
     <Compile Include="DocumentClosingEventArgs.cs" />
     <Compile Include="Extentions.cs" />

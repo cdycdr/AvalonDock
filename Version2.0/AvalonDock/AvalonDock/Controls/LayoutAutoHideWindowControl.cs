@@ -48,10 +48,7 @@ namespace AvalonDock.Controls
                 Height = 1
             });
 
-            //CreateInternalGrid();
-            //SetupCloseTimer();
             _internalHwndSource.RootVisual = _internalGrid;
-
 
             return new HandleRef(this, _internalHwndSource.Handle);
         }
@@ -100,6 +97,7 @@ namespace AvalonDock.Controls
 
         void CreateInternalGrid()
         {
+            var manager = _model.Root.Manager;
             _internalGrid = new Grid();
             _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("Background") { Source = this });
 
@@ -111,7 +109,7 @@ namespace AvalonDock.Controls
             _resizer.DragCompleted += new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnResizerDragCompleted);
             if (_side == AnchorSide.Right)
             {
-                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(manager.GridSplitterWidth)});
                 _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() {
                     Width = _model.AutoHideWidth == 0.0 ? new GridLength(100.0) : new GridLength(_model.AutoHideWidth, GridUnitType.Pixel),
                     MinWidth = _model.AutoHideMinWidth
@@ -131,7 +129,7 @@ namespace AvalonDock.Controls
                     Width = _model.AutoHideWidth == 0.0 ? new GridLength(100.0) : new GridLength(_model.AutoHideWidth, GridUnitType.Pixel),
                     MinWidth = _model.AutoHideMinWidth
                 });
-                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(manager.GridSplitterWidth) });
 
                 _internalGrid.Children.Add(_internalHost); Grid.SetColumn(_internalHost, 0);
                 _internalGrid.Children.Add(_resizer); Grid.SetColumn(_resizer, 1);
@@ -147,7 +145,7 @@ namespace AvalonDock.Controls
                     Height = _model.AutoHideHeight == 0.0 ? new GridLength(100.0) : new GridLength(_model.AutoHideHeight, GridUnitType.Pixel),
                     MinHeight = _model.AutoHideMinHeight
                 });
-                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(manager.GridSplitterHeight) });
 
                 _internalGrid.Children.Add(_internalHost); Grid.SetRow(_internalHost, 0);
                 _internalGrid.Children.Add(_resizer); Grid.SetRow(_resizer, 1);
@@ -158,7 +156,7 @@ namespace AvalonDock.Controls
             }
             else if (_side == AnchorSide.Bottom)
             {
-                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(manager.GridSplitterHeight) });
                 _internalGrid.RowDefinitions.Add(new RowDefinition()
                 {
                     Height = _model.AutoHideHeight == 0.0 ? new GridLength(100.0) : new GridLength(_model.AutoHideHeight, GridUnitType.Pixel),

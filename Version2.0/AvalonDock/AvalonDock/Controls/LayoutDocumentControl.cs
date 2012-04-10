@@ -66,17 +66,20 @@ namespace AvalonDock.Controls
 
         void UpdateLogicalParent()
         {
+            var parentPaneControl = this.FindVisualAncestor<LayoutDocumentPaneControl>();
+
             if (Model != null &&
                 Model.Content != null &&
                 Model.Content is DependencyObject)
             {
                 var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as DependencyObject)
                     as ILogicalChildrenContainer;
+                if (oldLogicalParentPaneControl == parentPaneControl)
+                    return;
                 if (oldLogicalParentPaneControl != null)
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
             }
 
-            var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
             if (Model != null &&
                 parentPaneControl != null &&
                 Model.Content != null &&

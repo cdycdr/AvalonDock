@@ -76,7 +76,7 @@
                 <avalonDockLayout:LayoutRoot.LeftSide>
                     <avalonDockLayout:LayoutAnchorSide>
                         <avalonDockLayout:LayoutAnchorGroup>
-                            <avalonDockLayout:LayoutAnchorable Title="AutoHide1 Content">
+                            <avalonDockLayout:LayoutAnchorable Title="AutoHide1 Content" IconSource="/AvalonDock.TestApp;component/Images/address-book--pencil.png">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='AutoHide Attached to Timer ->\{0\}'}"/>
                             </avalonDockLayout:LayoutAnchorable>
                             <avalonDockLayout:LayoutAnchorable Title="AutoHide2 Content">

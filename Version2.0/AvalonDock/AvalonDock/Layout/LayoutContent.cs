@@ -265,6 +265,9 @@ namespace AvalonDock.Layout
         {
             if (reader.MoveToAttribute("Title"))
                 Title = reader.Value;
+            if (reader.MoveToAttribute("IconSource"))
+                IconSource = new Uri(reader.Value);
+
             if (reader.MoveToAttribute("IsSelected"))
                 IsSelected = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("IsActive"))
@@ -296,6 +299,9 @@ namespace AvalonDock.Layout
         {
             if (!string.IsNullOrWhiteSpace(Title))
                 writer.WriteAttributeString("Title", Title);
+
+            if (IconSource != null)
+                writer.WriteAttributeString("IconSource", IconSource.ToString());
             
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
@@ -433,5 +439,25 @@ namespace AvalonDock.Layout
         {
             get { return this.FindParent<LayoutFloatingWindow>() != null; }
         }
+
+        #region IconSource
+
+        private Uri _iconSource = null;
+        public Uri IconSource
+        {
+            get { return _iconSource; }
+            set
+            {
+                if (_iconSource != value)
+                {
+                    _iconSource = value;
+                    RaisePropertyChanged("IconSource");
+                }
+            }
+        }
+
+        #endregion
+
+
     }
 }

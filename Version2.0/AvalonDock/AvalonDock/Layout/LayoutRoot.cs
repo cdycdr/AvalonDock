@@ -322,7 +322,7 @@ namespace AvalonDock.Layout
                         _activeContent.IsActive = true;
                     RaisePropertyChanged("ActiveContent");
 
-                    if (_activeContent != null && _activeContent.Parent is LayoutDocumentPane)
+                    if (_activeContent != null && (_activeContent.Parent is LayoutDocumentPane || _activeContent is LayoutDocument))
                     {
                         LastFocusedDocument = _activeContent;
                     }

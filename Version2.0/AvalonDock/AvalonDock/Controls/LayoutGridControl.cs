@@ -139,6 +139,10 @@ namespace AvalonDock.Controls
 
         void UpdateRowColDefinitions()
         {
+            var manager = _model.Root.Manager;
+            if (manager == null)
+                return;
+
             FixChildrenDockLengths();
 
             #region Setup GridRows/Cols
@@ -177,7 +181,7 @@ namespace AvalonDock.Controls
 
                         ColumnDefinitions.Add(new ColumnDefinition()
                         {
-                            Width = childModel.IsVisible && nextChildModelVisibleExist ? GridLength.Auto : new GridLength(0.0, GridUnitType.Pixel)
+                            Width = childModel.IsVisible && nextChildModelVisibleExist ? new GridLength(manager.GridSplitterWidth) : new GridLength(0.0, GridUnitType.Pixel)
                         });
                         Grid.SetColumn(InternalChildren[iChild], iColumn);
                     }
@@ -216,7 +220,7 @@ namespace AvalonDock.Controls
 
                         RowDefinitions.Add(new RowDefinition()
                         {
-                            Height = childModel.IsVisible && nextChildModelVisibleExist ? GridLength.Auto : new GridLength(0.0, GridUnitType.Pixel)
+                            Height = childModel.IsVisible && nextChildModelVisibleExist ? new GridLength(manager.GridSplitterHeight) : new GridLength(0.0, GridUnitType.Pixel)
                         });
                         Grid.SetRow(InternalChildren[iChild], iRow);
                     }

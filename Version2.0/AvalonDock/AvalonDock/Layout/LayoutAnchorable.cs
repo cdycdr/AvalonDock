@@ -34,6 +34,7 @@ namespace AvalonDock.Layout
         protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
             UpdateParentVisibility();
+            RaisePropertyChanged("IsVisible");
             RaisePropertyChanged("IsAutoHidden");
             base.OnParentChanged(oldValue, newValue);
         }
