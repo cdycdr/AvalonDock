@@ -158,7 +158,7 @@ namespace AvalonDock.Controls
             }
             else if (_side == AnchorSide.Bottom)
             {
-                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(100.0) });
+                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 _internalGrid.RowDefinitions.Add(new RowDefinition()
                 {
                     Height = _model.AutoHideHeight == 0.0 ? new GridLength(100.0) : new GridLength(_model.AutoHideHeight, GridUnitType.Pixel),

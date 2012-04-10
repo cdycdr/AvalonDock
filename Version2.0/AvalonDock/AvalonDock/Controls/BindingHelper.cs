@@ -21,7 +21,7 @@ namespace AvalonDock.Controls
                     BindingExpressionBase binding = BindingOperations.GetBindingExpressionBase(dependencyObject, dpd.DependencyProperty);
                     if (binding != null)
                     {
-                        if (binding.HasError || binding.Status != BindingStatus.Active)
+                        //if (property.Name == "DataContext" || binding.HasError || binding.Status != BindingStatus.Active)
                         {
                             // Ensure that no pending calls are in the dispatcher queue
                             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.SystemIdle, (Action)delegate

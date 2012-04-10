@@ -223,11 +223,11 @@ namespace AvalonDock.Layout
 
         protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
+            IsSelected = false;
+
             var root = Root;
             if (root != null && _isActive && newValue == null)
                 root.ActiveContent = null;
-
-            IsSelected = false;
             
             base.OnParentChanging(oldValue, newValue);
         }
