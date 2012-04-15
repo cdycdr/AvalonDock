@@ -3066,17 +3066,6 @@ namespace AvalonDock
             content.IsActive = true;
         }
 
-        /// <summary>
-        /// Event fired when a content (Document or Anchorable) is about to be activated
-        /// </summary>
-        /// <remarks>Subscribers have the opportuniy to cancel the operation.</remarks>
-        public event EventHandler<CancelEventArgs> ContentActivating;
-
-        /// <summary>
-        /// Event fired after a content (Document or Anchorable) is activated
-        /// </summary>
-        public event EventHandler ContentActivated;
-
         #endregion
 
         #region DocumentPaneMenuItemHeaderTemplate
