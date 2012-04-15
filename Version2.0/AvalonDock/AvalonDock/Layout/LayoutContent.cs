@@ -266,7 +266,7 @@ namespace AvalonDock.Layout
             if (reader.MoveToAttribute("Title"))
                 Title = reader.Value;
             if (reader.MoveToAttribute("IconSource"))
-                IconSource = new Uri(reader.Value);
+                IconSource = new Uri(reader.Value, UriKind.RelativeOrAbsolute);
 
             if (reader.MoveToAttribute("IsSelected"))
                 IsSelected = bool.Parse(reader.Value);

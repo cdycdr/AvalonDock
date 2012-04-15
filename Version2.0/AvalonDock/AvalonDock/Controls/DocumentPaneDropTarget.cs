@@ -132,7 +132,9 @@ namespace AvalonDock.Controls
                         var sourceModel = floatingWindow.RootDocument;
 
                         int i = _tabIndex == -1 ? 0 : _tabIndex;
+                        sourceModel.IsActive = false;
                         paneModel.Children.Insert(i, sourceModel);
+                        sourceModel.IsActive = true;
                     }
                     break;
                     #endregion
@@ -140,7 +142,6 @@ namespace AvalonDock.Controls
 
             }
 
-            floatingWindow.RootDocument.IsActive = true;
             base.Drop(floatingWindow);
         }
 
