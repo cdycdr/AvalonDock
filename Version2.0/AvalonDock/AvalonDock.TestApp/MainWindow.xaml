@@ -53,7 +53,7 @@
                     </avalonDockLayout:LayoutAnchorablePane>
                     <avalonDockLayout:LayoutDocumentPaneGroup>
                         <avalonDockLayout:LayoutDocumentPane>
-                            <avalonDockLayout:LayoutDocument Title="Document 1">
+                            <avalonDockLayout:LayoutDocument Title="Document 1" IconSource="/AvalonDock.TestApp;component/Images/alarm-clock-blue.png">
                                 <TextBox Text="Document 1 Content"/>
                             </avalonDockLayout:LayoutDocument>
                             <avalonDockLayout:LayoutDocument Title="Document 2">

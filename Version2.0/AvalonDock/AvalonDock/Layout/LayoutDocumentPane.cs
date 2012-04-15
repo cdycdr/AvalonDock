@@ -72,6 +72,8 @@ namespace AvalonDock.Layout
                 SelectedContentIndex = 0;
 
             base.OnChildrenCollectionChanged();
+
+            RaisePropertyChanged("ChildrenSorted");
         }
 
         public int IndexOf(LayoutContent content)
@@ -90,6 +92,16 @@ namespace AvalonDock.Layout
             var parentPane = Parent as ILayoutElementWithVisibility;
             if (parentPane != null)
                 parentPane.ComputeVisibility();
+        }
+
+        public IEnumerable<LayoutContent> ChildrenSorted
+        {
+            get 
+            {
+                var listSorted = Children.ToList();
+                listSorted.Sort();
+                return listSorted;
+            }
         }
     }
 }

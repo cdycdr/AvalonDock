@@ -573,6 +573,8 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnDocumentHeaderTemplateChanged(DependencyPropertyChangedEventArgs e)
         {
+            if (DocumentPaneMenuItemHeaderTemplate == null)
+                DocumentPaneMenuItemHeaderTemplate = DocumentHeaderTemplate;
         }
 
         /// <summary>
@@ -625,6 +627,10 @@ namespace AvalonDock
             if (e.NewValue != null &&
                 DocumentHeaderTemplate != null)
                 DocumentHeaderTemplate = null;
+
+            if (DocumentPaneMenuItemHeaderTemplateSelector == null)
+                DocumentPaneMenuItemHeaderTemplateSelector = DocumentHeaderTemplateSelector;
+
         }
 
         /// <summary>
@@ -2226,8 +2232,6 @@ namespace AvalonDock
 
         #endregion
 
-
-
         #region AnchorablesSource
 
         /// <summary>
@@ -2993,6 +2997,230 @@ namespace AvalonDock
         }
 
         #endregion
+
+        #region ActivateCommand
+        static ICommand _defaultActivateCommand = new RelayCommand((p) => ExecuteActivateCommand(p), (p) => CanExecuteActivateCommand(p));
+
+        /// <summary>
+        /// ActivateCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ActivateCommandProperty =
+            DependencyProperty.Register("ActivateCommand", typeof(ICommand), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ICommand)_defaultActivateCommand,
+                    new PropertyChangedCallback(OnActivateCommandChanged),
+                    new CoerceValueCallback(CoerceActivateCommandValue)));
+
+        /// <summary>
+        /// Gets or sets the ActivateCommand property.  This dependency property 
+        /// indicates the command to execute when user wants to activate a content (either a Document or an Anchorable).
+        /// </summary>
+        public ICommand ActivateCommand
+        {
+            get { return (ICommand)GetValue(ActivateCommandProperty); }
+            set { SetValue(ActivateCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the ActivateCommand property.
+        /// </summary>
+        private static void OnActivateCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnActivateCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the ActivateCommand property.
+        /// </summary>
+        protected virtual void OnActivateCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Coerces the ActivateCommand value.
+        /// </summary>
+        private static object CoerceActivateCommandValue(DependencyObject d, object value)
+        {
+            if (value == null)
+                return _defaultActivateCommand;
+
+            return value;
+        }
+
+        private static bool CanExecuteActivateCommand(object parameter)
+        {
+            return parameter != null;
+        }
+
+        private static void ExecuteActivateCommand(object parameter)
+        {
+            var content = parameter as LayoutContent;
+            if (content == null)
+                return;
+
+            var dockingManager = content.Root.Manager;
+            dockingManager._ExecuteContentActivateCommand(content);
+        }
+
+        void _ExecuteContentActivateCommand(LayoutContent content)
+        {
+            content.IsActive = true;
+        }
+
+        /// <summary>
+        /// Event fired when a content (Document or Anchorable) is about to be activated
+        /// </summary>
+        /// <remarks>Subscribers have the opportuniy to cancel the operation.</remarks>
+        public event EventHandler<CancelEventArgs> ContentActivating;
+
+        /// <summary>
+        /// Event fired after a content (Document or Anchorable) is activated
+        /// </summary>
+        public event EventHandler ContentActivated;
+
+        #endregion
+
+        #region DocumentPaneMenuItemHeaderTemplate
+
+        /// <summary>
+        /// DocumentPaneMenuItemHeaderTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentPaneMenuItemHeaderTemplateProperty =
+            DependencyProperty.Register("DocumentPaneMenuItemHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null,
+                    new PropertyChangedCallback(OnDocumentPaneMenuItemHeaderTemplateChanged),
+                    new CoerceValueCallback(CoerceDocumentPaneMenuItemHeaderTemplateValue)));
+
+        /// <summary>
+        /// Gets or sets the DocumentPaneMenuItemHeaderTemplate property.  This dependency property 
+        /// indicates the header template to use while creating menu items for the document panes.
+        /// </summary>
+        public DataTemplate DocumentPaneMenuItemHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(DocumentPaneMenuItemHeaderTemplateProperty); }
+            set { SetValue(DocumentPaneMenuItemHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentPaneMenuItemHeaderTemplate property.
+        /// </summary>
+        private static void OnDocumentPaneMenuItemHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentPaneMenuItemHeaderTemplateChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentPaneMenuItemHeaderTemplate property.
+        /// </summary>
+        protected virtual void OnDocumentPaneMenuItemHeaderTemplateChanged(DependencyPropertyChangedEventArgs e)
+        { 
+        }
+
+        /// <summary>
+        /// Coerces the DocumentPaneMenuItemHeaderTemplate value.
+        /// </summary>
+        private static object CoerceDocumentPaneMenuItemHeaderTemplateValue(DependencyObject d, object value)
+        {
+            if (value != null &&
+                d.GetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty) != null)
+                return null; 
+            
+            return value;
+        }
+
+        #endregion
+
+        #region DocumentPaneMenuItemHeaderTemplateSelector
+
+        /// <summary>
+        /// DocumentPaneMenuItemHeaderTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DocumentPaneMenuItemHeaderTemplateSelectorProperty =
+            DependencyProperty.Register("DocumentPaneMenuItemHeaderTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null,
+                    new PropertyChangedCallback(OnDocumentPaneMenuItemHeaderTemplateSelectorChanged),
+                    new CoerceValueCallback(CoerceDocumentPaneMenuItemHeaderTemplateSelectorValue)));
+
+        /// <summary>
+        /// Gets or sets the DocumentPaneMenuItemHeaderTemplateSelector property.  This dependency property 
+        /// indicates the data template selector to use for the menu items show when user select the DocumentPane document switch context menu.
+        /// </summary>
+        public DataTemplateSelector DocumentPaneMenuItemHeaderTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty); }
+            set { SetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the DocumentPaneMenuItemHeaderTemplateSelector property.
+        /// </summary>
+        private static void OnDocumentPaneMenuItemHeaderTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DockingManager)d).OnDocumentPaneMenuItemHeaderTemplateSelectorChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the DocumentPaneMenuItemHeaderTemplateSelector property.
+        /// </summary>
+        protected virtual void OnDocumentPaneMenuItemHeaderTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null &&
+                DocumentPaneMenuItemHeaderTemplate != null)
+                DocumentPaneMenuItemHeaderTemplate = null;
+
+        }
+
+        /// <summary>
+        /// Coerces the DocumentPaneMenuItemHeaderTemplateSelector value.
+        /// </summary>
+        private static object CoerceDocumentPaneMenuItemHeaderTemplateSelectorValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
+        #endregion
+
+        #region IconContentTemplate
+
+        /// <summary>
+        /// IconContentTemplate Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IconContentTemplateProperty =
+            DependencyProperty.Register("IconContentTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplate)null));
+
+        /// <summary>
+        /// Gets or sets the IconContentTemplate property.  This dependency property 
+        /// indicates the data template to use while extracting the icon from model.
+        /// </summary>
+        public DataTemplate IconContentTemplate
+        {
+            get { return (DataTemplate)GetValue(IconContentTemplateProperty); }
+            set { SetValue(IconContentTemplateProperty, value); }
+        }
+
+        #endregion
+
+        #region IconContentTemplateSelector
+
+        /// <summary>
+        /// IconContentTemplateSelector Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IconContentTemplateSelectorProperty =
+            DependencyProperty.Register("IconContentTemplateSelector", typeof(DataTemplateSelector), typeof(DockingManager),
+                new FrameworkPropertyMetadata((DataTemplateSelector)null));
+
+        /// <summary>
+        /// Gets or sets the IconContentTemplateSelector property.  This dependency property 
+        /// indicates data template selector to use while selecting the datatamplate for content icons.
+        /// </summary>
+        public DataTemplateSelector IconContentTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(IconContentTemplateSelectorProperty); }
+            set { SetValue(IconContentTemplateSelectorProperty, value); }
+        }
+
+        #endregion
+
 
 
     }

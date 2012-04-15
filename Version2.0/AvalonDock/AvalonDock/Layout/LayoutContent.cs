@@ -11,7 +11,7 @@ namespace AvalonDock.Layout
 {
     [ContentProperty("Content")]
     [Serializable]
-    public abstract class LayoutContent : LayoutElement, IXmlSerializable, ILayoutElementForFloatingWindow
+    public abstract class LayoutContent : LayoutElement, IXmlSerializable, ILayoutElementForFloatingWindow, IComparable<LayoutContent>
     {
         internal LayoutContent()
         { }
@@ -458,6 +458,15 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        public int CompareTo(LayoutContent other)
+        {
+            var contentAsComparable = Content as IComparable;
+            if (contentAsComparable != null)
+            {
+                return contentAsComparable.CompareTo(other.Content);
+            }
 
+            return string.Compare(Title, other.Title);
+        }
     }
 }

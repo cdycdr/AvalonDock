@@ -10,7 +10,9 @@
     <avalonDockConverters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
     <avalonDockConverters:AnchorSideToOrientationConverter x:Key="AnchorSideToOrientationConverter"/>
     <avalonDockConverters:AnchorSideToAngleConverter x:Key="AnchorSideToAngleConverter"/>
-
+    <avalonDockConverters:NullToDoNothingConverter x:Key="NullToDoNothingConverter"/>
+    <avalonDockConverters:UriSourceToBitmapImageConverter x:Key="UriSourceToBitmapImageConverter"/>
+    
     <!--DocumentPaneControlStyle-->
     <Style x:Key="DocumentPaneControlStyle" TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
         <Setter Property="Template">
@@ -21,7 +23,36 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <avalonDockControls:DocumentPaneTabPanel x:Name="HeaderPanel" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                        <Grid  Panel.ZIndex="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <avalonDockControls:DocumentPaneTabPanel x:Name="HeaderPanel" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1"/>
+                            <avalonDockControls:DropDownButton
+                                x:Name="MenuDropDownButton"
+                                Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                Focusable="False"
+                                Grid.Column="1">
+                                <avalonDockControls:DropDownButton.DropDownContextMenu>
+                                    <avalonDockControls:ContextMenuEx
+                                        ItemsSource="{Binding Model.ChildrenSorted, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <avalonDockControls:ContextMenuEx.ItemContainerStyle>
+                                            <Style TargetType="{x:Type avalonDockControls:MenuItemEx}">
+                                                <Setter Property="HeaderTemplate" Value="{Binding Path=Root.Manager.DocumentPaneMenuItemHeaderTemplate}"/>
+                                                <Setter Property="HeaderTemplateSelector" Value="{Binding Path=Root.Manager.DocumentPaneMenuItemHeaderTemplateSelector}"/>
+                                                <Setter Property="IconTemplate" Value="{Binding Path=Root.Manager.IconContentTemplate}"/>
+                                                <Setter Property="IconTemplateSelector" Value="{Binding Path=Root.Manager.IconContentTemplateSelector}"/>
+                                                <Setter Property="Command" Value="{Binding Path=Root.Manager.ActivateCommand}"/>
+                                                <Setter Property="CommandParameter" Value="{Binding}"/>
+                                            </Style>
+                                        </avalonDockControls:ContextMenuEx.ItemContainerStyle>
+                                    </avalonDockControls:ContextMenuEx>
+                                </avalonDockControls:DropDownButton.DropDownContextMenu>
+                                <Image Source="/AvalonDock;component/Images/PinDocMenu.png"/>
+                            </avalonDockControls:DropDownButton>                            
+                        </Grid>
+                        <!--<avalonDockControls:DocumentPaneTabPanel x:Name="HeaderPanel" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>-->
                         <Border x:Name="ContentPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost" 
                                               ContentSource="SelectedContent" 
@@ -33,6 +64,9 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                         </Trigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Model.ChildrenCount}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="MenuDropDownButton" />
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -61,6 +95,13 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="DocumentMenuItemContainerStyle" TargetType="{x:Type MenuItem}">
+        <Setter Property="Header" Value="{Binding Title}"/>
+        <Setter Property="Icon" Value="{Binding IconSource, Converter={StaticResource UriSourceToBitmapImageConverter}}"/>
+        <Setter Property="Command" Value="{Binding Path=Root.Manager.ActivateCommand}"/>
+        <Setter Property="CommandParameter" Value="{Binding}"/>
     </Style>
 
     <!--AnchorablePaneControlStyle-->
@@ -124,10 +165,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-    
-    
+   
     <Style TargetType="avalonDockControls:AnchorablePaneTitle">
         <Setter Property="Template">
             <Setter.Value>
@@ -314,6 +352,10 @@
         <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
     </DataTemplate>
 
+    <DataTemplate x:Key="IconContentTemplate">
+        <Image Source="{Binding IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform"/>
+    </DataTemplate>
+
     <ContextMenu x:Key="AnchorableContextMenu">
         <MenuItem Header="Float" 
                 Command="{Binding Path=Root.Manager.AnchorableFloatCommand}"
@@ -354,6 +396,8 @@
         <Setter Property="AnchorableTitleTemplate" Value="{StaticResource AnchorableTitleTemplate}"/>
         <Setter Property="AnchorableContextMenu" Value="{StaticResource AnchorableContextMenu}"/>
         <Setter Property="DocumentContextMenu" Value="{StaticResource DocumentContextMenu}"/>
+        <Setter Property="DocumentPaneMenuItemHeaderTemplate" Value="{StaticResource DocumentHeaderTemplate}"/>
+        <Setter Property="IconContentTemplate" Value="{StaticResource IconContentTemplate}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDock:DockingManager}">

@@ -50,6 +50,7 @@ namespace AvalonDock.Layout
 
             ComputeVisibility();
             OnChildrenCollectionChanged();
+            RaisePropertyChanged("ChildrenCount");
         }
 
         [field: NonSerialized]

@@ -139,6 +139,8 @@ namespace AvalonDock.Controls
 
 
             }
+
+            floatingWindow.RootDocument.IsActive = true;
             base.Drop(floatingWindow);
         }
 
@@ -265,11 +267,15 @@ namespace AvalonDock.Controls
                         var layoutAnchorablePaneGroup = floatingWindow.RootPanel as LayoutAnchorablePaneGroup;
 
                         int i = _tabIndex == -1 ? 0 : _tabIndex;
+                        LayoutAnchorable anchorableToActivate = null;
                         foreach (var anchorableToImport in layoutAnchorablePaneGroup.Descendents().OfType<LayoutAnchorable>().ToArray())
                         {
                             paneModel.Children.Insert(i, anchorableToImport);
                             i++;
+                            anchorableToActivate = anchorableToImport;
                         }
+
+                        anchorableToActivate.IsActive = true;
                     }
                     break;
                     #endregion

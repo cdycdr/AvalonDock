@@ -88,7 +88,6 @@
                     </local:DocumentTemplateSelector.FileStatsViewTemplate>
                 </local:DocumentTemplateSelector>
             </avalonDock:DockingManager.DocumentTitleTemplateSelector>
-
             <avalonDock:DockingManager.DocumentTitleTemplate>
                 <DataTemplate>
                     <Border>
@@ -118,8 +117,6 @@
                     </Border>
                 </DataTemplate>
             </avalonDock:DockingManager.AnchorableTitleTemplate>
-
-
 
             <avalonDockLayout:LayoutRoot>
                 <avalonDockLayout:LayoutPanel>

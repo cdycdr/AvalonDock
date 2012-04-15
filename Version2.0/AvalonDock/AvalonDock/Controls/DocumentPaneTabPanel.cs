@@ -29,13 +29,29 @@ namespace AvalonDock.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
+            restart:
             var visibleChildren = Children.Cast<UIElement>().Where(ch => ch.Visibility != System.Windows.Visibility.Collapsed);
             double offset = 0.0;
             bool skipAllOthers = false;
-            foreach (FrameworkElement doc in visibleChildren)
+            foreach (TabItem doc in visibleChildren)
             {
+                var layoutContent = doc.Content as LayoutContent;
                 if (skipAllOthers || offset + doc.DesiredSize.Width > finalSize.Width)
                 {
+                    if (layoutContent.IsSelected)
+                    {
+                        var parentContainer = layoutContent.Parent as ILayoutContainer;
+                        var parentSelector = layoutContent.Parent as ILayoutContentSelector;
+                        var parentPane = layoutContent.Parent as ILayoutPane;
+                        int contentIndex = parentSelector.IndexOf(layoutContent);
+                        if (contentIndex > 0 &&
+                            parentContainer.ChildrenCount > 1)
+                        {
+                            parentPane.MoveChild(contentIndex, 0);
+                            parentSelector.SelectedContentIndex = 0;
+                            goto restart;
+                        }
+                    }
                     doc.Visibility = System.Windows.Visibility.Hidden;
                     skipAllOthers = true;
                 }
