@@ -139,7 +139,8 @@ namespace AvalonDock.Controls
             if (_currentDropTarget != null)
             {
                 _currentWindow.DragDrop(_currentDropTarget);
-                floatingWindowModel.Root.CollectGarbage();
+                if (floatingWindowModel.Root != null)
+                    floatingWindowModel.Root.CollectGarbage();
                 dropHandled = true;
             }
 

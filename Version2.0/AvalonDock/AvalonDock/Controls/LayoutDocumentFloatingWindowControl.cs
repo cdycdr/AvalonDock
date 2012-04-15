@@ -66,14 +66,15 @@ namespace AvalonDock.Controls
 
         protected override void OnClosed(EventArgs e)
         {
+            var root = Model.Root;
+            root.Manager.RemoveFloatingWindow(this);
+            root.CollectGarbage();
+ 
             base.OnClosed(e);
            
-            if (CloseInitiatedByUser)
+            if (!CloseInitiatedByUser)
             {
-                var root = Model.Root;
-                root.Manager.RemoveFloatingWindow(this);
                 root.FloatingWindows.Remove(_model);
-                root.CollectGarbage();
             }
             
         }

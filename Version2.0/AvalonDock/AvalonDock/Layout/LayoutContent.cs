@@ -270,8 +270,8 @@ namespace AvalonDock.Layout
 
             if (reader.MoveToAttribute("IsSelected"))
                 IsSelected = bool.Parse(reader.Value);
-            if (reader.MoveToAttribute("IsActive"))
-                IsActive = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("IsActive"))
+            //    IsActive = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("ContentId"))
                 ContentId = reader.Value;
             if (reader.MoveToAttribute("IsLastFocusedDocument"))
@@ -306,8 +306,8 @@ namespace AvalonDock.Layout
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
 
-            if (IsActive)
-                writer.WriteAttributeString("IsActive", IsActive.ToString());
+            //if (IsActive)
+            //    writer.WriteAttributeString("IsActive", IsActive.ToString());
 
             if (IsLastFocusedDocument)
                 writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
