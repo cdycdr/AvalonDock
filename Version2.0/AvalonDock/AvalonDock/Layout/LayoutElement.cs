@@ -90,5 +90,6 @@ namespace AvalonDock.Layout
                 return parent as ILayoutRoot;
             }
         }
+
     }
 }

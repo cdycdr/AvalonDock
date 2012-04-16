@@ -123,6 +123,7 @@
     <Compile Include="Converters\AnchorSideToOrientationConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="DockingManager.cs" />
+    <Compile Include="Layout\ChildrenTreeChangedEventArgs.cs" />
     <Compile Include="Layout\Extentions.cs" />
     <Compile Include="Layout\ILayoutAnchorablePane.cs" />
     <Compile Include="Layout\ILayoutContainer.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Layout\LayoutElement.cs" />
     <Compile Include="Layout\LayoutFloatingWindow.cs" />
     <Compile Include="Layout\LayoutGroup.cs" />
+    <Compile Include="Layout\LayoutGroupBase.cs" />
     <Compile Include="Layout\LayoutPanel.cs" />
     <Compile Include="Layout\LayoutPositionableGroup.cs" />
     <Compile Include="Layout\LayoutRoot.cs" />

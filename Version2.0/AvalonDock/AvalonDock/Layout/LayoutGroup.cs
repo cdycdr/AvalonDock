@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace AvalonDock.Layout
 {
     [Serializable]
-    public abstract class LayoutGroup<T> : LayoutElement, ILayoutContainer, ILayoutGroup, IXmlSerializable where T : class, ILayoutElement
+    public abstract class LayoutGroup<T> : LayoutGroupBase, ILayoutContainer, ILayoutGroup, IXmlSerializable where T : class, ILayoutElement
     {
         internal LayoutGroup()
         {
@@ -50,18 +50,10 @@ namespace AvalonDock.Layout
 
             ComputeVisibility();
             OnChildrenCollectionChanged();
+            NotifyChildrenTreeChanged(ChildrenTreeChange.DirectChildrenChanged);
             RaisePropertyChanged("ChildrenCount");
         }
 
-        [field: NonSerialized]
-        [field: XmlIgnore]
-        public event EventHandler ChildrenCollectionChanged;
-
-        protected virtual void OnChildrenCollectionChanged()
-        {
-            if (ChildrenCollectionChanged != null)
-                ChildrenCollectionChanged(this, EventArgs.Empty);
-        }
 
         ObservableCollection<T> _children = new ObservableCollection<T>();
 

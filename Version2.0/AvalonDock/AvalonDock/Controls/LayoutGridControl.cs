@@ -46,9 +46,12 @@ namespace AvalonDock.Controls
 
             UpdateChildren();
 
-            _model.Children.CollectionChanged += (s, args) =>
+            _model.ChildrenTreeChanged += (s, args) =>
                 {
-                    UpdateChildren();
+                    if (args.Change == ChildrenTreeChange.TreeChanged)
+                        UpdateRowColDefinitions();
+                    else
+                        UpdateChildren();
                 };
             this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
         }

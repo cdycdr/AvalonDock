@@ -184,7 +184,6 @@ namespace AvalonDock.Layout
         #endregion
 
 
-
         [NonSerialized]
         double _actualWidth;
         double ILayoutPositionableElementWithActualSize.ActualWidth
