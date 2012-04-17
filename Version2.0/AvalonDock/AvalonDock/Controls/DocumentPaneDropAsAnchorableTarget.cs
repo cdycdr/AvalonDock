@@ -38,25 +38,30 @@ namespace AvalonDock.Controls
                 case DropTargetType.DocumentPaneDockAsAnchorableBottom:
                     #region DropTargetType.DocumentPaneDockAsAnchorableBottom
                     {
+                        LayoutPanel parentGroupPanel = null;
                         var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-
                         if (parentGroup != null)
+                            parentGroupPanel = parentGroup.Parent as LayoutPanel;
+                        else
+                            parentGroupPanel = targetModel.Parent as LayoutPanel;
+
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Vertical)
                         {
-                            var parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                            if (parentGroupPanel != null &&
-                                parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Vertical)
-                            {
-                                parentGroupPanel.Children.Insert(
-                                    parentGroupPanel.IndexOfChild(parentGroup) + 1,
-                                    floatingWindow.RootPanel);
-                            }
-                            else
-                            {
-                                var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Vertical };
-                                parentGroupPanel.ReplaceChild(parentGroup, newParentPanel);
-                                newParentPanel.Children.Add(parentGroup);
-                                newParentPanel.Children.Add(floatingWindow.RootPanel);
-                            }
+                            parentGroupPanel.Children.Insert(
+                                parentGroupPanel.IndexOfChild(parentGroup != null ? parentGroup : targetModel) + 1,
+                                floatingWindow.RootPanel);
+                        }
+                        else if (parentGroupPanel != null)
+                        {
+                            var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Vertical };
+                            parentGroupPanel.ReplaceChild(parentGroup != null ? parentGroup : targetModel, newParentPanel);
+                            newParentPanel.Children.Add(parentGroup != null ? parentGroup : targetModel);
+                            newParentPanel.Children.Add(floatingWindow.RootPanel);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
                         }
                     }
                     break;
@@ -64,51 +69,62 @@ namespace AvalonDock.Controls
                 case DropTargetType.DocumentPaneDockAsAnchorableTop:
                     #region DropTargetType.DocumentPaneDockAsAnchorableTop
                     {
+                        LayoutPanel parentGroupPanel = null;
                         var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-
                         if (parentGroup != null)
+                            parentGroupPanel = parentGroup.Parent as LayoutPanel;
+                        else
+                            parentGroupPanel = targetModel.Parent as LayoutPanel;
+
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Vertical)
                         {
-                            var parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                            if (parentGroupPanel != null &&
-                                parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Vertical)
-                            {
-                                parentGroupPanel.Children.Insert(
-                                    parentGroupPanel.IndexOfChild(parentGroup),
-                                    floatingWindow.RootPanel);
-                            }
-                            else
-                            {
-                                var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Vertical };
-                                parentGroupPanel.ReplaceChild(parentGroup, newParentPanel);
-                                newParentPanel.Children.Add(floatingWindow.RootPanel);
-                                newParentPanel.Children.Add(parentGroup);
-                            }
+                            parentGroupPanel.Children.Insert(
+                                parentGroupPanel.IndexOfChild(parentGroup != null ? parentGroup : targetModel),
+                                floatingWindow.RootPanel);
                         }
+                        else if (parentGroupPanel != null)
+                        {
+                            var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Vertical };
+                            parentGroupPanel.ReplaceChild(parentGroup != null ? parentGroup : targetModel, newParentPanel);
+                            newParentPanel.Children.Add(parentGroup != null ? parentGroup : targetModel);
+                            newParentPanel.Children.Insert(0, floatingWindow.RootPanel);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+
                     }
                     break;
                     #endregion
                 case DropTargetType.DocumentPaneDockAsAnchorableLeft:
                     #region DropTargetType.DocumentPaneDockAsAnchorableLeft
                     {
+                        LayoutPanel parentGroupPanel = null;
                         var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-
                         if (parentGroup != null)
+                            parentGroupPanel = parentGroup.Parent as LayoutPanel;
+                        else
+                            parentGroupPanel = targetModel.Parent as LayoutPanel;
+
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Horizontal)
                         {
-                            var parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                            if (parentGroupPanel != null &&
-                                parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Horizontal)
-                            {
-                                parentGroupPanel.Children.Insert(
-                                    parentGroupPanel.IndexOfChild(parentGroup),
-                                    floatingWindow.RootPanel);
-                            }
-                            else
-                            {
-                                var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Horizontal };
-                                parentGroupPanel.ReplaceChild(parentGroup, newParentPanel);
-                                newParentPanel.Children.Add(floatingWindow.RootPanel);
-                                newParentPanel.Children.Add(parentGroup);
-                            }
+                            parentGroupPanel.Children.Insert(
+                                parentGroupPanel.IndexOfChild(parentGroup != null ? parentGroup : targetModel),
+                                floatingWindow.RootPanel);
+                        }
+                        else if (parentGroupPanel != null)
+                        {
+                            var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentGroupPanel.ReplaceChild(parentGroup != null ? parentGroup : targetModel, newParentPanel);
+                            newParentPanel.Children.Add(parentGroup != null ? parentGroup : targetModel);
+                            newParentPanel.Children.Insert(0, floatingWindow.RootPanel);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
                         }
                     }
                     break;
@@ -116,25 +132,30 @@ namespace AvalonDock.Controls
                 case DropTargetType.DocumentPaneDockAsAnchorableRight:
                     #region DropTargetType.DocumentPaneDockAsAnchorableRight
                     {
+                        LayoutPanel parentGroupPanel = null;
                         var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-
                         if (parentGroup != null)
+                            parentGroupPanel = parentGroup.Parent as LayoutPanel;
+                        else
+                            parentGroupPanel = targetModel.Parent as LayoutPanel;
+
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Horizontal)
                         {
-                            var parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                            if (parentGroupPanel != null &&
-                                parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Horizontal)
-                            {
-                                parentGroupPanel.Children.Insert(
-                                    parentGroupPanel.IndexOfChild(parentGroup) + 1,
-                                    floatingWindow.RootPanel);
-                            }
-                            else
-                            {
-                                var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Horizontal };
-                                parentGroupPanel.ReplaceChild(parentGroup, newParentPanel);
-                                newParentPanel.Children.Add(parentGroup);
-                                newParentPanel.Children.Add(floatingWindow.RootPanel);
-                            }
+                            parentGroupPanel.Children.Insert(
+                                parentGroupPanel.IndexOfChild(parentGroup != null ? parentGroup : targetModel) + 1,
+                                floatingWindow.RootPanel);
+                        }
+                        else if (parentGroupPanel != null)
+                        {
+                            var newParentPanel = new LayoutPanel() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                            parentGroupPanel.ReplaceChild(parentGroup != null ? parentGroup : targetModel, newParentPanel);
+                            newParentPanel.Children.Add(parentGroup != null ? parentGroup : targetModel);
+                            newParentPanel.Children.Add(floatingWindow.RootPanel);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
                         }
                     }
                     break;
@@ -146,16 +167,26 @@ namespace AvalonDock.Controls
 
         public override System.Windows.Media.Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindowModel)
         {
+            Rect targetScreenRect;
             ILayoutDocumentPane targetModel = _targetPane.Model as ILayoutDocumentPane;
-            var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
             var manager = targetModel.Root.Manager;
-            var documentPaneGroupControl = manager.FindLogicalChildren<LayoutDocumentPaneGroupControl>().First(d => d.Model == parentGroup);
+
+            if (targetModel.Parent is LayoutDocumentPaneGroup)
+            {
+                var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
+                var documentPaneGroupControl = manager.FindLogicalChildren<LayoutDocumentPaneGroupControl>().First(d => d.Model == parentGroup);
+                targetScreenRect = documentPaneGroupControl.GetScreenArea();
+            }
+            else
+            {
+                var documentPaneControl = manager.FindLogicalChildren<LayoutDocumentPaneControl>().First(d => d.Model == targetModel);
+                targetScreenRect = documentPaneControl.GetScreenArea();
+            }
 
             switch (Type)
             {
                 case DropTargetType.DocumentPaneDockAsAnchorableBottom:
                     {
-                        var targetScreenRect = documentPaneGroupControl.GetScreenArea();
                         targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
                         targetScreenRect.Offset(0.0, targetScreenRect.Height - targetScreenRect.Height / 3.0);
                         targetScreenRect.Height /= 3.0;
@@ -163,14 +194,12 @@ namespace AvalonDock.Controls
                     }
                 case DropTargetType.DocumentPaneDockAsAnchorableTop:
                     {
-                        var targetScreenRect = documentPaneGroupControl.GetScreenArea();
                         targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
                         targetScreenRect.Height /= 3.0;
                         return new RectangleGeometry(targetScreenRect);
                     }
                 case DropTargetType.DocumentPaneDockAsAnchorableRight:
                     {
-                        var targetScreenRect = documentPaneGroupControl.GetScreenArea();
                         targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
                         targetScreenRect.Offset(targetScreenRect.Width - targetScreenRect.Width / 3.0, 0.0);
                         targetScreenRect.Width /= 3.0;
@@ -178,7 +207,6 @@ namespace AvalonDock.Controls
                     }
                 case DropTargetType.DocumentPaneDockAsAnchorableLeft:
                     {
-                        var targetScreenRect = documentPaneGroupControl.GetScreenArea();
                         targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
                         targetScreenRect.Width /= 3.0;
                         return new RectangleGeometry(targetScreenRect);

@@ -33,6 +33,9 @@
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    DocumentCloseCommand="{Binding CloseCommand}"
                                    Grid.Row="1">
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:VS2010Theme/>
+            </avalonDock:DockingManager.Theme>
             <avalonDock:DockingManager.DocumentTemplateSelector>
                 <local:DocumentTemplateSelector>
                     <local:DocumentTemplateSelector.FileViewTemplate>

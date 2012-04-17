@@ -1333,7 +1333,11 @@ namespace AvalonDock
                             DockWidth = parentPaneAsPositionableElement.DockWidth,
                             DockHeight = parentPaneAsPositionableElement.DockHeight,
                             DockMinHeight = parentPaneAsPositionableElement.DockMinHeight,
-                            DockMinWidth = parentPaneAsPositionableElement.DockMinWidth
+                            DockMinWidth = parentPaneAsPositionableElement.DockMinWidth,
+                            FloatingLeft = parentPaneAsPositionableElement.FloatingLeft,
+                            FloatingTop = parentPaneAsPositionableElement.FloatingTop,
+                            FloatingWidth = parentPaneAsPositionableElement.FloatingWidth,
+                            FloatingHeight = parentPaneAsPositionableElement.FloatingHeight,
                         })
                 };
 
@@ -1390,7 +1394,11 @@ namespace AvalonDock
                 DockWidth = paneAsPositionableElement.DockWidth,
                 DockHeight = paneAsPositionableElement.DockHeight,
                 DockMinHeight = paneAsPositionableElement.DockMinHeight,
-                DockMinWidth = paneAsPositionableElement.DockMinWidth
+                DockMinWidth = paneAsPositionableElement.DockMinWidth,
+                FloatingLeft = paneAsPositionableElement.FloatingLeft,
+                FloatingTop = paneAsPositionableElement.FloatingTop,
+                FloatingWidth = paneAsPositionableElement.FloatingWidth,
+                FloatingHeight = paneAsPositionableElement.FloatingHeight,
             };
 
             bool savePreviousContainer = paneModel.FindParent<LayoutFloatingWindow>() == null;

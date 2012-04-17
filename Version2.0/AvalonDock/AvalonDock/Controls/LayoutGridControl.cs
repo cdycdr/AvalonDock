@@ -49,7 +49,7 @@ namespace AvalonDock.Controls
             _model.ChildrenTreeChanged += (s, args) =>
                 {
                     if (args.Change == ChildrenTreeChange.TreeChanged)
-                        UpdateRowColDefinitions();
+                        FixChildrenDockLengths();
                     else
                         UpdateChildren();
                 };

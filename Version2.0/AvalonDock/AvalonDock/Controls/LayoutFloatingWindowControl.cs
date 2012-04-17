@@ -376,6 +376,8 @@ namespace AvalonDock.Controls
                 //    break;
 
                 case Win32Helper.WM_EXITSIZEMOVE:
+                    UpdatePositionAndSizeOfPanes();
+
                     if (_dragService != null)
                     {
                         bool dropFlag;
@@ -387,8 +389,6 @@ namespace AvalonDock.Controls
                             InternalClose();
                     }
                     
-                    UpdatePositionAndSizeOfPanes();
-
                     break;
                 case Win32Helper.WM_MOVING:
                     {

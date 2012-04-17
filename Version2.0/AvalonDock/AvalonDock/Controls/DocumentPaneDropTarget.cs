@@ -39,6 +39,7 @@ namespace AvalonDock.Controls
                     #region DropTargetType.DocumentPaneDockBottom
                     {
                         var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
+                        var paneToInsert = new LayoutDocumentPane(floatingWindow.RootDocument);
 
                         if (parentModel == null)
                         {
@@ -46,14 +47,14 @@ namespace AvalonDock.Controls
                             var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical};
                             parentContainer.ReplaceChild(targetModel, newParentModel);
                             newParentModel.Children.Add(targetModel as LayoutDocumentPane);
-                            newParentModel.Children.Add(new LayoutDocumentPane(floatingWindow.RootDocument));
+                            newParentModel.Children.Add(paneToInsert);
                         }
                         else
                         {
                             //Debug.Assert(parentModel.Orientation == System.Windows.Controls.Orientation.Vertical);
                             parentModel.Orientation = System.Windows.Controls.Orientation.Vertical;
                             int targetPaneIndex = parentModel.IndexOfChild(targetModel);
-                            parentModel.Children.Insert(targetPaneIndex + 1, new LayoutDocumentPane(floatingWindow.RootDocument));
+                            parentModel.Children.Insert(targetPaneIndex + 1, paneToInsert);
                         }
                     }
                     break;
@@ -62,20 +63,21 @@ namespace AvalonDock.Controls
                     #region DropTargetType.DocumentPaneDockTop
                     {
                         var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
+                        var paneToInsert = new LayoutDocumentPane(floatingWindow.RootDocument);
 
                         if (parentModel == null)
                         {
                             var parentContainer = targetModel.Parent as ILayoutContainer;
                             var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
                             parentContainer.ReplaceChild(targetModel, newParentModel);
-                            newParentModel.Children.Add(new LayoutDocumentPane(floatingWindow.RootDocument));
                             newParentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            newParentModel.Children.Insert(0, paneToInsert);
                         }
                         else
                         {
                             parentModel.Orientation = System.Windows.Controls.Orientation.Vertical;
                             int targetPaneIndex = parentModel.IndexOfChild(targetModel);
-                            parentModel.Children.Insert(targetPaneIndex, new LayoutDocumentPane(floatingWindow.RootDocument));
+                            parentModel.Children.Insert(targetPaneIndex, paneToInsert);
                         }
                     }
                     break;
@@ -84,20 +86,21 @@ namespace AvalonDock.Controls
                     #region DropTargetType.DocumentPaneDockLeft
                     {
                         var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
+                        var paneToInsert = new LayoutDocumentPane(floatingWindow.RootDocument);
 
                         if (parentModel == null)
                         {
                             var parentContainer = targetModel.Parent as ILayoutContainer;
                             var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
                             parentContainer.ReplaceChild(targetModel, newParentModel);
-                            newParentModel.Children.Add(new LayoutDocumentPane(floatingWindow.RootDocument));
                             newParentModel.Children.Add(targetModel as LayoutDocumentPane);
+                            newParentModel.Children.Insert(0, paneToInsert);
                         }
                         else
                         {
                             parentModel.Orientation = System.Windows.Controls.Orientation.Horizontal;
                             int targetPaneIndex = parentModel.IndexOfChild(targetModel);
-                            parentModel.Children.Insert(targetPaneIndex, new LayoutDocumentPane(floatingWindow.RootDocument));
+                            parentModel.Children.Insert(targetPaneIndex, paneToInsert);
                         }
                     }
                     break;
@@ -106,6 +109,7 @@ namespace AvalonDock.Controls
                     #region DropTargetType.DocumentPaneDockRight
                     {
                         var parentModel = targetModel.Parent as LayoutDocumentPaneGroup;
+                        var paneToInsert = new LayoutDocumentPane(floatingWindow.RootDocument);
 
                         if (parentModel == null)
                         {
@@ -113,13 +117,13 @@ namespace AvalonDock.Controls
                             var newParentModel = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
                             parentContainer.ReplaceChild(targetModel, newParentModel);
                             newParentModel.Children.Add(targetModel as LayoutDocumentPane);
-                            newParentModel.Children.Add(new LayoutDocumentPane(floatingWindow.RootDocument));
+                            newParentModel.Children.Add(paneToInsert);
                         }
                         else
                         {
                             parentModel.Orientation = System.Windows.Controls.Orientation.Horizontal;
                             int targetPaneIndex = parentModel.IndexOfChild(targetModel);
-                            parentModel.Children.Insert(targetPaneIndex + 1, new LayoutDocumentPane(floatingWindow.RootDocument));
+                            parentModel.Children.Insert(targetPaneIndex + 1, paneToInsert);
                         }
                     }
                     break;
