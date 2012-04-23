@@ -42,7 +42,8 @@ namespace AvalonDock.Layout
                     RaisePropertyChanged("RootPanel");
                     RaisePropertyChanged("IsSinglePane");
                     RaisePropertyChanged("SinglePane");
-
+                    RaisePropertyChanged("Children");
+                    RaisePropertyChanged("ChildrenCount");
                     ((ILayoutElementWithVisibility)this).ComputeVisibility();
                 }
             }
@@ -75,7 +76,13 @@ namespace AvalonDock.Layout
 
         public override IEnumerable<ILayoutElement> Children
         {
-            get { yield return RootPanel; }
+            get 
+            {
+                if (ChildrenCount == 1)    
+                    yield return RootPanel;
+
+                yield break;
+            }
         }
 
         public override void RemoveChild(ILayoutElement element)
@@ -92,7 +99,12 @@ namespace AvalonDock.Layout
 
         public override int ChildrenCount
         {
-            get { return 1; }
+            get 
+            {
+                if (RootPanel == null)
+                    return 0;
+                return 1; 
+            }
         }
 
         #region IsVisible
@@ -125,6 +137,8 @@ namespace AvalonDock.Layout
         {
             if (RootPanel != null)
                 IsVisible = RootPanel.IsVisible;
+            else
+                IsVisible = false;
         }
     }
 }

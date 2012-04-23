@@ -70,12 +70,7 @@ namespace AvalonDock.Layout
 
         protected override void OnChildrenCollectionChanged()
         {
-            if (SelectedContentIndex >= ChildrenCount)
-                SelectedContentIndex = Children.Count - 1;
-
-            if (SelectedContentIndex == -1 && ChildrenCount > 0)
-                SelectedContentIndex = 0;
-
+            AutoFixSelectedContent();
             for (int i = 0; i < Children.Count; i++)
             {
                 if (Children[i].IsSelected)
@@ -84,8 +79,21 @@ namespace AvalonDock.Layout
                     break;
                 }
             }
-
             base.OnChildrenCollectionChanged();
+        }
+
+        [XmlIgnore]
+        bool _autoFixSelectedContent = true;
+        void AutoFixSelectedContent()
+        {
+            if (_autoFixSelectedContent)
+            {
+                if (SelectedContentIndex >= ChildrenCount)
+                    SelectedContentIndex = Children.Count - 1;
+
+                if (SelectedContentIndex == -1 && ChildrenCount > 0)
+                    SelectedContentIndex = 0;
+            }
         }
 
         public int IndexOf(LayoutContent content)
@@ -97,18 +105,6 @@ namespace AvalonDock.Layout
             return Children.IndexOf(anchorableChild);
         }
 
-        protected override void OnIsVisibleChanged()
-        {
-            UpdateParentVisibility();
-            base.OnIsVisibleChanged();
-        }
-
-        void UpdateParentVisibility()
-        {
-            var parentPane = Parent as ILayoutElementWithVisibility;
-            if (parentPane != null)
-                parentPane.ComputeVisibility();
-        }
 
         public bool IsDirectlyHostedInFloatingWindow
         {
@@ -164,8 +160,10 @@ namespace AvalonDock.Layout
         {
             if (reader.MoveToAttribute("Id"))
                 _id = reader.Value;
-
+            _autoFixSelectedContent = false;
             base.ReadXml(reader);
+            _autoFixSelectedContent = true;
+            AutoFixSelectedContent();
         }
     }
 }

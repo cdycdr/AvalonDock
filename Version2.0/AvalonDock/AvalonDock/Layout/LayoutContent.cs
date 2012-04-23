@@ -153,16 +153,16 @@ namespace AvalonDock.Layout
 
         #region IsLastFocusedDocument
 
-        private bool _lastFocusedDocument = false;
+        private bool _isLastFocusedDocument = false;
         public bool IsLastFocusedDocument
         {
-            get { return _lastFocusedDocument; }
-            set
+            get { return _isLastFocusedDocument; }
+            internal set
             {
-                if (_lastFocusedDocument != value)
+                if (_isLastFocusedDocument != value)
                 {
                     RaisePropertyChanging("IsLastFocusedDocument");
-                    _lastFocusedDocument = value;
+                    _isLastFocusedDocument = value;
                     RaisePropertyChanged("IsLastFocusedDocument");
                 }
             }
@@ -223,7 +223,8 @@ namespace AvalonDock.Layout
 
         protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
-            IsSelected = false;
+            if (oldValue != null)
+                IsSelected = false;
 
             var root = Root;
             if (root != null && _isActive && newValue == null)
@@ -252,8 +253,11 @@ namespace AvalonDock.Layout
         /// </summary>
         public void Close()
         {
-            var parentAsDocuPane = Parent as ILayoutContainer;
-            parentAsDocuPane.RemoveChild(this);
+            var root = Root;
+            var parentAsContainer = Parent as ILayoutContainer;
+            parentAsContainer.RemoveChild(this);
+            if (root != null)
+                root.CollectGarbage();
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()
@@ -270,8 +274,6 @@ namespace AvalonDock.Layout
 
             if (reader.MoveToAttribute("IsSelected"))
                 IsSelected = bool.Parse(reader.Value);
-            //if (reader.MoveToAttribute("IsActive"))
-            //    IsActive = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("ContentId"))
                 ContentId = reader.Value;
             if (reader.MoveToAttribute("IsLastFocusedDocument"))
@@ -305,9 +307,6 @@ namespace AvalonDock.Layout
             
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
-
-            //if (IsActive)
-            //    writer.WriteAttributeString("IsActive", IsActive.ToString());
 
             if (IsLastFocusedDocument)
                 writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());

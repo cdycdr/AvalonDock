@@ -153,7 +153,10 @@ namespace AvalonDock.TestApp
 
         private void OnShowWinformsWindow(object sender, RoutedEventArgs e)
         {
-            winFormsWindow.Show();
+            if (winFormsWindow.IsHidden)
+                winFormsWindow.Show();
+            else
+                winFormsWindow.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
         }
 
         

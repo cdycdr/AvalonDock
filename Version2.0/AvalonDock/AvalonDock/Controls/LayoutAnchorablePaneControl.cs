@@ -43,7 +43,7 @@ namespace AvalonDock.Controls
             //else
             modelWithAtcualSize.ActualHeight = ActualHeight;
 
-            System.Diagnostics.Debug.WriteLine("{0},{1}", ActualWidth, ActualHeight); 
+            //System.Diagnostics.Debug.WriteLine("{0},{1}", ActualWidth, ActualHeight); 
         }
 
         List<object> _logicalChildren = new List<object>();

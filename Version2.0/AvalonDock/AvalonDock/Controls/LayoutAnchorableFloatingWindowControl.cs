@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Input;
 using AvalonDock.Layout;
+using AvalonDock.Converters;
 
 namespace AvalonDock.Controls
 {
@@ -43,10 +44,23 @@ namespace AvalonDock.Controls
 
             Content = manager.CreateUIElementForModel(_model.RootPanel);
 
-            SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BooleanToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
+            //SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BoolToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
+
+            //Issue: http://avalondock.codeplex.com/workitem/15036
+            IsVisibleChanged += (s, args) =>
+            {
+                var visibilityBinding = GetBindingExpression(VisibilityProperty);
+                if (IsVisible && (visibilityBinding == null))
+                {
+                    SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BoolToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
+                }
+            };
+
 
             ContextMenu = _model.Root.Manager.AnchorableContextMenu;
-            ContextMenu.DataContext = _model;
+            ContextMenu.DataContext = _model.SinglePane;
+
+
             _model.PropertyChanged += (s, args) =>
                 {
                     if (_model.IsSinglePane &&
@@ -55,17 +69,24 @@ namespace AvalonDock.Controls
                     {
                         ContextMenu = _model.Root.Manager.AnchorableContextMenu;
                         if (ContextMenu != null)
-                            ContextMenu.DataContext = _model;
+                            ContextMenu.DataContext = _model.SinglePane;
                     }
                     else
                         ContextMenu = null;
+
+                    if (args.PropertyName == "RootPanel" &&
+                        _model.RootPanel == null)
+                        InternalClose();
+
                 };
+
+
         }
 
 
         bool IOverlayWindowHost.HitTest(Point dragPoint)
         {
-            Rect detectionRect = new Rect(new Point(Left, Top), new Size(Width, Height));
+            Rect detectionRect = new Rect(this.PointToScreenDPI(new Point()), this.TransformActualSizeToAncestor());
             return detectionRect.Contains(dragPoint);
         }
 
@@ -74,7 +95,7 @@ namespace AvalonDock.Controls
         {
             if (_overlayWindow == null)
                 _overlayWindow = new OverlayWindow(this);
-            Rect rectWindow = new Rect(new Point(Left, Top), new Size(Width, Height));
+            Rect rectWindow = new Rect(this.PointToScreenDPI(new Point()), this.TransformActualSizeToAncestor());
             _overlayWindow.Left = rectWindow.Left;
             _overlayWindow.Top = rectWindow.Top;
             _overlayWindow.Width = rectWindow.Width;
@@ -165,7 +186,8 @@ namespace AvalonDock.Controls
                 case Win32Helper.WM_NCLBUTTONDOWN: //Left button down on title -> start dragging over docking manager
                     if (wParam.ToInt32() == Win32Helper.HT_CAPTION)
                     {
-                        _model.Descendents().OfType<LayoutAnchorablePane>().First().SelectedContent.IsActive = true;
+                        _model.Descendents().OfType<LayoutAnchorablePane>().First(p => p.ChildrenCount > 0 && p.SelectedContent != null).SelectedContent.IsActive = true;
+                        handled = true;
                     }
                     break;
             }

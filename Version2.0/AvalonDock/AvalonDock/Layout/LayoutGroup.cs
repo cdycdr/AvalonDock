@@ -54,7 +54,6 @@ namespace AvalonDock.Layout
             RaisePropertyChanged("ChildrenCount");
         }
 
-
         ObservableCollection<T> _children = new ObservableCollection<T>();
 
         public ObservableCollection<T> Children
@@ -87,7 +86,17 @@ namespace AvalonDock.Layout
         }
 
         protected virtual void OnIsVisibleChanged()
-        { }
+        {
+            UpdateParentVisibility();
+        }
+
+        void UpdateParentVisibility()
+        {
+            var parentPane = Parent as ILayoutElementWithVisibility;
+            if (parentPane != null)
+                parentPane.ComputeVisibility();
+        }
+
 
         public void ComputeVisibility()
         {

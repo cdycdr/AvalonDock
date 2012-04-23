@@ -26,7 +26,7 @@ namespace AvalonDock.Controls
         List<IOverlayWindowHost> _overlayWindowHosts = new List<IOverlayWindowHost>();
         void GetOverlayWindowHosts()
         {
-            _overlayWindowHosts.AddRange(_manager.GetFloatingWindowsByZOrder().OfType<LayoutAnchorableFloatingWindowControl>().Where(fw => fw != _floatingWindow));
+            _overlayWindowHosts.AddRange(_manager.GetFloatingWindowsByZOrder().OfType<LayoutAnchorableFloatingWindowControl>().Where(fw => fw != _floatingWindow && fw.IsVisible));
             _overlayWindowHosts.Add(_manager);
         }
 

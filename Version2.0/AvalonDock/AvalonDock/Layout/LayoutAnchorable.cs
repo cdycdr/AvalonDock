@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Xml.Serialization;
+using System.Windows.Controls;
 
 namespace AvalonDock.Layout
 {
@@ -16,7 +17,7 @@ namespace AvalonDock.Layout
         {
             get
             {
-                return !(Parent is LayoutRoot);
+                return Parent != null && !(Parent is LayoutRoot);
             }
             set
             {
@@ -31,10 +32,20 @@ namespace AvalonDock.Layout
             }
         }
 
+        [XmlIgnore]
+        public bool IsHidden
+        {
+            get
+            {
+                return (Parent is LayoutRoot);
+            }
+        }
+
         protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
             UpdateParentVisibility();
             RaisePropertyChanged("IsVisible");
+            RaisePropertyChanged("IsHidden");
             RaisePropertyChanged("IsAutoHidden");
             base.OnParentChanged(oldValue, newValue);
         }
@@ -137,6 +148,7 @@ namespace AvalonDock.Layout
                 return;
             }
             RaisePropertyChanging("IsHidden");
+            RaisePropertyChanging("IsVisible");
             if (Parent is ILayoutPane)
             {
                 PreviousContainer = Parent as ILayoutPane;
@@ -144,6 +156,7 @@ namespace AvalonDock.Layout
             }
             Root.Hidden.Add(this);
             RaisePropertyChanged("IsVisible");
+            RaisePropertyChanged("IsHidden");
         }
 
         /// <summary>
@@ -156,6 +169,7 @@ namespace AvalonDock.Layout
                 return;
 
             RaisePropertyChanging("IsHidden");
+            RaisePropertyChanging("IsVisible");
 
             bool added = false;
             var root = Root;
@@ -172,15 +186,67 @@ namespace AvalonDock.Layout
                 IsSelected = true;
                 IsActive = true;
             }
-            
+
             if (!added && root != null && root.Manager != null)
             {
                 if (root.Manager.LayoutUpdateStrategy != null)
                     root.Manager.LayoutUpdateStrategy.InsertAnchorable(this, PreviousContainer);
             }
-            
+
 
             RaisePropertyChanged("IsVisible");
+            RaisePropertyChanged("IsHidden");
+        }
+
+        public void AddToLayout(DockingManager manager, AnchorableShowStrategy strategy)
+        {
+            if (IsVisible ||
+                IsHidden)
+                throw new InvalidOperationException();
+
+
+            bool most = (strategy & AnchorableShowStrategy.Most) == AnchorableShowStrategy.Most;
+            bool left = (strategy & AnchorableShowStrategy.Left) == AnchorableShowStrategy.Left;
+            bool right = (strategy & AnchorableShowStrategy.Right) == AnchorableShowStrategy.Right;
+            bool top = (strategy & AnchorableShowStrategy.Top) == AnchorableShowStrategy.Top;
+            bool bottom = (strategy & AnchorableShowStrategy.Bottom) == AnchorableShowStrategy.Bottom;
+            if (most)
+            {
+                if (manager.Layout.RootPanel == null)
+                    manager.Layout.RootPanel = new LayoutPanel() { Orientation = (left || right ? Orientation.Horizontal : Orientation.Vertical) };
+
+                if (left || right)
+                {
+                    if (manager.Layout.RootPanel.Orientation == Orientation.Vertical &&
+                        manager.Layout.RootPanel.ChildrenCount > 1)
+                    {
+                        manager.Layout.RootPanel = new LayoutPanel(manager.Layout.RootPanel);
+                    }
+
+                    manager.Layout.RootPanel.Orientation = Orientation.Horizontal;
+
+                    if (left)
+                        manager.Layout.RootPanel.Children.Insert(0, new LayoutAnchorablePane(this));
+                    else
+                        manager.Layout.RootPanel.Children.Add(new LayoutAnchorablePane(this));
+                }
+                else
+                {
+                    if (manager.Layout.RootPanel.Orientation == Orientation.Horizontal &&
+                        manager.Layout.RootPanel.ChildrenCount > 1)
+                    {
+                        manager.Layout.RootPanel = new LayoutPanel(manager.Layout.RootPanel);
+                    }
+
+                    manager.Layout.RootPanel.Orientation = Orientation.Vertical;
+
+                    if (top)
+                        manager.Layout.RootPanel.Children.Insert(0, new LayoutAnchorablePane(this));
+                    else
+                        manager.Layout.RootPanel.Children.Add(new LayoutAnchorablePane(this));
+                }
+                
+            }
         }
 
 

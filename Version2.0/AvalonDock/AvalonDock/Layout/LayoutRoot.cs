@@ -431,9 +431,55 @@ namespace AvalonDock.Layout
                         exitFlag = false;
                         break;
                     }
-                
                 }
 
+                if (!exitFlag)
+                {
+                    //removes any empty layout panel
+                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutPanel>().Where(p => p.Children.Count == 0))
+                    {
+                        var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
+                        parentGroup.RemoveChild(emptyPaneGroup);
+                        exitFlag = false;
+                        break;
+                    }
+                }
+
+                if (!exitFlag)
+                {
+                    //removes any empty floating window
+                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutFloatingWindow>().Where(p => p.ChildrenCount == 0))
+                    {
+                        var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
+                        parentGroup.RemoveChild(emptyPaneGroup);
+                        exitFlag = false;
+                        break;
+                    }
+                }
+
+                if (!exitFlag)
+                {
+                    //removes any empty anchor group
+                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutAnchorGroup>().Where(p => p.ChildrenCount == 0))
+                    {
+                        var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
+                        parentGroup.RemoveChild(emptyPaneGroup);
+                        exitFlag = false;
+                        break;
+                    }
+                }
+
+                if (!exitFlag)
+                {
+                    //removes any empty anchor side
+                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutAnchorSide>().Where(p => p.ChildrenCount == 0))
+                    {
+                        var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
+                        parentGroup.RemoveChild(emptyPaneGroup);
+                        exitFlag = false;
+                        break;
+                    }
+                }
 
             }
             while (!exitFlag);

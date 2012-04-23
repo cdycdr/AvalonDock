@@ -40,6 +40,7 @@ namespace AvalonDock.Controls
 
             HwndSource _wpfContentHost = null;
             Border _rootPresenter = null;
+            DockingManager _manager = null;
 
             protected override System.Runtime.InteropServices.HandleRef BuildWindowCore(System.Runtime.InteropServices.HandleRef hwndParent)
             {
@@ -56,8 +57,8 @@ namespace AvalonDock.Controls
                 _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("Background") { Source = _owner });
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;
-                var manager = _owner.Model.Root.Manager;
-                ((ILogicalChildrenContainer)manager).InternalAddLogicalChild(_rootPresenter);
+                _manager = _owner.Model.Root.Manager;
+                ((ILogicalChildrenContainer)_manager).InternalAddLogicalChild(_rootPresenter);
 
                 return new HandleRef(this, _wpfContentHost.Handle);
             }
@@ -74,8 +75,7 @@ namespace AvalonDock.Controls
             }
             protected override void DestroyWindowCore(HandleRef hwnd)
             {
-                var manager = _owner.Model.Root.Manager;
-                ((ILogicalChildrenContainer)manager).InternalRemoveLogicalChild(_rootPresenter);
+                ((ILogicalChildrenContainer)_manager).InternalRemoveLogicalChild(_rootPresenter);
                 if (_wpfContentHost != null)
                 {
                     _wpfContentHost.Dispose();

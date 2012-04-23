@@ -448,8 +448,10 @@ namespace AvalonDock.Controls
                 case DropAreaType.AnchorablePane:
                     areaElement = _gridAnchorablePaneDropTargets;
                     break;
-                case DropAreaType.DocumentPane:
                 case DropAreaType.DocumentPaneGroup:
+                    areaElement = _gridDocumentPaneDropTargets;
+                    break;
+                case DropAreaType.DocumentPane:
                 default:
                     {
                         bool isDraggingAnchorables = _floatingWindow.Model is LayoutAnchorableFloatingWindow;

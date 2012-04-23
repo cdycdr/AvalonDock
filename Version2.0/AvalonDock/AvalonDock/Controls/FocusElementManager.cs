@@ -124,8 +124,6 @@ namespace AvalonDock.Controls
 
         static void _focusHandler_FocusChanged(object sender, FocusChangeEventArgs e)
         {
-            //Debug.WriteLine("_focusHandler_FocusChanged(Got={0}, Lost={1})", e.GotFocusWinHandle, e.LostFocusWinHandle);
-
             foreach (var manager in _managers)
             {
                 var hostContainingFocusedHandle = manager.FindLogicalChildren<HwndHost>().FirstOrDefault(hw => Win32Helper.IsChild(hw.Handle, e.GotFocusWinHandle));
@@ -138,6 +136,8 @@ namespace AvalonDock.Controls
                         if (_modelFocusedElement.ContainsKey(parentAnchorable.Model))
                             _modelFocusedElement.Remove(parentAnchorable.Model);
                         _modelFocusedWindowHandle[parentAnchorable.Model] = e.GotFocusWinHandle;
+                        if (parentAnchorable.Model != null)
+                            parentAnchorable.Model.IsActive = true;
                     }
                     else
                     {
@@ -148,6 +148,8 @@ namespace AvalonDock.Controls
                                 _modelFocusedElement.Remove(parentDocument.Model);
 
                             _modelFocusedWindowHandle[parentDocument.Model] = e.GotFocusWinHandle;
+                            if (parentDocument.Model != null)
+                                parentDocument.Model.IsActive = true;
                         }
                     }
                 }
