@@ -182,7 +182,10 @@ namespace AvalonDock.Layout
             if (!added && PreviousContainer != null)
             {
                 var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
-                previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
+                if (PreviousContainerIndex < previousContainerAsLayoutGroup.ChildrenCount)
+                    previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
+                else
+                    previousContainerAsLayoutGroup.InsertChildAt(previousContainerAsLayoutGroup.ChildrenCount, this);
                 IsSelected = true;
                 IsActive = true;
             }
@@ -198,6 +201,11 @@ namespace AvalonDock.Layout
             RaisePropertyChanged("IsHidden");
         }
 
+        /// <summary>
+        /// Add the anchorable to a DockingManager layout
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <param name="strategy"></param>
         public void AddToLayout(DockingManager manager, AnchorableShowStrategy strategy)
         {
             if (IsVisible ||
@@ -258,6 +266,67 @@ namespace AvalonDock.Layout
             get { return Parent is LayoutAnchorGroup; }
         }
 
+
+        /// <summary>
+        /// Re-dock the anchorable to its previous container
+        /// </summary>
+        public void Dock()
+        {
+            if (PreviousContainer != null)
+            {
+                var currentContainer = Parent as ILayoutPane;
+                var currentContainerIndex = (currentContainer as ILayoutGroup).IndexOfChild(this);
+                var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
+
+                if (PreviousContainerIndex < previousContainerAsLayoutGroup.ChildrenCount)
+                    previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
+                else
+                    previousContainerAsLayoutGroup.InsertChildAt(previousContainerAsLayoutGroup.ChildrenCount, this);
+
+                PreviousContainer = currentContainer;
+                PreviousContainerIndex = currentContainerIndex;
+
+                IsSelected = true;
+                IsActive = true;
+
+
+                Root.CollectGarbage();
+            }
+        }
+
+
+        public void Float()
+        {
+            if (PreviousContainer != null &&
+                PreviousContainer.FindParent<LayoutFloatingWindow>() != null)
+            {
+
+                var currentContainer = Parent as ILayoutPane;
+                var currentContainerIndex = (currentContainer as ILayoutGroup).IndexOfChild(this);
+                var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
+
+                if (PreviousContainerIndex < previousContainerAsLayoutGroup.ChildrenCount)
+                    previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
+                else
+                    previousContainerAsLayoutGroup.InsertChildAt(previousContainerAsLayoutGroup.ChildrenCount, this);
+
+                PreviousContainer = currentContainer;
+                PreviousContainerIndex = currentContainerIndex;
+
+                IsSelected = true;
+                IsActive = true;
+
+                Root.CollectGarbage();
+            }
+            else
+            {
+                Root.Manager.StartDraggingFloatingWindowForContent(this, false);
+
+                IsSelected = true;
+                IsActive = true;
+            }
+
+        }
 
     }
 }

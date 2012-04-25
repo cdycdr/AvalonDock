@@ -1297,7 +1297,7 @@ namespace AvalonDock
         #region Floating Windows
         List<LayoutFloatingWindowControl> _fwList = new List<LayoutFloatingWindowControl>();
 
-        internal void StartDraggingFloatingWindowForContent(LayoutContent contentModel)
+        internal void StartDraggingFloatingWindowForContent(LayoutContent contentModel, bool startDrag = true)
         {
             var parentPane = contentModel.Parent as ILayoutPane;
             var parentPaneAsPositionableElement = contentModel.Parent as ILayoutPositionableElement;
@@ -1372,7 +1372,8 @@ namespace AvalonDock
             
             Layout.CollectGarbage();
 
-            fwc.AttachDrag();
+            if (startDrag)
+                fwc.AttachDrag();
             fwc.Show();
         }
 
@@ -2199,21 +2200,7 @@ namespace AvalonDock
         {
             foreach (var documentToClose in Layout.Descendents().OfType<LayoutDocument>().Where(d => d != document).ToArray())
             {
-                if (DocumentClosing != null)
-                {
-                    var evargs = new DocumentClosingEventArgs(documentToClose);
-                    DocumentClosing(this, evargs);
-                    if (evargs.Cancel)
-                        continue;
-                }
-
-                documentToClose.Close();
-
-                if (DocumentClose != null)
-                {
-                    var evargs = new DocumentCloseEventArgs(document);
-                    DocumentClose(this, evargs);
-                }
+                _ExecuteDocumentCloseCommand(documentToClose);
             }
         }
 
@@ -2590,6 +2577,15 @@ namespace AvalonDock
                 //by default hide the anchorable
                 model.Hide();
             }
+
+            var paneModel = anchorable as LayoutAnchorablePane;
+            if (paneModel != null)
+            {
+                foreach (var anchorableModel in paneModel.Children.ToArray())
+                {
+                    anchorableModel.Hide();
+                }
+            }
         }
 
         #endregion
@@ -2705,15 +2701,26 @@ namespace AvalonDock
             return value;
         }
 
-        private static bool CanExecuteAnchorableFloatCommand(object p)
+        private static bool CanExecuteAnchorableFloatCommand(object anchorable)
         {
-            return true;
+            var model = anchorable as LayoutAnchorable;
+            if (model == null)
+                return false;//is floating
+
+            return model.FindParent<LayoutAnchorableFloatingWindow>() == null;
         }
 
         private static void ExecuteAnchorableFloatCommand(object anchorable)
         {
             var model = anchorable as LayoutAnchorable;
-            
+            if (model != null)
+                model.Root.Manager._ExecuteAnchorableFloatCommand(model);
+        }
+
+
+        void _ExecuteAnchorableFloatCommand(LayoutAnchorable anchorable)
+        {
+            anchorable.Float();
         }
 
         #endregion
@@ -2765,17 +2772,27 @@ namespace AvalonDock
             return value;
         }
 
-        private static bool CanExecuteAnchorableDockCommand(object p)
+        private static bool CanExecuteAnchorableDockCommand(object anchorable)
         {
-            return true;
+            var model = anchorable as LayoutAnchorable;
+            if (model == null)
+                return false;//is floating
+
+            return model.FindParent<LayoutAnchorableFloatingWindow>() != null;
         }
 
         private static void ExecuteAnchorableDockCommand(object anchorable)
         {
             var model = anchorable as LayoutAnchorable;
-
+            if (model != null)
+                model.Root.Manager._ExecuteAnchorableDockCommand(model);
         }
 
+
+        void _ExecuteAnchorableDockCommand(LayoutAnchorable anchorable)
+        {
+            anchorable.Dock();
+        }
         #endregion
 
         #region AnchorableDockAsDocumentCommand

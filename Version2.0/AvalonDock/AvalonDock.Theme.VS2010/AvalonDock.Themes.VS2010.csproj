@@ -117,6 +117,23 @@
     <Resource Include="Images\PinMenu.png" />
     <Resource Include="Images\VTabGroup.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinAutoHide_Dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinClose_Dark.png" />
+    <Resource Include="Images\PinMenu_Dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinMaximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinRestore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinMaximize_Dark.png" />
+    <Resource Include="Images\PinRestore_Dark.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

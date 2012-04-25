@@ -505,9 +505,15 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
+                        <Grid>
+                            <ContentPresenter Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
                                           ContentTemplate="{Binding AnchorableHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                           ContentTemplateSelector="{Binding AnchorableHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
+                            <avalonDockControls:DropDownControlArea 
+                                Grid.Column="0"
+                                DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                DropDownContextMenuDataContext="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -665,7 +671,7 @@
                                         Focusable="False"
                                         Grid.Column="1"
                                         DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                        DropDownContextMenuDataContext="{Binding Path=Model.SinglePane, RelativeSource={RelativeSource TemplatedParent}}">
+                                        DropDownContextMenuDataContext="{Binding Path=Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}">
                                         <Image Source="/AvalonDock;component/Images/PinMenu.png"/>
                                     </avalonDockControls:DropDownButton>
 
@@ -695,8 +701,8 @@
                                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                         Focusable="False"
                                         Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                        Command="{x:Static shell:SystemCommands.CloseWindowCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                        Command="{Binding Model.Root.Manager.AnchorableHideCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                        CommandParameter="{Binding Model.SinglePane, RelativeSource={RelativeSource TemplatedParent}}"
                                         Grid.Column="3">
                                         <Image Source="/AvalonDock;component/Images/PinClose.png"/>
                                     </Button>
