@@ -1299,6 +1299,9 @@ namespace AvalonDock
 
         internal void StartDraggingFloatingWindowForContent(LayoutContent contentModel, bool startDrag = true)
         {
+            if (contentModel.Parent is LayoutAnchorGroup)
+                ToggleAutoHide(contentModel as LayoutAnchorable);
+
             var parentPane = contentModel.Parent as ILayoutPane;
             var parentPaneAsPositionableElement = contentModel.Parent as ILayoutPositionableElement;
             var parentPaneAsWithActualSize = contentModel.Parent as ILayoutPositionableElementWithActualSize;

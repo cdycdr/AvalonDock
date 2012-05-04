@@ -25,6 +25,7 @@ namespace AvalonDock.Controls
                 _focusHandler.FocusChanged += new EventHandler<FocusChangeEventArgs>(_focusHandler_FocusChanged);
                 _focusHandler.Attach();
 
+                Application.Current.Exit += new ExitEventHandler(Current_Exit);
             }
 
             manager.PreviewGotKeyboardFocus += new KeyboardFocusChangedEventHandler(manager_PreviewGotKeyboardFocus);
@@ -42,13 +43,29 @@ namespace AvalonDock.Controls
             {
                 InputManager.Current.EnterMenuMode -= new EventHandler(InputManager_EnterMenuMode);
                 InputManager.Current.LeaveMenuMode -= new EventHandler(InputManager_LeaveMenuMode);
-                _focusHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_focusHandler_FocusChanged);
-                _focusHandler.Detach();
-                _focusHandler = null;
+                if (_focusHandler != null)
+                {
+                    _focusHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_focusHandler_FocusChanged);
+                    _focusHandler.Detach();
+                    _focusHandler = null;
+                }
             }
 
             RefreshDetachedElements();
         }
+
+
+        private static void Current_Exit(object sender, ExitEventArgs e)
+        {
+            Application.Current.Exit -= new ExitEventHandler(Current_Exit);
+            if (_focusHandler != null)
+            {
+                _focusHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_focusHandler_FocusChanged);
+                _focusHandler.Detach();
+                _focusHandler = null;
+            }
+        }
+
 
         static void manager_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {

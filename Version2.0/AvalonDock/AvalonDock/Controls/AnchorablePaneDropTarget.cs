@@ -66,10 +66,10 @@ namespace AvalonDock.Controls
                                 Orientation = System.Windows.Controls.Orientation.Vertical
                             };
 
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                             newOrientedPanel.Children.Add(targetModel);
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
 
-                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;
@@ -106,10 +106,10 @@ namespace AvalonDock.Controls
                                 Orientation = System.Windows.Controls.Orientation.Vertical
                             };
 
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
                             newOrientedPanel.Children.Add(targetModel);
 
-                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;
@@ -146,10 +146,10 @@ namespace AvalonDock.Controls
                                 Orientation = System.Windows.Controls.Orientation.Horizontal
                             };
 
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
                             newOrientedPanel.Children.Add(targetModel);
 
-                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;
@@ -186,10 +186,10 @@ namespace AvalonDock.Controls
                                 Orientation = System.Windows.Controls.Orientation.Horizontal
                             };
 
+                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                             newOrientedPanel.Children.Add(targetModel);
                             newOrientedPanel.Children.Add(floatingWindow.RootPanel);
 
-                            parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
                         }
                     }
                     break;

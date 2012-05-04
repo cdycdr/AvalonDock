@@ -43,13 +43,12 @@ namespace AvalonDock.Controls
             {
                 AcquireHwndFocusInMenuMode = false,
                 ParentWindow = hwndParent.Handle,
-                WindowStyle = Win32Helper.WS_CHILD | Win32Helper.WS_VISIBLE | Win32Helper.WS_CLIPSIBLINGS | Win32Helper.WS_CLIPCHILDREN,
+                WindowStyle = Win32Helper.WS_CHILD | Win32Helper.WS_VISIBLE | Win32Helper.WS_CLIPSIBLINGS | Win32Helper.WS_CLIPCHILDREN | Win32Helper.WS_GROUP,
                 Width = 1,
-                Height = 1
+                Height = 1,
             });
 
             _internalHwndSource.RootVisual = _internalGrid;
-
             return new HandleRef(this, _internalHwndSource.Handle);
         }
 
@@ -102,6 +101,8 @@ namespace AvalonDock.Controls
             _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("Background") { Source = this });
 
             _internalHost = new LayoutAnchorableControl() { Model = _model };
+            KeyboardNavigation.SetTabNavigation(_internalGrid, KeyboardNavigationMode.Cycle);
+            
             _resizer = new LayoutGridResizerControl();
 
             _resizer.DragStarted += new System.Windows.Controls.Primitives.DragStartedEventHandler(OnResizerDragStarted);

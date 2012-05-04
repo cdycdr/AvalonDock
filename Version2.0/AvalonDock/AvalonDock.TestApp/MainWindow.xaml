@@ -38,9 +38,9 @@
         </Menu>
         
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" >
-            <avalonDock:DockingManager.Theme>
+            <!--<avalonDock:DockingManager.Theme>
                 <avalonDock:VS2010Theme/>
-            </avalonDock:DockingManager.Theme>
+            </avalonDock:DockingManager.Theme>-->
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="100">
@@ -77,7 +77,10 @@
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='AutoHide Attached to Timer ->\{0\}'}"/>
                             </avalonDock:LayoutAnchorable>
                             <avalonDock:LayoutAnchorable Title="AutoHide2 Content">
-                                <TextBox Background="{Binding TestBackground}"/>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBox/>
+                                    <TextBox/>
+                                </StackPanel>
                             </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorGroup>
                     </avalonDock:LayoutAnchorSide>

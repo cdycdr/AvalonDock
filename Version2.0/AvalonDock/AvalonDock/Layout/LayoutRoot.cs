@@ -424,7 +424,7 @@ namespace AvalonDock.Layout
                 if (!exitFlag)
                 {
                     //removes any empty anchorable pane group
-                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.Children.Count == 0))
+                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.ChildrenCount == 0))
                     {
                         var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
                         parentGroup.RemoveChild(emptyPaneGroup);
@@ -436,7 +436,7 @@ namespace AvalonDock.Layout
                 if (!exitFlag)
                 {
                     //removes any empty layout panel
-                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutPanel>().Where(p => p.Children.Count == 0))
+                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutPanel>().Where(p => p.ChildrenCount == 0))
                     {
                         var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
                         parentGroup.RemoveChild(emptyPaneGroup);
@@ -461,18 +461,6 @@ namespace AvalonDock.Layout
                 {
                     //removes any empty anchor group
                     foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutAnchorGroup>().Where(p => p.ChildrenCount == 0))
-                    {
-                        var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
-                        parentGroup.RemoveChild(emptyPaneGroup);
-                        exitFlag = false;
-                        break;
-                    }
-                }
-
-                if (!exitFlag)
-                {
-                    //removes any empty anchor side
-                    foreach (var emptyPaneGroup in this.Descendents().OfType<LayoutAnchorSide>().Where(p => p.ChildrenCount == 0))
                     {
                         var parentGroup = emptyPaneGroup.Parent as ILayoutContainer;
                         parentGroup.RemoveChild(emptyPaneGroup);

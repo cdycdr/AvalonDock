@@ -26,7 +26,9 @@ namespace AvalonDock
               WS_VSCROLL = 0x00200000,
               WS_BORDER = 0x00800000,
               WS_CLIPSIBLINGS = 0x04000000,
-              WS_CLIPCHILDREN = 0x02000000;
+              WS_CLIPCHILDREN = 0x02000000,
+              WS_TABSTOP = 0x00010000,
+              WS_GROUP = 0x00020000;
 
 
         /// <summary>
