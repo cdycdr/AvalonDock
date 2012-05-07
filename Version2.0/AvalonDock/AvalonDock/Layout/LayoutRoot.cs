@@ -538,6 +538,24 @@ namespace AvalonDock.Layout
                 Updated(this, EventArgs.Empty);
         }
 
+        #region LayoutElement Added/Removed events
 
+        internal void OnLayoutElementAdded(LayoutElement element)
+        {
+            if (ElementAdded != null)
+                ElementAdded(this, new LayoutElementEventArgs(element));
+        }
+
+        public event EventHandler<LayoutElementEventArgs> ElementAdded;
+
+        internal void OnLayoutElementRemoved(LayoutElement element)
+        {
+            if (ElementRemoved != null)
+                ElementRemoved(this, new LayoutElementEventArgs(element));
+        }
+
+        public event EventHandler<LayoutElementEventArgs> ElementRemoved;
+
+        #endregion
     }
 }

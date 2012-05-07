@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAnchorableTabItem : Control
+    public class LayoutAnchorableTabItem : TabItem
     {
         static LayoutAnchorableTabItem()
         {
@@ -163,11 +163,11 @@ namespace AvalonDock.Controls
             }
         }
 
-        public override string ToString()
-        {
-            return string.Format("TabItem({0})", Model.Title);
-            //return base.ToString();
-        }
+        //public override string ToString()
+        //{
+        //    return string.Format("TabItem({0})", Model.Title);
+        //    //return base.ToString();
+        //}
 
         protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {

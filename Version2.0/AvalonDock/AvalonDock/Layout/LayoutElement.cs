@@ -52,6 +52,7 @@ namespace AvalonDock.Layout
         /// </summary>
         protected virtual void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
+            
         }
 
         #endregion

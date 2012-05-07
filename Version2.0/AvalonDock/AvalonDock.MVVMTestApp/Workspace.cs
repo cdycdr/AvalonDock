@@ -227,20 +227,31 @@ namespace AvalonDock.MVVMTestApp
 
         private void OnClose(object parameter)
         {
-            var documentToClose = ((LayoutDocument)parameter).Content as FileViewModel;
-
-            if (documentToClose.IsDirty)
+            var layoutDocument = parameter as LayoutDocument;
+            if (layoutDocument != null)
             {
-                var res = MessageBox.Show(string.Format("Save changes for file '{0}'?", documentToClose.FileName), "AvalonDock Test App", MessageBoxButton.YesNoCancel);
-                if (res == MessageBoxResult.Cancel)
-                    return;
-                if (res == MessageBoxResult.Yes)
+                var documentToClose = ((LayoutDocument)parameter).Content as FileViewModel;
+
+                if (documentToClose.IsDirty)
                 {
-                    OnSave(null);
+                    var res = MessageBox.Show(string.Format("Save changes for file '{0}'?", documentToClose.FileName), "AvalonDock Test App", MessageBoxButton.YesNoCancel);
+                    if (res == MessageBoxResult.Cancel)
+                        return;
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        OnSave(null);
+                    }
                 }
+            
+                _files.Remove(documentToClose);
+                return;
             }
 
-            _files.Remove(documentToClose);
+            var layoutAnchorable = parameter as LayoutAnchorable;
+            if (layoutAnchorable != null)
+            {
+                layoutAnchorable.Hide();
+            }
         }
         #endregion
      

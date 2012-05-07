@@ -11,12 +11,12 @@ using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
-    public class DropDownControlArea : FrameworkElement
+    public class DropDownControlArea : UserControl
     {
-        static DropDownControlArea()
-        {
-            IsHitTestVisibleProperty.OverrideMetadata(typeof(DropDownControlArea), new FrameworkPropertyMetadata(true));
-        }
+        //static DropDownControlArea()
+        //{
+        //    //IsHitTestVisibleProperty.OverrideMetadata(typeof(DropDownControlArea), new FrameworkPropertyMetadata(true));
+        //}
         
         public DropDownControlArea()
         { 
@@ -87,9 +87,13 @@ namespace AvalonDock.Controls
         }
 
 
-        protected override System.Windows.Media.HitTestResult HitTestCore(System.Windows.Media.PointHitTestParameters hitTestParameters)
-        {
-            return new PointHitTestResult(this, hitTestParameters.HitPoint);
-        }
+        //protected override System.Windows.Media.HitTestResult HitTestCore(System.Windows.Media.PointHitTestParameters hitTestParameters)
+        //{
+        //    var hitResult = base.HitTestCore(hitTestParameters);
+        //    if (hitResult == null)
+        //        return new PointHitTestResult(this, hitTestParameters.HitPoint);
+            
+        //    return hitResult;
+        //}
     }
 }

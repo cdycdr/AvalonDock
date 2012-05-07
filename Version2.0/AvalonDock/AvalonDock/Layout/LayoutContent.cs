@@ -223,10 +223,19 @@ namespace AvalonDock.Layout
 
         protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
+            var root = Root as LayoutRoot;
+            if (root != null && newValue == null)
+            {
+                root.OnLayoutElementRemoved(this);
+            }
+            if (root != null && oldValue == null && newValue != null)
+            {
+                root.OnLayoutElementAdded(this);
+            }
+
             if (oldValue != null)
                 IsSelected = false;
 
-            var root = Root;
             if (root != null && _isActive && newValue == null)
                 root.ActiveContent = null;
             

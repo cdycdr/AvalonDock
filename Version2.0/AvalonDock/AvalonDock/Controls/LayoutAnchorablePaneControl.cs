@@ -29,21 +29,11 @@ namespace AvalonDock.Controls
             this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
         }
 
-        //protected override DependencyObject GetContainerForItemOverride()
-        //{
-        //    return new LayoutAnchorablePaneItemControl();
-        //    //return base.GetContainerForItemOverride();
-        //}
-
         void OnLayoutUpdated(object sender, EventArgs e)
         {
             var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
-            //if (Orientation == System.Windows.Controls.Orientation.Horizontal)
             modelWithAtcualSize.ActualWidth = ActualWidth;
-            //else
             modelWithAtcualSize.ActualHeight = ActualHeight;
-
-            //System.Diagnostics.Debug.WriteLine("{0},{1}", ActualWidth, ActualHeight); 
         }
 
         List<object> _logicalChildren = new List<object>();
@@ -79,7 +69,6 @@ namespace AvalonDock.Controls
             if (_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
 
-            //System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
             _logicalChildren.Add(element);
             AddLogicalChild(element);
         }
@@ -88,7 +77,7 @@ namespace AvalonDock.Controls
         {
             if (!_logicalChildren.Contains(element))
                 throw new InvalidOperationException();
-            //System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
+
             _logicalChildren.Remove(element); 
             RemoveLogicalChild(element);
         }

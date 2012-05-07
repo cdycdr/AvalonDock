@@ -84,7 +84,7 @@
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="ContextMenu" Value="{Binding Path=Root.Manager.DocumentContextMenu}"/>
+                    <!--<Setter Property="ContextMenu" Value="{Binding Path=Root.Manager.DocumentContextMenu}"/>-->
                     <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                 </Style>
@@ -93,7 +93,11 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <avalonDockControls:LayoutDocumentTabItem Model="{Binding}"/>
+                    <avalonDockControls:DropDownControlArea 
+                            DropDownContextMenu="{Binding Root.Manager.DocumentContextMenu}"
+                            DropDownContextMenuDataContext="{Binding}">
+                        <avalonDockControls:LayoutDocumentTabItem Model="{Binding}"/>
+                    </avalonDockControls:DropDownControlArea>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -154,7 +158,6 @@
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="ContextMenu" Value="{Binding Path=Root.Manager.AnchorableContextMenu}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}, Path=Items.Count}" Value="1">
@@ -168,7 +171,11 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}"/>
+                    <avalonDockControls:DropDownControlArea 
+                            DropDownContextMenu="{Binding Root.Manager.AnchorableContextMenu}"
+                            DropDownContextMenuDataContext="{Binding}">
+                        <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}"/>
+                    </avalonDockControls:DropDownControlArea>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -196,9 +203,13 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
+                            <avalonDockControls:DropDownControlArea 
+                                DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                DropDownContextMenuDataContext="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ContentPresenter Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
                                               ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
                                               ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </avalonDockControls:DropDownControlArea>
 
                             <avalonDockControls:DropDownButton
                                 Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
@@ -217,7 +228,6 @@
                                 CommandParameter="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}">
                                 <Image Source="/AvalonDock;component/Images/PinAutoHide.png"/>
                             </Button>
-<!--Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"-->
                             <Button x:Name="PART_HidePin" 
                                 Grid.Column="3" 
                                 Focusable="False"
@@ -227,10 +237,6 @@
                                 <Image Source="/AvalonDock;component/Images/PinClose.png"/>
                             </Button>
 
-                            <avalonDockControls:DropDownControlArea 
-                                Grid.Column="0"
-                                DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                DropDownContextMenuDataContext="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
                             
                         </Grid>
                     </Border>

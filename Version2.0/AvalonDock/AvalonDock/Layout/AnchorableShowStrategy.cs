@@ -5,6 +5,7 @@ using System.Text;
 
 namespace AvalonDock.Layout
 {
+    [Flags]
     public enum AnchorableShowStrategy : uint
     {
         Most  = 0x0001,

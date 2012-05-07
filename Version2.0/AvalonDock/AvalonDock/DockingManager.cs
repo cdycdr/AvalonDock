@@ -75,6 +75,8 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnLayoutChanged(LayoutRoot oldLayout, LayoutRoot newLayout)
         {
+            //DetachLayoutItems();
+
             if (oldLayout != null)
             {
                 oldLayout.PropertyChanged -= new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
@@ -83,7 +85,7 @@ namespace AvalonDock
 
             foreach (var fwc in _fwList.ToArray())
                 fwc.InternalClose();
-            //Debug.Assert(_fwList.Count == 0, "FloatingWindow list must be empty at this point!");
+
             _fwList.Clear();
 
             DetachDocumentsSource(oldLayout, DocumentsSource);
@@ -119,8 +121,11 @@ namespace AvalonDock
                 newLayout.Updated += new EventHandler(OnLayoutRootUpdated);
             }
 
+            //AttachLayoutItems();
+
             if (LayoutChanged != null)
                 LayoutChanged(this, EventArgs.Empty);
+
 
             CommandManager.InvalidateRequerySuggested();
         }
@@ -1156,8 +1161,6 @@ namespace AvalonDock
         #endregion
 
 
-
-
         #region LogicalChildren
 
         List<object> _logicalChildren = new List<object>();
@@ -2085,11 +2088,19 @@ namespace AvalonDock
         private static void ExecuteDocumentCloseCommand(object parameter)
         {
             var document = parameter as LayoutDocument;
-            if (document == null)
+            if (document != null)
+            {
+                var dockingManager = document.Root.Manager;
+                dockingManager._ExecuteDocumentCloseCommand(document);
                 return;
+            }
 
-            var dockingManager = document.Root.Manager;
-            dockingManager._ExecuteDocumentCloseCommand(document);
+            var anchorable = parameter as LayoutAnchorable;
+            if (anchorable != null)
+            {
+                ExecuteAnchorableHideCommand(anchorable);
+            }
+
         }
 
         void _ExecuteDocumentCloseCommand(LayoutDocument document)
@@ -3239,6 +3250,244 @@ namespace AvalonDock
         #endregion
 
 
+        //#region LayoutItems
 
+        //List<LayoutItem> _layoutItems = new List<LayoutItem>();
+
+        //void DetachLayoutItems()
+        //{
+        //    if (Layout != null)
+        //    {
+        //        _layoutItems.Clear();
+        //        Layout.ElementAdded -= new EventHandler<LayoutElementEventArgs>(Layout_ElementAdded);
+        //        Layout.ElementRemoved -= new EventHandler<LayoutElementEventArgs>(Layout_ElementRemoved);
+        //    }
+        //}
+
+        //void Layout_ElementRemoved(object sender, LayoutElementEventArgs e)
+        //{
+        //    //_layoutItems.Remove(_layoutItems.First(item => item.Model == e.Element));
+        //}
+
+        //void Layout_ElementAdded(object sender, LayoutElementEventArgs e)
+        //{
+        //    if (e.Element is LayoutDocument)
+        //    {
+        //        var document = e.Element as LayoutDocument;
+        //        var documentItem = new LayoutDocumentItem(document);
+        //        ApplyStyleToLayoutDocumentItem(documentItem);
+        //        _layoutItems.Add(documentItem);
+        //    }
+        //    else 
+        //    {
+        //        var anchorable = e.Element as LayoutAnchorable;
+        //        var anchorableItem = new LayoutAnchorableItem(anchorable);
+        //        ApplyStyleToLayoutAnchorableItem(anchorableItem);
+        //        _layoutItems.Add(anchorableItem);
+        //    }
+        //}
+
+
+        //void AttachLayoutItems()
+        //{
+        //    if (Layout != null)
+        //    {
+        //        foreach (var document in Layout.Descendents().OfType<LayoutDocument>())
+        //        {
+        //            var documentItem = new LayoutDocumentItem(document);
+        //            ApplyStyleToLayoutDocumentItem(documentItem);
+        //            _layoutItems.Add(documentItem);
+        //        }
+        //        foreach (var anchorable in Layout.Descendents().OfType<LayoutAnchorable>())
+        //        {
+        //            var anchorableItem = new LayoutAnchorableItem(anchorable);
+        //            ApplyStyleToLayoutAnchorableItem(anchorableItem);
+        //            _layoutItems.Add(anchorableItem);
+        //        }
+
+        //        Layout.ElementAdded += new EventHandler<LayoutElementEventArgs>(Layout_ElementAdded);
+        //        Layout.ElementRemoved += new EventHandler<LayoutElementEventArgs>(Layout_ElementRemoved);
+        //    }
+        //}
+
+
+        //void ApplyStyleToLayoutDocumentItem(LayoutDocumentItem documentItem)
+        //{
+        //    if (LayoutDocumentItemStyle != null)
+        //        documentItem.Style = LayoutDocumentItemStyle;
+        //    else if (LayoutDocumentItemStyleSelector != null)
+        //        documentItem.Style = LayoutDocumentItemStyleSelector.SelectStyle(documentItem.Model, documentItem);
+        //}
+        //void ApplyStyleToLayoutAnchorableItem(LayoutAnchorableItem anchorableItem)
+        //{
+        //    if (LayoutAnchorableItemStyle != null)
+        //        anchorableItem.Style = LayoutAnchorableItemStyle;
+        //    else if (LayoutAnchorableItemStyleSelector != null)
+        //        anchorableItem.Style = LayoutAnchorableItemStyleSelector.SelectStyle(anchorableItem.Model, anchorableItem);
+        //}
+
+        //#region LayoutDocumentItemStyle
+
+        ///// <summary>
+        ///// LayoutDocumentItemStyle Dependency Property
+        ///// </summary>
+        //public static readonly DependencyProperty LayoutDocumentItemStyleProperty =
+        //    DependencyProperty.Register("LayoutDocumentItemStyle", typeof(Style), typeof(DockingManager),
+        //        new FrameworkPropertyMetadata((Style)null,
+        //            new PropertyChangedCallback(OnLayoutDocumentItemStyleChanged)));
+
+        ///// <summary>
+        ///// Gets or sets the LayoutDocumentItemStyle property.  This dependency property 
+        ///// indicates the style to apply to LayoutDocumentItem objects. A LayoutDocumentItem object is created when a new LayoutDocument is created inside the current Layout.
+        ///// </summary>
+        //public Style LayoutDocumentItemStyle
+        //{
+        //    get { return (Style)GetValue(LayoutDocumentItemStyleProperty); }
+        //    set { SetValue(LayoutDocumentItemStyleProperty, value); }
+        //}
+
+        ///// <summary>
+        ///// Handles changes to the LayoutDocumentItemStyle property.
+        ///// </summary>
+        //private static void OnLayoutDocumentItemStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    ((DockingManager)d).OnLayoutDocumentItemStyleChanged(e);
+        //}
+
+        ///// <summary>
+        ///// Provides derived classes an opportunity to handle changes to the LayoutDocumentItemStyle property.
+        ///// </summary>
+        //protected virtual void OnLayoutDocumentItemStyleChanged(DependencyPropertyChangedEventArgs e)
+        //{
+        //    foreach (var layoutDocumentItem in _layoutItems.OfType<LayoutDocumentItem>())
+        //    {
+        //        ApplyStyleToLayoutDocumentItem(layoutDocumentItem);
+        //    }
+        //}
+
+        //#endregion
+
+        //#region LayoutDocumentItemStyleSelector
+
+        ///// <summary>
+        ///// LayoutDocumentItemStyleSelector Dependency Property
+        ///// </summary>
+        //public static readonly DependencyProperty LayoutDocumentItemStyleSelectorProperty =
+        //    DependencyProperty.Register("LayoutDocumentItemStyleSelector", typeof(StyleSelector), typeof(DockingManager),
+        //        new FrameworkPropertyMetadata((StyleSelector)null,
+        //            new PropertyChangedCallback(OnLayoutDocumentItemStyleSelectorChanged)));
+
+        ///// <summary>
+        ///// Gets or sets the LayoutDocumentItemStyleSelector property.  This dependency property 
+        ///// indicates style selector of the LayoutDocumentItemStyle.
+        ///// </summary>
+        //public StyleSelector LayoutDocumentItemStyleSelector
+        //{
+        //    get { return (StyleSelector)GetValue(LayoutDocumentItemStyleSelectorProperty); }
+        //    set { SetValue(LayoutDocumentItemStyleSelectorProperty, value); }
+        //}
+
+        ///// <summary>
+        ///// Handles changes to the LayoutDocumentItemStyleSelector property.
+        ///// </summary>
+        //private static void OnLayoutDocumentItemStyleSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    ((DockingManager)d).OnLayoutDocumentItemStyleSelectorChanged(e);
+        //}
+
+        ///// <summary>
+        ///// Provides derived classes an opportunity to handle changes to the LayoutDocumentItemStyleSelector property.
+        ///// </summary>
+        //protected virtual void OnLayoutDocumentItemStyleSelectorChanged(DependencyPropertyChangedEventArgs e)
+        //{
+        //    foreach (var layoutDocumentItem in _layoutItems.OfType<LayoutDocumentItem>())
+        //    {
+        //        ApplyStyleToLayoutDocumentItem(layoutDocumentItem);
+        //    }
+        //}
+
+        //#endregion
+
+        //#region LayoutAnchorableItemStyle
+
+        ///// <summary>
+        ///// LayoutAnchorableItemStyle Dependency Property
+        ///// </summary>
+        //public static readonly DependencyProperty LayoutAnchorableItemStyleProperty =
+        //    DependencyProperty.Register("LayoutAnchorableItemStyle", typeof(Style), typeof(DockingManager),
+        //        new FrameworkPropertyMetadata((Style)null,
+        //            new PropertyChangedCallback(OnLayoutAnchorableItemStyleChanged)));
+
+        ///// <summary>
+        ///// Gets or sets the LayoutAnchorableItemStyle property.  This dependency property 
+        ///// indicates the style to apply to a LayoutAnchorableItem object. A LayoutAnchorableItem is created when a LayoutAnchorable object is created within the current Layout.
+        ///// </summary>
+        //public Style LayoutAnchorableItemStyle
+        //{
+        //    get { return (Style)GetValue(LayoutAnchorableItemStyleProperty); }
+        //    set { SetValue(LayoutAnchorableItemStyleProperty, value); }
+        //}
+
+        ///// <summary>
+        ///// Handles changes to the LayoutAnchorableItemStyle property.
+        ///// </summary>
+        //private static void OnLayoutAnchorableItemStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    ((DockingManager)d).OnLayoutAnchorableItemStyleChanged(e);
+        //}
+
+        ///// <summary>
+        ///// Provides derived classes an opportunity to handle changes to the LayoutAnchorableItemStyle property.
+        ///// </summary>
+        //protected virtual void OnLayoutAnchorableItemStyleChanged(DependencyPropertyChangedEventArgs e)
+        //{
+        //    foreach (var layoutAnchorableItem in _layoutItems.OfType<LayoutAnchorableItem>())
+        //        ApplyStyleToLayoutAnchorableItem(layoutAnchorableItem);
+        //}
+
+        //#endregion
+
+        //#region LayoutAnchorableItemStyleSelector
+
+        ///// <summary>
+        ///// LayoutAnchorableItemStyleSelector Dependency Property
+        ///// </summary>
+        //public static readonly DependencyProperty LayoutAnchorableItemStyleSelectorProperty =
+        //    DependencyProperty.Register("LayoutAnchorableItemStyleSelector", typeof(StyleSelector), typeof(DockingManager),
+        //        new FrameworkPropertyMetadata((StyleSelector)null,
+        //            new PropertyChangedCallback(OnLayoutAnchorableItemStyleSelectorChanged)));
+
+        ///// <summary>
+        ///// Gets or sets the LayoutAnchorableItemStyleSelector property.  This dependency property 
+        ///// indicates the style selector for the LayoutAnchorableItemStyle.
+        ///// </summary>
+        //public StyleSelector LayoutAnchorableItemStyleSelector
+        //{
+        //    get { return (StyleSelector)GetValue(LayoutAnchorableItemStyleSelectorProperty); }
+        //    set { SetValue(LayoutAnchorableItemStyleSelectorProperty, value); }
+        //}
+
+        ///// <summary>
+        ///// Handles changes to the LayoutAnchorableItemStyleSelector property.
+        ///// </summary>
+        //private static void OnLayoutAnchorableItemStyleSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    ((DockingManager)d).OnLayoutAnchorableItemStyleSelectorChanged(e);
+        //}
+
+        ///// <summary>
+        ///// Provides derived classes an opportunity to handle changes to the LayoutAnchorableItemStyleSelector property.
+        ///// </summary>
+        //protected virtual void OnLayoutAnchorableItemStyleSelectorChanged(DependencyPropertyChangedEventArgs e)
+        //{
+        //    foreach (var layoutAnchorableItem in _layoutItems.OfType<LayoutAnchorableItem>())
+        //        ApplyStyleToLayoutAnchorableItem(layoutAnchorableItem);
+        //}
+
+        //#endregion
+
+
+
+        //#endregion
     }
 }

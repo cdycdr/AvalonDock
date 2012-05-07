@@ -63,6 +63,9 @@
     <Compile Include="Controls\FocusHookHandler.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\ILogicalChildrenContainer.cs" />
+    <Compile Include="Controls\LayoutAnchorableItem.cs" />
+    <Compile Include="Controls\LayoutDocumentItem.cs" />
+    <Compile Include="Controls\LayoutItem.cs" />
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\Shell\Standard\ComGuids.cs" />
     <Compile Include="Controls\Shell\Standard\Debug.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="Layout\LayoutDocumentPane.cs" />
     <Compile Include="Layout\LayoutDocumentPaneGroup.cs" />
     <Compile Include="Layout\LayoutElement.cs" />
+    <Compile Include="Layout\LayoutElementEventArgs.cs" />
     <Compile Include="Layout\LayoutFloatingWindow.cs" />
     <Compile Include="Layout\LayoutGroup.cs" />
     <Compile Include="Layout\LayoutGroupBase.cs" />

@@ -112,7 +112,6 @@
                     <Setter Property="Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor10}"/>                   
                     <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor4}"/>
                     <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor4}"/>
-                    <Setter Property="ContextMenu" Value="{Binding Path=Root.Manager.DocumentContextMenu}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                     <Setter Property="Padding" Value="2,0,2,0"/>
                     <Setter Property="Margin" Value="2,0,2,0"/>
@@ -203,7 +202,11 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <avalonDockControls:LayoutDocumentTabItem Model="{Binding}"/>
+                    <avalonDockControls:DropDownControlArea 
+                            DropDownContextMenu="{Binding Root.Manager.DocumentContextMenu}"
+                            DropDownContextMenuDataContext="{Binding}">
+                        <avalonDockControls:LayoutDocumentTabItem Model="{Binding}"/>
+                    </avalonDockControls:DropDownControlArea>     
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -325,7 +328,11 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}"/>
+                    <avalonDockControls:DropDownControlArea 
+                            DropDownContextMenu="{Binding Root.Manager.AnchorableContextMenu}"
+                            DropDownContextMenuDataContext="{Binding}">
+                        <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}"/>
+                    </avalonDockControls:DropDownControlArea>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -354,11 +361,16 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter 
-                                Margin="2,0,0,0"
-                                Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
-                                ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
-                                ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <avalonDockControls:DropDownControlArea 
+                                DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                DropDownContextMenuDataContext="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ContentPresenter 
+                                    Margin="2,0,0,0"
+                                    Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
+                                    ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                    ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </avalonDockControls:DropDownControlArea>
+
 
                             <avalonDockControls:DropDownButton
                                 Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"

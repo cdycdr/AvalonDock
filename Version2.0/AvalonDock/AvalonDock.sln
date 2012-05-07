@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.MVVMTestApp", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.Themes.VS2010", "AvalonDock.Theme.VS2010\AvalonDock.Themes.VS2010.csproj", "{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test Projects", "Test Projects", "{1D267DDB-F2DE-4B70-87C1-E93A0C2D73F4}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -66,5 +68,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{339BC0D5-2A54-40ED-9850-7ED65182E6E1} = {1D267DDB-F2DE-4B70-87C1-E93A0C2D73F4}
+		{AFD48591-D66C-47F3-86E7-ACE5AD3D4FE4} = {1D267DDB-F2DE-4B70-87C1-E93A0C2D73F4}
 	EndGlobalSection
 EndGlobal
