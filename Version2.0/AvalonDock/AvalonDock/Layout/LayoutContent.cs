@@ -1,4 +1,26 @@
-﻿using System;
+﻿//Copyright (c) 2007-2012, Adolfo Marinucci
+//All rights reserved.
+
+//Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+//following conditions are met:
+
+//* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+//* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
+//disclaimer in the documentation and/or other materials provided with the distribution.
+
+//* Neither the name of Adolfo Marinucci nor the names of its contributors may be used to endorse or promote products
+//derived from this software without specific prior written permission.
+
+//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+//INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+//IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+//EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+//LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+//STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+//EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -173,10 +195,10 @@ namespace AvalonDock.Layout
         #region PreviousContainer
 
         [field: NonSerialized]
-        private ILayoutPane _previousContainer = null;
+        private ILayoutContainer _previousContainer = null;
 
         [XmlIgnore]
-        public ILayoutPane PreviousContainer
+        public ILayoutContainer PreviousContainer
         {
             get { return _previousContainer; }
             internal set
@@ -223,15 +245,7 @@ namespace AvalonDock.Layout
 
         protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
-            var root = Root as LayoutRoot;
-            if (root != null && newValue == null)
-            {
-                root.OnLayoutElementRemoved(this);
-            }
-            if (root != null && oldValue == null && newValue != null)
-            {
-                root.OnLayoutElementAdded(this);
-            }
+            var root = Root;
 
             if (oldValue != null)
                 IsSelected = false;
@@ -322,6 +336,10 @@ namespace AvalonDock.Layout
             
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
+
+            if (ToolTip != null && ToolTip is string)
+                if (!string.IsNullOrWhiteSpace((string)ToolTip))
+                    writer.WriteAttributeString("ToolTip", (string)ToolTip);
 
             if (FloatingLeft != 0.0)
                 writer.WriteAttributeString("FloatingLeft", FloatingLeft.ToString(CultureInfo.InvariantCulture));
@@ -443,6 +461,24 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        #region ToolTip
+
+        private object _toolTip = null;
+        public object ToolTip
+        {
+            get { return _toolTip; }
+            set
+            {
+                if (_toolTip != value)
+                {
+                    _toolTip = value;
+                    RaisePropertyChanged("ToolTip");
+                }
+            }
+        }
+
+        #endregion
+
         public bool IsFloating
         {
             get { return this.FindParent<LayoutFloatingWindow>() != null; }
@@ -475,6 +511,111 @@ namespace AvalonDock.Layout
             }
 
             return string.Compare(Title, other.Title);
+        }
+
+        /// <summary>
+        /// Float the content in a popup window
+        /// </summary>
+        public void Float()
+        {
+            if (PreviousContainer != null &&
+                PreviousContainer.FindParent<LayoutFloatingWindow>() != null)
+            {
+
+                var currentContainer = Parent as ILayoutPane;
+                var currentContainerIndex = (currentContainer as ILayoutGroup).IndexOfChild(this);
+                var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
+
+                if (PreviousContainerIndex < previousContainerAsLayoutGroup.ChildrenCount)
+                    previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
+                else
+                    previousContainerAsLayoutGroup.InsertChildAt(previousContainerAsLayoutGroup.ChildrenCount, this);
+
+                PreviousContainer = currentContainer;
+                PreviousContainerIndex = currentContainerIndex;
+
+                IsSelected = true;
+                IsActive = true;
+
+                Root.CollectGarbage();
+            }
+            else
+            {
+                Root.Manager.StartDraggingFloatingWindowForContent(this, false);
+
+                IsSelected = true;
+                IsActive = true;
+            }
+
+        }
+
+        /// <summary>
+        /// Dock the content as document
+        /// </summary>
+        public void DockAsDocument()
+        {
+            var root = Root as LayoutRoot;
+            if (root == null)
+                throw new InvalidOperationException();
+            if (Parent is LayoutDocumentPane)
+                return;
+
+            if (PreviousContainer is LayoutDocumentPane)
+            {
+                Dock();
+                return;
+            }
+
+            LayoutDocumentPane newParentPane;
+            if (root.LastFocusedDocument != null)
+            {
+                newParentPane = root.LastFocusedDocument.Parent as LayoutDocumentPane;
+            }
+            else
+            {
+                newParentPane = root.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            }
+
+            if (newParentPane != null)
+            {
+                newParentPane.Children.Add(this);
+                root.CollectGarbage();
+            }
+
+        }
+
+        /// <summary>
+        /// Re-dock the content to its previous container
+        /// </summary>
+        public void Dock()
+        {
+            if (PreviousContainer != null)
+            {
+                var currentContainer = Parent as ILayoutContainer;
+                var currentContainerIndex = (currentContainer is ILayoutGroup) ? (currentContainer as ILayoutGroup).IndexOfChild(this) : -1;
+                var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
+                if (PreviousContainerIndex < previousContainerAsLayoutGroup.ChildrenCount)
+                    previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
+                else
+                    previousContainerAsLayoutGroup.InsertChildAt(previousContainerAsLayoutGroup.ChildrenCount, this);
+
+                if (currentContainerIndex > -1)
+                {
+                    PreviousContainer = currentContainer;
+                    PreviousContainerIndex = currentContainerIndex;
+                }
+                else
+                {
+                    PreviousContainer = null;
+                    PreviousContainerIndex = 0;
+                }
+
+                IsSelected = true;
+                IsActive = true;
+
+
+                Root.CollectGarbage();
+            }
         }
     }
 }

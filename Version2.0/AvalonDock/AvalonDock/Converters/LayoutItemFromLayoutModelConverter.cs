@@ -24,12 +24,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
+using System.Windows.Data;
+using AvalonDock.Layout;
 
-namespace AvalonDock.Layout
+namespace AvalonDock.Converters
 {
-    public interface ILayoutPanelElement : ILayoutElement
+    public class LayoutItemFromLayoutModelConverter : IValueConverter
     {
-        bool IsVisible { get; }
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var layoutModel = value as LayoutContent;
+            if (layoutModel == null)
+                return null;
+
+            return layoutModel.Root.Manager.GetLayoutItemFromModel(layoutModel);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

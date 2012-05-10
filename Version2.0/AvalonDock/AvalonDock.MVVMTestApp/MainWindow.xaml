@@ -4,9 +4,11 @@
         xmlns:avalonDock="http://avalondock.codeplex.com"
         xmlns:local="clr-namespace:AvalonDock.MVVMTestApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
+        <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -18,107 +20,61 @@
                 <MenuItem Header="New" Command="{Binding NewCommand}"/>
                 <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                 <Separator/>
-                <MenuItem Header="Save" Command="{Binding SaveCommand}"/>
-                <MenuItem Header="Save As..." Command="{Binding SaveAsCommand}"/>
+                <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}"/>
+                <MenuItem Header="Save As..." Command="{Binding ActiveDocument.SaveAsCommand}"/>
                 <Separator/>
-                <MenuItem Header="Close" Command="{Binding CloseCommand}"/>
+                <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
             </MenuItem>
             <MenuItem Header="Tools">
-                
+                <MenuItem Header="Properties" IsChecked="{Binding FileStats.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
             </MenuItem>
         </Menu>
         <avalonDock:DockingManager x:Name="dockManager" 
                                    DocumentsSource="{Binding Files}"
                                    AnchorablesSource="{Binding Tools}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
-                                   DocumentCloseCommand="{Binding CloseCommand}"
                                    Grid.Row="1">
-            <avalonDock:DockingManager.Theme>
+            <!--<avalonDock:DockingManager.Theme>
                 <avalonDock:VS2010Theme/>
-            </avalonDock:DockingManager.Theme>
-            <avalonDock:DockingManager.DocumentTemplateSelector>
-                <local:DocumentTemplateSelector>
-                    <local:DocumentTemplateSelector.FileViewTemplate>
+            </avalonDock:DockingManager.Theme>-->
+            <avalonDock:DockingManager.LayoutItemTemplateSelector>
+                <local:PanesTemplateSelector>
+                    <local:PanesTemplateSelector.FileViewTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding TextContent, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
-                    </local:DocumentTemplateSelector.FileViewTemplate>
-                    <local:DocumentTemplateSelector.FileStatsViewTemplate>
+                    </local:PanesTemplateSelector.FileViewTemplate>
+                    <local:PanesTemplateSelector.FileStatsViewTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{Binding FileSize}"/>
                                 <TextBlock Text="{Binding LastModified}"/>
                             </StackPanel>
                         </DataTemplate>
-                    </local:DocumentTemplateSelector.FileStatsViewTemplate>
-                </local:DocumentTemplateSelector>
-            </avalonDock:DockingManager.DocumentTemplateSelector>
-            <avalonDock:DockingManager.DocumentHeaderTemplateSelector>
-                <local:DocumentTemplateSelector>
-                    <local:DocumentTemplateSelector.FileViewTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <TextBlock Text="{Binding Path=Content.FileName}"/>
-                            </Border>
-                        </DataTemplate>
-                    </local:DocumentTemplateSelector.FileViewTemplate>
-                    <local:DocumentTemplateSelector.FileStatsViewTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <TextBlock Text="{Binding Path=Content.Name}"/>
-                            </Border>
-                        </DataTemplate>
-                    </local:DocumentTemplateSelector.FileStatsViewTemplate>
-                </local:DocumentTemplateSelector>
-            </avalonDock:DockingManager.DocumentHeaderTemplateSelector>
-            <avalonDock:DockingManager.DocumentTitleTemplateSelector>
-                <local:DocumentTemplateSelector>
-                    <local:DocumentTemplateSelector.FileViewTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <TextBlock Text="{Binding Path=Content.FileName}"/>
-                            </Border>
-                        </DataTemplate>
-                    </local:DocumentTemplateSelector.FileViewTemplate>
-                    <local:DocumentTemplateSelector.FileStatsViewTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <TextBlock Text="{Binding Path=Content.Name}"/>
-                            </Border>
-                        </DataTemplate>
-                    </local:DocumentTemplateSelector.FileStatsViewTemplate>
-                </local:DocumentTemplateSelector>
-            </avalonDock:DockingManager.DocumentTitleTemplateSelector>
-            <avalonDock:DockingManager.DocumentTitleTemplate>
-                <DataTemplate>
-                    <Border>
-                        <TextBlock Text="{Binding Path=Content.FileName}"/>
-                    </Border>
-                </DataTemplate>
-            </avalonDock:DockingManager.DocumentTitleTemplate>
-            <avalonDock:DockingManager.AnchorableTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding FileSize}"/>
-                        <TextBlock Text="{Binding LastModified}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </avalonDock:DockingManager.AnchorableTemplate>
-            <avalonDock:DockingManager.AnchorableHeaderTemplate>
-                <DataTemplate>
-                    <Border>
-                        <TextBlock Text="{Binding Path=Content.Name}"/>
-                    </Border>
-                </DataTemplate>
-            </avalonDock:DockingManager.AnchorableHeaderTemplate>
-            <avalonDock:DockingManager.AnchorableTitleTemplate>
-                <DataTemplate>
-                    <Border>
-                        <TextBlock Text="{Binding Path=Content.Name}"/>
-                    </Border>
-                </DataTemplate>
-            </avalonDock:DockingManager.AnchorableTitleTemplate>
-
+                    </local:PanesTemplateSelector.FileStatsViewTemplate>
+                </local:PanesTemplateSelector>
+            </avalonDock:DockingManager.LayoutItemTemplateSelector>
+            
+            <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+                <local:PanesStyleSelector>
+                    <local:PanesStyleSelector.ToolStyle>
+                        <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                        </Style>
+                    </local:PanesStyleSelector.ToolStyle>
+                    <local:PanesStyleSelector.FileStyle>
+                        <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                        </Style>
+                    </local:PanesStyleSelector.FileStyle>
+                </local:PanesStyleSelector>
+            </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+            
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel>
                     <avalonDock:LayoutDocumentPane/>

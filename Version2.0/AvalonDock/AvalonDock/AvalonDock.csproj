@@ -82,10 +82,12 @@
     <Compile Include="Controls\Shell\SystemParameters2.cs" />
     <Compile Include="Controls\Shell\WindowChrome.cs" />
     <Compile Include="Controls\Shell\WindowChromeWorker.cs" />
+    <Compile Include="Converters\ActivateCommandLayoutItemFromLayoutModelConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\LayoutItemFromLayoutModelConverter.cs" />
     <Compile Include="Converters\NullToDoNothingConverter.cs" />
     <Compile Include="Converters\UriSourceToBitmapImageConverter.cs" />
-    <Compile Include="DocumentCloseEventArgs.cs" />
+    <Compile Include="DocumentClosedEventArgs.cs" />
     <Compile Include="DocumentClosingEventArgs.cs" />
     <Compile Include="Extentions.cs" />
     <Compile Include="Layout\AnchorableShowStrategy.cs" />

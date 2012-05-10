@@ -46,8 +46,20 @@ namespace AvalonDock.MVVMTestApp
             get
             {
                 if (_tools == null)
-                    _tools = new ToolViewModel[] { new FileStatsViewModel() };
+                    _tools = new ToolViewModel[] { FileStats};
                 return _tools; }
+        }
+
+        FileStatsViewModel _fileStats = null;
+        public FileStatsViewModel FileStats
+        {
+            get
+            {
+                if (_fileStats == null)
+                    _fileStats = new FileStatsViewModel();
+
+                return _fileStats;
+            }
         }
 
         #region OpenCommand
@@ -132,128 +144,34 @@ namespace AvalonDock.MVVMTestApp
 
         #endregion
 
-        #region SaveCommand
-        RelayCommand _saveCommand = null;
-        public ICommand SaveCommand
+
+        internal void Close(FileViewModel fileToClose)
         {
-            get
+            if (fileToClose.IsDirty)
             {
-                if (_saveCommand == null)
+                var res = MessageBox.Show(string.Format("Save changes for file '{0}'?", fileToClose.FileName), "AvalonDock Test App", MessageBoxButton.YesNoCancel);
+                if (res == MessageBoxResult.Cancel)
+                    return;
+                if (res == MessageBoxResult.Yes)
                 {
-                    _saveCommand = new RelayCommand((p) => OnSave(p), (p) => CanSave(p));
+                    Save(fileToClose);
                 }
-
-                return _saveCommand;
             }
+
+            _files.Remove(fileToClose);
         }
 
-        private bool CanSave(object parameter)
+        internal void Save(FileViewModel fileToSave, bool saveAsFlag = false)
         {
-            return ActiveDocument != null && ActiveDocument.IsDirty;
-        }
-
-        private void OnSave(object parameter)
-        {
-            if (ActiveDocument.FilePath == null)
+            if (fileToSave.FilePath == null || saveAsFlag)
             {
                 var dlg = new SaveFileDialog();
                 if (dlg.ShowDialog().GetValueOrDefault())
-                    ActiveDocument.FilePath = dlg.SafeFileName;
+                    fileToSave.FilePath = dlg.SafeFileName;
             }
 
-            if (ActiveDocument.FilePath == null)
-                return;
-
-
-            File.WriteAllText(ActiveDocument.FilePath, ActiveDocument.TextContent);
+            File.WriteAllText(fileToSave.FilePath, fileToSave.TextContent);
             ActiveDocument.IsDirty = false;
         }
-
-        #endregion
-
-        #region SaveAsCommand
-        RelayCommand _saveAsCommand = null;
-        public ICommand SaveAsCommand
-        {
-            get
-            {
-                if (_saveAsCommand == null)
-                {
-                    _saveAsCommand = new RelayCommand((p) => OnSaveAs(p), (p) => CanSaveAs(p));
-                }
-
-                return _saveAsCommand;
-            }
-        }
-
-        private bool CanSaveAs(object parameter)
-        {
-            return ActiveDocument != null && ActiveDocument.IsDirty;
-        }
-
-        private void OnSaveAs(object parameter)
-        {
-            var dlg = new SaveFileDialog();
-            if (dlg.ShowDialog().GetValueOrDefault())
-                ActiveDocument.FilePath = dlg.SafeFileName;
-            else
-                return;
-
-            File.WriteAllText(ActiveDocument.FilePath, ActiveDocument.TextContent);
-            ActiveDocument.IsDirty = false;
-        }
-
-        #endregion
-
-        #region CloseCommand
-        RelayCommand _closeCommand = null;
-        public ICommand CloseCommand
-        {
-            get
-            {
-                if (_closeCommand == null)
-                {
-                    _closeCommand = new RelayCommand((p) => OnClose(p), (p) => CanClose(p));
-                }
-
-                return _closeCommand;
-            }
-        }
-
-        private bool CanClose(object parameter)
-        {
-            return parameter != null ;
-        }
-
-        private void OnClose(object parameter)
-        {
-            var layoutDocument = parameter as LayoutDocument;
-            if (layoutDocument != null)
-            {
-                var documentToClose = ((LayoutDocument)parameter).Content as FileViewModel;
-
-                if (documentToClose.IsDirty)
-                {
-                    var res = MessageBox.Show(string.Format("Save changes for file '{0}'?", documentToClose.FileName), "AvalonDock Test App", MessageBoxButton.YesNoCancel);
-                    if (res == MessageBoxResult.Cancel)
-                        return;
-                    if (res == MessageBoxResult.Yes)
-                    {
-                        OnSave(null);
-                    }
-                }
-            
-                _files.Remove(documentToClose);
-                return;
-            }
-
-            var layoutAnchorable = parameter as LayoutAnchorable;
-            if (layoutAnchorable != null)
-            {
-                layoutAnchorable.Hide();
-            }
-        }
-        #endregion
-     
     }
 }

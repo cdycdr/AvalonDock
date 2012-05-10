@@ -8,9 +8,9 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.MVVMTestApp
 {
-    class DocumentTemplateSelector : DataTemplateSelector
+    class PanesTemplateSelector : DataTemplateSelector
     {
-        public DocumentTemplateSelector()
+        public PanesTemplateSelector()
         {
         
         }

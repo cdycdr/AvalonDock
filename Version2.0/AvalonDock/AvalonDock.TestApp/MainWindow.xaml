@@ -44,7 +44,7 @@
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="100">
-                        <avalonDock:LayoutAnchorable x:Name="winFormsWindow" Title="WinForms Window">
+                        <avalonDock:LayoutAnchorable x:Name="winFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool">
                             <winformsIntegration:WindowsFormsHost x:Name="winFormsHost"/>
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>

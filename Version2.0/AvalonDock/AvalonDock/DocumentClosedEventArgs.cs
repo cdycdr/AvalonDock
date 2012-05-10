@@ -24,12 +24,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
+using AvalonDock.Layout;
 
-namespace AvalonDock.Layout
+namespace AvalonDock
 {
-    public interface ILayoutPanelElement : ILayoutElement
+    public class DocumentClosedEventArgs : EventArgs
     {
-        bool IsVisible { get; }
+        public DocumentClosedEventArgs(LayoutDocument document)
+        {
+            Document = document;
+        }
+
+        public LayoutDocument Document
+        {
+            get;
+            private set;
+        }
     }
 }

@@ -5,11 +5,12 @@ using System.Text;
 
 namespace AvalonDock.MVVMTestApp
 {
-    class ToolViewModel : ViewModelBase
+    class ToolViewModel : PaneViewModel
     {
         public ToolViewModel(string name)
         {
             Name = name;
+            Title = name;
         }
 
         public string Name
