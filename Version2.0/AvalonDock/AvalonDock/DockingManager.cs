@@ -97,7 +97,6 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnLayoutChanged(LayoutRoot oldLayout, LayoutRoot newLayout)
         {
-            DetachLayoutItems();
 
             if (oldLayout != null)
             {
@@ -118,6 +117,7 @@ namespace AvalonDock
                 oldLayout.Manager = null;
 
             ClearLogicalChildrenList();
+            DetachLayoutItems();
 
             Layout.Manager = this;
 
@@ -1734,10 +1734,19 @@ namespace AvalonDock
             if (layout == null)
                 return;
 
-            if (layout.Descendents().OfType<LayoutDocument>().Any())
-                throw new InvalidOperationException("Unable to set the DocumentsSource property if LayoutDocument objects are already present in the model");
-
+            //if (layout.Descendents().OfType<LayoutDocument>().Any())
+            //    throw new InvalidOperationException("Unable to set the DocumentsSource property if LayoutDocument objects are already present in the model");
+            var documentsImported = layout.Descendents().OfType<LayoutDocument>().Select(d => d.Content).ToArray();
             var documents = documentsSource as IEnumerable;
+            var listOfDocumentsToImport = new List<object>(documents.OfType<object>());
+
+            foreach (var document in listOfDocumentsToImport.ToArray())
+            {
+                if (documentsImported.Contains(document))
+                    listOfDocumentsToImport.Remove(document);
+            }
+
+
             LayoutDocumentPane documentPane = null;
             if (layout.LastFocusedDocument != null)
             {
@@ -1751,7 +1760,7 @@ namespace AvalonDock
 
             if (documentPane != null)
             {
-                foreach (var documentToImport in (documentsSource as IEnumerable))
+                foreach (var documentToImport in listOfDocumentsToImport)
                 {
                     documentPane.Children.Add(new LayoutDocument() { Content = documentToImport });
                 }
@@ -1967,10 +1976,18 @@ namespace AvalonDock
             if (layout == null)
                 return;
 
-            if (layout.Descendents().OfType<LayoutAnchorable>().Any())
-                throw new InvalidOperationException("Unable to set the AnchorablesSource property if LayoutAnchorable objects are already present in the model");
-
+            //if (layout.Descendents().OfType<LayoutAnchorable>().Any())
+            //    throw new InvalidOperationException("Unable to set the AnchorablesSource property if LayoutAnchorable objects are already present in the model");
+            var anchorablesImported = layout.Descendents().OfType<LayoutAnchorable>().Select(d => d.Content).ToArray();
             var anchorables = anchorablesSource as IEnumerable;
+            var listOfAnchorablesToImport = new List<object>(anchorables.OfType<object>());
+
+            foreach (var document in listOfAnchorablesToImport.ToArray())
+            {
+                if (anchorablesImported.Contains(document))
+                    listOfAnchorablesToImport.Remove(document);
+            }
+
             LayoutAnchorablePane anchorablePane = null;
             if (layout.ActiveContent != null)
             {
@@ -1998,7 +2015,7 @@ namespace AvalonDock
 
             if (anchorablePane != null)
             {
-                foreach (var anchorableToImport in (anchorablesSource as IEnumerable))
+                foreach (var anchorableToImport in listOfAnchorablesToImport)
                 {
                     var newModel = new LayoutAnchorable() { Content = anchorableToImport };
                     anchorablePane.Children.Add(newModel);
@@ -2544,13 +2561,13 @@ namespace AvalonDock
             }
             else if (e.Element is ILayoutContainer)
             {
-                foreach (var document in e.Element.Descendents().OfType<LayoutDocument>())
+                foreach (var document in e.Element.Descendents().OfType<LayoutDocument>().ToArray())
                 {
                     var documentItem = new LayoutDocumentItem(document);
                     ApplyStyleToLayoutItem(documentItem);
                     _layoutItems.Add(documentItem);
                 }
-                foreach (var anchorable in e.Element.Descendents().OfType<LayoutAnchorable>())
+                foreach (var anchorable in e.Element.Descendents().OfType<LayoutAnchorable>().ToArray())
                 {
                     var anchorableItem = new LayoutAnchorableItem(anchorable);
                     ApplyStyleToLayoutItem(anchorableItem);
@@ -2564,13 +2581,13 @@ namespace AvalonDock
         {
             if (Layout != null)
             {
-                foreach (var document in Layout.Descendents().OfType<LayoutDocument>())
+                foreach (var document in Layout.Descendents().OfType<LayoutDocument>().ToArray())
                 {
                     var documentItem = new LayoutDocumentItem(document);
                     ApplyStyleToLayoutItem(documentItem);
                     _layoutItems.Add(documentItem);
                 }
-                foreach (var anchorable in Layout.Descendents().OfType<LayoutAnchorable>())
+                foreach (var anchorable in Layout.Descendents().OfType<LayoutAnchorable>().ToArray())
                 {
                     var anchorableItem = new LayoutAnchorableItem(anchorable);
                     ApplyStyleToLayoutItem(anchorableItem);

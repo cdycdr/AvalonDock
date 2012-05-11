@@ -49,7 +49,7 @@ namespace AvalonDock.TestApp
                     
 
                 };
-            //timer.Start();
+            timer.Start();
 
             this.DataContext = this;
 
@@ -98,7 +98,6 @@ namespace AvalonDock.TestApp
 
         #endregion
 
-
         #region FocusedElement
 
         /// <summary>
@@ -119,7 +118,6 @@ namespace AvalonDock.TestApp
         }
 
         #endregion
-
 
         private void OnLayoutRootPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -159,9 +157,15 @@ namespace AvalonDock.TestApp
                 winFormsWindow.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
         }
 
-        
+        private void AddTwoDocuments_click(object sender, RoutedEventArgs e)
+        {
+            LayoutDocument doc = new LayoutDocument();
+            doc.Title = "Test1";
+            layoutPanel.Children.Add(doc);
 
-
-
+            LayoutDocument doc2 = new LayoutDocument();
+            doc2.Title = "Test2";
+            layoutPanel.Children.Add(doc2);
+        }
     }
 }

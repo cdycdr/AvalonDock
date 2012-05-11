@@ -67,6 +67,7 @@
     <Compile Include="Controls\LayoutDocumentItem.cs" />
     <Compile Include="Controls\LayoutItem.cs" />
     <Compile Include="Controls\MenuItemEx.cs" />
+    <Compile Include="Controls\ReentrantFlag.cs" />
     <Compile Include="Controls\Shell\Standard\ComGuids.cs" />
     <Compile Include="Controls\Shell\Standard\Debug.cs" />
     <Compile Include="Controls\Shell\Standard\DoubleUtil.cs" />

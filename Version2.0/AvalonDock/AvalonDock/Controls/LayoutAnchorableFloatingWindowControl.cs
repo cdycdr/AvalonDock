@@ -312,7 +312,8 @@ namespace AvalonDock.Controls
             foreach (var anchorable in this.Model.Descendents().OfType<LayoutAnchorable>().ToArray())
             {
                 var anchorableLayoutItem = manager.GetLayoutItemFromModel(anchorable) as LayoutAnchorableItem;
-                if (anchorableLayoutItem.HideCommand == null ||
+                if (anchorableLayoutItem == null ||
+                    anchorableLayoutItem.HideCommand == null ||
                     !anchorableLayoutItem.HideCommand.CanExecute(parameter))
                 {
                     canExecute = false;

@@ -36,5 +36,25 @@ namespace AvalonDock.MVVMTestApp
                 return null;
             }
         }
+
+        #region ContentId
+
+        private string _contentId = null;
+        public string ContentId
+        {
+            get { return _contentId; }
+            set
+            {
+                if (_contentId != value)
+                {
+                    _contentId = value;
+                    RaisePropertyChanged("ContentId");
+                }
+            }
+        }
+
+        #endregion
+
+
     }
 }

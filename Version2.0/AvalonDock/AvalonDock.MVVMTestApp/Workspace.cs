@@ -87,9 +87,20 @@ namespace AvalonDock.MVVMTestApp
             var dlg = new OpenFileDialog();
             if (dlg.ShowDialog().GetValueOrDefault())
             {
-                _files.Add(new FileViewModel(dlg.FileName));
-                ActiveDocument = _files.Last();
+                var fileViewModel = Open(dlg.FileName);
+                ActiveDocument = fileViewModel;
             }
+        }
+
+        public FileViewModel Open(string filepath)
+        {
+            var fileViewModel = _files.FirstOrDefault(fm => fm.FilePath == filepath);
+            if (fileViewModel != null)
+                return fileViewModel;
+
+            fileViewModel = new FileViewModel(filepath);
+            _files.Add(fileViewModel);
+            return fileViewModel;
         }
 
         #endregion 
@@ -173,5 +184,8 @@ namespace AvalonDock.MVVMTestApp
             File.WriteAllText(fileToSave.FilePath, fileToSave.TextContent);
             ActiveDocument.IsDirty = false;
         }
+
+
+
     }
 }

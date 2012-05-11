@@ -38,17 +38,21 @@ namespace AvalonDock.Controls
         internal LayoutAnchorableItem(LayoutAnchorable anchorable)
             : base(anchorable)
         {
-            _anchorable = anchorable;
 
-            _anchorable.IsVisibleChanged += new EventHandler(_anchorable_IsVisibleChanged);
         }
-
-
 
         protected override void Close()
         {
             var dockingManager = _anchorable.Root.Manager;
             dockingManager._ExecuteCloseCommand(_anchorable);
+        }
+
+        protected override void SetupInitialPropertyValues()
+        {
+            _anchorable = LayoutElement as LayoutAnchorable;
+            _anchorable.IsVisibleChanged += new EventHandler(_anchorable_IsVisibleChanged);
+
+            base.SetupInitialPropertyValues();
         }
 
         ICommand _defaultHideCommand;
@@ -60,10 +64,6 @@ namespace AvalonDock.Controls
             _defaultHideCommand = new RelayCommand((p) => ExecuteHideCommand(p), (p) => CanExecuteHideCommand(p));
             _defaultAutoHideCommand = new RelayCommand((p) => ExecuteAutoHideCommand(p), (p) => CanExecuteAutoHideCommand(p));
             _defaultDockCommand = new RelayCommand((p) => ExecuteDockCommand(p), (p) => CanExecuteDockCommand(p));
-
-            //HideCommand = _defaultHideCommand;
-            //AutoHideCommand = _defaultAutoHideCommand;
-            //DockCommand = _defaultDockCommand;
 
             base.InitDefaultCommands();
         }
@@ -266,36 +266,47 @@ namespace AvalonDock.Controls
 
         #endregion
 
-        bool _reeentrantFlag = false;
+        #region Visibility
+        ReentrantFlag _visibilityReentrantFlag = new ReentrantFlag();
+
         protected override void OnVisibilityChanged()
         {
-            if (!_reeentrantFlag && _anchorable.Root != null)
+            if (_anchorable.Root != null)
             {
-                _reeentrantFlag = true;
-                if (Visibility == System.Windows.Visibility.Hidden)
-                    _anchorable.Hide();
-                else if (Visibility == System.Windows.Visibility.Visible)
-                    _anchorable.Show();
-                _reeentrantFlag = false;
+                if (_visibilityReentrantFlag.CanEnter)
+                {
+                    using (_visibilityReentrantFlag.Enter())
+                    {
+                        if (Visibility == System.Windows.Visibility.Hidden)
+                            _anchorable.Hide();
+                        else if (Visibility == System.Windows.Visibility.Visible)
+                            _anchorable.Show();
+                    }
+                }
             }
+
             base.OnVisibilityChanged();
         }
 
 
         void _anchorable_IsVisibleChanged(object sender, EventArgs e)
         {
-            if (!_reeentrantFlag && _anchorable.Root != null)
+            if (_anchorable.Root != null)
             {
-                _reeentrantFlag = true;
-                if (_anchorable.IsVisible)
-                    Visibility = Visibility.Visible;
-                else
-                    Visibility = Visibility.Hidden;
-                _reeentrantFlag = false;
+                if (_visibilityReentrantFlag.CanEnter)
+                {
+                    using (_visibilityReentrantFlag.Enter())
+                    {
+                        if (_anchorable.IsVisible)
+                            Visibility = Visibility.Visible;
+                        else
+                            Visibility = Visibility.Hidden;
+                    }
+                }
             }
         }
 
-
+        #endregion
 
     }
 }

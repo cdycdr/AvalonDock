@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using System.IO;
 
 namespace AvalonDock.Layout.Serialization
 {
@@ -50,6 +51,12 @@ namespace AvalonDock.Layout.Serialization
         {
             var serializer = new XmlSerializer(typeof(LayoutRoot));
             serializer.Serialize(stream, Manager.Layout);
+        }
+
+        public void Serialize(string filepath)
+        {
+            using (var stream = new StreamWriter(filepath))
+                Serialize(stream);
         }
 
         public void Deserialize(System.IO.Stream stream)
@@ -98,6 +105,12 @@ namespace AvalonDock.Layout.Serialization
             {
                 EndDeserialization();
             }
+        }
+
+        public void Deserialize(string filepath)
+        {
+            using (var stream = new StreamReader(filepath))
+                Deserialize(stream);
         }
     }
 }

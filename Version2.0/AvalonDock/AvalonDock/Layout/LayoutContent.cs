@@ -131,7 +131,11 @@ namespace AvalonDock.Layout
         /// </summary>
         protected virtual void OnIsSelectedChanged(bool oldValue, bool newValue)
         {
+            if (IsSelectedChanged != null)
+                IsSelectedChanged(this, EventArgs.Empty);
         }
+
+        public event EventHandler IsSelectedChanged;
 
         #endregion
 
@@ -169,7 +173,11 @@ namespace AvalonDock.Layout
         /// </summary>
         protected virtual void OnIsActiveChanged(bool oldValue, bool newValue)
         {
+            if (IsActiveChanged != null)
+                IsActiveChanged(this, EventArgs.Empty);
         }
+
+        public event EventHandler IsActiveChanged;
 
         #endregion
 
@@ -333,9 +341,10 @@ namespace AvalonDock.Layout
 
             if (IsLastFocusedDocument)
                 writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
-            
+
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
+          
 
             if (ToolTip != null && ToolTip is string)
                 if (!string.IsNullOrWhiteSpace((string)ToolTip))

@@ -126,9 +126,9 @@ namespace AvalonDock.Controls
         {
             if (Model != null &&
                 Model.Content != null &&
-                Model.Content is DependencyObject)
+                Model.Content is UIElement)
             {
-                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as DependencyObject)
+                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
                     as ILogicalChildrenContainer;
                 if (oldLogicalParentPaneControl != null)
                     oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
@@ -138,11 +138,11 @@ namespace AvalonDock.Controls
             if (Model != null &&
                 parentPaneControl != null &&
                 Model.Content != null &&
-                Model.Content is DependencyObject)
+                Model.Content is UIElement)
             {
                 ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
 
-                BindingHelper.RebindInactiveBindings(Model.Content as DependencyObject);
+                BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
             }
         }
 

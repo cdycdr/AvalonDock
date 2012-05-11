@@ -49,9 +49,12 @@
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                     <avalonDock:LayoutDocumentPaneGroup>
-                        <avalonDock:LayoutDocumentPane>
+                        <avalonDock:LayoutDocumentPane x:Name="layoutPanel">
                             <avalonDock:LayoutDocument Title="Document 1" IconSource="/AvalonDock.TestApp;component/Images/alarm-clock-blue.png">
-                                <TextBox Text="Document 1 Content"/>
+                                <StackPanel>
+                                    <TextBox Text="Document 1 Content"/>
+                                    <Button Content="Click to add 2 documents" Click="AddTwoDocuments_click"/>
+                                </StackPanel>
                             </avalonDock:LayoutDocument>
                             <avalonDock:LayoutDocument Title="Document 2">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Document 2 Attached to Timer ->\{0\}'}"/>

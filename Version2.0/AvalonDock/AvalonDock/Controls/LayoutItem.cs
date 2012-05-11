@@ -49,8 +49,9 @@ namespace AvalonDock.Controls
             DataContext = this;
 
             InitDefaultCommands();
-
+            SetupInitialPropertyValues();
         }
+
 
         public LayoutContent LayoutElement
         {
@@ -62,6 +63,31 @@ namespace AvalonDock.Controls
         {
             get;
             private set;
+        }
+
+        protected virtual void SetupInitialPropertyValues()
+        {
+            LayoutElement.IsSelectedChanged += (s, e) =>
+            {
+                if (_isSelectedReentrantFlag.CanEnter)
+                {
+                    using (_isSelectedReentrantFlag.Enter())
+                    {
+                        IsSelected = LayoutElement.IsSelected;
+                    }
+                }
+            };
+
+            LayoutElement.IsActiveChanged += (s, e) =>
+            {
+                if (_isActiveReentrantFlag.CanEnter)
+                {
+                    using (_isActiveReentrantFlag.Enter())
+                    {
+                        IsActive = LayoutElement.IsActive;
+                    }
+                }
+            };
         }
 
         ICommand _defaultCloseCommand;
@@ -77,12 +103,6 @@ namespace AvalonDock.Controls
             _defaultDockAsDocumentCommand = new RelayCommand((p) => ExecuteDockAsDocumentCommand(p), (p) => CanExecuteDockAsDocumentCommand(p));
             _defaultCloseAllButThisCommand = new RelayCommand((p) => ExecuteCloseAllButThisCommand(p), (p) => CanExecuteCloseAllButThisCommand(p));
             _defaultActivateCommand = new RelayCommand((p) => ExecuteActivateCommand(p), (p) => CanExecuteActivateCommand(p));
-
-            //CloseCommand = _defaultCloseCommand;
-            //FloatCommand = _defaultFloatCommand;
-            //DockAsDocumentCommand = _defaultDockAsDocumentCommand;
-            //CloseAllButThisCommand = _defaultCloseAllButThisCommand;
-            //ActivateCommand = _defaultActivateCommand;
 
         }
 
@@ -213,10 +233,12 @@ namespace AvalonDock.Controls
         }
 
         #endregion
+        
+        #region Visibility
 
         private static void OnVisibilityChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem)s).OnVisibilityChanged();    
+            ((LayoutItem)s).OnVisibilityChanged();
         }
 
         protected virtual void OnVisibilityChanged()
@@ -225,8 +247,140 @@ namespace AvalonDock.Controls
                 LayoutElement.Close();
         }
 
-      
+        #endregion
 
+        #region ContentId
+
+        /// <summary>
+        /// ContentId Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ContentIdProperty =
+            DependencyProperty.Register("ContentId", typeof(string), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((string)null,
+                    new PropertyChangedCallback(OnContentIdChanged)));
+
+        /// <summary>
+        /// Gets or sets the ContentId property.  This dependency property 
+        /// indicates the content id used to retrive content when deserializing layouts.
+        /// </summary>
+        public string ContentId
+        {
+            get { return (string)GetValue(ContentIdProperty); }
+            set { SetValue(ContentIdProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the ContentId property.
+        /// </summary>
+        private static void OnContentIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnContentIdChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the ContentId property.
+        /// </summary>
+        protected virtual void OnContentIdChanged(DependencyPropertyChangedEventArgs e)
+        {
+            LayoutElement.ContentId = (string)e.NewValue;
+        }
+
+        #endregion
+
+        #region IsSelected
+
+        ReentrantFlag _isSelectedReentrantFlag = new ReentrantFlag();
+
+        /// <summary>
+        /// IsSelected Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((bool)false,
+                    new PropertyChangedCallback(OnIsSelectedChanged)));
+
+        /// <summary>
+        /// Gets or sets the IsSelected property.  This dependency property 
+        /// indicates if the item is selected inside its container.
+        /// </summary>
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the IsSelected property.
+        /// </summary>
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnIsSelectedChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the IsSelected property.
+        /// </summary>
+        protected virtual void OnIsSelectedChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (_isSelectedReentrantFlag.CanEnter)
+            {
+                using (_isSelectedReentrantFlag.Enter())
+                {
+                    LayoutElement.IsSelected = (bool)e.NewValue;
+                }
+            }
+        }
+
+        #endregion
+
+        #region IsActive
+
+        ReentrantFlag _isActiveReentrantFlag = new ReentrantFlag();
+
+        /// <summary>
+        /// IsActive Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IsActiveProperty =
+            DependencyProperty.Register("IsActive", typeof(bool), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((bool)false,
+                    new PropertyChangedCallback(OnIsActiveChanged)));
+
+        /// <summary>
+        /// Gets or sets the IsActive property.  This dependency property 
+        /// indicates if the item is active in the UI.
+        /// </summary>
+        public bool IsActive
+        {
+            get { return (bool)GetValue(IsActiveProperty); }
+            set { SetValue(IsActiveProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the IsActive property.
+        /// </summary>
+        private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnIsActiveChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the IsActive property.
+        /// </summary>
+        protected virtual void OnIsActiveChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (_isActiveReentrantFlag.CanEnter)
+            {
+                using (_isActiveReentrantFlag.Enter())
+                {
+                    LayoutElement.IsActive = (bool)e.NewValue;
+                }
+            }
+        }
+
+        #endregion
+
+
+ 
         #region CloseCommand
 
         /// <summary>

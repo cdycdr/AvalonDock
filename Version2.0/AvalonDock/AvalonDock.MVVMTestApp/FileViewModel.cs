@@ -38,7 +38,10 @@ namespace AvalonDock.MVVMTestApp
                     RaisePropertyChanged("Title");
 
                     if (File.Exists(_filePath))
+                    {
                         _textContent = File.ReadAllText(_filePath);
+                        ContentId = _filePath;
+                    }
                 }
             }
         }

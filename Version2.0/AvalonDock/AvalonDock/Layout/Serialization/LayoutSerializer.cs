@@ -62,14 +62,19 @@ namespace AvalonDock.Layout.Serialization
             }
 
             //now fix the content of the layoutcontents
-            foreach (var lcToFix in layout.Descendents().OfType<LayoutContent>().Where(lc => lc.Content == null))
+            foreach (var lcToFix in layout.Descendents().OfType<LayoutContent>().Where(lc => lc.Content == null).ToArray())
             {
                 if (LayoutSerializationCallback != null)
-                { 
+                {
                     var args = new LayoutSerializationCallbackEventArgs(lcToFix);
                     LayoutSerializationCallback(this, args);
-                    lcToFix.Content = args.Content;
+                    if (args.Content != null)
+                        lcToFix.Content = args.Content;
+                    else
+                        lcToFix.Close();
                 }
+                else
+                    lcToFix.Close();
             }
 
         }

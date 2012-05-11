@@ -12,7 +12,10 @@ namespace AvalonDock.MVVMTestApp
             :base("File Stats")
         {
             Workspace.This.ActiveDocumentChanged += new EventHandler(OnActiveDocumentChanged);
+            ContentId = ToolContentId;
         }
+
+        public const string ToolContentId = "FileStatsTool";
 
         void OnActiveDocumentChanged(object sender, EventArgs e)
         {
