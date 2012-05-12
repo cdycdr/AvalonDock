@@ -32,12 +32,10 @@ namespace AvalonDock.MVVMTestApp
         {
             var itemAsLayoutContent = item as LayoutContent;
 
-            if (item is FileViewModel || 
-                (itemAsLayoutContent != null && itemAsLayoutContent.Content is FileViewModel))
+            if (item is FileViewModel)
                 return FileViewTemplate;
 
-            if (item is FileStatsViewModel ||
-                (itemAsLayoutContent != null && itemAsLayoutContent.Content is FileStatsViewModel))
+            if (item is FileStatsViewModel)
                 return FileStatsViewTemplate;
 
             return base.SelectTemplate(item, container);

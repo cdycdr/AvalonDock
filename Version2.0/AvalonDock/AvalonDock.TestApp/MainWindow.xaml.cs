@@ -153,6 +153,8 @@ namespace AvalonDock.TestApp
         {
             if (winFormsWindow.IsHidden)
                 winFormsWindow.Show();
+            else if (winFormsWindow.IsVisible)
+                winFormsWindow.IsActive = true;
             else
                 winFormsWindow.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
         }

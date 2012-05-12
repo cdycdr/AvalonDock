@@ -45,5 +45,15 @@ namespace AvalonDock
             foreach (T v in collection)
                 action(v);
         }
+
+
+        public static int IndexOf<T>(this T[] array, T value) where T : class
+        {
+            for (int i = 0; i < array.Length; i++)
+                if (array[i] == value)
+                    return i;
+
+            return -1;
+        }
     }
 }

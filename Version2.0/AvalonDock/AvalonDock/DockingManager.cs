@@ -52,7 +52,6 @@ namespace AvalonDock
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(true));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
-            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
         }
 
 
@@ -950,20 +949,20 @@ namespace AvalonDock
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            if (e.NewFocus is Grid)
-                Debug.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
+            //if (e.NewFocus is Grid)
+            //    Debug.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
             base.OnGotKeyboardFocus(e);
         }
 
         protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
+            //Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
             base.OnPreviewGotKeyboardFocus(e);
         }
 
         protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            Debug.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
+            //Debug.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
             base.OnPreviewLostKeyboardFocus(e);
         }
 
@@ -991,7 +990,7 @@ namespace AvalonDock
 
         /// <summary>
         /// Gets or sets the LayoutRootPanel property.  This dependency property 
-        /// indicates ....
+        /// indicates the layout panel control which is attached to the Layout.Root property.
         /// </summary>
         public LayoutPanelControl LayoutRootPanel
         {
@@ -2692,5 +2691,85 @@ namespace AvalonDock
         }
         #endregion
 
+
+        #region NavigatorWindow
+        NavigatorWindow _navigatorWindow = null;
+
+        void ShowNavigatorWindow()
+        {
+            if (_navigatorWindow == null)
+            {
+                _navigatorWindow = new NavigatorWindow(this) { Owner = Window.GetWindow(this), WindowStartupLocation = WindowStartupLocation.CenterOwner };
+            }
+
+            _navigatorWindow.Show();
+            Debug.WriteLine("ShowNavigatorWindow()");
+        }
+
+        void HideNavigatorWindow()
+        {
+            if (_navigatorWindow == null)
+                return;
+
+            _navigatorWindow.Hide();
+
+
+            if (_navigatorWindow.SelectedAnchorable == null &&
+                _navigatorWindow.SelectedDocument != null &&
+                _navigatorWindow.SelectedDocument.ActivateCommand.CanExecute(null))
+                _navigatorWindow.SelectedDocument.ActivateCommand.Execute(null);
+
+            _navigatorWindow.Close();
+            _navigatorWindow = null;
+            Debug.WriteLine("HideNavigatorWindow()");
+
+        }
+
+        bool IsNavigatorWindowActive
+        {
+            get { return _navigatorWindow != null; }
+        }
+
+        
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                if (e.IsDown && e.Key == Key.Tab)
+                {
+                    if (!IsNavigatorWindowActive)
+                    {
+                        ShowNavigatorWindow();
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        _navigatorWindow.SelectNextDocument();
+                        e.Handled = true;
+                    }
+                }
+            }
+
+            if (e.Key != Key.Tab && IsNavigatorWindowActive)
+            {
+                HideNavigatorWindow();
+                e.Handled = true;
+            }
+
+            base.OnPreviewKeyDown(e);
+        }
+
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
+        {
+            if (e.Key != Key.Tab && IsNavigatorWindowActive)
+            {
+                HideNavigatorWindow();
+                e.Handled = true;
+            }
+
+            base.OnPreviewKeyUp(e);
+        }
+
+        #endregion
     }
 }

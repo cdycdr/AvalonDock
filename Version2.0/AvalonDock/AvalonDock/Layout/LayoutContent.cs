@@ -296,7 +296,7 @@ namespace AvalonDock.Layout
             return null;
         }
 
-        public void ReadXml(System.Xml.XmlReader reader)
+        public virtual void ReadXml(System.Xml.XmlReader reader)
         {
             if (reader.MoveToAttribute("Title"))
                 Title = reader.Value;
@@ -328,7 +328,7 @@ namespace AvalonDock.Layout
             reader.Read();
         }
 
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public virtual void WriteXml(System.Xml.XmlWriter writer)
         {
             if (!string.IsNullOrWhiteSpace(Title))
                 writer.WriteAttributeString("Title", Title);

@@ -307,7 +307,7 @@ namespace AvalonDock.Layout
         /// </summary>
         public bool IsAutoHidden
         {
-            get { return Parent is LayoutAnchorGroup; }
+            get { return Parent != null && Parent is LayoutAnchorGroup; }
         }
 
 

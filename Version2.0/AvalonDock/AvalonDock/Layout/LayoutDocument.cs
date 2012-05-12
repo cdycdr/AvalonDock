@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace AvalonDock.Layout
 {
@@ -33,6 +34,73 @@ namespace AvalonDock.Layout
         public bool IsVisible
         {
             get { return true; }
+        }
+
+        #region Description
+
+        private string _description = null;
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    RaisePropertyChanged("Description");
+                }
+            }
+        }
+
+        #endregion
+
+        #region LastActivationTimeStamp
+
+        private DateTime? _lastActivationTimeStamp = null;
+        public DateTime? LastActivationTimeStamp
+        {
+            get { return _lastActivationTimeStamp; }
+            set
+            {
+                if (_lastActivationTimeStamp != value)
+                {
+                    _lastActivationTimeStamp = value;
+                    RaisePropertyChanged("LastActivationTimeStamp");
+                }
+            }
+        }
+
+        #endregion
+
+        protected override void OnIsActiveChanged(bool oldValue, bool newValue)
+        {
+            if (IsActive)
+                LastActivationTimeStamp = DateTime.Now;
+
+            base.OnIsActiveChanged(oldValue, newValue);
+        }
+
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            base.WriteXml(writer);
+
+            if (!string.IsNullOrWhiteSpace(Description))
+                writer.WriteAttributeString("Description", Description);
+            if (LastActivationTimeStamp != null)
+                writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
+
+        }
+
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            base.ReadXml(reader);
+
+            if (reader.MoveToAttribute("Description"))
+                Description = reader.Value;
+            if (reader.MoveToAttribute("LastActivationTimeStamp"))
+                LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
+
         }
 
     }

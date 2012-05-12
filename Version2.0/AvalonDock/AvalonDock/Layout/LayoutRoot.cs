@@ -503,7 +503,7 @@ namespace AvalonDock.Layout
             {
                 exitFlag = true;
                 //for each pane that is empty
-                foreach (var paneGroupToCollapse in this.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutAnchorablePaneGroup))
+                foreach (var paneGroupToCollapse in this.Descendents().OfType<LayoutAnchorablePaneGroup>().Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutAnchorablePaneGroup).ToArray())
                 {
                     var singleChild = paneGroupToCollapse.Children[0] as LayoutAnchorablePaneGroup;
                     paneGroupToCollapse.Orientation = singleChild.Orientation;
@@ -530,7 +530,7 @@ namespace AvalonDock.Layout
             {
                 exitFlag = true;
                 //for each pane that is empty
-                foreach (var paneGroupToCollapse in this.Descendents().OfType<LayoutDocumentPaneGroup>().Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutDocumentPaneGroup))
+                foreach (var paneGroupToCollapse in this.Descendents().OfType<LayoutDocumentPaneGroup>().Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutDocumentPaneGroup).ToArray())
                 {
                     var singleChild = paneGroupToCollapse.Children[0] as LayoutDocumentPaneGroup;
                     paneGroupToCollapse.Orientation = singleChild.Orientation;

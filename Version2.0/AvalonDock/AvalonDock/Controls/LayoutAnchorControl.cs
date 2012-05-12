@@ -42,8 +42,18 @@ namespace AvalonDock.Controls
         internal LayoutAnchorControl(LayoutAnchorable model)
         {
             _model = model;
-
+            _model.IsActiveChanged += new EventHandler(_model_IsActiveChanged);
         }
+
+        void _model_IsActiveChanged(object sender, EventArgs e)
+        {
+            if (!_model.IsAutoHidden)
+                _model.IsActiveChanged -= new EventHandler(_model_IsActiveChanged);
+            else if (_model.IsActive)
+                _model.Root.Manager.ShowAutoHideWindow(this);
+        }
+
+
 
         LayoutAnchorable _model;
 
