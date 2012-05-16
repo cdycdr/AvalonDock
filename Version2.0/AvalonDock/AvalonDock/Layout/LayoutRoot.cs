@@ -42,12 +42,13 @@ namespace AvalonDock.Layout
             LeftSide = new LayoutAnchorSide();
             TopSide = new LayoutAnchorSide();
             BottomSide = new LayoutAnchorSide();
+            RootPanel = new LayoutPanel(new LayoutDocumentPane());
         }
 
 
         #region RootPanel
 
-        private LayoutPanel _rootPanel = new LayoutPanel();
+        private LayoutPanel _rootPanel;
         public LayoutPanel RootPanel
         {
             get { return _rootPanel; }
@@ -56,7 +57,14 @@ namespace AvalonDock.Layout
                 if (_rootPanel != value)
                 {
                     RaisePropertyChanging("RootPanel");
+                    if (_rootPanel != null &&
+                        _rootPanel.Parent == this)
+                        _rootPanel.Parent = null;
                     _rootPanel = value;
+
+                    if (_rootPanel == null)
+                        _rootPanel = new LayoutPanel(new LayoutDocumentPane());
+
                     if (_rootPanel != null)
                         _rootPanel.Parent = this;
                     RaisePropertyChanged("RootPanel");

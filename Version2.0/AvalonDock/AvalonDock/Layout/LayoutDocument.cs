@@ -94,14 +94,13 @@ namespace AvalonDock.Layout
 
         public override void ReadXml(System.Xml.XmlReader reader)
         {
-            base.ReadXml(reader);
-
             if (reader.MoveToAttribute("Description"))
                 Description = reader.Value;
             if (reader.MoveToAttribute("LastActivationTimeStamp"))
                 LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
 
-        }
+            base.ReadXml(reader);
+       }
 
     }
 }

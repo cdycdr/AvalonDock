@@ -66,7 +66,7 @@ namespace AvalonDock.Controls
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
                 _childViews.Clear();
 
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
                 e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
             {
                 if (e.NewItems != null)

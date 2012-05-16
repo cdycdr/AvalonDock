@@ -161,13 +161,15 @@ namespace AvalonDock.TestApp
 
         private void AddTwoDocuments_click(object sender, RoutedEventArgs e)
         {
-            LayoutDocument doc = new LayoutDocument();
-            doc.Title = "Test1";
-            layoutPanel.Children.Add(doc);
+            //LayoutDocument doc = new LayoutDocument();
+            //doc.Title = "Test1";
+            //layoutPanel.Children.Add(doc);
 
-            LayoutDocument doc2 = new LayoutDocument();
-            doc2.Title = "Test2";
-            layoutPanel.Children.Add(doc2);
+            //LayoutDocument doc2 = new LayoutDocument();
+            //doc2.Title = "Test2";
+            //layoutPanel.Children.Add(doc2);
+
+            layoutLeft.Children.Add(new LayoutAnchorable() { Title = "New Anchorable" });
         }
     }
 }

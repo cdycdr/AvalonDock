@@ -1508,6 +1508,11 @@ namespace AvalonDock
         {
             _fwList.Remove(floatingWindow);
         }
+
+        public IEnumerable<LayoutFloatingWindowControl> FloatingWindows
+        {
+            get { return _fwList; }
+        }
         #endregion
 
         #region OverlayWindow
