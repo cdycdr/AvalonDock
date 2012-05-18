@@ -48,19 +48,19 @@ namespace AvalonDock.Controls
         }
     }
 
-    class FocusHookHandler
+    class WindowHookHandler
     {
-        public FocusHookHandler()
+        public WindowHookHandler()
         { 
         
         }
         
-        IntPtr _focusHook;
+        IntPtr _windowHook;
         Win32Helper.HookProc _hookProc;
         public void Attach()
         {
             _hookProc = new Win32Helper.HookProc(this.HookProc);
-            _focusHook = Win32Helper.SetWindowsHookEx(
+            _windowHook = Win32Helper.SetWindowsHookEx(
                 Win32Helper.HookType.WH_CBT,
                 _hookProc,
                 IntPtr.Zero,
@@ -70,7 +70,7 @@ namespace AvalonDock.Controls
 
         public void Detach()
         {
-            Win32Helper.UnhookWindowsHookEx(_focusHook);
+            Win32Helper.UnhookWindowsHookEx(_windowHook);
         }   
 
         public int HookProc(int code, IntPtr wParam, IntPtr lParam)
@@ -80,12 +80,20 @@ namespace AvalonDock.Controls
                 if (FocusChanged != null)
                     FocusChanged(this, new FocusChangeEventArgs(wParam, lParam));
             }
+            else if (code == Win32Helper.HCBT_ACTIVATE)
+            {
+                //System.Diagnostics.Debug.WriteLine("HCBT_ACTIVATE");
+                if (Activate != null)
+                    Activate(this, EventArgs.Empty);
+            }
             
 
-            return Win32Helper.CallNextHookEx(_focusHook, code, wParam, lParam);
+            return Win32Helper.CallNextHookEx(_windowHook, code, wParam, lParam);
         }
 
         public event EventHandler<FocusChangeEventArgs> FocusChanged;
+
+        public event EventHandler Activate;
 
     }
 }

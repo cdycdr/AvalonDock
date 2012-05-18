@@ -202,6 +202,7 @@ namespace AvalonDock
         }
 
         public const int HCBT_SETFOCUS = 9;
+        public const int HCBT_ACTIVATE = 5;
 
         [DllImport("kernel32.dll")]
         public static extern uint GetCurrentThreadId();

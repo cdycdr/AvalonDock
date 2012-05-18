@@ -60,7 +60,7 @@
     <Compile Include="Controls\DocumentPaneGroupDropTarget.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\DropDownControlArea.cs" />
-    <Compile Include="Controls\FocusHookHandler.cs" />
+    <Compile Include="Controls\WindowHookHandler.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\ILogicalChildrenContainer.cs" />
     <Compile Include="Controls\LayoutAnchorableItem.cs" />

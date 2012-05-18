@@ -50,8 +50,9 @@ namespace AvalonDock
         static DockingManager()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
-            FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(true));
+            FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
+            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
         }
 
 
@@ -173,7 +174,7 @@ namespace AvalonDock
                         {
                             if (Layout.ActiveContent != null)
                                 FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
-                        }), DispatcherPriority.Loaded);
+                        }), DispatcherPriority.Background);
                 }
 
                 if (!_insideInternalSetActiveContent)
@@ -355,6 +356,8 @@ namespace AvalonDock
 
             return null;
         }
+
+        
 
         #region DocumentPaneTemplate
 
@@ -2019,11 +2022,40 @@ namespace AvalonDock
 
             if (anchorablePane != null)
             {
-                foreach (var anchorableToImport in listOfAnchorablesToImport)
+                _suspendLayoutItemCreation = true;
+                foreach (var anchorableContentToImport in listOfAnchorablesToImport)
                 {
-                    var newModel = new LayoutAnchorable() { Content = anchorableToImport };
-                    anchorablePane.Children.Add(newModel);
+                    var anchorableToImport = new LayoutAnchorable()
+                    {
+                        Content = anchorableContentToImport
+                    };
+
+                    bool added = false;
+                    if (LayoutUpdateStrategy != null)
+                    {
+                        added = LayoutUpdateStrategy.BeforeInsertAnchorable(anchorableToImport, anchorablePane);
+                    }
+
+                    if (!added && anchorablePane != null)
+                    {
+                        anchorablePane.Children.Add(anchorableToImport);
+                        added = true;
+                    }
+
+                    if (!added && LayoutUpdateStrategy != null)
+                    {
+                        added = LayoutUpdateStrategy.InsertAnchorable(anchorableToImport, anchorablePane);
+                    }
+
+                    if (added)
+                    {
+                        var anchorableItem = new LayoutAnchorableItem(anchorableToImport);
+                        ApplyStyleToLayoutItem(anchorableItem);
+                        _layoutItems.Add(anchorableItem);
+                    }
                 }
+
+                _suspendLayoutItemCreation = false;
             }
 
             var anchorablesSourceAsNotifier = anchorablesSource as INotifyCollectionChanged;
@@ -2083,7 +2115,7 @@ namespace AvalonDock
                         //look for an available pane
                         anchorablePane = Layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault();
                     }
-
+                    _suspendLayoutItemCreation = true;
                     foreach (var anchorableContentToImport in e.NewItems)
                     {
                         var anchorableToImport = new LayoutAnchorable()
@@ -2105,17 +2137,25 @@ namespace AvalonDock
 
                         if (!added && LayoutUpdateStrategy != null)
                         {
-                            LayoutUpdateStrategy.InsertAnchorable(anchorableToImport, anchorablePane);
+                            added = LayoutUpdateStrategy.InsertAnchorable(anchorableToImport, anchorablePane);
+                        }
+
+                        if (added)
+                        {
+                            var anchorableItem = new LayoutAnchorableItem(anchorableToImport);
+                            ApplyStyleToLayoutItem(anchorableItem);
+                            _layoutItems.Add(anchorableItem);
                         }
 
                     }
+                    _suspendLayoutItemCreation = false;
                 }
             }
 
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
-                //NOTE: I'm going to clear every document present in layout but
-                //some documents may have been added directly to the layout, for now I clear them too
+                //NOTE: I'm going to clear every anchorable present in layout but
+                //some anchorable may have been added directly to the layout, for now I clear them too
                 var anchorablesToRemove = Layout.Descendents().OfType<LayoutAnchorable>().ToArray();
                 foreach (var anchorableToRemove in anchorablesToRemove)
                 {
@@ -2523,6 +2563,8 @@ namespace AvalonDock
 
         List<LayoutItem> _layoutItems = new List<LayoutItem>();
 
+        bool _suspendLayoutItemCreation = false;
+
         void DetachLayoutItems()
         {
             if (Layout != null)
@@ -2535,6 +2577,9 @@ namespace AvalonDock
 
         void Layout_ElementRemoved(object sender, LayoutElementEventArgs e)
         {
+            if (_suspendLayoutItemCreation)
+                return;
+
             if (e.Element is LayoutContent)
                 _layoutItems.Remove(_layoutItems.First(item => item.LayoutElement == e.Element));
             else if (e.Element is ILayoutContainer)
@@ -2549,6 +2594,9 @@ namespace AvalonDock
 
         void Layout_ElementAdded(object sender, LayoutElementEventArgs e)
         {
+            if (_suspendLayoutItemCreation)
+                return;
+            
             if (e.Element is LayoutDocument)
             {
                 var document = e.Element as LayoutDocument;
@@ -2579,7 +2627,6 @@ namespace AvalonDock
                 }                
             }
         }
-
 
         void AttachLayoutItems()
         {

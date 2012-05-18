@@ -43,9 +43,10 @@ namespace AvalonDock.Controls
             {
                 InputManager.Current.EnterMenuMode += new EventHandler(InputManager_EnterMenuMode);
                 InputManager.Current.LeaveMenuMode += new EventHandler(InputManager_LeaveMenuMode);
-                _focusHandler = new FocusHookHandler();
-                _focusHandler.FocusChanged += new EventHandler<FocusChangeEventArgs>(_focusHandler_FocusChanged);
-                _focusHandler.Attach();
+                _windowHandler = new WindowHookHandler();
+                _windowHandler.FocusChanged += new EventHandler<FocusChangeEventArgs>(_windowHandler_FocusChanged);
+                _windowHandler.Activate += new EventHandler(_windowHandler_Activate);
+                _windowHandler.Attach();
 
                 Application.Current.Exit += new ExitEventHandler(Current_Exit);
             }
@@ -65,26 +66,38 @@ namespace AvalonDock.Controls
             {
                 InputManager.Current.EnterMenuMode -= new EventHandler(InputManager_EnterMenuMode);
                 InputManager.Current.LeaveMenuMode -= new EventHandler(InputManager_LeaveMenuMode);
-                if (_focusHandler != null)
+                if (_windowHandler != null)
                 {
-                    _focusHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_focusHandler_FocusChanged);
-                    _focusHandler.Detach();
-                    _focusHandler = null;
+                    _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_windowHandler_FocusChanged);
+                    _windowHandler.Activate -= new EventHandler(_windowHandler_Activate);
+                    _windowHandler.Detach();
+                    _windowHandler = null;
                 }
             }
 
             RefreshDetachedElements();
         }
 
+        static void _windowHandler_Activate(object sender, EventArgs e)
+        {
+            if (Keyboard.FocusedElement == null && _lastFocusedElement != null && _lastFocusedElement.IsAlive)
+            {
+                var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
+                if (elementToSetFocus != null)
+                    SetFocusOnLastElement(elementToSetFocus);
+            }
+        }
+
+
 
         private static void Current_Exit(object sender, ExitEventArgs e)
         {
             Application.Current.Exit -= new ExitEventHandler(Current_Exit);
-            if (_focusHandler != null)
+            if (_windowHandler != null)
             {
-                _focusHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_focusHandler_FocusChanged);
-                _focusHandler.Detach();
-                _focusHandler = null;
+                _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_windowHandler_FocusChanged);
+                _windowHandler.Detach();
+                _windowHandler = null;
             }
         }
 
@@ -149,19 +162,24 @@ namespace AvalonDock.Controls
 
             return IntPtr.Zero;
         }
+        static WeakReference _lastFocusedElement;
 
         internal static void SetFocusOnLastElement(ILayoutElement model)
         {
+            bool focused = false;
             if (_modelFocusedElement.ContainsKey(model))
-                Keyboard.Focus(_modelFocusedElement[model]);
+                focused = _modelFocusedElement[model] == Keyboard.Focus(_modelFocusedElement[model]);
 
             if (_modelFocusedWindowHandle.ContainsKey(model))
-                Win32Helper.SetFocus(_modelFocusedWindowHandle[model]);
+                focused = IntPtr.Zero !=  Win32Helper.SetFocus(_modelFocusedWindowHandle[model]);
+
+            if (focused)
+                _lastFocusedElement = new WeakReference(model);
         }
 
-        static FocusHookHandler _focusHandler = null;
+        static WindowHookHandler _windowHandler = null;
 
-        static void _focusHandler_FocusChanged(object sender, FocusChangeEventArgs e)
+        static void _windowHandler_FocusChanged(object sender, FocusChangeEventArgs e)
         {
             foreach (var manager in _managers)
             {
@@ -197,27 +215,30 @@ namespace AvalonDock.Controls
             }
         }
 
-        static IInputElement _lastFocusedElement = null;
+        static WeakReference _lastFocusedElementBeforeEnterMenuMode = null;
         static void InputManager_EnterMenuMode(object sender, EventArgs e)
         {
-            _lastFocusedElement = Keyboard.FocusedElement;
+            if (Keyboard.FocusedElement == null)
+                return;
 
-            if (_lastFocusedElement != null)
+            var lastfocusDepObj = Keyboard.FocusedElement as DependencyObject;
+            if (lastfocusDepObj.FindLogicalAncestor<DockingManager>() == null)
             {
-                var lastfocusDepObj = _lastFocusedElement as DependencyObject;
-                if (lastfocusDepObj.FindLogicalAncestor<DockingManager>() == null)
-                    _lastFocusedElement = null;
+                _lastFocusedElementBeforeEnterMenuMode = null;
+                return;
             }
 
-            //Debug.WriteLine(string.Format("Current_EnterMenuMode({0})", Keyboard.FocusedElement));
+            _lastFocusedElementBeforeEnterMenuMode = new WeakReference(Keyboard.FocusedElement);
         }
         static void InputManager_LeaveMenuMode(object sender, EventArgs e)
         {
-            //Debug.WriteLine(string.Format("Current_LeaveMenuMode({0})", Keyboard.FocusedElement));
-            if (_lastFocusedElement != null)
+            if (_lastFocusedElementBeforeEnterMenuMode != null &&
+                _lastFocusedElementBeforeEnterMenuMode.IsAlive)
             {
-                if (_lastFocusedElement != Keyboard.Focus(_lastFocusedElement))
-                    Debug.WriteLine("Unable to activate the element");
+                var lastFocusedInputElement = _lastFocusedElementBeforeEnterMenuMode.Target as IInputElement;
+                if (lastFocusedInputElement != null)
+                    if (lastFocusedInputElement != Keyboard.Focus(lastFocusedInputElement))
+                        Debug.WriteLine("Unable to activate the element");
             }
         }
 

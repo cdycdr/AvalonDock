@@ -21,7 +21,7 @@ namespace AvalonDock.Controls
         {
             _manager = manager;
 
-            SetAnchorables(_manager.Layout.Descendents().OfType<LayoutAnchorable>().Select(d => (LayoutAnchorableItem)_manager.GetLayoutItemFromModel(d)).ToArray());
+            SetAnchorables(_manager.Layout.Descendents().OfType<LayoutAnchorable>().Where(a => a.IsVisible).Select(d => (LayoutAnchorableItem)_manager.GetLayoutItemFromModel(d)).ToArray());
             SetDocuments(_manager.Layout.Descendents().OfType<LayoutDocument>().OrderByDescending(d => d.LastActivationTimeStamp.GetValueOrDefault()).Select(d => (LayoutDocumentItem)_manager.GetLayoutItemFromModel(d)).ToArray());
 
             if (Documents.Length > 1)

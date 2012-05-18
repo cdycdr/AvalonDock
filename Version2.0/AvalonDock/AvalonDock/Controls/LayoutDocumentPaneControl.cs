@@ -61,6 +61,12 @@ namespace AvalonDock.Controls
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
+            System.Diagnostics.Debug.WriteLine("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus);
+            if (!e.Handled && e.NewFocus is TabItem)
+            {
+                FocusElementManager.SetFocusOnLastElement(_model.SelectedContent);
+                e.Handled = true;
+            }
         }
 
         List<object> _logicalChildren = new List<object>();
