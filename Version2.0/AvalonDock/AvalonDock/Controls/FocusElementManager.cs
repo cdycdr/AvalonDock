@@ -84,7 +84,10 @@ namespace AvalonDock.Controls
             {
                 var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
                 if (elementToSetFocus != null)
+                {
                     SetFocusOnLastElement(elementToSetFocus);
+                    _lastFocusedElement = null;
+                }
             }
         }
 
