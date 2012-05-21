@@ -219,7 +219,7 @@ namespace AvalonDock.Layout
             if (root != null && root.Manager != null)
             {
                 if (root.Manager.LayoutUpdateStrategy != null)
-                    added = root.Manager.LayoutUpdateStrategy.BeforeInsertAnchorable(this, PreviousContainer);
+                    added = root.Manager.LayoutUpdateStrategy.BeforeInsertAnchorable(root as LayoutRoot, this, PreviousContainer);
             }
 
             if (!added && PreviousContainer != null)
@@ -236,7 +236,7 @@ namespace AvalonDock.Layout
             if (!added && root != null && root.Manager != null)
             {
                 if (root.Manager.LayoutUpdateStrategy != null)
-                    root.Manager.LayoutUpdateStrategy.InsertAnchorable(this, PreviousContainer);
+                    root.Manager.LayoutUpdateStrategy.InsertAnchorable(root as LayoutRoot, this, PreviousContainer);
             }
 
 

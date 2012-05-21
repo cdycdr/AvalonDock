@@ -179,11 +179,14 @@ namespace AvalonDock.Controls
 
         protected override void OnClosed(EventArgs e)
         {
-            var host = Content as FloatingWindowContentHost;
-            host.Dispose();
+            if (Content != null)
+            {
+                var host = Content as FloatingWindowContentHost;
+                host.Dispose();
 
-            _hwndSrc.RemoveHook(_hwndSrcHook);
-            _hwndSrc.Dispose();
+                _hwndSrc.RemoveHook(_hwndSrcHook);
+                _hwndSrc.Dispose();
+            }
 
             base.OnClosed(e);
         }

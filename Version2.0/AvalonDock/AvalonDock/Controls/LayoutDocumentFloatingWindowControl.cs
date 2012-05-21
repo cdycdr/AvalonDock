@@ -61,14 +61,18 @@ namespace AvalonDock.Controls
         {
             base.OnInitialized(e);
 
-            var manager = _model.Root.Manager;
+            if (_model.RootDocument == null)
+            {
+                InternalClose();
+            }
+            else
+            {
+                var manager = _model.Root.Manager;
 
-            Content = manager.CreateUIElementForModel(_model.RootDocument);
+                Content = manager.CreateUIElementForModel(_model.RootDocument);
 
-            //ContextMenu = _model.Root.Manager.DocumentContextMenu;
-            //ContextMenu.DataContext = RootDocumentLayoutItem;
-
-            _model.RootDocumentChanged += new EventHandler(_model_RootDocumentChanged);
+                _model.RootDocumentChanged += new EventHandler(_model_RootDocumentChanged);
+            }
         }
 
         void _model_RootDocumentChanged(object sender, EventArgs e)
@@ -86,7 +90,8 @@ namespace AvalonDock.Controls
                 case Win32Helper.WM_NCLBUTTONDOWN: //Left button down on title -> start dragging over docking manager
                     if (wParam.ToInt32() == Win32Helper.HT_CAPTION)
                     {
-                        _model.RootDocument.IsActive = true;
+                        if (_model.RootDocument != null)
+                            _model.RootDocument.IsActive = true;
                     }
                     break;
                 case Win32Helper.WM_NCRBUTTONDOWN:

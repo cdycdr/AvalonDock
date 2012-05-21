@@ -30,7 +30,7 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    internal abstract class DropTarget<T> : IDropTarget where T : FrameworkElement
+    internal abstract class DropTarget<T> : DropTargetBase, IDropTarget where T : FrameworkElement
     {
         protected DropTarget(T targetElement, Rect detectionRect, DropTargetType type)
         {
@@ -94,5 +94,17 @@ namespace AvalonDock.Controls
         }
 
         public abstract Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindow);
+
+
+
+        public void DragEnter()
+        {
+            SetIsDraggingOver(TargetElement, true);
+        }
+
+        public void DragLeave()
+        {
+            SetIsDraggingOver(TargetElement, false);
+        }
     }
 }

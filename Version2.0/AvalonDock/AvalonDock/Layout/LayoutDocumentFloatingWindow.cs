@@ -86,6 +86,11 @@ namespace AvalonDock.Layout
         {
             get { return 1; }
         }
+
+        public override bool IsValid
+        {
+            get { return RootDocument != null; }
+        }
     }
 
 }

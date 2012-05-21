@@ -162,5 +162,10 @@ namespace AvalonDock.Layout
             else
                 IsVisible = false;
         }
+
+        public override bool IsValid
+        {
+            get { return RootPanel != null; }
+        }
     }
 }

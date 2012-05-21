@@ -22,7 +22,7 @@ namespace AvalonDock.MVVMTestApp
 
         #region IsVisible
 
-        private bool _isVisible = false;
+        private bool _isVisible = true;
         public bool IsVisible
         {
             get { return _isVisible; }

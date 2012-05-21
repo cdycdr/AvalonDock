@@ -48,5 +48,7 @@ namespace AvalonDock.Layout
         public abstract void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement);
 
         public abstract int ChildrenCount { get; }
+
+        public abstract bool IsValid { get; }
     }
 }

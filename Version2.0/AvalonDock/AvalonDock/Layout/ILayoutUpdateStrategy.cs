@@ -30,11 +30,13 @@ namespace AvalonDock.Layout
     public interface ILayoutUpdateStrategy
     {
         bool BeforeInsertAnchorable(
+            LayoutRoot layout,
             LayoutAnchorable anchorableToShow,
             ILayoutContainer destinationContainer);
 
         bool InsertAnchorable(
-                    LayoutAnchorable anchorableToShow,
-                    ILayoutContainer destinationContainer);
+            LayoutRoot layout,
+            LayoutAnchorable anchorableToShow,
+            ILayoutContainer destinationContainer);
     }
 }

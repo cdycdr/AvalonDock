@@ -170,10 +170,32 @@ namespace AvalonDock.Layout
             }
         }
 
+        #region Name
+
+        private string _name = null;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    RaisePropertyChanged("Name");
+                }
+            }
+        }
+
+        #endregion
+
+
+
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             if (_id != null)
                 writer.WriteAttributeString("Id", _id);
+            if (_name != null)
+                writer.WriteAttributeString("Name", _name);
 
             base.WriteXml(writer);
         }
@@ -182,6 +204,9 @@ namespace AvalonDock.Layout
         {
             if (reader.MoveToAttribute("Id"))
                 _id = reader.Value;
+            if (reader.MoveToAttribute("Name"))
+                _name = reader.Value;
+
             _autoFixSelectedContent = false;
             base.ReadXml(reader);
             _autoFixSelectedContent = true;

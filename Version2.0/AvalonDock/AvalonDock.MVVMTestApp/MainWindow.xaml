@@ -82,11 +82,14 @@
                     </local:PanesStyleSelector.FileStyle>
                 </local:PanesStyleSelector>
             </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+            <avalonDock:DockingManager.LayoutUpdateStrategy>
+                <local:LayoutInitializer/>
+            </avalonDock:DockingManager.LayoutUpdateStrategy>
             
             <avalonDock:LayoutRoot>
-                <avalonDock:LayoutPanel>
+                <avalonDock:LayoutPanel Orientation="Vertical">
                     <avalonDock:LayoutDocumentPane/>
-                    <avalonDock:LayoutAnchorablePane DockWidth="150">
+                    <avalonDock:LayoutAnchorablePane Name="ToolsPane" DockWidth="150">
                     </avalonDock:LayoutAnchorablePane>
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>

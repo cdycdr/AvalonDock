@@ -25,23 +25,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Media;
-using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    internal interface IDropTarget
+    abstract class DropTargetBase : DependencyObject
     {
-        Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindow);
+        #region IsDraggingOver
 
-        bool HitTest(Point dragPoint);
+        /// <summary>
+        /// IsDraggingOver Attached Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IsDraggingOverProperty =
+            DependencyProperty.RegisterAttached("IsDraggingOver", typeof(bool), typeof(DropTargetBase),
+                new FrameworkPropertyMetadata((bool)false));
 
-        DropTargetType Type { get; }
+        /// <summary>
+        /// Gets the IsDraggingOver property.  This dependency property 
+        /// indicates if user is dragging a window over the target element.
+        /// </summary>
+        public static bool GetIsDraggingOver(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsDraggingOverProperty);
+        }
 
-        void Drop(LayoutFloatingWindow floatingWindow);
+        /// <summary>
+        /// Sets the IsDraggingOver property.  This dependency property 
+        /// indicates if user is dragging away a window from the target element.
+        /// </summary>
+        public static void SetIsDraggingOver(DependencyObject d, bool value)
+        {
+            d.SetValue(IsDraggingOverProperty, value);
+        }
 
-        void DragEnter();
-
-        void DragLeave();
+        #endregion
     }
 }

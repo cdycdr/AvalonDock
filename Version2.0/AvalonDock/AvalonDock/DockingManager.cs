@@ -129,8 +129,11 @@ namespace AvalonDock
                 RightSidePanel = CreateUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
                 BottomSidePanel = CreateUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
 
-                foreach (var fw in Layout.FloatingWindows)
-                    _fwList.Add(CreateUIElementForModel(fw) as LayoutFloatingWindowControl);
+                foreach (var fw in Layout.FloatingWindows.ToArray())
+                {
+                    if (fw.IsValid)
+                       _fwList.Add(CreateUIElementForModel(fw) as LayoutFloatingWindowControl);
+                }
 
                 foreach (var fw in _fwList)
                     fw.Owner = Window.GetWindow(this);
@@ -2033,7 +2036,7 @@ namespace AvalonDock
                     bool added = false;
                     if (LayoutUpdateStrategy != null)
                     {
-                        added = LayoutUpdateStrategy.BeforeInsertAnchorable(anchorableToImport, anchorablePane);
+                        added = LayoutUpdateStrategy.BeforeInsertAnchorable(layout, anchorableToImport, anchorablePane);
                     }
 
                     if (!added && anchorablePane != null)
@@ -2044,7 +2047,7 @@ namespace AvalonDock
 
                     if (!added && LayoutUpdateStrategy != null)
                     {
-                        added = LayoutUpdateStrategy.InsertAnchorable(anchorableToImport, anchorablePane);
+                        added = LayoutUpdateStrategy.InsertAnchorable(layout, anchorableToImport, anchorablePane);
                     }
 
                     if (added)
@@ -2126,7 +2129,7 @@ namespace AvalonDock
                         bool added = false;
                         if (LayoutUpdateStrategy != null)
                         {
-                            added = LayoutUpdateStrategy.BeforeInsertAnchorable(anchorableToImport, anchorablePane);
+                            added = LayoutUpdateStrategy.BeforeInsertAnchorable(Layout, anchorableToImport, anchorablePane);
                         }
 
                         if (!added && anchorablePane != null)
@@ -2137,10 +2140,12 @@ namespace AvalonDock
 
                         if (!added && LayoutUpdateStrategy != null)
                         {
-                            added = LayoutUpdateStrategy.InsertAnchorable(anchorableToImport, anchorablePane);
+                            added = LayoutUpdateStrategy.InsertAnchorable(Layout, anchorableToImport, anchorablePane);
                         }
 
-                        if (added)
+                        var root = anchorableToImport.Root;
+
+                        if (added && root != null && root.Manager == this)
                         {
                             var anchorableItem = new LayoutAnchorableItem(anchorableToImport);
                             ApplyStyleToLayoutItem(anchorableItem);
