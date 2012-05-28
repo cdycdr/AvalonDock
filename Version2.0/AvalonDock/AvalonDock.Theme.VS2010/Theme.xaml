@@ -222,8 +222,9 @@
     <Style x:Key="AnchorablePaneControlStyle" TargetType="{x:Type avalonDockControls:LayoutAnchorablePaneControl}">
         <Setter Property="TabStripPlacement" Value="Bottom"/>
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="Background" Value="{x:Null}"/>
-        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{Binding Model.Root.Manager.Foreground, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Background" Value="{Binding Model.Root.Manager.Background, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorablePaneControl}">
@@ -238,7 +239,8 @@
                                 Background="{TemplateBinding Background}" 
                                 Grid.Column="0" 
                                 KeyboardNavigation.DirectionalNavigation="Contained"
-                                Grid.Row="0" KeyboardNavigation.TabIndex="2" 
+                                Grid.Row="0" 
+                                KeyboardNavigation.TabIndex="2" 
                                 KeyboardNavigation.TabNavigation="Cycle">
                             <ContentPresenter x:Name="PART_SelectedContentHost"
                                               ContentSource="SelectedContent" 
@@ -251,6 +253,9 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                         </Trigger>
+                        <DataTrigger Binding="{Binding Items.Count, RelativeSource={RelativeSource Self}}" Value="1">
+                            <Setter Property="Margin" Value="0" TargetName="HeaderPanel"/>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -348,7 +353,7 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="3,3,0,0">
+                            CornerRadius="2,2,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -360,7 +365,9 @@
                                 DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                 DropDownContextMenuDataContext="{Binding Path=LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ContentPresenter 
+                                    x:Name="Header"            
                                     Margin="2,0,0,0"
+                                    TextElement.Foreground="{DynamicResource AvalonDock_ThemeVS2010_BaseColor2}"
                                     Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
                                     ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
                                     ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
@@ -400,6 +407,12 @@
                                     <RotateTransform Angle="90"/>
                                 </Setter.Value>
                             </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.IsActive}" Value="True">
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Model.IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor15}" />
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}" TargetName="Header"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Model.IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
                             <Setter Property="Source" TargetName="PART_ImgAutoHidePin" Value="/AvalonDock.Themes.VS2010;component/Images/PinAutoHide_Dark.png"/>
@@ -660,7 +673,6 @@
     <!--DockingManager-->
     <Style x:Key="{x:Type avalonDock:DockingManager}" TargetType="{x:Type avalonDock:DockingManager}">
         <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor1}"/>
-        <Setter Property="Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor2}"/>
         <Setter Property="DocumentPaneControlStyle" Value="{StaticResource DocumentPaneControlStyle}"/>
         <Setter Property="AnchorablePaneControlStyle" Value="{StaticResource AnchorablePaneControlStyle}"/>
         <Setter Property="AnchorSideTemplate" Value="{StaticResource AnchorSideTemplate}"/>
@@ -811,7 +823,6 @@
     </Style>
 
     <Style TargetType="{x:Type avalonDockControls:LayoutAnchorableControl}">
-        <Setter Property="Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor2}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorableControl}">
@@ -819,18 +830,17 @@
                         x:Name="Bd"
                         Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="3,3,0,0">
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Border x:Name="Header"
+                                    CornerRadius="2,2,0,0"
                                 Background="{DynamicResource AvalonDock_ThemeVS2010_BaseColor16}">
                                 <avalonDockControls:AnchorablePaneTitle 
-                                    Model="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Foreground="{TemplateBinding Foreground}"/>
+                                    Model="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Border>
                             <ContentPresenter 
                                 Content="{Binding Model.Content, RelativeSource={RelativeSource TemplatedParent}}" 
@@ -840,10 +850,6 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.IsActive}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor15}" TargetName="Header"/>
-                            <Setter Property="Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}"/>
-                        </DataTrigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.IsDirectlyHostedInFloatingWindow}" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Header"/>
                         </DataTrigger>
@@ -938,12 +944,11 @@
 									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor31}" />
                             <Setter Property="Background"
 									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor25}" TargetName="Header" />
-                            <Setter Property="Foreground"
-									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}"/>
+                            <Setter Property="TextElement.Foreground"
+									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}"  TargetName="Header"/>
                             <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Dark.png"/>
-
                         </MultiDataTrigger>
 
                         <MultiDataTrigger>
@@ -957,8 +962,8 @@
 									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor30}" />
                             <Setter Property="Background"
 									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor24}" TargetName="Header" />
-                            <Setter Property="Foreground"
-									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}"/>
+                            <Setter Property="TextElement.Foreground"
+									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}" TargetName="Header"/>
                             <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Dark.png"/>
@@ -972,14 +977,13 @@
     </Style>
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
-        <Setter Property="Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor2}"/>
-        <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor1}"/>
+        <!--<Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor1}"/>-->
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
                     ResizeBorderThickness="3"
                     CaptionHeight="18"
-                    CornerRadius="3"
+                    CornerRadius="6"
                     GlassFrameThickness="0"/>
             </Setter.Value>
         </Setter>
@@ -988,16 +992,16 @@
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
                     <Grid>
                         <Border x:Name="WindowBorder" 
-                                BorderThickness="3"
+                                BorderThickness="4"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{DynamicResource AvalonDock_ThemeVS2010_BaseColor16}">
-                            <Grid Margin="3">
+                            <Grid >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="18"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Border x:Name="Header" 
-                                        CornerRadius="3,3,0,0"
+                                        CornerRadius="2,2,0,0"
                                         Padding="2,0,2,0"
                                         Background="{DynamicResource AvalonDock_ThemeVS2010_BaseColor16}">
                                     <Grid>
@@ -1013,7 +1017,8 @@
                                             <avalonDockControls:DropDownControlArea 
                                                 DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                                 DropDownContextMenuDataContext="{Binding Path=SingleContentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
-                                                    <ContentPresenter Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                    <ContentPresenter
+                                                      Content="{Binding Model.SinglePane.SelectedContent, RelativeSource={RelativeSource TemplatedParent}}" 
                                                       ContentTemplate="{Binding Model.Root.Manager.AnchorableTitleTemplate, RelativeSource={RelativeSource TemplatedParent}}"
                                                       ContentTemplateSelector="{Binding Model.Root.Manager.AnchorableTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </avalonDockControls:DropDownControlArea>
@@ -1071,7 +1076,7 @@
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SinglePane.SelectedContent.IsActive}" Value="True">
                             <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor15}" TargetName="Header"/>
-                            <Setter Property="Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}" TargetName="Header"/>
                             <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Dark.png"/>
@@ -1084,7 +1089,7 @@
     </Style>
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAutoHideWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAutoHideWindowControl}">
-        <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor1}"/>
+        <Setter Property="Background" Value="{Binding Model.Root.Manager.Background, RelativeSource={RelativeSource Self}}"/>
     </Style>
 
     <Style x:Key="{x:Type avalonDockControls:NavigatorWindow}" TargetType="{x:Type avalonDockControls:NavigatorWindow}">

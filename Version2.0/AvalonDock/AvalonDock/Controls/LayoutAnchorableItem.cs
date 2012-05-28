@@ -35,24 +35,28 @@ namespace AvalonDock.Controls
     public class LayoutAnchorableItem : LayoutItem
     {
         LayoutAnchorable _anchorable;
-        internal LayoutAnchorableItem(LayoutAnchorable anchorable)
-            : base(anchorable)
+        internal LayoutAnchorableItem()
         {
 
+        }
+
+        internal override void Attach(LayoutContent model)
+        {
+            _anchorable = model as LayoutAnchorable;
+            _anchorable.IsVisibleChanged += new EventHandler(_anchorable_IsVisibleChanged);
+            base.Attach(model);
+        }
+
+        internal override void Detach()
+        {
+            _anchorable.IsVisibleChanged -= new EventHandler(_anchorable_IsVisibleChanged);
+            base.Detach();
         }
 
         protected override void Close()
         {
             var dockingManager = _anchorable.Root.Manager;
             dockingManager._ExecuteCloseCommand(_anchorable);
-        }
-
-        protected override void SetupInitialPropertyValues()
-        {
-            _anchorable = LayoutElement as LayoutAnchorable;
-            _anchorable.IsVisibleChanged += new EventHandler(_anchorable_IsVisibleChanged);
-
-            base.SetupInitialPropertyValues();
         }
 
         ICommand _defaultHideCommand;
@@ -140,7 +144,7 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteHideCommand(object parameter)
         {
-            return true;
+            return _anchorable.CanHide;
         }
 
         private void ExecuteHideCommand(object parameter)

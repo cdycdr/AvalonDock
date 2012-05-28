@@ -86,12 +86,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
-      <Project>{DB81988F-E0F2-45A0-A1FD-8C37F3D35244}</Project>
-      <Name>AvalonDock</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\DockAnchorableBottom.png" />
     <Resource Include="Images\DockAnchorableLeft.png" />
     <Resource Include="Images\DockAnchorableRight.png" />
@@ -133,6 +127,12 @@
   <ItemGroup>
     <Resource Include="Images\PinMaximize_Dark.png" />
     <Resource Include="Images\PinRestore_Dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
+      <Project>{DB81988F-E0F2-45A0-A1FD-8C37F3D35244}</Project>
+      <Name>AvalonDock</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

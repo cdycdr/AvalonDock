@@ -106,6 +106,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\address-book--pencil.png" />
+    <Resource Include="Images\address-book-open.png" />
+    <Resource Include="Images\alarm-clock-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\AvalonDock.Theme.VS2010\AvalonDock.Themes.VS2010.csproj">
       <Project>{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}</Project>
       <Name>AvalonDock.Themes.VS2010</Name>
@@ -114,11 +119,6 @@
       <Project>{DB81988F-E0F2-45A0-A1FD-8C37F3D35244}</Project>
       <Name>AvalonDock</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\address-book--pencil.png" />
-    <Resource Include="Images\address-book-open.png" />
-    <Resource Include="Images\alarm-clock-blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
