@@ -312,5 +312,44 @@ namespace AvalonDock.Controls
 
         #endregion
 
+        #region CanHide
+
+        /// <summary>
+        /// CanHide Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty CanHideProperty =
+            DependencyProperty.Register("CanHide", typeof(bool), typeof(LayoutAnchorableItem),
+                new FrameworkPropertyMetadata((bool)true,
+                    new PropertyChangedCallback(OnCanHideChanged)));
+
+        /// <summary>
+        /// Gets or sets the CanHide property.  This dependency property 
+        /// indicates if user can hide the anchorable item.
+        /// </summary>
+        public bool CanHide
+        {
+            get { return (bool)GetValue(CanHideProperty); }
+            set { SetValue(CanHideProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the CanHide property.
+        /// </summary>
+        private static void OnCanHideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableItem)d).OnCanHideChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the CanHide property.
+        /// </summary>
+        protected virtual void OnCanHideChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _anchorable.CanHide = (bool)e.NewValue;
+        }
+
+        #endregion
+
+
     }
 }

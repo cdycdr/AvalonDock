@@ -394,7 +394,8 @@
                                 Grid.Column="3" 
                                 Focusable="False"
                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" >
+                                Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" 
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Image x:Name="PART_ImgHidePin" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
                             </Button>
 
@@ -656,12 +657,14 @@
         <MenuItem Header="Auto Hide" 
                 Command="{Binding Path=AutoHideCommand}"/>
         <MenuItem Header="Close" 
-                Command="{Binding Path=CloseCommand}"/>
+                Command="{Binding Path=CloseCommand}"
+                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </ContextMenu>
 
     <ContextMenu x:Key="DocumentContextMenu">
         <MenuItem Header="Close" 
-                Command="{Binding Path=CloseCommand}"/>
+                  Command="{Binding Path=CloseCommand}"
+                  Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <MenuItem Header="Close All But This" 
                 Command="{Binding Path=CloseAllButThisCommand}"/>
         <MenuItem Header="Float" 
@@ -790,6 +793,9 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="DocumentCloseButton"  />
                         </Trigger>
+                        <DataTrigger Binding="{Binding Path=CanClose}" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="DocumentCloseButton"  />
+                        </DataTrigger>                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -869,7 +875,8 @@
                     ResizeBorderThickness="3"
                     CaptionHeight="18"
                     CornerRadius="3"
-                    GlassFrameThickness="0"/>
+                    GlassFrameThickness="0"
+                    ShowSystemMenu="False"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -922,6 +929,7 @@
                                         <Button shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                                 Focusable="False"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Command="{Binding Path=RootDocumentLayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                 Grid.Column="3">
                                             <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
@@ -983,7 +991,7 @@
                 <shell:WindowChrome
                     ResizeBorderThickness="3"
                     CaptionHeight="18"
-                    CornerRadius="6"
+                    CornerRadius="7"
                     GlassFrameThickness="0"/>
             </Setter.Value>
         </Setter>
@@ -1001,7 +1009,7 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Border x:Name="Header" 
-                                        CornerRadius="2,2,0,0"
+                                        CornerRadius="1,1,0,0"
                                         Padding="2,0,2,0"
                                         Background="{DynamicResource AvalonDock_ThemeVS2010_BaseColor16}">
                                     <Grid>
@@ -1062,6 +1070,7 @@
                                             shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                             Focusable="False"
                                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                             Grid.Column="3">
                                             <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>

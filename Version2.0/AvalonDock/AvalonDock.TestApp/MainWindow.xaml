@@ -38,19 +38,19 @@
         </Menu>
         
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" >
-            <!--<avalonDock:DockingManager.Theme>
+            <avalonDock:DockingManager.Theme>
                 <avalonDock:VS2010Theme/>
-            </avalonDock:DockingManager.Theme>-->
+            </avalonDock:DockingManager.Theme>
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="100">
-                        <avalonDock:LayoutAnchorable x:Name="winFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool">
+                        <avalonDock:LayoutAnchorable x:Name="winFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" >
                             <winformsIntegration:WindowsFormsHost x:Name="winFormsHost"/>
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                     <avalonDock:LayoutDocumentPaneGroup>
                         <avalonDock:LayoutDocumentPane x:Name="layoutPanel">
-                            <avalonDock:LayoutDocument Title="Document 1" IconSource="/AvalonDock.TestApp;component/Images/alarm-clock-blue.png">
+                            <avalonDock:LayoutDocument Title="Document 1" IconSource="/AvalonDock.TestApp;component/Images/alarm-clock-blue.png" CanClose="False">
                                 <StackPanel>
                                     <TextBox Text="Document 1 Content"/>
                                     <Button Content="Click to add 2 documents" Click="AddTwoDocuments_click"/>

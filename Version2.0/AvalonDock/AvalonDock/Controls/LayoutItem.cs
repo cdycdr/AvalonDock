@@ -388,6 +388,44 @@ namespace AvalonDock.Controls
 
         #endregion
 
+        #region CanClose
+
+        /// <summary>
+        /// CanClose Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty CanCloseProperty =
+            DependencyProperty.Register("CanClose", typeof(bool), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((bool)true,
+                    new PropertyChangedCallback(OnCanCloseChanged)));
+
+        /// <summary>
+        /// Gets or sets the CanClose property.  This dependency property 
+        /// indicates if the item can be closed.
+        /// </summary>
+        public bool CanClose
+        {
+            get { return (bool)GetValue(CanCloseProperty); }
+            set { SetValue(CanCloseProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the CanClose property.
+        /// </summary>
+        private static void OnCanCloseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnCanCloseChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the CanClose property.
+        /// </summary>
+        protected virtual void OnCanCloseChanged(DependencyPropertyChangedEventArgs e)
+        {
+            LayoutElement.CanClose = (bool)e.NewValue;
+        }
+
+        #endregion
+
 
  
         #region CloseCommand
