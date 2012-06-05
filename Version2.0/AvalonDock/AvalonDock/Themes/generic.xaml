@@ -390,6 +390,18 @@
                 Command="{Binding Path=FloatCommand}"/>
         <MenuItem Header="Dock as Tabbed Document" 
                 Command="{Binding Path=DockAsDocumentCommand}"/>
+        <MenuItem Header="New Horizontal Tab Group" 
+                Command="{Binding Path=NewHorizontalTabGroupCommand}"
+                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <MenuItem Header="New Vertical Tab Group" 
+                Command="{Binding Path=NewVerticalTabGroupCommand}"
+                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <MenuItem Header="Move To Next Tab Group" 
+                Command="{Binding Path=MoveToNextTabGroupCommand}"
+                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <MenuItem Header="Move To Previous Tab Group" 
+                Command="{Binding Path=MoveToPreviousTabGroupCommand}"
+                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </ContextMenu>
 
     <!--DockingManager-->

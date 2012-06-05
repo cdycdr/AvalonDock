@@ -55,7 +55,9 @@ namespace AvalonDock.Controls
 
             InitDefaultCommands();
 
+            IsSelected = LayoutElement.IsSelected;
             LayoutElement.IsSelectedChanged+=new EventHandler(LayoutElement_IsSelectedChanged);
+            IsActive = LayoutElement.IsActive;
             LayoutElement.IsActiveChanged+=new EventHandler(LayoutElement_IsActiveChanged);
         }
 
@@ -104,6 +106,10 @@ namespace AvalonDock.Controls
         ICommand _defaultDockAsDocumentCommand;
         ICommand _defaultCloseAllButThisCommand;
         ICommand _defaultActivateCommand;
+        ICommand _defaultNewVerticalTabGroupCommand;
+        ICommand _defaultNewHorizontalTabGroupCommand;
+        ICommand _defaultMoveToNextTabGroupCommand;
+        ICommand _defaultMoveToPreviousTabGroupCommand;
 
         protected virtual void InitDefaultCommands()
         {
@@ -112,7 +118,10 @@ namespace AvalonDock.Controls
             _defaultDockAsDocumentCommand = new RelayCommand((p) => ExecuteDockAsDocumentCommand(p), (p) => CanExecuteDockAsDocumentCommand(p));
             _defaultCloseAllButThisCommand = new RelayCommand((p) => ExecuteCloseAllButThisCommand(p), (p) => CanExecuteCloseAllButThisCommand(p));
             _defaultActivateCommand = new RelayCommand((p) => ExecuteActivateCommand(p), (p) => CanExecuteActivateCommand(p));
-
+            _defaultNewVerticalTabGroupCommand = new RelayCommand((p) => ExecuteNewVerticalTabGroupCommand(p), (p) => CanExecuteNewVerticalTabGroupCommand(p));
+            _defaultNewHorizontalTabGroupCommand = new RelayCommand((p) => ExecuteNewHorizontalTabGroupCommand(p), (p) => CanExecuteNewHorizontalTabGroupCommand(p));
+            _defaultMoveToNextTabGroupCommand = new RelayCommand((p) => ExecuteMoveToNextTabGroupCommand(p), (p) => CanExecuteMoveToNextTabGroupCommand(p));
+            _defaultMoveToPreviousTabGroupCommand = new RelayCommand((p) => ExecuteMoveToPreviousTabGroupCommand(p), (p) => CanExecuteMoveToPreviousTabGroupCommand(p));
         }
 
         protected virtual void ClearDefaultCommandBindings()
@@ -127,6 +136,14 @@ namespace AvalonDock.Controls
                 BindingOperations.ClearBinding(this, CloseAllButThisCommandProperty);
             if (ActivateCommand == _defaultActivateCommand)
                 BindingOperations.ClearBinding(this, ActivateCommandProperty);
+            if (NewVerticalTabGroupCommand == _defaultNewVerticalTabGroupCommand)
+                BindingOperations.ClearBinding(this, NewVerticalTabGroupCommandProperty);
+            if (NewHorizontalTabGroupCommand == _defaultNewHorizontalTabGroupCommand)
+                BindingOperations.ClearBinding(this, NewHorizontalTabGroupCommandProperty);
+            if (MoveToNextTabGroupCommand == _defaultMoveToNextTabGroupCommand)
+                BindingOperations.ClearBinding(this, MoveToNextTabGroupCommandProperty);
+            if (MoveToPreviousTabGroupCommand == _defaultMoveToPreviousTabGroupCommand)
+                BindingOperations.ClearBinding(this, MoveToPreviousTabGroupCommandProperty);
         }
 
         protected virtual void SetDefaultCommandBindings()
@@ -141,6 +158,14 @@ namespace AvalonDock.Controls
                 CloseAllButThisCommand = _defaultCloseAllButThisCommand;
             if (ActivateCommand == null)
                 ActivateCommand = _defaultActivateCommand;
+            if (NewVerticalTabGroupCommand == null)
+                NewVerticalTabGroupCommand = _defaultNewVerticalTabGroupCommand;
+            if (NewHorizontalTabGroupCommand == null)
+                NewHorizontalTabGroupCommand = _defaultNewHorizontalTabGroupCommand;
+            if (MoveToNextTabGroupCommand == null)
+                MoveToNextTabGroupCommand = _defaultMoveToNextTabGroupCommand;
+            if (MoveToPreviousTabGroupCommand == null)
+                MoveToPreviousTabGroupCommand = _defaultMoveToPreviousTabGroupCommand;
         }
 
 
@@ -721,5 +746,254 @@ namespace AvalonDock.Controls
         }
 
         #endregion
+
+        #region NewVerticalTabGroupCommand
+
+        /// <summary>
+        /// NewVerticalTabGroupCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty NewVerticalTabGroupCommandProperty =
+            DependencyProperty.Register("NewVerticalTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((ICommand)null,
+                    new PropertyChangedCallback(OnNewVerticalTabGroupCommandChanged)));
+
+        /// <summary>
+        /// Gets or sets the NewVerticalTabGroupCommand property.  This dependency property 
+        /// indicates the new vertical tab group command.
+        /// </summary>
+        public ICommand NewVerticalTabGroupCommand
+        {
+            get { return (ICommand)GetValue(NewVerticalTabGroupCommandProperty); }
+            set { SetValue(NewVerticalTabGroupCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the NewVerticalTabGroupCommand property.
+        /// </summary>
+        private static void OnNewVerticalTabGroupCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnNewVerticalTabGroupCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the NewVerticalTabGroupCommand property.
+        /// </summary>
+        protected virtual void OnNewVerticalTabGroupCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private bool CanExecuteNewVerticalTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            return ((parentDocumentGroup == null ||
+                parentDocumentGroup.ChildrenCount == 1 ||
+                parentDocumentGroup.Orientation == System.Windows.Controls.Orientation.Horizontal) &&
+                parentDocumentPane != null &&
+                parentDocumentPane.ChildrenCount > 1);
+        }
+
+        private void ExecuteNewVerticalTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+
+            if (parentDocumentGroup == null)
+            {
+                var grandParent = parentDocumentPane.Parent as ILayoutContainer;
+                parentDocumentGroup = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
+                grandParent.ReplaceChild(parentDocumentPane, parentDocumentGroup);
+                parentDocumentGroup.Children.Add(parentDocumentPane);
+            }
+            parentDocumentGroup.Orientation = System.Windows.Controls.Orientation.Horizontal; 
+            int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+            parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(LayoutElement));
+            LayoutElement.IsActive = true;
+            LayoutElement.Root.CollectGarbage();
+        }
+        #endregion
+
+        #region NewHorizontalTabGroupCommand
+
+        /// <summary>
+        /// NewHorizontalTabGroupCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty NewHorizontalTabGroupCommandProperty =
+            DependencyProperty.Register("NewHorizontalTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((ICommand)null,
+                    new PropertyChangedCallback(OnNewHorizontalTabGroupCommandChanged)));
+
+        /// <summary>
+        /// Gets or sets the NewHorizontalTabGroupCommand property.  This dependency property 
+        /// indicates the new horizontal tab group command.
+        /// </summary>
+        public ICommand NewHorizontalTabGroupCommand
+        {
+            get { return (ICommand)GetValue(NewHorizontalTabGroupCommandProperty); }
+            set { SetValue(NewHorizontalTabGroupCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the NewHorizontalTabGroupCommand property.
+        /// </summary>
+        private static void OnNewHorizontalTabGroupCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnNewHorizontalTabGroupCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the NewHorizontalTabGroupCommand property.
+        /// </summary>
+        protected virtual void OnNewHorizontalTabGroupCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+
+        private bool CanExecuteNewHorizontalTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            return ((parentDocumentGroup == null ||
+                parentDocumentGroup.ChildrenCount == 1 ||
+                parentDocumentGroup.Orientation == System.Windows.Controls.Orientation.Vertical) &&
+                parentDocumentPane != null &&
+                parentDocumentPane.ChildrenCount > 1);
+        }
+
+        private void ExecuteNewHorizontalTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+
+            if (parentDocumentGroup == null)
+            {
+                var grandParent = parentDocumentPane.Parent as ILayoutContainer;
+                parentDocumentGroup = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Vertical };
+                grandParent.ReplaceChild(parentDocumentPane, parentDocumentGroup);
+                parentDocumentGroup.Children.Add(parentDocumentPane);
+            }
+            parentDocumentGroup.Orientation = System.Windows.Controls.Orientation.Vertical;
+            int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+            parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(LayoutElement));
+            LayoutElement.IsActive = true;
+            LayoutElement.Root.CollectGarbage();
+        }       
+        #endregion
+
+        #region MoveToNextTabGroupCommand
+
+        /// <summary>
+        /// MoveToNextTabGroupCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty MoveToNextTabGroupCommandProperty =
+            DependencyProperty.Register("MoveToNextTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((ICommand)null,
+                    new PropertyChangedCallback(OnMoveToNextTabGroupCommandChanged)));
+
+        /// <summary>
+        /// Gets or sets the MoveToNextTabGroupCommand property.  This dependency property 
+        /// indicates move to next tab group command.
+        /// </summary>
+        public ICommand MoveToNextTabGroupCommand
+        {
+            get { return (ICommand)GetValue(MoveToNextTabGroupCommandProperty); }
+            set { SetValue(MoveToNextTabGroupCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the MoveToNextTabGroupCommand property.
+        /// </summary>
+        private static void OnMoveToNextTabGroupCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnMoveToNextTabGroupCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the MoveToNextTabGroupCommand property.
+        /// </summary>
+        protected virtual void OnMoveToNextTabGroupCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private bool CanExecuteMoveToNextTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            return (parentDocumentGroup != null &&
+                parentDocumentPane != null &&
+                parentDocumentGroup.ChildrenCount > 1 &&
+                parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1);
+        }
+
+        private void ExecuteMoveToNextTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+            var nextDocumentPane = parentDocumentGroup.Children[indexOfParentPane + 1] as LayoutDocumentPane;
+            nextDocumentPane.InsertChildAt(0, LayoutElement);
+            LayoutElement.IsActive = true;
+            LayoutElement.Root.CollectGarbage();
+        }
+
+        #endregion
+
+        #region MoveToPreviousTabGroupCommand
+
+        /// <summary>
+        /// MoveToPreviousTabGroupCommand Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty MoveToPreviousTabGroupCommandProperty =
+            DependencyProperty.Register("MoveToPreviousTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((ICommand)null,
+                    new PropertyChangedCallback(OnMoveToPreviousTabGroupCommandChanged)));
+
+        /// <summary>
+        /// Gets or sets the MoveToPreviousTabGroupCommand property.  This dependency property 
+        /// indicates move to rpevious tab group command.
+        /// </summary>
+        public ICommand MoveToPreviousTabGroupCommand
+        {
+            get { return (ICommand)GetValue(MoveToPreviousTabGroupCommandProperty); }
+            set { SetValue(MoveToPreviousTabGroupCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the MoveToPreviousTabGroupCommand property.
+        /// </summary>
+        private static void OnMoveToPreviousTabGroupCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnMoveToPreviousTabGroupCommandChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the MoveToPreviousTabGroupCommand property.
+        /// </summary>
+        protected virtual void OnMoveToPreviousTabGroupCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private bool CanExecuteMoveToPreviousTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            return (parentDocumentGroup != null &&
+                parentDocumentPane != null &&
+                parentDocumentGroup.ChildrenCount > 1 &&
+                parentDocumentGroup.IndexOfChild(parentDocumentPane) > 0);
+        }
+
+        private void ExecuteMoveToPreviousTabGroupCommand(object parameter)
+        {
+            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+            var nextDocumentPane = parentDocumentGroup.Children[indexOfParentPane - 1] as LayoutDocumentPane;
+            nextDocumentPane.InsertChildAt(0, LayoutElement);
+            LayoutElement.IsActive = true;
+            LayoutElement.Root.CollectGarbage();
+        }
+        #endregion
+       
     }
 }
