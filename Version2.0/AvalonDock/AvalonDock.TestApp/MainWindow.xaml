@@ -44,29 +44,29 @@
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="100">
-                        <avalonDock:LayoutAnchorable x:Name="winFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" >
+                        <avalonDock:LayoutAnchorable x:Name="winFormsWindow" ContentId="tool1" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" >
                             <winformsIntegration:WindowsFormsHost x:Name="winFormsHost"/>
                         </avalonDock:LayoutAnchorable>
                     </avalonDock:LayoutAnchorablePane>
                     <avalonDock:LayoutDocumentPaneGroup>
                         <avalonDock:LayoutDocumentPane x:Name="layoutPanel">
-                            <avalonDock:LayoutDocument Title="Document 1" IconSource="/AvalonDock.TestApp;component/Images/alarm-clock-blue.png" CanClose="False">
+                            <avalonDock:LayoutDocument ContentId="document1" Title="Document 1" IconSource="/AvalonDock.TestApp;component/Images/alarm-clock-blue.png" CanClose="False">
                                 <StackPanel>
                                     <TextBox Text="Document 1 Content"/>
                                     <Button Content="Click to add 2 documents" Click="AddTwoDocuments_click"/>
                                 </StackPanel>
                             </avalonDock:LayoutDocument>
-                            <avalonDock:LayoutDocument Title="Document 2">
+                            <avalonDock:LayoutDocument ContentId="document2" Title="Document 2">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Document 2 Attached to Timer ->\{0\}'}"/>
                             </avalonDock:LayoutDocument>
                         </avalonDock:LayoutDocumentPane>
                     </avalonDock:LayoutDocumentPaneGroup>
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
                         <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable x:Name="ToolWindow1" Title="Tool Window 1">
+                            <avalonDock:LayoutAnchorable x:Name="ToolWindow1" ContentId="tool2" Title="Tool Window 1">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
                             </avalonDock:LayoutAnchorable>
-                            <avalonDock:LayoutAnchorable x:Name="ToolWindow2" Title="Tool Window 2">
+                            <avalonDock:LayoutAnchorable x:Name="ToolWindow2" ContentId="tool3" Title="Tool Window 2">
                                 <TextBlock Text="{Binding FocusedElement}"/>
                             </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorablePane>
@@ -76,10 +76,10 @@
                 <avalonDock:LayoutRoot.LeftSide>
                     <avalonDock:LayoutAnchorSide>
                         <avalonDock:LayoutAnchorGroup x:Name="layoutLeft">
-                            <avalonDock:LayoutAnchorable Title="AutoHide1 Content" IconSource="/AvalonDock.TestApp;component/Images/address-book--pencil.png">
+                            <avalonDock:LayoutAnchorable Title="AutoHide1 Content" ContentId="tool4" IconSource="/AvalonDock.TestApp;component/Images/address-book--pencil.png">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='AutoHide Attached to Timer ->\{0\}'}"/>
                             </avalonDock:LayoutAnchorable>
-                            <avalonDock:LayoutAnchorable Title="AutoHide2 Content">
+                            <avalonDock:LayoutAnchorable Title="AutoHide2 Content" ContentId="tool5">
                                 <StackPanel Orientation="Vertical">
                                     <TextBox/>
                                     <TextBox/>

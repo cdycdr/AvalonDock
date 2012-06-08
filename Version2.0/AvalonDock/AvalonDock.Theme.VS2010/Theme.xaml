@@ -20,9 +20,65 @@
     <avalonDockConverters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter"/>
     <avalonDockConverters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter"/>
 
+    <Style x:Key="AvalonDock_ThemeVS2010_ToolButtonStyle" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor31}"/>
+                <Setter Property="Background"
+									    Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor10}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor31}"/>
+                <Setter Property="Background"
+									    Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor10}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="AvalonDock_ThemeVS2010_ButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor31}"/>
+                <Setter Property="Background"
+									    Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor10}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!--DocumentPaneControlStyle-->
     <Style x:Key="DocumentPaneControlStyle" TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
-        <Setter Property="Padding" Value="0"/>
         <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor33}"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="Template">
@@ -38,11 +94,12 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <avalonDockControls:DocumentPaneTabPanel x:Name="HeaderPanel" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1"/>
+                            <avalonDockControls:DocumentPaneTabPanel x:Name="HeaderPanel" Grid.Column="0" IsItemsHost="true" Margin="2,0,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1"/>
                             <avalonDockControls:DropDownButton
                                 x:Name="MenuDropDownButton"
-                                Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                Style="{StaticResource AvalonDock_ThemeVS2010_ToolButtonStyle}"
                                 Focusable="False"
+                                VerticalAlignment="Center"
                                 Grid.Column="1">
                                 <avalonDockControls:DropDownButton.DropDownContextMenu>
                                     <avalonDockControls:ContextMenuEx
@@ -73,14 +130,28 @@
                                 KeyboardNavigation.TabIndex="2" 
                                 KeyboardNavigation.TabNavigation="Cycle"
                                 CornerRadius="3"
-                                Padding="0,3,0,3">
+                                Padding="0,1,0,2">
                             <ContentPresenter x:Name="PART_SelectedContentHost" 
                                               ContentSource="SelectedContent" 
-                                              Margin="{TemplateBinding Padding}"
+                                              Margin="0,2,0,2"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" SourceName="MenuDropDownButton" Value="True">
+                            <Setter Property="Content" TargetName="MenuDropDownButton">
+                                <Setter.Value>
+                                    <Image Source="/AvalonDock.Themes.VS2010;component/Images/PinDocMenu_Black.png"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsChecked" SourceName="MenuDropDownButton" Value="True">
+                            <Setter Property="Content" TargetName="MenuDropDownButton">
+                                <Setter.Value>
+                                    <Image Source="/AvalonDock.Themes.VS2010;component/Images/PinDocMenu_Black.png"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SelectedContent.IsActive}" Value="True"/>
@@ -247,7 +318,7 @@
                                               Margin="{TemplateBinding Padding}"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
-                        <avalonDockControls:AnchorablePaneTabPanel x:Name="HeaderPanel" Margin="2,0,2,2" IsItemsHost="true" Grid.Row="1" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                        <avalonDockControls:AnchorablePaneTabPanel x:Name="HeaderPanel" Margin="0,0,2,2" IsItemsHost="true" Grid.Row="1" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
@@ -353,7 +424,8 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="2,2,0,0">
+                            CornerRadius="2,2,0,0"
+                            Padding="0,2,0,1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -375,7 +447,9 @@
 
 
                             <avalonDockControls:DropDownButton
-                                Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                x:Name="MenuDropDownButton"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource AvalonDock_ThemeVS2010_ToolButtonStyle}"
                                 Focusable="False"
                                 Grid.Column="1"
                                 DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
@@ -386,14 +460,18 @@
                             <Button x:Name="PART_AutoHidePin" 
                                 Grid.Column="2" 
                                 Focusable="False"
-                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
                                 Command="{Binding Path=LayoutItem.AutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}" >
                                 <Image x:Name="PART_ImgAutoHidePin" Source="/AvalonDock.Themes.VS2010;component/Images/PinAutoHide.png"/>
                             </Button>
                             <Button x:Name="PART_HidePin" 
                                 Grid.Column="3" 
                                 Focusable="False"
-                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
                                 Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" 
                                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Image x:Name="PART_ImgHidePin" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
@@ -420,6 +498,18 @@
                             <Setter Property="Source" TargetName="PART_ImgHidePin" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgMenuPin" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Dark.png"/>
                         </DataTrigger>
+                        <Trigger Property="IsMouseOver" SourceName="MenuDropDownButton" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgMenuPin" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" SourceName="MenuDropDownButton" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgMenuPin" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_AutoHidePin" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgAutoHidePin" Value="/AvalonDock.Themes.VS2010;component/Images/PinAutoHide_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_HidePin" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgHidePin" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Black.png"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -461,9 +551,10 @@
             Margin="2" 
             Padding="2">
                 <ContentPresenter 
-                Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
-                ContentTemplate="{Binding AnchorableHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
-                ContentTemplateSelector="{Binding AnchorableHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
+                    TextElement.Foreground="{DynamicResource AvalonDock_ThemeVS2010_BaseColor2}"
+                    Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" 
+                    ContentTemplate="{Binding AnchorableHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
+                    ContentTemplateSelector="{Binding AnchorableHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
         </Border>
         <ControlTemplate.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.Parent.Side}" Value="Right">
@@ -783,7 +874,8 @@
                             DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}" >
                         <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="0,2,0,1">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -794,9 +886,17 @@
                                               ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                               ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
                                 <!-- Close button should be moved out to the container style -->
-                                <Button x:Name="DocumentCloseButton" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Grid.Column="1" Margin="5,0,0,0" Visibility="Hidden" 
+                                <Button 
+                                    x:Name="DocumentCloseButton" 
+                                    Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Grid.Column="1" 
+                                    Margin="5,0,0,0" 
+                                    Visibility="Hidden" 
                                     Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
+                                    <Image x:Name="PART_ImgPinClose" 
+                                           Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
                                 </Button>
                             </Grid>
                         </Border>
@@ -815,7 +915,11 @@
                         </Trigger>
                         <DataTrigger Binding="{Binding Path=CanClose}" Value="false">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="DocumentCloseButton"  />
-                        </DataTrigger>                        
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" SourceName="DocumentCloseButton" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Black.png"/>
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -926,33 +1030,54 @@
                                                   ContentTemplateSelector="{Binding Model.Root.Manager.DocumentTitleTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"/>
 
 
-                                        <Button shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                        <avalonDockControls:DropDownButton
+                                            x:Name="ContextMenuDropdownButton"
+                                            shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ToolButtonStyle}"
+                                            Focusable="False"
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            DropDownContextMenu="{Binding Model.Root.Manager.DocumentContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                            DropDownContextMenuDataContext="{Binding Path=RootDocumentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                                            <Image x:Name="PART_ImgPinMenu" Stretch="None" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Dark.png" Width="13"/>
+                                        </avalonDockControls:DropDownButton>
+
+                                        <Button 
+                                            x:Name="PART_PinMaximize"
+                                            shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                             Focusable="False"
                                             Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
                                             Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                             Grid.Column="2">
-                                            <Image x:Name="PART_ImgPinMaximize" Source="/AvalonDock.Themes.VS2010;component/Images/PinMaximize.png"/>
+                                            <Image x:Name="PART_ImgPinMaximize" Source="/AvalonDock.Themes.VS2010;component/Images/PinMaximize.png" Width="13" />
                                         </Button>
 
-                                        <Button shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                        <Button 
+                                            x:Name="PART_PinRestore"
+                                            shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                             Focusable="False"
                                             Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
                                             Command="{x:Static shell:SystemCommands.RestoreWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                             Grid.Column="2">
-                                            <Image x:Name="PART_ImgPinRestore" Source="/AvalonDock.Themes.VS2010;component/Images/PinRestore.png"/>
+                                            <Image x:Name="PART_ImgPinRestore" Source="/AvalonDock.Themes.VS2010;component/Images/PinRestore.png" Width="13" />
                                         </Button>
 
-                                        <Button shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                                                Focusable="False"
-                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                Command="{Binding Path=RootDocumentLayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                                Grid.Column="3">
-                                            <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
+                                        <Button 
+                                            x:Name="PART_PinClose"
+                                            shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                            Focusable="False"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
+                                            Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                            Command="{Binding Path=RootDocumentLayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Grid.Column="3">
+                                            <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png" Width="13" />
                                         </Button>
                                     </Grid>
                                 </Border>
@@ -961,6 +1086,9 @@
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="Padding" Value="3" TargetName="WindowBorder"/>
+                        </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.RootDocument.IsActive}" Value="True"/>
@@ -996,6 +1124,21 @@
                             <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Dark.png"/>
                         </MultiDataTrigger>
+                        <Trigger Property="IsMouseOver" SourceName="ContextMenuDropdownButton" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" SourceName="ContextMenuDropdownButton" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_PinMaximize" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_PinRestore" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_PinClose" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Black.png"/>
+                        </Trigger>                        
 
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -1005,7 +1148,7 @@
     </Style>
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
-        <!--<Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor1}"/>-->
+        <Setter Property="Background" Value="{Binding Model.Root.Manager.Background, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
@@ -1056,44 +1199,59 @@
                                             x:Name="SinglePaneContextMenu"
                                             shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                             Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ToolButtonStyle}"
                                             Focusable="False"
                                             Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
                                             DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                             DropDownContextMenuDataContext="{Binding Path=SingleContentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
-                                            <Image x:Name="PART_ImgPinMenu" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu.png"/>
+                                            <Image x:Name="PART_ImgPinMenu" Stretch="None" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu.png" Width="13"/>
                                         </avalonDockControls:DropDownButton>
 
                                         <Button 
+                                            x:Name="PART_PinMaximize"
                                             shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                             Focusable="False"
                                             Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
                                             Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                             Grid.Column="2">
-                                            <Image x:Name="PART_ImgPinMaximize" Source="/AvalonDock.Themes.VS2010;component/Images/PinMaximize.png"/>
+                                            <Image x:Name="PART_ImgPinMaximize" Source="/AvalonDock.Themes.VS2010;component/Images/PinMaximize.png" Width="13"/>
                                         </Button>
 
                                         <Button 
+                                            x:Name="PART_PinRestore"
                                             shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                             Focusable="False"
                                             Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
                                             Command="{x:Static shell:SystemCommands.RestoreWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                             Grid.Column="2">
-                                            <Image  x:Name="PART_ImgPinRestore" Source="/AvalonDock.Themes.VS2010;component/Images/PinRestore.png"/>
+                                            <Image  x:Name="PART_ImgPinRestore" Source="/AvalonDock.Themes.VS2010;component/Images/PinRestore.png" Width="13"/>
                                         </Button>
 
                                         <Button 
+                                            x:Name="PART_PinClose"
                                             shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                             Focusable="False"
-                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
                                             Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                             Grid.Column="3">
-                                            <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
+                                            <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png" Width="13"/>
                                         </Button>
                                     </Grid>
                                 </Border>
@@ -1103,6 +1261,9 @@
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="Padding" Value="3" TargetName="WindowBorder"/>
+                        </Trigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SinglePane.SelectedContent.IsActive}" Value="True">
                             <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor15}" TargetName="Header"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}" TargetName="Header"/>
@@ -1111,6 +1272,21 @@
                             <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Dark.png"/>
                         </DataTrigger>
+                        <Trigger Property="IsMouseOver" SourceName="SinglePaneContextMenu" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" SourceName="SinglePaneContextMenu" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_PinMaximize" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_PinRestore" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Black.png"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" SourceName="PART_PinClose" Value="True">
+                            <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Black.png"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -243,7 +243,7 @@ namespace AvalonDock.Controls
                 new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.MinimizeWindow((Window)args.Parameter))));
             CommandBindings.Add(new CommandBinding(Microsoft.Windows.Shell.SystemCommands.RestoreWindowCommand,
                 new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.RestoreWindow((Window)args.Parameter))));
-
+            Debug.Assert(this.Owner != null);
             base.OnInitialized(e);
         }
 
@@ -339,7 +339,8 @@ namespace AvalonDock.Controls
                 case Win32Helper.WM_ACTIVATE:
                     if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
                     {
-                        if (lParam == new WindowInteropHelper(this.Owner).Handle)
+                        if (//this.Owner != null &&
+                            lParam == new WindowInteropHelper(this.Owner).Handle)
                         {
                             Win32Helper.SetActiveWindow(_hwndSrc.Handle);
                             handled = true;

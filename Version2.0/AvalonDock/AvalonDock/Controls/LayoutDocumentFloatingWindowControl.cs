@@ -28,6 +28,7 @@ using System.Windows.Data;
 using AvalonDock.Layout;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace AvalonDock.Controls
 {
@@ -139,6 +140,5 @@ namespace AvalonDock.Controls
             _model.RootDocumentChanged -= new EventHandler(_model_RootDocumentChanged);
         }
 
-        
     }
 }

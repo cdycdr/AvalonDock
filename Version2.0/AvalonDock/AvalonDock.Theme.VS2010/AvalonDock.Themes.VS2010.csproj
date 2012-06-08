@@ -134,6 +134,18 @@
       <Name>AvalonDock</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinDocMenu_Black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinAutoHide_Black.png" />
+    <Resource Include="Images\PinClose_Black.png" />
+    <Resource Include="Images\PinMaximize_Black.png" />
+    <Resource Include="Images\PinMenu_Black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinRestore_Black.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

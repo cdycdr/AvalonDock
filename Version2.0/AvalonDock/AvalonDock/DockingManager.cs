@@ -97,7 +97,6 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnLayoutChanged(LayoutRoot oldLayout, LayoutRoot newLayout)
         {
-
             if (oldLayout != null)
             {
                 oldLayout.PropertyChanged -= new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
@@ -121,6 +120,10 @@ namespace AvalonDock
 
             Layout.Manager = this;
 
+            AttachLayoutItems();
+            AttachDocumentsSource(newLayout, DocumentsSource);
+            AttachAnchorablesSource(newLayout, AnchorablesSource);
+
             if (IsInitialized)
             {
                 LayoutRootPanel = CreateUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
@@ -139,16 +142,12 @@ namespace AvalonDock
                     fw.Owner = Window.GetWindow(this);
             }
 
-            AttachDocumentsSource(newLayout, DocumentsSource);
-            AttachAnchorablesSource(newLayout, AnchorablesSource);
 
             if (newLayout != null)
             {
                 newLayout.PropertyChanged += new PropertyChangedEventHandler(OnLayoutRootPropertyChanged);
                 newLayout.Updated += new EventHandler(OnLayoutRootUpdated);
             }
-
-            AttachLayoutItems();
 
             if (LayoutChanged != null)
                 LayoutChanged(this, EventArgs.Empty);
@@ -205,7 +204,14 @@ namespace AvalonDock
             if (value == null)
                 return new LayoutRoot() { RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup(new LayoutDocumentPane())) };
 
+            ((DockingManager)d).OnLayoutChanging(value as LayoutRoot);
+
             return value;
+        }
+
+        void OnLayoutChanging(LayoutRoot newLayout)
+        { 
+            
         }
 
 
@@ -314,7 +320,7 @@ namespace AvalonDock
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return null;
                 var modelFW = model as LayoutAnchorableFloatingWindow;
-                var newFW = new LayoutAnchorableFloatingWindowControl(modelFW);
+                var newFW = new LayoutAnchorableFloatingWindowControl(modelFW) { Owner = Window.GetWindow(this) };
 
                 var paneForExtentions = modelFW.RootPanel.Children.OfType<LayoutAnchorablePane>().FirstOrDefault();
                 if (paneForExtentions != null)
@@ -335,7 +341,7 @@ namespace AvalonDock
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return null;
                 var modelFW = model as LayoutDocumentFloatingWindow;
-                var newFW = new LayoutDocumentFloatingWindowControl(modelFW);
+                var newFW = new LayoutDocumentFloatingWindowControl(modelFW) { Owner = Window.GetWindow(this) };
 
                 var paneForExtentions = modelFW.RootDocument;
                 if (paneForExtentions != null)
@@ -2673,12 +2679,12 @@ namespace AvalonDock
 
         void ApplyStyleToLayoutItem(LayoutItem layoutItem)
         {
-            layoutItem._ClearDefaultCommandBindings();
+            layoutItem._ClearDefaultBindings();
             if (LayoutItemContainerStyle != null)
                 layoutItem.Style = LayoutItemContainerStyle;
             else if (LayoutItemContainerStyleSelector != null)
                 layoutItem.Style = LayoutItemContainerStyleSelector.SelectStyle(layoutItem.Model, layoutItem);
-            layoutItem._SetDefaultCommandBindings();
+            layoutItem._SetDefaultBindings();
         }
 
         #region LayoutItemContainerStyle

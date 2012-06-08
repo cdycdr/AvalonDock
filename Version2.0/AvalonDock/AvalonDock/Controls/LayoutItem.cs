@@ -124,7 +124,7 @@ namespace AvalonDock.Controls
             _defaultMoveToPreviousTabGroupCommand = new RelayCommand((p) => ExecuteMoveToPreviousTabGroupCommand(p), (p) => CanExecuteMoveToPreviousTabGroupCommand(p));
         }
 
-        protected virtual void ClearDefaultCommandBindings()
+        protected virtual void ClearDefaultBindings()
         {
             if (CloseCommand == _defaultCloseCommand)
                 BindingOperations.ClearBinding(this, CloseCommandProperty);
@@ -146,7 +146,7 @@ namespace AvalonDock.Controls
                 BindingOperations.ClearBinding(this, MoveToPreviousTabGroupCommandProperty);
         }
 
-        protected virtual void SetDefaultCommandBindings()
+        protected virtual void SetDefaultBindings()
         {
             if (CloseCommand == null)
                 CloseCommand = _defaultCloseCommand;
@@ -170,14 +170,14 @@ namespace AvalonDock.Controls
 
 
 
-        internal void _ClearDefaultCommandBindings()
+        internal void _ClearDefaultBindings()
         {
-            ClearDefaultCommandBindings();
+            ClearDefaultBindings();
         }
 
-        internal void _SetDefaultCommandBindings()
+        internal void _SetDefaultBindings()
         {
-            SetDefaultCommandBindings();
+            SetDefaultBindings();
         }
 
         #region Title

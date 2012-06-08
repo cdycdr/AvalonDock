@@ -44,6 +44,7 @@ namespace AvalonDock.Controls
         {
             _anchorable = model as LayoutAnchorable;
             _anchorable.IsVisibleChanged += new EventHandler(_anchorable_IsVisibleChanged);
+
             base.Attach(model);
         }
 
@@ -72,7 +73,7 @@ namespace AvalonDock.Controls
             base.InitDefaultCommands();
         }
 
-        protected override void ClearDefaultCommandBindings()
+        protected override void ClearDefaultBindings()
         {
             if (HideCommand == _defaultHideCommand)
                 BindingOperations.ClearBinding(this, HideCommandProperty);
@@ -81,10 +82,10 @@ namespace AvalonDock.Controls
             if (DockCommand == _defaultDockCommand)
                 BindingOperations.ClearBinding(this, DockCommandProperty);
 
-            base.ClearDefaultCommandBindings();
+            base.ClearDefaultBindings();
         }
 
-        protected override void SetDefaultCommandBindings()
+        protected override void SetDefaultBindings()
         {
             if (HideCommand == null)
                 HideCommand = _defaultHideCommand;
@@ -93,7 +94,9 @@ namespace AvalonDock.Controls
             if (DockCommand == null)
                 DockCommand = _defaultDockCommand;
 
-            base.SetDefaultCommandBindings();
+            Visibility = _anchorable.IsVisible ? Visibility.Visible : System.Windows.Visibility.Hidden;
+
+            base.SetDefaultBindings();
         }
 
 

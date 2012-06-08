@@ -40,7 +40,12 @@ namespace AvalonDock.Layout.Serialization
                 throw new ArgumentNullException("manager");
 
             _manager = manager;
+            _previousAnchorables = _manager.Layout.Descendents().OfType<LayoutAnchorable>().ToArray();
+            _previousDocuments = _manager.Layout.Descendents().OfType<LayoutDocument>().ToArray();
         }
+
+        LayoutAnchorable[] _previousAnchorables = null;
+        LayoutDocument[] _previousDocuments = null;
 
         public DockingManager Manager
         {
@@ -62,19 +67,55 @@ namespace AvalonDock.Layout.Serialization
             }
 
             //now fix the content of the layoutcontents
-            foreach (var lcToFix in layout.Descendents().OfType<LayoutContent>().Where(lc => lc.Content == null).ToArray())
+            foreach (var lcToFix in layout.Descendents().OfType<LayoutAnchorable>().Where(lc => lc.Content == null).ToArray())
             {
+                LayoutAnchorable previousAchorable = null;
+                if (lcToFix.ContentId != null)
+                { 
+                    //try find the content in replaced layout
+                    previousAchorable = _previousAnchorables.FirstOrDefault(a => a.ContentId == lcToFix.ContentId);
+                }
+
                 if (LayoutSerializationCallback != null)
                 {
-                    var args = new LayoutSerializationCallbackEventArgs(lcToFix);
+                    var args = new LayoutSerializationCallbackEventArgs(lcToFix, previousAchorable != null ? previousAchorable.Content : null);
+                    LayoutSerializationCallback(this, args);
+                    if (args.Content != null)
+                        lcToFix.Content = args.Content;
+                    else
+                        lcToFix.Hide();
+                }
+                else if (previousAchorable == null)
+                    lcToFix.Hide();
+                else
+                {
+                    lcToFix.Content = previousAchorable.Content;
+                }
+            }
+
+
+            foreach (var lcToFix in layout.Descendents().OfType<LayoutDocument>().Where(lc => lc.Content == null).ToArray())
+            {
+                LayoutDocument previousDocument = null;
+                if (lcToFix.ContentId != null)
+                {
+                    //try find the content in replaced layout
+                    previousDocument = _previousDocuments.FirstOrDefault(a => a.ContentId == lcToFix.ContentId);
+                }
+
+                if (LayoutSerializationCallback != null)
+                {
+                    var args = new LayoutSerializationCallbackEventArgs(lcToFix, previousDocument != null ? previousDocument.Content : null);
                     LayoutSerializationCallback(this, args);
                     if (args.Content != null)
                         lcToFix.Content = args.Content;
                     else
                         lcToFix.Close();
                 }
-                else
+                else if (previousDocument == null)
                     lcToFix.Close();
+                else
+                    lcToFix.Content = previousDocument.Content;
             }
 
         }

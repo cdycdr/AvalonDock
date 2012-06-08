@@ -130,13 +130,16 @@ namespace AvalonDock.TestApp
 
         private void OnLoadLayout(object sender, RoutedEventArgs e)
         {
+            var currentContentsList = dockManager.Layout.Descendents().OfType<LayoutContent>().Where(c => c.ContentId != null).ToArray();
+
             string fileName = (sender as MenuItem).Header.ToString();
             var serializer = new XmlLayoutSerializer(dockManager);
-            serializer.LayoutSerializationCallback += (s, args) =>
-                {
-                    if (args.Model.ContentId == "winFormsHost")
-                        args.Content = winFormsHost;
-                };
+            //serializer.LayoutSerializationCallback += (s, args) =>
+            //    {
+            //        var prevContent = currentContentsList.FirstOrDefault(c => c.ContentId == args.Model.ContentId);
+            //        if (prevContent != null)
+            //            args.Content = prevContent.Content;
+            //    };
             using (var stream = new StreamReader(string.Format(@".\AvalonDock_{0}.config", fileName)))
                 serializer.Deserialize(stream);
         }
