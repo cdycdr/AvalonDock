@@ -576,9 +576,13 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Parent.IsDirectlyHostedInFloatingWindow}" Value="True">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.IsFloating}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.IsDirectlyHostedInFloatingWindow}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Header"/>
-                        </DataTrigger>                        
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

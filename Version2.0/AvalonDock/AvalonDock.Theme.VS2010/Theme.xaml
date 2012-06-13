@@ -557,15 +557,15 @@
                     ContentTemplateSelector="{Binding AnchorableHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
         </Border>
         <ControlTemplate.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.Parent.Side}" Value="Right">
+            <Trigger Property="Side" Value="Right">
                 <Setter Property="CornerRadius" Value="0,0,3,3" TargetName="Bd"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.Parent.Side}" Value="Bottom">
+            </Trigger>
+            <Trigger Property="Side" Value="Bottom">
                 <Setter Property="CornerRadius" Value="3,3,0,0" TargetName="Bd"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.Parent.Side}" Value="Top">
+            </Trigger>
+            <Trigger Property="Side" Value="Top">
                 <Setter Property="CornerRadius" Value="0,0,3,3" TargetName="Bd"/>
-            </DataTrigger>            
+            </Trigger>            
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="true"/>
@@ -980,9 +980,13 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.IsDirectlyHostedInFloatingWindow}" Value="True">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.IsFloating}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Parent.IsDirectlyHostedInFloatingWindow}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Header"/>
-                        </DataTrigger>
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

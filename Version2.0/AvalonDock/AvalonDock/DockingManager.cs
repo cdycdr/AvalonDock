@@ -2792,6 +2792,9 @@ namespace AvalonDock
 
             _navigatorWindow.Hide();
 
+            if (_navigatorWindow.SelectedAnchorable != null &&
+                _navigatorWindow.SelectedAnchorable.ActivateCommand.CanExecute(null))
+                _navigatorWindow.SelectedAnchorable.ActivateCommand.Execute(null);
 
             if (_navigatorWindow.SelectedAnchorable == null &&
                 _navigatorWindow.SelectedDocument != null &&

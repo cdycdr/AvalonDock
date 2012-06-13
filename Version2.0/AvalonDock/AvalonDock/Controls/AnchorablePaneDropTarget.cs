@@ -53,7 +53,8 @@ namespace AvalonDock.Controls
         protected override void Drop(LayoutAnchorableFloatingWindow floatingWindow)
         {
             ILayoutAnchorablePane targetModel = _targetPane.Model as ILayoutAnchorablePane;
-            
+            LayoutAnchorable anchorableActive = floatingWindow.Descendents().OfType<LayoutAnchorable>().FirstOrDefault();
+         
             switch (Type)
             {
                 case DropTargetType.AnchorablePaneDockBottom:
@@ -231,12 +232,16 @@ namespace AvalonDock.Controls
                             paneModel.Children.Insert(i, anchorableToImport);
                             i++;
                         }
+
                     }
                     break;
                     #endregion
 
 
             }
+
+            anchorableActive.IsActive = true;
+
             base.Drop(floatingWindow);
         }
 

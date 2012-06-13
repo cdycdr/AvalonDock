@@ -564,6 +564,12 @@ namespace AvalonDock.Layout
 
 
             #endregion
+
+
+#if DEBUG
+            System.Diagnostics.Debug.Assert(
+                !this.Descendents().OfType<LayoutAnchorablePane>().Any(a => a.ChildrenCount == 0 && a.IsVisible));
+#endif
         }
 
         #endregion

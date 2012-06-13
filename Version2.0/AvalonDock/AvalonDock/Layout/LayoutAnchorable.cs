@@ -86,6 +86,7 @@ namespace AvalonDock.Layout
             NotifyIsVisibleChanged();
             RaisePropertyChanged("IsHidden");
             RaisePropertyChanged("IsAutoHidden");
+            //RaisePropertyChanged("IsDirectlyHostedInFloatingWindow");
             base.OnParentChanged(oldValue, newValue);
         }
 
@@ -173,7 +174,25 @@ namespace AvalonDock.Layout
         }
 
         #endregion
-        
+
+        //public bool IsDirectlyHostedInFloatingWindow
+        //{
+        //    get
+        //    {
+        //        var parentPane = Parent as LayoutAnchorablePane;
+        //        if (parentPane == null || 
+        //            parentPane.Parent == null)
+        //            return false;
+
+        //        var parentFloatingWindow = parentPane.Parent.Parent as LayoutFloatingWindow;
+        //        if (parentFloatingWindow == null)
+        //            return false;
+
+        //        return parentPane.Parent.ChildrenCount == 1;
+
+        //    }
+        //}
+
         /// <summary>
         /// Hide this contents
         /// </summary>

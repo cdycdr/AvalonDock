@@ -43,6 +43,8 @@ namespace AvalonDock.Controls
         {
             _model = model;
             _model.IsActiveChanged += new EventHandler(_model_IsActiveChanged);
+
+            SetSide(_model.FindParent<LayoutAnchorSide>().Side);
         }
 
         void _model_IsActiveChanged(object sender, EventArgs e)
@@ -52,8 +54,6 @@ namespace AvalonDock.Controls
             else if (_model.IsActive)
                 _model.Root.Manager.ShowAutoHideWindow(this);
         }
-
-
 
         LayoutAnchorable _model;
 
@@ -134,6 +134,41 @@ namespace AvalonDock.Controls
             }
             base.OnMouseLeave(e);
         }
+
+
+        #region Side
+
+        /// <summary>
+        /// Side Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey SidePropertyKey
+            = DependencyProperty.RegisterReadOnly("Side", typeof(AnchorSide), typeof(LayoutAnchorControl),
+                new FrameworkPropertyMetadata((AnchorSide)AnchorSide.Left));
+
+        public static readonly DependencyProperty SideProperty
+            = SidePropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the Side property.  This dependency property 
+        /// indicates the anchor side of the control.
+        /// </summary>
+        public AnchorSide Side
+        {
+            get { return (AnchorSide)GetValue(SideProperty); }
+        }
+
+        /// <summary>
+        /// Provides a secure method for setting the Side property.  
+        /// This dependency property indicates the anchor side of the control.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetSide(AnchorSide value)
+        {
+            SetValue(SidePropertyKey, value);
+        }
+
+        #endregion
+
 
     }
 }

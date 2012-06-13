@@ -595,6 +595,8 @@ namespace AvalonDock.Layout
                 root.CollectGarbage();
             }
 
+            IsSelected = true;
+            IsActive = true;
         }
 
         /// <summary>
