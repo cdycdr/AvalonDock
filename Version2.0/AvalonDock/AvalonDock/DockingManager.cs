@@ -259,8 +259,9 @@ namespace AvalonDock
             {
                 foreach (var fw in _fwList)
                     fw.Owner = Window.GetWindow(this);
-
-                CreateOverlayWindow();
+                //create the overlaywindow if it's possible
+                if (IsVisible)
+                    CreateOverlayWindow();
                 FocusElementManager.SetupFocusManagement(this);
             } 
         }
