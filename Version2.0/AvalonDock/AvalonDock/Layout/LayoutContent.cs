@@ -326,6 +326,8 @@ namespace AvalonDock.Layout
                 IsMaximized = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("CanClose"))
                 CanClose = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("CanFloat"))
+                CanFloat = bool.Parse(reader.Value);
 
             reader.Read();
         }
@@ -365,6 +367,8 @@ namespace AvalonDock.Layout
                 writer.WriteAttributeString("IsMaximized", IsMaximized.ToString());
             if (!CanClose)
                 writer.WriteAttributeString("CanClose", CanClose.ToString());
+            if (!CanFloat)
+                writer.WriteAttributeString("CanFloat", CanFloat.ToString());
 
             if (_previousContainer != null)
             {
@@ -652,6 +656,23 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        #region CanFloat
+
+        private bool _canFloat = true;
+        public bool CanFloat
+        {
+            get { return _canFloat; }
+            set
+            {
+                if (_canFloat != value)
+                {
+                    _canFloat = value;
+                    RaisePropertyChanged("CanFloat");
+                }
+            }
+        }
+
+        #endregion
 
     }
 }

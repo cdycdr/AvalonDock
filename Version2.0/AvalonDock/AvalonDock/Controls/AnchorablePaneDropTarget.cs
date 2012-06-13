@@ -84,9 +84,12 @@ namespace AvalonDock.Controls
                         }
                         else
                         {
+                            var targetModelAsPositionableElement = targetModel as ILayoutPositionableElement;
                             var newOrientedPanel = new LayoutAnchorablePaneGroup()
                             {
-                                Orientation = System.Windows.Controls.Orientation.Vertical
+                                Orientation = System.Windows.Controls.Orientation.Vertical,
+                                DockWidth = targetModelAsPositionableElement.DockWidth,
+                                DockHeight = targetModelAsPositionableElement.DockHeight,
                             };
 
                             parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
@@ -124,9 +127,12 @@ namespace AvalonDock.Controls
                         }
                         else
                         {
+                            var targetModelAsPositionableElement = targetModel as ILayoutPositionableElement;
                             var newOrientedPanel = new LayoutAnchorablePaneGroup()
                             {
-                                Orientation = System.Windows.Controls.Orientation.Vertical
+                                Orientation = System.Windows.Controls.Orientation.Vertical,
+                                DockWidth = targetModelAsPositionableElement.DockWidth,
+                                DockHeight = targetModelAsPositionableElement.DockHeight,
                             };
 
                             parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
@@ -164,9 +170,12 @@ namespace AvalonDock.Controls
                         }
                         else
                         {
+                            var targetModelAsPositionableElement = targetModel as ILayoutPositionableElement;
                             var newOrientedPanel = new LayoutAnchorablePaneGroup()
                             {
-                                Orientation = System.Windows.Controls.Orientation.Horizontal
+                                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                                DockWidth = targetModelAsPositionableElement.DockWidth,
+                                DockHeight = targetModelAsPositionableElement.DockHeight,
                             };
 
                             parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
@@ -204,9 +213,12 @@ namespace AvalonDock.Controls
                         }
                         else
                         {
+                            var targetModelAsPositionableElement = targetModel as ILayoutPositionableElement;
                             var newOrientedPanel = new LayoutAnchorablePaneGroup()
                             {
-                                Orientation = System.Windows.Controls.Orientation.Horizontal
+                                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                                DockWidth = targetModelAsPositionableElement.DockWidth,
+                                DockHeight = targetModelAsPositionableElement.DockHeight,
                             };
 
                             parentModel.InsertChildAt(insertToIndex, newOrientedPanel);

@@ -450,8 +450,6 @@ namespace AvalonDock.Controls
         }
 
         #endregion
-
-
  
         #region CloseCommand
 
@@ -558,7 +556,7 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteFloatCommand(object anchorable)
         {
-            return LayoutElement.FindParent<LayoutFloatingWindow>() == null;
+            return LayoutElement.CanFloat && LayoutElement.FindParent<LayoutFloatingWindow>() == null;
         }
 
         private void ExecuteFloatCommand(object parameter)

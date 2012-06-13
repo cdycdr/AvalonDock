@@ -72,6 +72,10 @@ namespace AvalonDock.Layout
 
         #endregion
 
+
+
+
+
         protected override void OnIsActiveChanged(bool oldValue, bool newValue)
         {
             if (IsActive)

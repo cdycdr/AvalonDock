@@ -206,7 +206,8 @@ namespace AvalonDock.Controls
         {
             if (LayoutElement.FindParent<LayoutAnchorableFloatingWindow>() != null)
                 return false;//is floating
-            return true;
+
+            return _anchorable.CanAutoHide;
         }
 
         private void ExecuteAutoHideCommand(object parameter)

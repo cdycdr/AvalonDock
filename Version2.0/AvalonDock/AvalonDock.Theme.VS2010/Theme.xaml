@@ -549,7 +549,7 @@
             Background="{DynamicResource AvalonDock_ThemeVS2010_BaseColor16}"
             BorderThickness="1"
             CornerRadius="3,3,0,0"
-            Margin="2" 
+            Margin="0,4,0,0"
             Padding="2">
                 <ContentPresenter 
                     TextElement.Foreground="{DynamicResource AvalonDock_ThemeVS2010_BaseColor2}"
@@ -560,12 +560,15 @@
         <ControlTemplate.Triggers>
             <Trigger Property="Side" Value="Right">
                 <Setter Property="CornerRadius" Value="0,0,3,3" TargetName="Bd"/>
+                <Setter Property="Margin" Value="0,0,0,4" TargetName="Bd"/>
             </Trigger>
             <Trigger Property="Side" Value="Bottom">
                 <Setter Property="CornerRadius" Value="3,3,0,0" TargetName="Bd"/>
+                <Setter Property="Margin" Value="0,4,0,0" TargetName="Bd"/>
             </Trigger>
             <Trigger Property="Side" Value="Top">
                 <Setter Property="CornerRadius" Value="0,0,3,3" TargetName="Bd"/>
+                <Setter Property="Margin" Value="0,0,0,4" TargetName="Bd"/>
             </Trigger>            
             <MultiTrigger>
                 <MultiTrigger.Conditions>

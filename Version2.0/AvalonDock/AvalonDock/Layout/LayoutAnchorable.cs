@@ -175,24 +175,6 @@ namespace AvalonDock.Layout
 
         #endregion
 
-        //public bool IsDirectlyHostedInFloatingWindow
-        //{
-        //    get
-        //    {
-        //        var parentPane = Parent as LayoutAnchorablePane;
-        //        if (parentPane == null || 
-        //            parentPane.Parent == null)
-        //            return false;
-
-        //        var parentFloatingWindow = parentPane.Parent.Parent as LayoutFloatingWindow;
-        //        if (parentFloatingWindow == null)
-        //            return false;
-
-        //        return parentPane.Parent.ChildrenCount == 1;
-
-        //    }
-        //}
-
         /// <summary>
         /// Hide this contents
         /// </summary>
@@ -497,7 +479,44 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        #region CanAutoHide
+
+        private bool _canAutoHide = true;
+        public bool CanAutoHide
+        {
+            get { return _canAutoHide; }
+            set
+            {
+                if (_canAutoHide != value)
+                {
+                    _canAutoHide = value;
+                    RaisePropertyChanged("CanAutoHide");
+                }
+            }
+        }
+
+        #endregion
 
 
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToAttribute("CanHide"))
+                CanHide = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("CanAutoHide"))
+                CanAutoHide = bool.Parse(reader.Value);
+
+            base.ReadXml(reader);
+        }
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            if (!CanHide)
+                writer.WriteAttributeString("CanHide", CanHide.ToString());
+            if (!CanAutoHide)
+                writer.WriteAttributeString("CanAutoHide", CanAutoHide.ToString());
+
+            
+            base.WriteXml(writer);
+        }
     }
 }

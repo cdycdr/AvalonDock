@@ -1338,6 +1338,8 @@ namespace AvalonDock
 
         internal void StartDraggingFloatingWindowForContent(LayoutContent contentModel, bool startDrag = true)
         {
+            if (!contentModel.CanFloat)
+                return;
             var contentModelAsAnchorable = contentModel as LayoutAnchorable;
             if (contentModelAsAnchorable != null &&
                 contentModelAsAnchorable.IsAutoHidden)
@@ -1423,6 +1425,8 @@ namespace AvalonDock
 
         internal void StartDraggingFloatingWindowForPane(LayoutAnchorablePane paneModel)
         {
+            if (paneModel.Children.Any(c => !c.CanFloat))
+                return;
             var paneAsPositionableElement = paneModel as ILayoutPositionableElement;
             var paneAsWithActualSize = paneModel as ILayoutPositionableElementWithActualSize;
 

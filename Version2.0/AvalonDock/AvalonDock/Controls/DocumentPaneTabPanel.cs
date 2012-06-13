@@ -92,17 +92,17 @@ namespace AvalonDock.Controls
 
         protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
         {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed &&
-                LayoutDocumentTabItem.IsDraggingItem())
-            {
-                var contentModel = LayoutDocumentTabItem.GetDraggingItem().Model;
-                var manager = contentModel.Root.Manager;
-                LayoutDocumentTabItem.ResetDraggingItem();
+            //if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed &&
+            //    LayoutDocumentTabItem.IsDraggingItem())
+            //{
+            //    var contentModel = LayoutDocumentTabItem.GetDraggingItem().Model;
+            //    var manager = contentModel.Root.Manager;
+            //    LayoutDocumentTabItem.ResetDraggingItem();
+            //    System.Diagnostics.Debug.WriteLine("OnMouseLeave()");
 
                 
-                manager.StartDraggingFloatingWindowForContent(contentModel);
-
-            }
+            //    manager.StartDraggingFloatingWindowForContent(contentModel);
+            //}
 
             base.OnMouseLeave(e);
         }
