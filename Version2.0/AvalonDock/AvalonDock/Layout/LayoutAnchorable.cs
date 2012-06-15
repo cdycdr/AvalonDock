@@ -54,20 +54,12 @@ namespace AvalonDock.Layout
             }
         }
 
-        //[NonSerialized, XmlIgnore]
-        //bool _isVisibleFlag = false;
-        
         public event EventHandler IsVisibleChanged;
 
         void NotifyIsVisibleChanged()
         {
-            //if ((_isVisibleFlag && !IsVisible) ||
-            //    (!_isVisibleFlag && IsVisible))
-            //{
-                //_isVisibleFlag = IsVisible;
-                if (IsVisibleChanged != null)
-                    IsVisibleChanged(this, EventArgs.Empty);
-            //}
+            if (IsVisibleChanged != null)
+                IsVisibleChanged(this, EventArgs.Empty);
         }
 
         [XmlIgnore]
@@ -86,7 +78,6 @@ namespace AvalonDock.Layout
             NotifyIsVisibleChanged();
             RaisePropertyChanged("IsHidden");
             RaisePropertyChanged("IsAutoHidden");
-            //RaisePropertyChanged("IsDirectlyHostedInFloatingWindow");
             base.OnParentChanged(oldValue, newValue);
         }
 

@@ -173,6 +173,8 @@ namespace AvalonDock.TestApp
             //layoutPanel.Children.Add(doc2);
 
             layoutLeft.Children.Add(new LayoutAnchorable() { Title = "New Anchorable" });
+
+            ToolWindow1.IsSelected = true;
         }
     }
 }

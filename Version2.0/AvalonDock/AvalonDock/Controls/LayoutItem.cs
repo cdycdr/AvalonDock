@@ -59,6 +59,13 @@ namespace AvalonDock.Controls
             LayoutElement.IsSelectedChanged+=new EventHandler(LayoutElement_IsSelectedChanged);
             IsActive = LayoutElement.IsActive;
             LayoutElement.IsActiveChanged+=new EventHandler(LayoutElement_IsActiveChanged);
+
+            LayoutElement.PropertyChanged += new PropertyChangedEventHandler(LayoutElement_PropertyChanged);
+        }
+
+        void LayoutElement_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            
         }
 
         void LayoutElement_IsActiveChanged(object sender, EventArgs e)
@@ -87,6 +94,7 @@ namespace AvalonDock.Controls
         {
             LayoutElement.IsSelectedChanged -= new EventHandler(LayoutElement_IsSelectedChanged);
             LayoutElement.IsActiveChanged -= new EventHandler(LayoutElement_IsActiveChanged);
+            LayoutElement.PropertyChanged += new PropertyChangedEventHandler(LayoutElement_PropertyChanged);
         }
 
         public LayoutContent LayoutElement
@@ -450,6 +458,46 @@ namespace AvalonDock.Controls
         }
 
         #endregion
+
+        #region CanFloat
+
+        /// <summary>
+        /// CanFloat Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty CanFloatProperty =
+            DependencyProperty.Register("CanFloat", typeof(bool), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((bool)true,
+                    new PropertyChangedCallback(OnCanFloatChanged)));
+
+        /// <summary>
+        /// Gets or sets the CanFloat property.  This dependency property 
+        /// indicates if user can move the layout element dragging it to another position.
+        /// </summary>
+        public bool CanFloat
+        {
+            get { return (bool)GetValue(CanFloatProperty); }
+            set { SetValue(CanFloatProperty, value); }
+        }
+
+        /// <summary>
+        /// Handles changes to the CanFloat property.
+        /// </summary>
+        private static void OnCanFloatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnCanFloatChanged(e);
+        }
+
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the CanFloat property.
+        /// </summary>
+        protected virtual void OnCanFloatChanged(DependencyPropertyChangedEventArgs e)
+        {
+            LayoutElement.CanFloat = (bool)e.NewValue;
+        }
+
+        #endregion
+
+
  
         #region CloseCommand
 

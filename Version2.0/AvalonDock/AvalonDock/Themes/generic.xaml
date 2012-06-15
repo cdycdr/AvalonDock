@@ -218,7 +218,7 @@
                                 Grid.Column="3" 
                                 Focusable="False"
                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                Visibility="{Binding Path=CanHide, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                 Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" >
                                 <Image Source="/AvalonDock;component/Images/PinClose.png"/>
                             </Button>
