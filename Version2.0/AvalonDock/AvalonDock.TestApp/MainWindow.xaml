@@ -37,7 +37,7 @@
             </MenuItem>
         </Menu>
         
-        <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" >
+        <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" AnchorableContextMenu="{x:Null}" DocumentContextMenu="{x:Null}" ShowSystemMenu="False">
             <avalonDock:DockingManager.Theme>
                 <avalonDock:VS2010Theme/>
             </avalonDock:DockingManager.Theme>
@@ -75,7 +75,7 @@
 
                 <avalonDock:LayoutRoot.LeftSide>
                     <avalonDock:LayoutAnchorSide>
-                        <avalonDock:LayoutAnchorGroup x:Name="layoutLeft">
+                        <avalonDock:LayoutAnchorGroup>
                             <avalonDock:LayoutAnchorable Title="AutoHide1 Content" ContentId="tool4" IconSource="/AvalonDock.TestApp;component/Images/address-book--pencil.png">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='AutoHide Attached to Timer ->\{0\}'}"/>
                             </avalonDock:LayoutAnchorable>

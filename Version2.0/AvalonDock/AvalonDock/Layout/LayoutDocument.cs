@@ -104,7 +104,10 @@ namespace AvalonDock.Layout
                 LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
 
             base.ReadXml(reader);
-       }
+        }
+
+        
+
 
     }
 }

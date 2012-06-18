@@ -175,6 +175,7 @@ namespace AvalonDock.Controls
         protected LayoutFloatingWindowControl(ILayoutElement model)
         {
             this.Loaded += new RoutedEventHandler(OnLoaded);
+            this.Unloaded += new RoutedEventHandler(OnUnloaded);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -211,6 +212,14 @@ namespace AvalonDock.Controls
             _hwndSrc.AddHook(_hwndSrcHook);            
         }
 
+        void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            this.Unloaded -= new RoutedEventHandler(OnUnloaded);
+
+            _hwndSrc.RemoveHook(_hwndSrcHook);
+            _hwndSrc.Dispose();
+            _hwndSrc = null;
+        }
 
         void OnActivated(object sender, EventArgs e)
         {
@@ -339,23 +348,13 @@ namespace AvalonDock.Controls
                 case Win32Helper.WM_ACTIVATE:
                     if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
                     {
-                        if (//this.Owner != null &&
-                            lParam == new WindowInteropHelper(this.Owner).Handle)
+                        if (lParam == new WindowInteropHelper(this.Owner).Handle)
                         {
                             Win32Helper.SetActiveWindow(_hwndSrc.Handle);
                             handled = true;
                         }
                         
                     }
-                    break;
-                case Win32Helper.WM_NCRBUTTONDOWN: //Right button click on title area -> show context menu
-                    //if (e.WParam.ToInt32() == HTCAPTION)
-                    //{
-                    //    short x = (short)((e.LParam.ToInt32() & 0xFFFF));
-                    //    short y = (short)((e.LParam.ToInt32() >> 16));
-                    //    OpenContextMenu(null, new Point(x, y));
-                    //    e.Handled = true;
-                    //}
                     break;
                 case Win32Helper.WM_NCLBUTTONDOWN: //Left button down on title -> start dragging over docking manager
                     if (wParam.ToInt32() == Win32Helper.HT_CAPTION)
@@ -372,18 +371,6 @@ namespace AvalonDock.Controls
 
                     }
                     break;
-
-
-
-                //case Win32Helper.WM_ENTERSIZEMOVE:
-                //    {
-                //        if (_dragService == null)
-                //            _dragService = new DragService(this);
-                //        SetIsDragging(true);
-                //        _dragService.UpdateMouseLocation(_dragClickPoint.X, _dragClickPoint.Y);
-                //    }
-                //    break;
-
                 case Win32Helper.WM_EXITSIZEMOVE:
                     UpdatePositionAndSizeOfPanes();
 
@@ -481,6 +468,8 @@ namespace AvalonDock.Controls
         }
 
         #endregion
+
+
 
 
 

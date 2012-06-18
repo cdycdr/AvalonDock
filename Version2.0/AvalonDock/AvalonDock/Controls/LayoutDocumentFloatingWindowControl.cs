@@ -29,6 +29,7 @@ using AvalonDock.Layout;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using Microsoft.Windows.Shell;
 
 namespace AvalonDock.Controls
 {
@@ -100,6 +101,10 @@ namespace AvalonDock.Controls
                     {
                         if (OpenContextMenu())
                             handled = true;
+                        if (_model.Root.Manager.ShowSystemMenu)
+                            WindowChrome.GetWindowChrome(this).ShowSystemMenu = !handled;
+                        else
+                            WindowChrome.GetWindowChrome(this).ShowSystemMenu = false;
                     }
                     break;
 

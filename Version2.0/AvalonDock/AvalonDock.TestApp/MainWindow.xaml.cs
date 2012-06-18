@@ -172,7 +172,14 @@ namespace AvalonDock.TestApp
             //doc2.Title = "Test2";
             //layoutPanel.Children.Add(doc2);
 
-            layoutLeft.Children.Add(new LayoutAnchorable() { Title = "New Anchorable" });
+            var leftAnchorGroup = dockManager.Layout.LeftSide.Children.FirstOrDefault();
+            if (leftAnchorGroup == null)
+            {
+                leftAnchorGroup = new LayoutAnchorGroup();
+                dockManager.Layout.LeftSide.Children.Add(leftAnchorGroup);
+            }
+
+            leftAnchorGroup.Children.Add(new LayoutAnchorable() { Title = "New Anchorable" });
 
             ToolWindow1.IsSelected = true;
         }

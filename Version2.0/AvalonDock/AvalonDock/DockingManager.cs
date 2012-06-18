@@ -240,15 +240,18 @@ namespace AvalonDock
         {
             base.OnInitialized(e);
 
-            if (!DesignerProperties.GetIsInDesignMode(this) && Layout.Manager == this)
+            if (Layout.Manager == this)
             {
                 LayoutRootPanel = CreateUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
                 LeftSidePanel = CreateUIElementForModel(Layout.LeftSide) as LayoutAnchorSideControl;
                 TopSidePanel = CreateUIElementForModel(Layout.TopSide) as LayoutAnchorSideControl;
                 RightSidePanel = CreateUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
                 BottomSidePanel = CreateUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
-                foreach (var fw in Layout.FloatingWindows)
-                    _fwList.Add(CreateUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
+                if (!DesignerProperties.GetIsInDesignMode(this))
+                {
+                    foreach (var fw in Layout.FloatingWindows)
+                        _fwList.Add(CreateUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
+                }
             }
 
         }
@@ -2434,6 +2437,7 @@ namespace AvalonDock
         internal void _ExecuteContentActivateCommand(LayoutContent content)
         {
             content.IsActive = true;
+            FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
         }
 
         #region DocumentPaneMenuItemHeaderTemplate
@@ -2784,6 +2788,15 @@ namespace AvalonDock
             if (_navigatorWindow == null)
             {
                 _navigatorWindow = new NavigatorWindow(this) { Owner = Window.GetWindow(this), WindowStartupLocation = WindowStartupLocation.CenterOwner };
+                _navigatorWindow.IsVisibleChanged += (s, e) =>
+                    {
+                        if (!_navigatorWindow.IsVisible)
+                        {
+                            _navigatorWindow.Close();
+                            _navigatorWindow = null;
+                            Debug.WriteLine("CloseNavigatorWindow()");
+                        }
+                    };
             }
 
             _navigatorWindow.Show();
@@ -2795,20 +2808,24 @@ namespace AvalonDock
             if (_navigatorWindow == null)
                 return;
 
-            _navigatorWindow.Hide();
+            if (_navigatorWindow.IsVisible)
+            {
 
-            if (_navigatorWindow.SelectedAnchorable != null &&
-                _navigatorWindow.SelectedAnchorable.ActivateCommand.CanExecute(null))
-                _navigatorWindow.SelectedAnchorable.ActivateCommand.Execute(null);
+                if (_navigatorWindow.SelectedAnchorable != null &&
+                    _navigatorWindow.SelectedAnchorable.ActivateCommand.CanExecute(null))
+                    _navigatorWindow.SelectedAnchorable.ActivateCommand.Execute(null);
 
-            if (_navigatorWindow.SelectedAnchorable == null &&
-                _navigatorWindow.SelectedDocument != null &&
-                _navigatorWindow.SelectedDocument.ActivateCommand.CanExecute(null))
-                _navigatorWindow.SelectedDocument.ActivateCommand.Execute(null);
+                if (_navigatorWindow.SelectedAnchorable == null &&
+                    _navigatorWindow.SelectedDocument != null &&
+                    _navigatorWindow.SelectedDocument.ActivateCommand.CanExecute(null))
+                    _navigatorWindow.SelectedDocument.ActivateCommand.Execute(null);
 
-            _navigatorWindow.Close();
-            _navigatorWindow = null;
-            Debug.WriteLine("HideNavigatorWindow()");
+                _navigatorWindow.Hide();
+                Debug.WriteLine("HideNavigatorWindow()");
+            }
+
+            //_navigatorWindow.Close();
+            //_navigatorWindow = null;
 
         }
 
@@ -2858,5 +2875,28 @@ namespace AvalonDock
         }
 
         #endregion
+
+        #region ShowSystemMenu
+
+        /// <summary>
+        /// ShowSystemMenu Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ShowSystemMenuProperty =
+            DependencyProperty.Register("ShowSystemMenu", typeof(bool), typeof(DockingManager),
+                new FrameworkPropertyMetadata((bool)true));
+
+        /// <summary>
+        /// Gets or sets the ShowSystemMenu property.  This dependency property 
+        /// indicates if floating windows should show the system menu when a custom context menu is not defined.
+        /// </summary>
+        public bool ShowSystemMenu
+        {
+            get { return (bool)GetValue(ShowSystemMenuProperty); }
+            set { SetValue(ShowSystemMenuProperty, value); }
+        }
+
+        #endregion
+
+
     }
 }
