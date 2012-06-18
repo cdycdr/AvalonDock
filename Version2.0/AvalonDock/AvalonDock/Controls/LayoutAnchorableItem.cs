@@ -95,7 +95,6 @@ namespace AvalonDock.Controls
                 DockCommand = _defaultDockCommand;
 
             Visibility = _anchorable.IsVisible ? Visibility.Visible : System.Windows.Visibility.Hidden;
-
             base.SetDefaultBindings();
         }
 

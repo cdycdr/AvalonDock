@@ -40,9 +40,9 @@
                                    AnchorablesSource="{Binding Tools}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
-            <!--<avalonDock:DockingManager.Theme>
+            <avalonDock:DockingManager.Theme>
                 <avalonDock:VS2010Theme/>
-            </avalonDock:DockingManager.Theme>-->
+            </avalonDock:DockingManager.Theme>
             <avalonDock:DockingManager.LayoutItemTemplateSelector>
                 <local:PanesTemplateSelector>
                     <local:PanesTemplateSelector.FileViewTemplate>
@@ -69,6 +69,8 @@
                             <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                             <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}"/>
+                            <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
                         </Style>
                     </local:PanesStyleSelector.ToolStyle>
                     <local:PanesStyleSelector.FileStyle>

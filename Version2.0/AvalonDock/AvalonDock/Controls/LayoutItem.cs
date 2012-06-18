@@ -51,22 +51,16 @@ namespace AvalonDock.Controls
         { 
             LayoutElement = model;
             Model = model.Content;
-            DataContext = this;
 
             InitDefaultCommands();
 
-            IsSelected = LayoutElement.IsSelected;
             LayoutElement.IsSelectedChanged+=new EventHandler(LayoutElement_IsSelectedChanged);
-            IsActive = LayoutElement.IsActive;
             LayoutElement.IsActiveChanged+=new EventHandler(LayoutElement_IsActiveChanged);
-
-            LayoutElement.PropertyChanged += new PropertyChangedEventHandler(LayoutElement_PropertyChanged);
-        }
-
-        void LayoutElement_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
             
+            DataContext = this;
         }
+
+
 
         void LayoutElement_IsActiveChanged(object sender, EventArgs e)
         {
@@ -74,7 +68,9 @@ namespace AvalonDock.Controls
             {
                 using (_isActiveReentrantFlag.Enter())
                 {
+                    var bnd = BindingOperations.GetBinding(this, IsActiveProperty);
                     IsActive = LayoutElement.IsActive;
+                    var bnd2 = BindingOperations.GetBinding(this, IsActiveProperty);
                 }
             }
         }
@@ -94,7 +90,6 @@ namespace AvalonDock.Controls
         {
             LayoutElement.IsSelectedChanged -= new EventHandler(LayoutElement_IsSelectedChanged);
             LayoutElement.IsActiveChanged -= new EventHandler(LayoutElement_IsActiveChanged);
-            LayoutElement.PropertyChanged += new PropertyChangedEventHandler(LayoutElement_PropertyChanged);
         }
 
         public LayoutContent LayoutElement
@@ -174,6 +169,10 @@ namespace AvalonDock.Controls
                 MoveToNextTabGroupCommand = _defaultMoveToNextTabGroupCommand;
             if (MoveToPreviousTabGroupCommand == null)
                 MoveToPreviousTabGroupCommand = _defaultMoveToPreviousTabGroupCommand;
+
+
+            IsSelected = LayoutElement.IsSelected;
+            IsActive = LayoutElement.IsActive;
         }
 
 
@@ -497,8 +496,6 @@ namespace AvalonDock.Controls
 
         #endregion
 
-
- 
         #region CloseCommand
 
         /// <summary>
