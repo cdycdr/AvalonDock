@@ -180,10 +180,11 @@ namespace AvalonDock.Layout
             }
             RaisePropertyChanging("IsHidden");
             RaisePropertyChanging("IsVisible");
-            if (Parent is ILayoutPane)
+            //if (Parent is ILayoutPane)
             {
-                PreviousContainer = Parent as ILayoutPane;
-                PreviousContainerIndex = (Parent as ILayoutContentSelector).SelectedContentIndex;
+                var parentAsGroup = Parent as ILayoutGroup;
+                PreviousContainer = parentAsGroup;
+                PreviousContainerIndex = parentAsGroup.IndexOfChild(this);
             }
             Root.Hidden.Add(this);
             RaisePropertyChanged("IsVisible");
@@ -332,7 +333,7 @@ namespace AvalonDock.Layout
             {
                 var parentGroup = Parent as LayoutAnchorGroup;
                 var parentSide = parentGroup.Parent as LayoutAnchorSide;
-                var previousContainer = parentGroup.PreviousContainer as LayoutAnchorablePane;
+                var previousContainer = ((ILayoutPreviousContainer)parentGroup).PreviousContainer as LayoutAnchorablePane;
 
                 if (previousContainer == null)
                 {
@@ -409,10 +410,22 @@ namespace AvalonDock.Layout
                             break;
                     }
                 }
+                else
+                { 
+                    //I'm about to remove parentGroup, redirect any content (ie hidden contents) that point to it
+                    //to previousContainer
+                    LayoutRoot root = parentGroup.Root as LayoutRoot;
+                    foreach (var cnt in root.Descendents().OfType<ILayoutPreviousContainer>().Where(c => c.PreviousContainer == parentGroup))
+                    {
+                        cnt.PreviousContainer = previousContainer;
+                    }
+                }
 
 
                 foreach (var anchorableToToggle in parentGroup.Children.ToArray())
+                {
                     previousContainer.Children.Add(anchorableToToggle);
+                }
 
                 parentSide.Children.Remove(parentGroup);
             }
@@ -423,7 +436,9 @@ namespace AvalonDock.Layout
                 var root = Root;
                 var parentPane = Parent as LayoutAnchorablePane;
 
-                var newAnchorGroup = new LayoutAnchorGroup() { PreviousContainer = parentPane };
+                var newAnchorGroup = new LayoutAnchorGroup();
+
+                ((ILayoutPreviousContainer)newAnchorGroup).PreviousContainer = parentPane;
 
                 foreach (var anchorableToImport in parentPane.Children.ToArray())
                     newAnchorGroup.Children.Add(anchorableToImport);

@@ -64,7 +64,7 @@
             <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
                 <local:PanesStyleSelector>
                     <local:PanesStyleSelector.ToolStyle>
-                        <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                        <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
                             <Setter Property="Title" Value="{Binding Model.Title}"/>
                             <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                             <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>

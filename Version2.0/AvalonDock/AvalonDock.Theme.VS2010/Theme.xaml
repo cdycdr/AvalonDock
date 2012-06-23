@@ -1156,7 +1156,7 @@
     </Style>
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
-        <Setter Property="Background" Value="{Binding Model.Root.Manager.Background, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor5}"/>
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
@@ -1182,6 +1182,7 @@
                                 <Border x:Name="Header" 
                                         CornerRadius="1,1,0,0"
                                         Padding="2,0,2,0"
+                                        TextElement.Foreground="{DynamicResource AvalonDock_ThemeVS2010_BaseColor2}"
                                         Background="{DynamicResource AvalonDock_ThemeVS2010_BaseColor16}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -1302,7 +1303,7 @@
     </Style>
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAutoHideWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAutoHideWindowControl}">
-        <Setter Property="Background" Value="{Binding Model.Root.Manager.Background, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor5}"/>
     </Style>
 
 

@@ -1355,7 +1355,7 @@ namespace AvalonDock
 
             if (contentModel.FindParent<LayoutFloatingWindow>() == null)
             {
-                contentModel.PreviousContainer = parentPane;
+                ((ILayoutPreviousContainer)contentModel).PreviousContainer = parentPane;
                 contentModel.PreviousContainerIndex = contentModelParentChildrenIndex;
             }
 
@@ -1461,7 +1461,8 @@ namespace AvalonDock
 
                 if (savePreviousContainer)
                 {
-                    contentModel.PreviousContainer = paneModel;
+                    var contentModelAsPreviousContainer = contentModel as ILayoutPreviousContainer;
+                    contentModelAsPreviousContainer.PreviousContainer = paneModel;
                     contentModel.PreviousContainerIndex = paneModel.Children.Count - 1;
                 }
 
@@ -2230,20 +2231,11 @@ namespace AvalonDock
             var model = anchorable as LayoutAnchorable;
             if (model != null)
             {
-                if (model.IsAutoHidden)
-                    model.ToggleAutoHide();
+                //if (model.IsAutoHidden)
+                //    model.ToggleAutoHide();
                 //by default hide the anchorable
                 model.Hide();
             }
-
-            //var paneModel = anchorable as LayoutAnchorablePane;
-            //if (paneModel != null)
-            //{
-            //    foreach (var anchorableModel in paneModel.Children.ToArray())
-            //    {
-            //        anchorableModel.Hide();
-            //    }
-            //}
         }
 
         internal void _ExecuteAutoHideCommand(LayoutAnchorable _anchorable)

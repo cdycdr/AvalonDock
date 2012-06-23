@@ -351,7 +351,19 @@
     </DataTemplate>
 
     <DataTemplate x:Key="AnchorableHeaderTemplate">
-        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="icon" Source="{Binding IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform"/>
+            <TextBlock x:Name="title" Margin="4,0,0,0" Text="{Binding Title}" TextTrimming="CharacterEllipsis" Grid.Column="1"/>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IconSource}" Value="{x:Null}">
+                <Setter Property="Margin" Value="0" TargetName="title"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <DataTemplate x:Key="DocumentTitleTemplate">

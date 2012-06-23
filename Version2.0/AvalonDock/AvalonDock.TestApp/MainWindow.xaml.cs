@@ -154,6 +154,7 @@ namespace AvalonDock.TestApp
 
         private void OnShowWinformsWindow(object sender, RoutedEventArgs e)
         {
+            var winFormsWindow = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "WinFormsWindow");
             if (winFormsWindow.IsHidden)
                 winFormsWindow.Show();
             else if (winFormsWindow.IsVisible)
@@ -181,7 +182,17 @@ namespace AvalonDock.TestApp
 
             leftAnchorGroup.Children.Add(new LayoutAnchorable() { Title = "New Anchorable" });
 
-            ToolWindow1.IsSelected = true;
+        }
+
+        private void OnShowToolWindow1(object sender, RoutedEventArgs e)
+        {
+            var toolWindow1 = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "toolWindow1");
+            if (toolWindow1.IsHidden)
+                toolWindow1.Show();
+            else if (toolWindow1.IsVisible)
+                toolWindow1.IsActive = true;
+            else
+                toolWindow1.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
         }
     }
 }

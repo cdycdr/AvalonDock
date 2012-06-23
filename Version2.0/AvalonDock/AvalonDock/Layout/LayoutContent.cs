@@ -206,10 +206,10 @@ namespace AvalonDock.Layout
         private ILayoutContainer _previousContainer = null;
 
         [XmlIgnore]
-        public ILayoutContainer PreviousContainer
+        ILayoutContainer ILayoutPreviousContainer.PreviousContainer
         {
             get { return _previousContainer; }
-            internal set
+            set
             {
                 if (_previousContainer != value)
                 {
@@ -224,10 +224,23 @@ namespace AvalonDock.Layout
             }
         }
 
-        internal string PreviousContainerId
+        protected ILayoutContainer PreviousContainer
+        {
+            get { return ((ILayoutPreviousContainer)this).PreviousContainer; }
+            set { ((ILayoutPreviousContainer)this).PreviousContainer = value; }
+        }
+
+        [XmlIgnore]
+        string ILayoutPreviousContainer.PreviousContainerId
         {
             get;
-            private set;
+            set;
+        }
+
+        protected string PreviousContainerId
+        {
+            get { return ((ILayoutPreviousContainer)this).PreviousContainerId; }
+            set { ((ILayoutPreviousContainer)this).PreviousContainerId = value; }
         }
 
         #endregion
@@ -375,7 +388,6 @@ namespace AvalonDock.Layout
                 var paneSerializable = _previousContainer as ILayoutPaneSerializable;
                 if (paneSerializable != null)
                 {
-                    //at moment only anchorable panes are serializable as referenced panes
                     writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
                     writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
                 }
@@ -673,6 +685,8 @@ namespace AvalonDock.Layout
         }
 
         #endregion
+
+
 
     }
 }

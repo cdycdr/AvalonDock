@@ -136,8 +136,9 @@ namespace AvalonDock.Controls
                             };
 
                             parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
-                            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
+                            //the floating window must be added after the target modal as it could be raise a CollectGarbage call
                             newOrientedPanel.Children.Add(targetModel);
+                            newOrientedPanel.Children.Insert(0, floatingWindow.RootPanel);
 
                         }
                     }
@@ -179,8 +180,9 @@ namespace AvalonDock.Controls
                             };
 
                             parentModel.InsertChildAt(insertToIndex, newOrientedPanel);
-                            newOrientedPanel.Children.Add(floatingWindow.RootPanel);
+                            //the floating window must be added after the target modal as it could be raise a CollectGarbage call
                             newOrientedPanel.Children.Add(targetModel);
+                            newOrientedPanel.Children.Insert(0, floatingWindow.RootPanel);
 
                         }
                     }

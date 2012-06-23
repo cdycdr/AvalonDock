@@ -382,7 +382,7 @@ namespace AvalonDock.Controls
                             if (parentDocumentPaneGroup != null &&
                                 parentDocumentPaneGroup.Children.Where(c => c.IsVisible).Count() > 1)
                             {
-                                int indexOfDocumentPane = parentDocumentPaneGroup.IndexOfChild(layoutDocumentPane);
+                                int indexOfDocumentPane = parentDocumentPaneGroup.Children.Where(ch => ch.IsVisible).ToList().IndexOf(layoutDocumentPane);
                                 bool isFirstChild = indexOfDocumentPane == 0;
                                 bool isLastChild = indexOfDocumentPane == parentDocumentPaneGroup.ChildrenCount - 1;
                                 

@@ -30,6 +30,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AvalonDock.Layout;
 using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace AvalonDock.Controls
 {
@@ -46,7 +47,6 @@ namespace AvalonDock.Controls
 
             _model = model;
             _orientation = orientation;
-            //FlowDirection = System.Windows.FlowDirection.LeftToRight;
         }
 
         LayoutPositionableGroup<T> _model;
@@ -62,19 +62,30 @@ namespace AvalonDock.Controls
             get { return (_model as ILayoutOrientableGroup).Orientation; }
         }
 
+        bool _initialized;
+        ChildrenTreeChange? _asyncRefreshCalled;
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
 
-            UpdateChildren();
+            //UpdateChildren();
 
             _model.ChildrenTreeChanged += (s, args) =>
                 {
-                    if (args.Change == ChildrenTreeChange.TreeChanged)
-                        FixChildrenDockLengths();
-                    else
-                        UpdateChildren();
+                    if (_asyncRefreshCalled.HasValue &&
+                        _asyncRefreshCalled.Value == args.Change)
+                        return;
+                    _asyncRefreshCalled = args.Change;
+                    Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            _asyncRefreshCalled = null;
+                            if (args.Change == ChildrenTreeChange.TreeChanged)
+                                FixChildrenDockLengths();
+                            else
+                                UpdateChildren();
+                        }), DispatcherPriority.Background, null);
                 };
+
             this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
         }
 
@@ -83,6 +94,12 @@ namespace AvalonDock.Controls
             var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
             modelWithAtcualSize.ActualWidth = ActualWidth;
             modelWithAtcualSize.ActualHeight = ActualHeight;
+
+            if (!_initialized)
+            {
+                _initialized = true;
+                UpdateChildren();
+            }
         }
 
         void UpdateChildren()
@@ -157,6 +174,7 @@ namespace AvalonDock.Controls
             else if (e.PropertyName == "IsVisible" ||
                 e.PropertyName == "Orientation")
             {
+                //this.Dispatcher.BeginInvoke(new Action(() => UpdateRowColDefinitions()));
                 UpdateRowColDefinitions();
             }
         }
@@ -164,7 +182,10 @@ namespace AvalonDock.Controls
 
         void UpdateRowColDefinitions()
         {
-            var manager = _model.Root.Manager;
+            var root = _model.Root;
+            if (root == null)
+                return;
+            var manager = root.Manager;
             if (manager == null)
                 return;
 

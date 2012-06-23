@@ -31,7 +31,7 @@ namespace AvalonDock.Layout
 {
     [ContentProperty("Children")]
     [Serializable]
-    public class LayoutDocumentPane : LayoutPositionableGroup<LayoutContent>, ILayoutDocumentPane, ILayoutPositionableElement, ILayoutContentSelector
+    public class LayoutDocumentPane : LayoutPositionableGroup<LayoutContent>, ILayoutDocumentPane, ILayoutPositionableElement, ILayoutContentSelector, ILayoutPaneSerializable
     {
         public LayoutDocumentPane()
         {
@@ -125,5 +125,36 @@ namespace AvalonDock.Layout
                 return listSorted;
             }
         }
+
+        string _id;
+        string ILayoutPaneSerializable.Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
+
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            if (_id != null)
+                writer.WriteAttributeString("Id", _id);
+
+            base.WriteXml(writer);
+        }
+
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToAttribute("Id"))
+                _id = reader.Value;
+
+
+            base.ReadXml(reader);
+        }
+    
     }
 }

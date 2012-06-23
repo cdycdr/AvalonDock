@@ -57,14 +57,15 @@ namespace AvalonDock.Layout.Serialization
         protected virtual void FixupLayout(LayoutRoot layout)
         {
             //fix container panes
-            foreach (var lcToAttach in layout.Descendents().OfType<LayoutContent>().Where(lc => lc.PreviousContainerId != null))
+            foreach (var lcToAttach in layout.Descendents().OfType<ILayoutPreviousContainer>().Where(lc => lc.PreviousContainerId != null))
             {
                 var paneContainerToAttach = layout.Descendents().OfType<ILayoutPaneSerializable>().FirstOrDefault(lps => lps.Id == lcToAttach.PreviousContainerId);
                 if (paneContainerToAttach == null)
                     throw new ArgumentException(string.Format("Unable to find a pane with id ='{0}'", lcToAttach.PreviousContainerId));
 
-                lcToAttach.PreviousContainer = paneContainerToAttach as ILayoutPane;
+                lcToAttach.PreviousContainer = paneContainerToAttach as ILayoutContainer;
             }
+
 
             //now fix the content of the layoutcontents
             foreach (var lcToFix in layout.Descendents().OfType<LayoutAnchorable>().Where(lc => lc.Content == null).ToArray())

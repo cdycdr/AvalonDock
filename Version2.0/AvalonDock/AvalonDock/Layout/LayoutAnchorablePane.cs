@@ -104,6 +104,7 @@ namespace AvalonDock.Layout
 
             RaisePropertyChanged("CanClose");
             RaisePropertyChanged("CanHide");
+            RaisePropertyChanged("IsDirectlyHostedInFloatingWindow");
             base.OnChildrenCollectionChanged();
         }
 
@@ -135,8 +136,18 @@ namespace AvalonDock.Layout
         {
             get
             {
-                return Parent != null && Parent.ChildrenCount == 1 && Parent.Parent is LayoutFloatingWindow;
+                var parentFloatingWindow = this.FindParent<LayoutAnchorableFloatingWindow>();
+                if (parentFloatingWindow != null)
+                    return parentFloatingWindow.IsSinglePane;
+
+                return false;
+                //return Parent != null && Parent.ChildrenCount == 1 && Parent.Parent is LayoutFloatingWindow;
             }
+        }
+
+        internal void UpdateIsDirectlyHostedInFloatingWindow()
+        {
+            RaisePropertyChanged("IsDirectlyHostedInFloatingWindow");
         }
 
         public bool IsHostedInFloatingWindow
@@ -199,7 +210,7 @@ namespace AvalonDock.Layout
 
         #endregion
 
-
+        
 
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
