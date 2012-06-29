@@ -27,6 +27,7 @@ using System.Text;
 using System.Windows;
 using System.Xml.Serialization;
 using System.Windows.Controls;
+using System.Globalization;
 
 namespace AvalonDock.Layout
 {
@@ -510,6 +511,14 @@ namespace AvalonDock.Layout
                 CanHide = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("CanAutoHide"))
                 CanAutoHide = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("AutoHideWidth"))
+                AutoHideWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            if (reader.MoveToAttribute("AutoHideHeight"))
+                AutoHideHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            if (reader.MoveToAttribute("AutoHideMinWidth"))
+                AutoHideMinWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            if (reader.MoveToAttribute("AutoHideMinHeight"))
+                AutoHideMinHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
 
             base.ReadXml(reader);
         }
@@ -519,7 +528,15 @@ namespace AvalonDock.Layout
             if (!CanHide)
                 writer.WriteAttributeString("CanHide", CanHide.ToString());
             if (!CanAutoHide)
-                writer.WriteAttributeString("CanAutoHide", CanAutoHide.ToString());
+                writer.WriteAttributeString("CanAutoHide", CanAutoHide.ToString(CultureInfo.InvariantCulture));
+            if (AutoHideWidth > 0)
+                writer.WriteAttributeString("AutoHideWidth", AutoHideWidth.ToString(CultureInfo.InvariantCulture));
+            if (AutoHideHeight > 0)
+                writer.WriteAttributeString("AutoHideHeight", AutoHideHeight.ToString(CultureInfo.InvariantCulture));
+            if (AutoHideMinWidth != 25.0)
+                writer.WriteAttributeString("AutoHideMinWidth", AutoHideMinWidth.ToString(CultureInfo.InvariantCulture));
+            if (AutoHideMinHeight != 25.0)
+                writer.WriteAttributeString("AutoHideMinHeight", AutoHideMinHeight.ToString(CultureInfo.InvariantCulture));
 
             
             base.WriteXml(writer);

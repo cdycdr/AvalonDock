@@ -312,8 +312,6 @@ namespace AvalonDock.Controls
 
 
         DragService _dragService = null;
-        Vector _dragOffest;
-        Point _dragClickPoint;
 
         void UpdatePositionAndSizeOfPanes()
         {
@@ -339,12 +337,6 @@ namespace AvalonDock.Controls
 
             switch (msg)
             {
-                case Win32Helper.WM_SETFOCUS:
-                    //Debug.WriteLine("WM_SETFOCUS");
-                    break;
-                case Win32Helper.WM_KILLFOCUS:
-                    //Debug.WriteLine("WM_KILLFOCUS");
-                    break;
                 case Win32Helper.WM_ACTIVATE:
                     if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
                     {
@@ -353,22 +345,6 @@ namespace AvalonDock.Controls
                             Win32Helper.SetActiveWindow(_hwndSrc.Handle);
                             handled = true;
                         }
-                        
-                    }
-                    break;
-                case Win32Helper.WM_NCLBUTTONDOWN: //Left button down on title -> start dragging over docking manager
-                    if (wParam.ToInt32() == Win32Helper.HT_CAPTION)
-                    {
-                        short x = (short)((lParam.ToInt32() & 0xFFFF));
-                        short y = (short)((lParam.ToInt32() >> 16));
-
-                        Point clickPoint = this.TransformToDeviceDPI(new Point(x, y));
-
-                        _dragOffest = clickPoint -
-                             this.TransformToDeviceDPI(new Point(Left, Top));
-
-                        _dragClickPoint = clickPoint;
-
                     }
                     break;
                 case Win32Helper.WM_EXITSIZEMOVE:
@@ -377,7 +353,8 @@ namespace AvalonDock.Controls
                     if (_dragService != null)
                     {
                         bool dropFlag;
-                        _dragService.Drop(Left + _dragOffest.X, Top + _dragOffest.Y, out dropFlag);
+                        var mousePosition = this.TransformToDeviceDPI(Win32Helper.GetMousePosition());
+                        _dragService.Drop(mousePosition, out dropFlag);
                         _dragService = null;
                         SetIsDragging(false);
 
@@ -393,8 +370,9 @@ namespace AvalonDock.Controls
                             _dragService = new DragService(this);
                             SetIsDragging(true);
                         }
-                        var windowRect = (Win32Helper.RECT)Marshal.PtrToStructure(lParam, typeof(Win32Helper.RECT));
-                        _dragService.UpdateMouseLocation(windowRect.Left + _dragOffest.X, windowRect.Top + _dragOffest.Y);
+
+                        var mousePosition = this.TransformToDeviceDPI(Win32Helper.GetMousePosition());
+                        _dragService.UpdateMouseLocation(mousePosition);
                     }
                     break;
                 case Win32Helper.WM_LBUTTONUP: //set as handled right button click on title area (after showing context menu)

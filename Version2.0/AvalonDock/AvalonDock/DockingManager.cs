@@ -1361,8 +1361,13 @@ namespace AvalonDock
 
             parentPane.RemoveChildAt(contentModelParentChildrenIndex);
 
-            double fwWidth = parentPaneAsPositionableElement.FloatingWidth;
-            double fwHeight = parentPaneAsPositionableElement.FloatingHeight;
+            double fwWidth = contentModel.FloatingWidth; 
+            double fwHeight = contentModel.FloatingHeight; 
+
+            if (fwWidth == 0.0)
+                fwWidth = parentPaneAsPositionableElement.FloatingWidth;
+            if (fwHeight == 0.0)
+                fwHeight = parentPaneAsPositionableElement.FloatingHeight;
 
             if (fwWidth == 0.0)
                 fwWidth = parentPaneAsWithActualSize.ActualWidth;
@@ -1930,10 +1935,20 @@ namespace AvalonDock
             {
                 if (!contentToClose.CanClose)
                     continue;
-                if (contentToClose is LayoutDocument)
-                    _ExecuteCloseCommand(contentToClose as LayoutDocument);
-                else if (contentToClose is LayoutAnchorable)
-                    _ExecuteCloseCommand(contentToClose as LayoutAnchorable);
+
+                var layoutItem = GetLayoutItemFromModel(contentToClose);
+                if (layoutItem.CloseCommand != null)
+                {
+                    if (layoutItem.CloseCommand.CanExecute(null))
+                        layoutItem.CloseCommand.Execute(null);
+                }
+                else
+                {
+                    if (contentToClose is LayoutDocument)
+                        _ExecuteCloseCommand(contentToClose as LayoutDocument);
+                    else if (contentToClose is LayoutAnchorable)
+                        _ExecuteCloseCommand(contentToClose as LayoutAnchorable);
+                }
             }
         }
 

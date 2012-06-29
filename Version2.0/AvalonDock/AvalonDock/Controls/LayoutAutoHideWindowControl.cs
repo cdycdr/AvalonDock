@@ -476,7 +476,11 @@ namespace AvalonDock.Controls
                     return true;
 
                 var manager = Model.Root.Manager;
-                var anchor = manager.FindVisualChildren<LayoutAnchorControl>().Where(c => c.Model == Model).First();
+                var anchor = manager.FindVisualChildren<LayoutAnchorControl>().Where(c => c.Model == Model).FirstOrDefault();
+
+                if (anchor == null)
+                    return false;
+
                 location = anchor.PointToScreenDPI(new Point());
 
                 if (anchor.IsMouseOver)

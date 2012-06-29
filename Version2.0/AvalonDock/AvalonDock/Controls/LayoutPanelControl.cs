@@ -65,8 +65,8 @@ namespace AvalonDock.Controls
                             var childPositionableModelWidthActualSize = childPositionableModel as ILayoutPositionableElementWithActualSize;
 
                             var widthToSet = Math.Max(childPositionableModelWidthActualSize.ActualWidth, childPositionableModel.DockMinWidth);
-                            //if (widthToSet > modelAsPositionableElement.ActualWidth / 2.0)
-                                widthToSet = Math.Min(widthToSet, modelAsPositionableElement.ActualWidth / 2.0);
+                            widthToSet = Math.Min(widthToSet, modelAsPositionableElement.ActualWidth / 2.0);
+                            widthToSet = Math.Max(widthToSet, childPositionableModel.DockMinWidth);
         
                             childPositionableModel.DockWidth = new GridLength(
                                 widthToSet,
@@ -107,8 +107,8 @@ namespace AvalonDock.Controls
 
                             var heightToSet = Math.Max(childPositionableModelWidthActualSize.ActualHeight, childPositionableModel.DockMinHeight);
                             
-                            //if (heightToSet > modelAsPositionableElement.ActualHeight / 2.0)
-                                heightToSet = Math.Min(heightToSet, modelAsPositionableElement.ActualHeight / 2.0);
+                            heightToSet = Math.Min(heightToSet, modelAsPositionableElement.ActualHeight / 2.0);
+                            heightToSet = Math.Max(heightToSet, childPositionableModel.DockMinHeight);
 
                             childPositionableModel.DockHeight = new GridLength(heightToSet, GridUnitType.Pixel);
                         }
