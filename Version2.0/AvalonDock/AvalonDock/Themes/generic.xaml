@@ -226,6 +226,15 @@
                             
                         </Grid>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Model.IsAutoHidden, RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                            <Setter Property="LayoutTransform" TargetName="PART_AutoHidePin">
+                                <Setter.Value>
+                                    <RotateTransform Angle="90"/>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -488,8 +488,6 @@
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.IsActive}" Value="True">
-                        </DataTrigger>
                         <DataTrigger Binding="{Binding Model.IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
                             <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor15}" />
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}" TargetName="Header"/>

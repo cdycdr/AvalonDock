@@ -48,6 +48,14 @@ namespace AvalonDock.Controls
         {
             _model = anchor.Model as LayoutAnchorable;
             _side = (anchor.Model.Parent.Parent as LayoutAnchorSide).Side;
+            this.Unloaded += (s, e) =>
+                {
+                    if (_closeTimer != null)
+                    {
+                        _closeTimer.Stop();
+                        _closeTimer = null;
+                    }
+                };
         }
 
         LayoutAnchorable _model;
@@ -94,8 +102,11 @@ namespace AvalonDock.Controls
 
         protected override void DestroyWindowCore(System.Runtime.InteropServices.HandleRef hwnd)
         {
-            _closeTimer.Stop();
-            _closeTimer = null;
+            if (_closeTimer != null)
+            {
+                _closeTimer.Stop();
+                _closeTimer = null;
+            }
 
             if (_internalHwndSource != null)
             {

@@ -36,7 +36,10 @@ namespace AvalonDock.Converters
             var layoutModel = value as LayoutContent;
             if (layoutModel == null)
                 return null;
-
+            if (layoutModel.Root == null)
+                return null;
+            if (layoutModel.Root.Manager == null)
+                return null;
             return layoutModel.Root.Manager.GetLayoutItemFromModel(layoutModel);
         }
 
