@@ -28,9 +28,9 @@ namespace AvalonDock.MVVMTestApp
             return false;
         }
 
-        public bool InsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow, ILayoutContainer destinationContainer)
+
+        public void AfterInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableShown)
         {
-            return false;
         }
     }
 }

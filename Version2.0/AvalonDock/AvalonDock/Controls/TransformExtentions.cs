@@ -37,6 +37,22 @@ namespace AvalonDock.Controls
             return TransformToDeviceDPI(visual, resultPt);
         }
 
+        public static Point PointToScreenDPIWithoutFlowDirection(this FrameworkElement element, Point point)
+        {
+            if (FrameworkElement.GetFlowDirection(element) == FlowDirection.RightToLeft)
+            {
+                var actualSize = element.TransformActualSizeToAncestor();
+                Point leftToRightPoint = new Point(
+                    actualSize.Width - point.X,
+                    point.Y);
+                return element.PointToScreenDPI(leftToRightPoint);
+            }
+
+            return element.PointToScreenDPI(point);
+        }
+
+
+
         public static Rect GetScreenArea(this FrameworkElement element)
         {
             return new Rect(element.PointToScreenDPI(new Point()),

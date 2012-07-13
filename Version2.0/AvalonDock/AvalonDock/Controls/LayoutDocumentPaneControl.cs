@@ -47,6 +47,7 @@ namespace AvalonDock.Controls
 
             _model = model;
             SetBinding(ItemsSourceProperty, new Binding("Model.Children") { Source = this });
+            SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
 
             this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
         }

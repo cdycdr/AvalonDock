@@ -54,45 +54,12 @@ namespace AvalonDock.Layout
 
         #endregion
 
-        #region LastActivationTimeStamp
-
-        private DateTime? _lastActivationTimeStamp = null;
-        public DateTime? LastActivationTimeStamp
-        {
-            get { return _lastActivationTimeStamp; }
-            set
-            {
-                if (_lastActivationTimeStamp != value)
-                {
-                    _lastActivationTimeStamp = value;
-                    RaisePropertyChanged("LastActivationTimeStamp");
-                }
-            }
-        }
-
-        #endregion
-
-
-
-
-
-        protected override void OnIsActiveChanged(bool oldValue, bool newValue)
-        {
-            if (IsActive)
-                LastActivationTimeStamp = DateTime.Now;
-
-            base.OnIsActiveChanged(oldValue, newValue);
-        }
-
-
         public override void WriteXml(System.Xml.XmlWriter writer)
         {
             base.WriteXml(writer);
 
             if (!string.IsNullOrWhiteSpace(Description))
                 writer.WriteAttributeString("Description", Description);
-            if (LastActivationTimeStamp != null)
-                writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
 
         }
 
@@ -100,13 +67,10 @@ namespace AvalonDock.Layout
         {
             if (reader.MoveToAttribute("Description"))
                 Description = reader.Value;
-            if (reader.MoveToAttribute("LastActivationTimeStamp"))
-                LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
 
             base.ReadXml(reader);
         }
 
-        
 
 
     }

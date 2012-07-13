@@ -47,6 +47,8 @@ namespace AvalonDock.Controls
 
             _model = model;
             _orientation = orientation;
+
+            FlowDirection = System.Windows.FlowDirection.LeftToRight;
         }
 
         LayoutPositionableGroup<T> _model;
@@ -459,7 +461,7 @@ namespace AvalonDock.Controls
             var prevChildModel = (ILayoutPositionableElement)(prevChild as ILayoutControl).Model;
             var nextChildModel = (ILayoutPositionableElement)(nextChild as ILayoutControl).Model;
 
-            Point ptTopLeftScreen = prevChild.PointToScreenDPI(new Point()); 
+            Point ptTopLeftScreen = prevChild.PointToScreenDPIWithoutFlowDirection(new Point());
 
             Size actualSize;
 
@@ -481,10 +483,11 @@ namespace AvalonDock.Controls
 
                 _resizerGhost.Height = splitter.ActualHeight;
                 _resizerGhost.Width = actualSize.Width;
+                
                 ptTopLeftScreen.Offset(0.0, prevChildModel.DockMinHeight);
             }
 
-            _initialStartPoint = splitter.PointToScreenDPI(new Point()) - ptTopLeftScreen;
+            _initialStartPoint = splitter.PointToScreenDPIWithoutFlowDirection(new Point()) - ptTopLeftScreen;
 
             if (Orientation == System.Windows.Controls.Orientation.Horizontal)
             {

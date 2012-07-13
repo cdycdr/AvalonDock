@@ -140,7 +140,7 @@ namespace AvalonDock.Controls
 
         bool IOverlayWindowHost.HitTest(Point dragPoint)
         {
-            Rect detectionRect = new Rect(this.PointToScreenDPI(new Point()), this.TransformActualSizeToAncestor());
+            Rect detectionRect = new Rect(this.PointToScreenDPIWithoutFlowDirection(new Point()), this.TransformActualSizeToAncestor());
             return detectionRect.Contains(dragPoint);
         }
 
@@ -149,7 +149,7 @@ namespace AvalonDock.Controls
         {
             if (_overlayWindow == null)
                 _overlayWindow = new OverlayWindow(this);
-            Rect rectWindow = new Rect(this.PointToScreenDPI(new Point()), this.TransformActualSizeToAncestor());
+            Rect rectWindow = new Rect(this.PointToScreenDPIWithoutFlowDirection(new Point()), this.TransformActualSizeToAncestor());
             _overlayWindow.Left = rectWindow.Left;
             _overlayWindow.Top = rectWindow.Top;
             _overlayWindow.Width = rectWindow.Width;

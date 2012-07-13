@@ -34,9 +34,8 @@ namespace AvalonDock.Layout
             LayoutAnchorable anchorableToShow,
             ILayoutContainer destinationContainer);
 
-        bool InsertAnchorable(
+        void AfterInsertAnchorable(
             LayoutRoot layout,
-            LayoutAnchorable anchorableToShow,
-            ILayoutContainer destinationContainer);
+            LayoutAnchorable anchorableShown);
     }
 }

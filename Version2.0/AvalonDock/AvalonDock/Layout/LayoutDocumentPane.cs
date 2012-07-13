@@ -91,7 +91,12 @@ namespace AvalonDock.Layout
             if (SelectedContentIndex >= ChildrenCount)
                 SelectedContentIndex = Children.Count - 1;
             if (SelectedContentIndex == -1 && ChildrenCount > 0)
-                SelectedContentIndex = 0;
+            {
+                //SelectedContentIndex = 0;
+                var childrenToSelect = Children.OrderByDescending(c => c.LastActivationTimeStamp.GetValueOrDefault()).First();
+                SelectedContentIndex = Children.IndexOf(childrenToSelect);
+                childrenToSelect.IsActive = true;
+            }
 
             base.OnChildrenCollectionChanged();
 

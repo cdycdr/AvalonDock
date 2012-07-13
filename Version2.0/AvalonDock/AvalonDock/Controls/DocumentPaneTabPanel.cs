@@ -32,6 +32,10 @@ namespace AvalonDock.Controls
 {
     public class DocumentPaneTabPanel : Panel
     {
+        public DocumentPaneTabPanel()
+        {
+            FlowDirection = System.Windows.FlowDirection.LeftToRight;
+        }
 
         protected override Size MeasureOverride(Size availableSize)
         {

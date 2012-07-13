@@ -339,28 +339,30 @@ namespace AvalonDock.Layout
         #region ActiveContent
 
         [field:NonSerialized]
-        private LayoutContent _activeContent = null;
+        private WeakReference _activeContent = null;
         
         [XmlIgnore]
         public LayoutContent ActiveContent
         {
-            get { return _activeContent; }
+            get { return _activeContent.GetValueOrDefault<LayoutContent>(); }
             set
             {
-                if (_activeContent != value)
+                var currentValue = ActiveContent;
+                if (currentValue != value)
                 {
                     RaisePropertyChanging("ActiveContent");
-                    if (_activeContent != null)
-                        _activeContent.IsActive = false;
-                    _activeContent = value;
-                    if (_activeContent != null)
-                        _activeContent.IsActive = true;
+                    if (currentValue != null)
+                        currentValue.IsActive = false;
+                    _activeContent = new WeakReference(value);
+                    currentValue = ActiveContent;
+                    if (currentValue != null)
+                        currentValue.IsActive = true;
                     RaisePropertyChanged("ActiveContent");
 
-                    if (_activeContent != null)
+                    if (currentValue != null)
                     {
-                        if (_activeContent.Parent is LayoutDocumentPane || _activeContent is LayoutDocument)
-                            LastFocusedDocument = _activeContent;
+                        if (currentValue.Parent is LayoutDocumentPane || currentValue is LayoutDocument)
+                            LastFocusedDocument = currentValue;
                     }
                     else
                         LastFocusedDocument = null;
@@ -373,22 +375,24 @@ namespace AvalonDock.Layout
         #region LastFocusedDocument
 
         [field: NonSerialized]
-        private LayoutContent _lastFocusedDocument = null;
+        private WeakReference _lastFocusedDocument = null;
         
         [XmlIgnore]
         public LayoutContent LastFocusedDocument
         {
-            get { return _lastFocusedDocument; }
+            get { return _lastFocusedDocument.GetValueOrDefault<LayoutContent>(); }
             private set
             {
-                if (_lastFocusedDocument != value)
+                var currentValue = LastFocusedDocument;
+                if (currentValue != value)
                 {
                     RaisePropertyChanging("LastFocusedDocument");
-                    if (_lastFocusedDocument != null)
-                        _lastFocusedDocument.IsLastFocusedDocument = false;
-                    _lastFocusedDocument = value;
-                    if (_lastFocusedDocument != null)
-                        _lastFocusedDocument.IsLastFocusedDocument = true;
+                    if (currentValue != null)
+                        currentValue.IsLastFocusedDocument = false;
+                    _lastFocusedDocument = new WeakReference(value);
+                    currentValue = LastFocusedDocument;
+                    if (currentValue != null)
+                        currentValue.IsLastFocusedDocument = true;
                     RaisePropertyChanged("LastFocusedDocument");
                 }
             }
@@ -594,6 +598,10 @@ namespace AvalonDock.Layout
 
         internal void OnLayoutElementRemoved(LayoutElement element)
         {
+            if (element.Descendents().OfType<LayoutContent>().Any(c => c == LastFocusedDocument))
+                LastFocusedDocument = null;
+            if (element.Descendents().OfType<LayoutContent>().Any(c => c == ActiveContent))
+                ActiveContent = null;
             if (ElementRemoved != null)
                 ElementRemoved(this, new LayoutElementEventArgs(element));
         }

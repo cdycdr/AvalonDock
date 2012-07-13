@@ -173,6 +173,8 @@ namespace AvalonDock.Layout
         /// </summary>
         protected virtual void OnIsActiveChanged(bool oldValue, bool newValue)
         {
+            LastActivationTimeStamp = DateTime.Now;
+
             if (IsActiveChanged != null)
                 IsActiveChanged(this, EventArgs.Empty);
         }
@@ -264,6 +266,24 @@ namespace AvalonDock.Layout
 
         #endregion
 
+        #region LastActivationTimeStamp
+
+        private DateTime? _lastActivationTimeStamp = null;
+        public DateTime? LastActivationTimeStamp
+        {
+            get { return _lastActivationTimeStamp; }
+            set
+            {
+                if (_lastActivationTimeStamp != value)
+                {
+                    _lastActivationTimeStamp = value;
+                    RaisePropertyChanged("LastActivationTimeStamp");
+                }
+            }
+        }
+
+        #endregion
+
         protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
             var root = Root;
@@ -271,8 +291,8 @@ namespace AvalonDock.Layout
             if (oldValue != null)
                 IsSelected = false;
 
-            if (root != null && _isActive && newValue == null)
-                root.ActiveContent = null;
+            //if (root != null && _isActive && newValue == null)
+            //    root.ActiveContent = null;
             
             base.OnParentChanging(oldValue, newValue);
         }
@@ -285,9 +305,9 @@ namespace AvalonDock.Layout
                 parentSelector.SelectedContentIndex = parentSelector.IndexOf(this);
             }
 
-            var root = Root;
-            if (root != null && _isActive)
-                root.ActiveContent = this;
+            //var root = Root;
+            //if (root != null && _isActive)
+            //    root.ActiveContent = this;
 
             base.OnParentChanged(oldValue, newValue);
         }
@@ -302,6 +322,17 @@ namespace AvalonDock.Layout
             parentAsContainer.RemoveChild(this);
             if (root != null)
                 root.CollectGarbage();
+        }
+
+        /// <summary>
+        /// Event fired when the content is closed (i.e. removed definitely from the layout)
+        /// </summary>
+        public event EventHandler Closed;
+
+        protected virtual void OnClosed()
+        {
+            if (Closed != null)
+                Closed(this, EventArgs.Empty);
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()
@@ -341,6 +372,8 @@ namespace AvalonDock.Layout
                 CanClose = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("CanFloat"))
                 CanFloat = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("LastActivationTimeStamp"))
+                LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
 
             reader.Read();
         }
@@ -382,6 +415,9 @@ namespace AvalonDock.Layout
                 writer.WriteAttributeString("CanClose", CanClose.ToString());
             if (!CanFloat)
                 writer.WriteAttributeString("CanFloat", CanFloat.ToString());
+        
+            if (LastActivationTimeStamp != null)
+                writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
 
             if (_previousContainer != null)
             {

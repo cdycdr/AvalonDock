@@ -47,6 +47,7 @@ namespace AvalonDock.Controls
 
         public LayoutDocumentControl()
         {
+            //SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
         }
 
 
@@ -84,6 +85,7 @@ namespace AvalonDock.Controls
         protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
             UpdateLogicalParent();
+            //SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
         }
 
         void UpdateLogicalParent()

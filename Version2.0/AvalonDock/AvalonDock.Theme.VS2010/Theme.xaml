@@ -1048,7 +1048,7 @@
                                             HorizontalContentAlignment="Center"
                                             DropDownContextMenu="{Binding Model.Root.Manager.DocumentContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                             DropDownContextMenuDataContext="{Binding Path=RootDocumentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
-                                            <Image x:Name="PART_ImgPinMenu" Stretch="None" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Dark.png" Width="13"/>
+                                            <Image x:Name="PART_ImgPinMenu" Stretch="None" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu.png" Width="13"/>
                                         </avalonDockControls:DropDownButton>
 
                                         <Button 

@@ -55,6 +55,10 @@ namespace AvalonDock.Controls
                         _closeTimer.Stop();
                         _closeTimer = null;
                     }
+
+                    var manager = Model.Root.Manager;
+                    if (manager != null)
+                        manager.HideAutoHideWindow();
                 };
         }
 
@@ -147,10 +151,12 @@ namespace AvalonDock.Controls
         void CreateInternalGrid()
         {
             var manager = _model.Root.Manager;
-            _internalGrid = new Grid();
+            _internalGrid = new Grid() { FlowDirection = System.Windows.FlowDirection.LeftToRight };
             _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("Background") { Source = this });
 
             _internalHost = new LayoutAnchorableControl() { Model = _model };
+            _internalHost.SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
+
             KeyboardNavigation.SetTabNavigation(_internalGrid, KeyboardNavigationMode.Cycle);
             
             _resizer = new LayoutGridResizerControl();
@@ -309,6 +315,8 @@ namespace AvalonDock.Controls
 
             if (_side == AnchorSide.Right || _side == AnchorSide.Left)
             {
+                if (FrameworkElement.GetFlowDirection(_internalHost) == System.Windows.FlowDirection.RightToLeft)
+                    transformedDelta.X = -transformedDelta.X;
                 Canvas.SetLeft(_resizerGhost, MathHelper.MinMax(_initialStartPoint.X + transformedDelta.X, 0.0, _resizerWindowHost.Width - _resizerGhost.Width));
             }
             else
@@ -347,7 +355,7 @@ namespace AvalonDock.Controls
             var parentManager = Parent as DockingManager;
             var modelControlActualSize = this._internalHost.TransformActualSizeToAncestor();
 
-            Point ptTopLeftScreen = parentManager.GetAutoHideAreaElement().PointToScreenDPI(new Point());
+            Point ptTopLeftScreen = parentManager.GetAutoHideAreaElement().PointToScreenDPIWithoutFlowDirection(new Point());
 
             var managerSize = parentManager.GetAutoHideAreaElement().TransformActualSizeToAncestor();
 
@@ -374,7 +382,7 @@ namespace AvalonDock.Controls
                 ptTopLeftScreen.Offset(0.0, 25.0);
             }
 
-            _initialStartPoint = splitter.PointToScreenDPI(new Point()) - ptTopLeftScreen;
+            _initialStartPoint = splitter.PointToScreenDPIWithoutFlowDirection(new Point()) - ptTopLeftScreen;
 
             if (_side == AnchorSide.Right || _side == AnchorSide.Left)
             {

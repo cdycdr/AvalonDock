@@ -52,14 +52,14 @@ namespace AvalonDock.Controls
             }
 
             manager.PreviewGotKeyboardFocus += new KeyboardFocusChangedEventHandler(manager_PreviewGotKeyboardFocus);
-            manager.LayoutChanged += new EventHandler(manager_LayoutChanged);
+            //manager.LayoutChanged += new EventHandler(manager_LayoutChanged);
             _managers.Add(manager);
         }
 
         internal static void FinalizeFocusManagement(DockingManager manager)
         {
             manager.PreviewGotKeyboardFocus -= new KeyboardFocusChangedEventHandler(manager_PreviewGotKeyboardFocus);
-            manager.LayoutChanged -= new EventHandler(manager_LayoutChanged);
+            //manager.LayoutChanged -= new EventHandler(manager_LayoutChanged);
             _managers.Remove(manager);
 
             if (_managers.Count == 0)
@@ -75,7 +75,7 @@ namespace AvalonDock.Controls
                 }
             }
 
-            RefreshDetachedElements();
+            //RefreshDetachedElements();
         }
 
         static void _windowHandler_Activate(object sender, EventArgs e)
@@ -113,8 +113,6 @@ namespace AvalonDock.Controls
                 var parentAnchorable = focusedElement.FindVisualAncestor<LayoutAnchorableControl>();
                 if (parentAnchorable != null)
                 {
-                    if (_modelFocusedWindowHandle.ContainsKey(parentAnchorable.Model))
-                        _modelFocusedWindowHandle.Remove(parentAnchorable.Model);
                     _modelFocusedElement[parentAnchorable.Model] = e.NewFocus;
                 }
                 else
@@ -122,31 +120,29 @@ namespace AvalonDock.Controls
                     var parentDocument = focusedElement.FindVisualAncestor<LayoutDocumentControl>();
                     if (parentDocument != null)
                     {
-                        if (_modelFocusedWindowHandle.ContainsKey(parentDocument.Model))
-                            _modelFocusedWindowHandle.Remove(parentDocument.Model);
                         _modelFocusedElement[parentDocument.Model] = e.NewFocus;
                     }
                 }
             }
         }
 
-        static void manager_LayoutChanged(object sender, EventArgs e)
-        {
-            RefreshDetachedElements();
-        }
+        //static void manager_LayoutChanged(object sender, EventArgs e)
+        //{
+        //    RefreshDetachedElements();
+        //}
 
-        static void RefreshDetachedElements()
-        {
-            var detachedElements = _modelFocusedElement.Where(d => d.Key.Root == null || d.Key.Root.Manager == null || !_managers.Contains(d.Key.Root.Manager)).Select(d => d.Key).ToArray();
-            foreach (var detachedElement in detachedElements)
-                _modelFocusedElement.Remove(detachedElement);
-            detachedElements = _modelFocusedWindowHandle.Where(d => d.Key.Root == null || d.Key.Root.Manager == null || !_managers.Contains(d.Key.Root.Manager)).Select(d => d.Key).ToArray();
-            foreach (var detachedElement in detachedElements)
-                _modelFocusedWindowHandle.Remove(detachedElement);
-        }
+        //static void RefreshDetachedElements()
+        //{
+        //    var detachedElements = _modelFocusedElement.Where(d => d.Key.Root == null || d.Key.Root.Manager == null || !_managers.Contains(d.Key.Root.Manager)).Select(d => d.Key).ToArray();
+        //    foreach (var detachedElement in detachedElements)
+        //        _modelFocusedElement.Remove(detachedElement);
+        //    detachedElements = _modelFocusedWindowHandle.Where(d => d.Key.Root == null || d.Key.Root.Manager == null || !_managers.Contains(d.Key.Root.Manager)).Select(d => d.Key).ToArray();
+        //    foreach (var detachedElement in detachedElements)
+        //        _modelFocusedWindowHandle.Remove(detachedElement);
+        //}
 
-        static Dictionary<ILayoutElement, IInputElement> _modelFocusedElement = new Dictionary<ILayoutElement, IInputElement>();
-        static Dictionary<ILayoutElement, IntPtr> _modelFocusedWindowHandle = new Dictionary<ILayoutElement, IntPtr>();
+        static WeakDictionary<ILayoutElement, IInputElement> _modelFocusedElement = new WeakDictionary<ILayoutElement, IInputElement>();
+        static WeakDictionary<ILayoutElement, IntPtr> _modelFocusedWindowHandle = new WeakDictionary<ILayoutElement, IntPtr>();
 
         internal static IInputElement GetLastFocusedElement(ILayoutElement model)
         {
@@ -193,8 +189,8 @@ namespace AvalonDock.Controls
                     var parentAnchorable = hostContainingFocusedHandle.FindVisualAncestor<LayoutAnchorableControl>();
                     if (parentAnchorable != null)
                     {
-                        if (_modelFocusedElement.ContainsKey(parentAnchorable.Model))
-                            _modelFocusedElement.Remove(parentAnchorable.Model);
+                        //if (_modelFocusedElement.ContainsKey(parentAnchorable.Model))
+                        //    _modelFocusedElement.Remove(parentAnchorable.Model);
                         _modelFocusedWindowHandle[parentAnchorable.Model] = e.GotFocusWinHandle;
                         if (parentAnchorable.Model != null)
                             parentAnchorable.Model.IsActive = true;
@@ -204,8 +200,8 @@ namespace AvalonDock.Controls
                         var parentDocument = hostContainingFocusedHandle.FindVisualAncestor<LayoutDocumentControl>();
                         if (parentDocument != null)
                         {
-                            if (_modelFocusedElement.ContainsKey(parentDocument.Model))
-                                _modelFocusedElement.Remove(parentDocument.Model);
+                            //if (_modelFocusedElement.ContainsKey(parentDocument.Model))
+                            //    _modelFocusedElement.Remove(parentDocument.Model);
 
                             _modelFocusedWindowHandle[parentDocument.Model] = e.GotFocusWinHandle;
                             if (parentDocument.Model != null)

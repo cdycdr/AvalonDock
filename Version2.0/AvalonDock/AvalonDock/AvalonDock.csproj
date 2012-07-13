@@ -69,6 +69,7 @@
     <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\DropDownControlArea.cs" />
     <Compile Include="Controls\DropTargetBase.cs" />
+    <Compile Include="Controls\WeakDictionary.cs" />
     <Compile Include="Controls\WindowHookHandler.cs" />
     <Compile Include="Controls\FocusElementManager.cs" />
     <Compile Include="Controls\ILogicalChildrenContainer.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="DocumentClosedEventArgs.cs" />
     <Compile Include="DocumentClosingEventArgs.cs" />
     <Compile Include="Extentions.cs" />
+    <Compile Include="LayoutEventArgs.cs" />
     <Compile Include="Layout\AnchorableShowStrategy.cs" />
     <Compile Include="Layout\AnchorSide.cs" />
     <Compile Include="Controls\DockingManagerDropTarget.cs" />

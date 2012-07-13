@@ -227,12 +227,10 @@ namespace AvalonDock.Layout
                 IsActive = true;
             }
 
-            if (!added && root != null && root.Manager != null)
+            if (root.Manager.LayoutUpdateStrategy != null)
             {
-                if (root.Manager.LayoutUpdateStrategy != null)
-                    root.Manager.LayoutUpdateStrategy.InsertAnchorable(root as LayoutRoot, this, PreviousContainer);
+                root.Manager.LayoutUpdateStrategy.AfterInsertAnchorable(root as LayoutRoot, this);
             }
-
 
             RaisePropertyChanged("IsVisible");
             RaisePropertyChanged("IsHidden");

@@ -67,7 +67,13 @@ namespace AvalonDock.Layout
 
         public override IEnumerable<ILayoutElement> Children
         {
-            get { yield return RootDocument; }
+            get
+            {
+                if (RootDocument == null)
+                    yield break;
+
+                yield return RootDocument;
+            }
         }
 
         public override void RemoveChild(ILayoutElement element)
@@ -84,7 +90,7 @@ namespace AvalonDock.Layout
 
         public override int ChildrenCount
         {
-            get { return 1; }
+            get { return RootDocument != null ? 1 : 0; }
         }
 
         public override bool IsValid
