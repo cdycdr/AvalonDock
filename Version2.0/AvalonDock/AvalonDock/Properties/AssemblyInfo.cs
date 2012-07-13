@@ -64,8 +64,8 @@ using System.Windows.Markup;
 )]
 
 
-[assembly: AssemblyVersion("2.0.1094")]
-[assembly: AssemblyFileVersion("2.0.1094")]
+[assembly: AssemblyVersion("2.0.1095")]
+[assembly: AssemblyFileVersion("2.0.1095")]
 
 [assembly: XmlnsPrefix("http://avalondock.codeplex.com", "avalondock")]
 [assembly: XmlnsDefinition("http://avalondock.codeplex.com", "AvalonDock")]
