@@ -152,8 +152,8 @@ namespace AvalonDock
             if (LayoutChanged != null)
                 LayoutChanged(this, EventArgs.Empty);
 
-            if (Layout != null)
-                Layout.CollectGarbage();
+            //if (Layout != null)
+            //    Layout.CollectGarbage();
 
             CommandManager.InvalidateRequerySuggested();
         }

@@ -55,7 +55,24 @@ namespace AvalonDock.Controls
 
         public static Rect GetScreenArea(this FrameworkElement element)
         {
-            return new Rect(element.PointToScreenDPI(new Point()),
+        //    return new Rect(element.PointToScreenDPI(new Point()),
+        //        element.TransformActualSizeToAncestor());
+        //}
+
+        //public static Rect GetScreenAreaWithoutFlowDirection(this FrameworkElement element)
+        //{
+            var point = element.PointToScreenDPI(new Point());
+            if (FrameworkElement.GetFlowDirection(element) == FlowDirection.RightToLeft)
+            {
+                var actualSize = element.TransformActualSizeToAncestor();
+                Point leftToRightPoint = new Point(
+                    actualSize.Width - point.X,
+                    point.Y);
+                return new Rect(leftToRightPoint,
+                    actualSize);
+            }
+
+            return new Rect(point,
                 element.TransformActualSizeToAncestor());
         }
 

@@ -165,13 +165,17 @@ namespace AvalonDock.TestApp
 
         private void AddTwoDocuments_click(object sender, RoutedEventArgs e)
         {
-            //LayoutDocument doc = new LayoutDocument();
-            //doc.Title = "Test1";
-            //layoutPanel.Children.Add(doc);
+            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            if (firstDocumentPane != null)
+            {
+                LayoutDocument doc = new LayoutDocument();
+                doc.Title = "Test1";
+                firstDocumentPane.Children.Add(doc);
 
-            //LayoutDocument doc2 = new LayoutDocument();
-            //doc2.Title = "Test2";
-            //layoutPanel.Children.Add(doc2);
+                LayoutDocument doc2 = new LayoutDocument();
+                doc2.Title = "Test2";
+                firstDocumentPane.Children.Add(doc2);
+            }
 
             var leftAnchorGroup = dockManager.Layout.LeftSide.Children.FirstOrDefault();
             if (leftAnchorGroup == null)

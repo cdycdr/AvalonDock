@@ -30,10 +30,11 @@ namespace AvalonDock.Controls
 
         public bool ContainsKey(K key)
         {
+            CollectGarbage();
             return -1 != _keys.FindIndex(k => k.GetValueOrDefault<K>() == key);
         }
 
-        private void SetValue(K key, V value)
+        public void SetValue(K key, V value)
         {
             CollectGarbage();
             int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<K>() == key);
@@ -46,7 +47,7 @@ namespace AvalonDock.Controls
             }            
         }
 
-        bool GetValue(K key, out V value)
+        public bool GetValue(K key, out V value)
         {
             CollectGarbage();
             int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<K>() == key);

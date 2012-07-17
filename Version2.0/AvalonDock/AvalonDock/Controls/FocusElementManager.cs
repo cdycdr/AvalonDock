@@ -52,14 +52,12 @@ namespace AvalonDock.Controls
             }
 
             manager.PreviewGotKeyboardFocus += new KeyboardFocusChangedEventHandler(manager_PreviewGotKeyboardFocus);
-            //manager.LayoutChanged += new EventHandler(manager_LayoutChanged);
             _managers.Add(manager);
         }
 
         internal static void FinalizeFocusManagement(DockingManager manager)
         {
             manager.PreviewGotKeyboardFocus -= new KeyboardFocusChangedEventHandler(manager_PreviewGotKeyboardFocus);
-            //manager.LayoutChanged -= new EventHandler(manager_LayoutChanged);
             _managers.Remove(manager);
 
             if (_managers.Count == 0)
@@ -75,7 +73,6 @@ namespace AvalonDock.Controls
                 }
             }
 
-            //RefreshDetachedElements();
         }
 
         static void _windowHandler_Activate(object sender, EventArgs e)
@@ -126,51 +123,53 @@ namespace AvalonDock.Controls
             }
         }
 
-        //static void manager_LayoutChanged(object sender, EventArgs e)
-        //{
-        //    RefreshDetachedElements();
-        //}
-
-        //static void RefreshDetachedElements()
-        //{
-        //    var detachedElements = _modelFocusedElement.Where(d => d.Key.Root == null || d.Key.Root.Manager == null || !_managers.Contains(d.Key.Root.Manager)).Select(d => d.Key).ToArray();
-        //    foreach (var detachedElement in detachedElements)
-        //        _modelFocusedElement.Remove(detachedElement);
-        //    detachedElements = _modelFocusedWindowHandle.Where(d => d.Key.Root == null || d.Key.Root.Manager == null || !_managers.Contains(d.Key.Root.Manager)).Select(d => d.Key).ToArray();
-        //    foreach (var detachedElement in detachedElements)
-        //        _modelFocusedWindowHandle.Remove(detachedElement);
-        //}
-
         static WeakDictionary<ILayoutElement, IInputElement> _modelFocusedElement = new WeakDictionary<ILayoutElement, IInputElement>();
         static WeakDictionary<ILayoutElement, IntPtr> _modelFocusedWindowHandle = new WeakDictionary<ILayoutElement, IntPtr>();
 
+        /// <summary>
+        /// Get the input element that was focused before user left the layout element
+        /// </summary>
+        /// <param name="model">Element to look for</param>
+        /// <returns>Input element </returns>
         internal static IInputElement GetLastFocusedElement(ILayoutElement model)
         {
-            if (_modelFocusedElement.ContainsKey(model))
-                return _modelFocusedElement[model];
+            IInputElement objectWithFocus;
+            if (_modelFocusedElement.GetValue(model, out objectWithFocus))
+                return objectWithFocus;
 
             return null;
         }
 
 
-
+        /// <summary>
+        /// Get the last window handle focused before user left the element passed as argument
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         internal static IntPtr GetLastWindowHandle(ILayoutElement model)
         {
-            if (_modelFocusedWindowHandle.ContainsKey(model))
-                return _modelFocusedWindowHandle[model];
+            IntPtr handleWithFocus;
+            if (_modelFocusedWindowHandle.GetValue(model, out handleWithFocus))
+                return handleWithFocus;
 
             return IntPtr.Zero;
         }
         static WeakReference _lastFocusedElement;
 
+        /// <summary>
+        /// Given a layout element tries to set the focus of the keyword where it was before user moved to another element
+        /// </summary>
+        /// <param name="model"></param>
         internal static void SetFocusOnLastElement(ILayoutElement model)
         {
             bool focused = false;
-            if (_modelFocusedElement.ContainsKey(model))
-                focused = _modelFocusedElement[model] == Keyboard.Focus(_modelFocusedElement[model]);
+            IInputElement objectToFocus;
+            if (_modelFocusedElement.GetValue(model, out objectToFocus))
+                focused = objectToFocus == Keyboard.Focus(objectToFocus);
 
-            if (_modelFocusedWindowHandle.ContainsKey(model))
-                focused = IntPtr.Zero !=  Win32Helper.SetFocus(_modelFocusedWindowHandle[model]);
+            IntPtr handleToFocus;
+            if (_modelFocusedWindowHandle.GetValue(model, out handleToFocus))
+                focused = IntPtr.Zero != Win32Helper.SetFocus(handleToFocus);
 
             if (focused)
                 _lastFocusedElement = new WeakReference(model);
@@ -189,8 +188,6 @@ namespace AvalonDock.Controls
                     var parentAnchorable = hostContainingFocusedHandle.FindVisualAncestor<LayoutAnchorableControl>();
                     if (parentAnchorable != null)
                     {
-                        //if (_modelFocusedElement.ContainsKey(parentAnchorable.Model))
-                        //    _modelFocusedElement.Remove(parentAnchorable.Model);
                         _modelFocusedWindowHandle[parentAnchorable.Model] = e.GotFocusWinHandle;
                         if (parentAnchorable.Model != null)
                             parentAnchorable.Model.IsActive = true;
@@ -200,9 +197,6 @@ namespace AvalonDock.Controls
                         var parentDocument = hostContainingFocusedHandle.FindVisualAncestor<LayoutDocumentControl>();
                         if (parentDocument != null)
                         {
-                            //if (_modelFocusedElement.ContainsKey(parentDocument.Model))
-                            //    _modelFocusedElement.Remove(parentDocument.Model);
-
                             _modelFocusedWindowHandle[parentDocument.Model] = e.GotFocusWinHandle;
                             if (parentDocument.Model != null)
                                 parentDocument.Model.IsActive = true;
