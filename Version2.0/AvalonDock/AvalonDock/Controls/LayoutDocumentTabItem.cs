@@ -147,6 +147,8 @@ namespace AvalonDock.Controls
         List<TabItem> _otherTabs = null;
         Rect _parentDocumentTabPanelScreenArea;
         DocumentPaneTabPanel _parentDocumentTabPanel;
+        bool _isMouseDown = false;
+        Point _mouseDownPoint;
 
         void UpdateDragDetails()
         {
@@ -170,14 +172,27 @@ namespace AvalonDock.Controls
 
             if (e.ClickCount == 1)
             {
-                UpdateDragDetails();
-                CaptureMouse();
+                _mouseDownPoint = e.GetPosition(this);
+                _isMouseDown = true;
             }
         }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
         {
             base.OnMouseMove(e);
+
+            if (_isMouseDown)
+            {
+                Point ptMouseMove = e.GetPosition(this);
+
+                if (Math.Abs(ptMouseMove.X - _mouseDownPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                    Math.Abs(ptMouseMove.Y - _mouseDownPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+                {
+                    UpdateDragDetails();
+                    CaptureMouse();
+                    _isMouseDown = false;
+                }
+            }
 
             if (IsMouseCaptured)
             {
@@ -211,6 +226,7 @@ namespace AvalonDock.Controls
         {
             if (IsMouseCaptured)
                 ReleaseMouseCapture();
+            _isMouseDown = false;
 
             base.OnMouseLeftButtonUp(e);
         }
@@ -218,31 +234,13 @@ namespace AvalonDock.Controls
         protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
         {
             base.OnMouseLeave(e);
-
-            //if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
-            //{
-            //    _draggingItem = this;
-            //}
-
-            //_isMouseDown = false;
+            _isMouseDown = false;
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
-
-            //if (_draggingItem != null &&
-            //    _draggingItem != this &&
-            //    e.LeftButton == MouseButtonState.Pressed)
-            //{
-            //    Debug.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
-
-            //    var model = Model;
-            //    var container = model.Parent as ILayoutContainer;
-            //    var containerPane = model.Parent as ILayoutPane;
-            //    var childrenList = container.Children.ToList();
-            //    containerPane.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
-            //}
+            _isMouseDown = false;
         }
 
     }

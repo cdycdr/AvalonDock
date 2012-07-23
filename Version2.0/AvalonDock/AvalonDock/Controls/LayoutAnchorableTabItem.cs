@@ -224,12 +224,6 @@ namespace AvalonDock.Controls
             }
         }
 
-        //public override string ToString()
-        //{
-        //    return string.Format("TabItem({0})", Model.Title);
-        //    //return base.ToString();
-        //}
-
         protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             base.OnPreviewGotKeyboardFocus(e);

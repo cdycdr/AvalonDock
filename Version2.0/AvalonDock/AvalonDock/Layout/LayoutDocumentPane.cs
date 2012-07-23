@@ -92,10 +92,14 @@ namespace AvalonDock.Layout
                 SelectedContentIndex = Children.Count - 1;
             if (SelectedContentIndex == -1 && ChildrenCount > 0)
             {
-                //SelectedContentIndex = 0;
-                var childrenToSelect = Children.OrderByDescending(c => c.LastActivationTimeStamp.GetValueOrDefault()).First();
-                SelectedContentIndex = Children.IndexOf(childrenToSelect);
-                childrenToSelect.IsActive = true;
+                if (Root == null)//if I'm not yet connected just switch to first document
+                    SelectedContentIndex = 0;
+                else
+                {
+                    var childrenToSelect = Children.OrderByDescending(c => c.LastActivationTimeStamp.GetValueOrDefault()).First();
+                    SelectedContentIndex = Children.IndexOf(childrenToSelect);
+                    childrenToSelect.IsActive = true;
+                }
             }
 
             base.OnChildrenCollectionChanged();
