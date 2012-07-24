@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using AvalonDock.Layout;
 using System.Windows.Interop;
+using System.Windows.Threading;
 
 namespace AvalonDock.Controls
 {
@@ -22,8 +23,10 @@ namespace AvalonDock.Controls
         {
             _manager = manager;
 
+            _internalSetSelectedDocument = true;
             SetAnchorables(_manager.Layout.Descendents().OfType<LayoutAnchorable>().Where(a => a.IsVisible).Select(d => (LayoutAnchorableItem)_manager.GetLayoutItemFromModel(d)).ToArray());
             SetDocuments(_manager.Layout.Descendents().OfType<LayoutDocument>().OrderByDescending(d => d.LastActivationTimeStamp.GetValueOrDefault()).Select(d => (LayoutDocumentItem)_manager.GetLayoutItemFromModel(d)).ToArray());
+            _internalSetSelectedDocument = false;
 
             if (Documents.Length > 1)
                 InternalSetSelectedDocument(Documents[1]);
@@ -42,18 +45,20 @@ namespace AvalonDock.Controls
         {
             this.Loaded -= new RoutedEventHandler(OnLoaded);
 
-            _hwndSrc = HwndSource.FromDependencyObject(this) as HwndSource;
-            _hwndSrcHook = new HwndSourceHook(FilterMessage);
-            _hwndSrc.AddHook(_hwndSrcHook);
+            this.Focus();
+
+            //_hwndSrc = HwndSource.FromDependencyObject(this) as HwndSource;
+            //_hwndSrcHook = new HwndSourceHook(FilterMessage);
+            //_hwndSrc.AddHook(_hwndSrcHook);
         }
 
         void OnUnloaded(object sender, RoutedEventArgs e)
         {
             this.Unloaded -= new RoutedEventHandler(OnUnloaded);
 
-            _hwndSrc.RemoveHook(_hwndSrcHook);
-            _hwndSrc.Dispose();
-            _hwndSrc = null;
+            //_hwndSrc.RemoveHook(_hwndSrcHook);
+            //_hwndSrc.Dispose();
+            //_hwndSrc = null;
         }
 
         protected virtual IntPtr FilterMessage(
@@ -190,6 +195,7 @@ namespace AvalonDock.Controls
             if (SelectedDocument != null &&
                 SelectedDocument.ActivateCommand.CanExecute(null))
             {
+                System.Diagnostics.Debug.WriteLine("OnSelectedDocumentChanged()");
                 SelectedDocument.ActivateCommand.Execute(null);
                 Hide();
             }
@@ -244,7 +250,7 @@ namespace AvalonDock.Controls
                 SelectedAnchorable.ActivateCommand.CanExecute(null))
             {
                 SelectedAnchorable.ActivateCommand.Execute(null);
-                Hide();
+                Close();
             }
         }
 
@@ -262,6 +268,43 @@ namespace AvalonDock.Controls
                 InternalSetSelectedDocument(Documents[docIndex]);
             }
 
+        }
+
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Tab)
+            {
+                SelectNextDocument();
+                e.Handled = true;
+            }
+
+
+            base.OnPreviewKeyDown(e);
+        }
+
+        protected override void OnPreviewKeyUp(System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != System.Windows.Input.Key.Tab)
+            {
+                if (SelectedAnchorable != null &&
+                    SelectedAnchorable.ActivateCommand.CanExecute(null))
+                    SelectedAnchorable.ActivateCommand.Execute(null);
+
+                if (SelectedAnchorable == null &&
+                    SelectedDocument != null &&
+                    SelectedDocument.ActivateCommand.CanExecute(null))
+                    SelectedDocument.ActivateCommand.Execute(null);
+                Close();
+                e.Handled = true;
+            }       
+
+
+            base.OnPreviewKeyUp(e);
         }
 
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace AvalonDock.MVVMTestApp
 {
@@ -13,6 +15,12 @@ namespace AvalonDock.MVVMTestApp
         {
             Workspace.This.ActiveDocumentChanged += new EventHandler(OnActiveDocumentChanged);
             ContentId = ToolContentId;
+
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = new Uri("pack://application:,,/Images/property-blue.png");
+            bi.EndInit();
+            IconSource = bi;
         }
 
         public const string ToolContentId = "FileStatsTool";

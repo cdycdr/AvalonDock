@@ -34,7 +34,7 @@ using System.Diagnostics;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAnchorableTabItem : TabItem
+    public class LayoutAnchorableTabItem : Control
     {
         static LayoutAnchorableTabItem()
         {
@@ -44,6 +44,8 @@ namespace AvalonDock.Controls
         public LayoutAnchorableTabItem()
         {
         }
+
+
 
         #region Model
 
@@ -190,8 +192,6 @@ namespace AvalonDock.Controls
             base.OnMouseLeftButtonUp(e);
 
             Model.IsActive = true;
-            //FocusElementManager.SetFocusOnLastElement(Model);
-
         }
 
         protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)

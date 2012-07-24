@@ -28,6 +28,7 @@ using System.Windows.Markup;
 using System.Xml.Serialization;
 using System.Windows;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace AvalonDock.Layout
 {
@@ -344,8 +345,8 @@ namespace AvalonDock.Layout
         {
             if (reader.MoveToAttribute("Title"))
                 Title = reader.Value;
-            if (reader.MoveToAttribute("IconSource"))
-                IconSource = new Uri(reader.Value, UriKind.RelativeOrAbsolute);
+            //if (reader.MoveToAttribute("IconSource"))
+            //    IconSource = new Uri(reader.Value, UriKind.RelativeOrAbsolute);
 
             if (reader.MoveToAttribute("IsSelected"))
                 IsSelected = bool.Parse(reader.Value);
@@ -383,8 +384,8 @@ namespace AvalonDock.Layout
             if (!string.IsNullOrWhiteSpace(Title))
                 writer.WriteAttributeString("Title", Title);
 
-            if (IconSource != null)
-                writer.WriteAttributeString("IconSource", IconSource.ToString());
+            //if (IconSource != null)
+            //    writer.WriteAttributeString("IconSource", IconSource.ToString());
             
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
@@ -551,8 +552,8 @@ namespace AvalonDock.Layout
 
         #region IconSource
 
-        private Uri _iconSource = null;
-        public Uri IconSource
+        private ImageSource _iconSource = null;
+        public ImageSource IconSource
         {
             get { return _iconSource; }
             set

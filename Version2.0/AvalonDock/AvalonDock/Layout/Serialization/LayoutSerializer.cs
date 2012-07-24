@@ -91,6 +91,7 @@ namespace AvalonDock.Layout.Serialization
                 else
                 {
                     lcToFix.Content = previousAchorable.Content;
+                    lcToFix.IconSource = previousAchorable.IconSource;
                 }
             }
 

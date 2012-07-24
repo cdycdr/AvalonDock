@@ -2465,7 +2465,6 @@ namespace AvalonDock
         internal void _ExecuteContentActivateCommand(LayoutContent content)
         {
             content.IsActive = true;
-            FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
         }
 
         #region DocumentPaneMenuItemHeaderTemplate
@@ -2815,47 +2814,46 @@ namespace AvalonDock
         {
             if (_navigatorWindow == null)
             {
-                _navigatorWindow = new NavigatorWindow(this) { Owner = Window.GetWindow(this), WindowStartupLocation = WindowStartupLocation.CenterOwner };
-                _navigatorWindow.IsVisibleChanged += (s, e) =>
-                    {
-                        if (!_navigatorWindow.IsVisible)
-                        {
-                            _navigatorWindow.Close();
-                            _navigatorWindow = null;
-                            Debug.WriteLine("CloseNavigatorWindow()");
-                        }
-                    };
+                _navigatorWindow = new NavigatorWindow(this) { Owner = Window.GetWindow(this), WindowStartupLocation = WindowStartupLocation.CenterOwner};//, ShowActivated = false };
+                //_navigatorWindow.IsVisibleChanged += (s, e) =>
+                //    {
+                //        if (!_navigatorWindow.IsVisible)
+                //        {
+                //            _navigatorWindow.Close();
+                //            _navigatorWindow = null;
+                //            Debug.WriteLine("CloseNavigatorWindow()");
+                //        }
+                //    };
             }
-
-            _navigatorWindow.Show();
+            //Dispatcher.BeginInvoke(new Action(() =>
+            //    {
+                    _navigatorWindow.ShowDialog();
+                    _navigatorWindow = null;
+                //}));
             Debug.WriteLine("ShowNavigatorWindow()");
         }
 
-        void HideNavigatorWindow()
-        {
-            if (_navigatorWindow == null)
-                return;
+        //void HideNavigatorWindow()
+        //{
+        //    if (_navigatorWindow == null)
+        //        return;
 
-            if (_navigatorWindow.IsVisible)
-            {
+        //    if (_navigatorWindow.IsVisible)
+        //    {
 
-                if (_navigatorWindow.SelectedAnchorable != null &&
-                    _navigatorWindow.SelectedAnchorable.ActivateCommand.CanExecute(null))
-                    _navigatorWindow.SelectedAnchorable.ActivateCommand.Execute(null);
+        //        if (_navigatorWindow.SelectedAnchorable != null &&
+        //            _navigatorWindow.SelectedAnchorable.ActivateCommand.CanExecute(null))
+        //            _navigatorWindow.SelectedAnchorable.ActivateCommand.Execute(null);
+        //        else if (_navigatorWindow.SelectedAnchorable == null &&
+        //            _navigatorWindow.SelectedDocument != null &&
+        //            _navigatorWindow.SelectedDocument.ActivateCommand.CanExecute(null))
+        //            _navigatorWindow.SelectedDocument.ActivateCommand.Execute(null);
 
-                if (_navigatorWindow.SelectedAnchorable == null &&
-                    _navigatorWindow.SelectedDocument != null &&
-                    _navigatorWindow.SelectedDocument.ActivateCommand.CanExecute(null))
-                    _navigatorWindow.SelectedDocument.ActivateCommand.Execute(null);
+        //        _navigatorWindow.Hide();
+        //        Debug.WriteLine("HideNavigatorWindow()");
+        //    }
 
-                _navigatorWindow.Hide();
-                Debug.WriteLine("HideNavigatorWindow()");
-            }
-
-            //_navigatorWindow.Close();
-            //_navigatorWindow = null;
-
-        }
+        //}
 
         bool IsNavigatorWindowActive
         {
@@ -2865,6 +2863,7 @@ namespace AvalonDock
         
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
+            Debug.WriteLine("OnPreviewKeyDown({0})", e.Key);
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
                 if (e.IsDown && e.Key == Key.Tab)
@@ -2874,33 +2873,34 @@ namespace AvalonDock
                         ShowNavigatorWindow();
                         e.Handled = true;
                     }
-                    else
-                    {
-                        _navigatorWindow.SelectNextDocument();
-                        e.Handled = true;
-                    }
+                    //else
+                    //{
+                    //    _navigatorWindow.SelectNextDocument();
+                    //    e.Handled = true;
+                    //}
                 }
             }
 
-            if (e.Key != Key.Tab && IsNavigatorWindowActive)
-            {
-                HideNavigatorWindow();
-                e.Handled = true;
-            }
+            //if (e.Key != Key.Tab && IsNavigatorWindowActive)
+            //{
+            //    HideNavigatorWindow();
+            //    e.Handled = true;
+            //}
 
             base.OnPreviewKeyDown(e);
         }
 
-        protected override void OnPreviewKeyUp(KeyEventArgs e)
-        {
-            if (e.Key != Key.Tab && IsNavigatorWindowActive)
-            {
-                HideNavigatorWindow();
-                e.Handled = true;
-            }
+        //protected override void OnPreviewKeyUp(KeyEventArgs e)
+        //{
+        //    Debug.WriteLine("OnPreviewKeyUp({0})", e.Key);
+        //    if (e.Key != Key.Tab && IsNavigatorWindowActive)
+        //    {
+        //        HideNavigatorWindow();
+        //        e.Handled = true;
+        //    }
 
-            base.OnPreviewKeyUp(e);
-        }
+        //    base.OnPreviewKeyUp(e);
+        //}
 
         #endregion
 
@@ -2921,6 +2921,27 @@ namespace AvalonDock
         {
             get { return (bool)GetValue(ShowSystemMenuProperty); }
             set { SetValue(ShowSystemMenuProperty, value); }
+        }
+
+        #endregion
+
+        #region AllowMixedOrientation
+
+        /// <summary>
+        /// AllowMixedOrientation Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AllowMixedOrientationProperty =
+            DependencyProperty.Register("AllowMixedOrientation", typeof(bool), typeof(DockingManager),
+                new FrameworkPropertyMetadata((bool)false));
+
+        /// <summary>
+        /// Gets or sets the AllowMixedOrientation property.  This dependency property 
+        /// indicates if the manager should allow mixed orientation for document panes.
+        /// </summary>
+        public bool AllowMixedOrientation
+        {
+            get { return (bool)GetValue(AllowMixedOrientationProperty); }
+            set { SetValue(AllowMixedOrientationProperty, value); }
         }
 
         #endregion

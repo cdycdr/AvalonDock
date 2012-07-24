@@ -799,6 +799,7 @@
     <Style x:Key="{x:Type avalonDockControls:NavigatorWindow}" TargetType="{x:Type avalonDockControls:NavigatorWindow}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
         <Setter Property="SizeToContent" Value="WidthAndHeight"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
@@ -849,7 +850,18 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <TextBlock Text="Active Tool Windows" FontWeight="Bold" Margin="0,3,0,4"/>
-                                        <ListBox Grid.Row="1" ItemsSource="{Binding Anchorables}" SelectedItem="{Binding SelectedAnchorable, Mode=TwoWay}" Background="Transparent" BorderThickness="0" MaxHeight="400">
+                                        <ListBox Grid.Row="1" ItemsSource="{Binding Anchorables}" SelectedItem="{Binding SelectedAnchorable, Mode=TwoWay}" Background="Transparent" BorderThickness="0" MaxHeight="400" FocusVisualStyle="{x:Null}">
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="ListBoxItem">
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>
@@ -870,7 +882,18 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <TextBlock Text="Active Files" FontWeight="Bold" Margin="0,3,0,4"/>
-                                        <ListBox Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument, Mode=TwoWay}" Background="Transparent" BorderThickness="0" MaxHeight="400">
+                                        <ListBox Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument, Mode=TwoWay}" Background="Transparent" BorderThickness="0" MaxHeight="400" FocusVisualStyle="{x:Null}">
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="ListBoxItem">
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                                        </Trigger>     
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>

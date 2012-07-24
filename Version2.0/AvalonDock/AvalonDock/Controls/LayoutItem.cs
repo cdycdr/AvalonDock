@@ -30,6 +30,7 @@ using System.Windows.Input;
 using AvalonDock.Commands;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace AvalonDock.Controls
 {
@@ -243,17 +244,17 @@ namespace AvalonDock.Controls
         /// IconSource Dependency Property
         /// </summary>
         public static readonly DependencyProperty IconSourceProperty =
-            DependencyProperty.Register("IconSource", typeof(Uri), typeof(LayoutItem),
-                new FrameworkPropertyMetadata((Uri)null,
+            DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(LayoutItem),
+                new FrameworkPropertyMetadata((ImageSource)null,
                     new PropertyChangedCallback(OnIconSourceChanged)));
 
         /// <summary>
         /// Gets or sets the IconSource property.  This dependency property 
         /// indicates icon associated with the item.
         /// </summary>
-        public Uri IconSource
+        public ImageSource IconSource
         {
-            get { return (Uri)GetValue(IconSourceProperty); }
+            get { return (ImageSource)GetValue(IconSourceProperty); }
             set { SetValue(IconSourceProperty, value); }
         }
 
@@ -831,6 +832,7 @@ namespace AvalonDock.Controls
             var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return ((parentDocumentGroup == null ||
                 parentDocumentGroup.ChildrenCount == 1 ||
+                parentDocumentGroup.Root.Manager.AllowMixedOrientation || 
                 parentDocumentGroup.Orientation == System.Windows.Controls.Orientation.Horizontal) &&
                 parentDocumentPane != null &&
                 parentDocumentPane.ChildrenCount > 1);
@@ -898,6 +900,7 @@ namespace AvalonDock.Controls
             var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return ((parentDocumentGroup == null ||
                 parentDocumentGroup.ChildrenCount == 1 ||
+                parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
                 parentDocumentGroup.Orientation == System.Windows.Controls.Orientation.Vertical) &&
                 parentDocumentPane != null &&
                 parentDocumentPane.ChildrenCount > 1);
@@ -965,7 +968,8 @@ namespace AvalonDock.Controls
             return (parentDocumentGroup != null &&
                 parentDocumentPane != null &&
                 parentDocumentGroup.ChildrenCount > 1 &&
-                parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1);
+                parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1 &&
+                parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) + 1] is LayoutDocumentPane);
         }
 
         private void ExecuteMoveToNextTabGroupCommand(object parameter)
@@ -1023,7 +1027,8 @@ namespace AvalonDock.Controls
             return (parentDocumentGroup != null &&
                 parentDocumentPane != null &&
                 parentDocumentGroup.ChildrenCount > 1 &&
-                parentDocumentGroup.IndexOfChild(parentDocumentPane) > 0);
+                parentDocumentGroup.IndexOfChild(parentDocumentPane) > 0 &&
+                parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) - 1] is LayoutDocumentPane);
         }
 
         private void ExecuteMoveToPreviousTabGroupCommand(object parameter)

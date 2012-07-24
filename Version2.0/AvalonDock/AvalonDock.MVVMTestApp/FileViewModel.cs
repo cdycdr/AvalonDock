@@ -6,15 +6,21 @@ using System.IO;
 using System.Windows.Input;
 using Microsoft.Win32;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace AvalonDock.MVVMTestApp
 {
     class FileViewModel : PaneViewModel
     {
+        static ImageSourceConverter ISC = new ImageSourceConverter();
         public FileViewModel(string filePath)
         {
             FilePath = filePath;
             Title = FileName;
+
+            //Set the icon only for open documents (just a test)
+            IconSource = ISC.ConvertFromInvariantString(@"pack://application:,,/Images/document.png") as ImageSource;
         }
 
         public FileViewModel()
@@ -59,13 +65,6 @@ namespace AvalonDock.MVVMTestApp
             }
         }
 
-        public override Uri IconSource
-        {
-            get
-            {
-                return new Uri("/AvalonDock.MVVMTestApp;component/Images/document.png", UriKind.RelativeOrAbsolute);
-            }
-        }
 
 
         #region TextContent

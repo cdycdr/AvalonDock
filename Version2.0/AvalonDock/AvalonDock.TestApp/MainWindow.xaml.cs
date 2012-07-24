@@ -54,6 +54,7 @@ namespace AvalonDock.TestApp
             this.DataContext = this;
 
             winFormsHost.Child = new UserControl1();
+
         }
 
         #region TestTimer

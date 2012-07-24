@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
 
 namespace AvalonDock.MVVMTestApp
 {
@@ -29,12 +30,10 @@ namespace AvalonDock.MVVMTestApp
 
         #endregion
 
-        public virtual Uri IconSource
+        public ImageSource IconSource
         {
-            get
-            {
-                return null;
-            }
+            get;
+            protected set;
         }
 
         #region ContentId

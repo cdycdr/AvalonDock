@@ -352,14 +352,25 @@ namespace AvalonDock.Controls
                             var dropAreaDocumentPaneGroup = area as DropArea<LayoutDocumentPaneControl>;
                             var layoutDocumentPane = dropAreaDocumentPaneGroup.AreaElement.Model as LayoutDocumentPane;
                             var parentDocumentPaneGroup = layoutDocumentPane.Parent as LayoutDocumentPaneGroup;
-
+                            
                             if (parentDocumentPaneGroup != null &&
                                 parentDocumentPaneGroup.Children.Where(c => c.IsVisible).Count() > 1)
                             {
-                                _documentPaneFullDropTargetLeft.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
-                                _documentPaneFullDropTargetRight.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
-                                _documentPaneFullDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
-                                _documentPaneFullDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                                var manager = parentDocumentPaneGroup.Root.Manager;
+                                if (!manager.AllowMixedOrientation)
+                                {
+                                    _documentPaneFullDropTargetLeft.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
+                                    _documentPaneFullDropTargetRight.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
+                                    _documentPaneFullDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                                    _documentPaneFullDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                                }
+                                else
+                                {
+                                    _documentPaneFullDropTargetLeft.Visibility = Visibility.Visible;
+                                    _documentPaneFullDropTargetRight.Visibility = Visibility.Visible;
+                                    _documentPaneFullDropTargetTop.Visibility = Visibility.Visible;
+                                    _documentPaneFullDropTargetBottom.Visibility = Visibility.Visible;
+                                }
                             }
                             else if (parentDocumentPaneGroup == null &&
                                 layoutDocumentPane != null &&
@@ -384,26 +395,37 @@ namespace AvalonDock.Controls
                                 int indexOfDocumentPane = parentDocumentPaneGroup.Children.Where(ch => ch.IsVisible).ToList().IndexOf(layoutDocumentPane);
                                 bool isFirstChild = indexOfDocumentPane == 0;
                                 bool isLastChild = indexOfDocumentPane == parentDocumentPaneGroup.ChildrenCount - 1;
-                                
-                                _documentPaneDropTargetBottomAsAnchorablePane.Visibility = 
-                                    parentDocumentPaneGroup.Orientation == Orientation.Vertical ? 
-                                        (isLastChild ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden) :
-                                        System.Windows.Visibility.Hidden;
-                                _documentPaneDropTargetTopAsAnchorablePane.Visibility =
+
+                                var manager = parentDocumentPaneGroup.Root.Manager;
+                                if (!manager.AllowMixedOrientation)
+                                {
+                                    _documentPaneDropTargetBottomAsAnchorablePane.Visibility =
                                     parentDocumentPaneGroup.Orientation == Orientation.Vertical ?
-                                        (isFirstChild ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden) :
-                                        System.Windows.Visibility.Hidden;
-
-                                _documentPaneDropTargetLeftAsAnchorablePane.Visibility =
-                                    parentDocumentPaneGroup.Orientation == Orientation.Horizontal ?
-                                        (isFirstChild ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden) :
-                                        System.Windows.Visibility.Hidden;
-
-
-                                _documentPaneDropTargetRightAsAnchorablePane.Visibility =
-                                    parentDocumentPaneGroup.Orientation == Orientation.Horizontal ?
                                         (isLastChild ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden) :
                                         System.Windows.Visibility.Hidden;
+                                    _documentPaneDropTargetTopAsAnchorablePane.Visibility =
+                                        parentDocumentPaneGroup.Orientation == Orientation.Vertical ?
+                                            (isFirstChild ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden) :
+                                            System.Windows.Visibility.Hidden;
+
+                                    _documentPaneDropTargetLeftAsAnchorablePane.Visibility =
+                                        parentDocumentPaneGroup.Orientation == Orientation.Horizontal ?
+                                            (isFirstChild ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden) :
+                                            System.Windows.Visibility.Hidden;
+
+
+                                    _documentPaneDropTargetRightAsAnchorablePane.Visibility =
+                                        parentDocumentPaneGroup.Orientation == Orientation.Horizontal ?
+                                            (isLastChild ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden) :
+                                            System.Windows.Visibility.Hidden;
+                                }
+                                else
+                                {
+                                    _documentPaneDropTargetBottomAsAnchorablePane.Visibility = System.Windows.Visibility.Visible;
+                                    _documentPaneDropTargetLeftAsAnchorablePane.Visibility = System.Windows.Visibility.Visible;
+                                    _documentPaneDropTargetRightAsAnchorablePane.Visibility = System.Windows.Visibility.Visible;
+                                    _documentPaneDropTargetTopAsAnchorablePane.Visibility = System.Windows.Visibility.Visible;
+                                }
                             }
                             else
                             {
@@ -423,10 +445,22 @@ namespace AvalonDock.Controls
                             if (parentDocumentPaneGroup != null &&
                                 parentDocumentPaneGroup.Children.Where(c => c.IsVisible).Count() > 1)
                             {
-                                _documentPaneDropTargetLeft.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
-                                _documentPaneDropTargetRight.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
-                                _documentPaneDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
-                                _documentPaneDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                                var manager = parentDocumentPaneGroup.Root.Manager;
+                                if (!manager.AllowMixedOrientation)
+                                {
+                                    _documentPaneDropTargetLeft.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
+                                    _documentPaneDropTargetRight.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Horizontal ? Visibility.Visible : Visibility.Hidden;
+                                    _documentPaneDropTargetTop.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                                    _documentPaneDropTargetBottom.Visibility = parentDocumentPaneGroup.Orientation == Orientation.Vertical ? Visibility.Visible : Visibility.Hidden;
+                                }
+                                else
+                                {
+                                    _documentPaneDropTargetLeft.Visibility = Visibility.Visible;
+                                    _documentPaneDropTargetRight.Visibility = Visibility.Visible;
+                                    _documentPaneDropTargetTop.Visibility = Visibility.Visible;
+                                    _documentPaneDropTargetBottom.Visibility = Visibility.Visible;
+                                }
+
                             }
                             else if (parentDocumentPaneGroup == null &&
                                 layoutDocumentPane != null &&

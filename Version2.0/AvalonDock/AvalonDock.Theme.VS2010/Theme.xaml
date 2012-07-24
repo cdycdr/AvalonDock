@@ -906,6 +906,9 @@
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
                             <Setter Property="Visibility" Value="Visible" TargetName="DocumentCloseButton"  />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsLastFocusedDocument}" Value="true">
+                            <Setter Property="Visibility" Value="Visible" TargetName="DocumentCloseButton"  />
                             <Setter Property="Source" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Dark.png" TargetName="PART_ImgPinClose"  />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=IsActive}" Value="true">
@@ -1111,6 +1114,7 @@
                             <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Dark.png"/>
+                            <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Dark.png"/>
                         </MultiDataTrigger>
 
                         <MultiDataTrigger>
@@ -1129,6 +1133,7 @@
                             <Setter Property="Source" TargetName="PART_ImgPinClose" Value="/AvalonDock.Themes.VS2010;component/Images/PinClose_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinRestore" Value="/AvalonDock.Themes.VS2010;component/Images/PinRestore_Dark.png"/>
                             <Setter Property="Source" TargetName="PART_ImgPinMaximize" Value="/AvalonDock.Themes.VS2010;component/Images/PinMaximize_Dark.png"/>
+                            <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Dark.png"/>
                         </MultiDataTrigger>
                         <Trigger Property="IsMouseOver" SourceName="ContextMenuDropdownButton" Value="True">
                             <Setter Property="Source" TargetName="PART_ImgPinMenu" Value="/AvalonDock.Themes.VS2010;component/Images/PinMenu_Black.png"/>
@@ -1394,6 +1399,7 @@
     <Style x:Key="{x:Type avalonDockControls:NavigatorWindow}" TargetType="{x:Type avalonDockControls:NavigatorWindow}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
         <Setter Property="SizeToContent" Value="WidthAndHeight"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome

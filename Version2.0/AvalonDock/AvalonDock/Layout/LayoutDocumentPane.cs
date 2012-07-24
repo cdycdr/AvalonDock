@@ -80,6 +80,8 @@ namespace AvalonDock.Layout
                 }
             }
         }
+
+
         public LayoutContent SelectedContent
         {
             get { return _selectedIndex == -1 ? null : Children[_selectedIndex]; }

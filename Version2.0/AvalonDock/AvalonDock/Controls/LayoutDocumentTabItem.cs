@@ -87,7 +87,6 @@ namespace AvalonDock.Controls
 
         #endregion
 
-
         #region LayoutItem
 
         /// <summary>

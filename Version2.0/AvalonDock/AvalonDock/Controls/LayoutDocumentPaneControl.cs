@@ -70,6 +70,14 @@ namespace AvalonDock.Controls
             }
         }
 
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            base.OnSelectionChanged(e);
+
+            if (_model.SelectedContent != null)
+                _model.SelectedContent.IsActive = true;
+        }
+
         List<object> _logicalChildren = new List<object>();
 
         protected override System.Collections.IEnumerator LogicalChildren
