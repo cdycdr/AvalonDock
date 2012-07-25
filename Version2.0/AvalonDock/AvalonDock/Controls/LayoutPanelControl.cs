@@ -41,7 +41,7 @@ namespace AvalonDock.Controls
 
         LayoutPanel _model;
 
-        protected override void FixChildrenDockLengths()
+        protected override void OnFixChildrenDockLengths()
         {
             var modelAsPositionableElement = _model as ILayoutPositionableElementWithActualSize;
             #region Setup DockWidth/Height for children

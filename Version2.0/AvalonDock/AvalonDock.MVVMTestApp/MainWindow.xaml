@@ -34,10 +34,10 @@
                 <MenuItem Header="Load" Command="{Binding LoadLayoutCommand, ElementName=mainWindow}"/>
                 <MenuItem Header="Save" Command="{Binding SaveLayoutCommand, ElementName=mainWindow}"/>
             </MenuItem>
-        </Menu>
+        </Menu><!--AnchorablesSource="{Binding Tools}" DocumentsSource="{Binding Files}"-->
         <avalonDock:DockingManager x:Name="dockManager" 
+                                   AnchorablesSource="{Binding Tools}" 
                                    DocumentsSource="{Binding Files}"
-                                   AnchorablesSource="{Binding Tools}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
             <avalonDock:DockingManager.Theme>

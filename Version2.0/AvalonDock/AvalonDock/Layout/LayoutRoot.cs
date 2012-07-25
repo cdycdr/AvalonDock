@@ -425,6 +425,9 @@ namespace AvalonDock.Layout
 
         #region CollectGarbage
 
+        /// <summary>
+        /// Removes any empty container not directly referenced by other layout items
+        /// </summary>
         public void CollectGarbage()
         {
             bool exitFlag = true;

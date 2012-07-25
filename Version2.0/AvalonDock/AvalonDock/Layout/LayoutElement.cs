@@ -31,7 +31,7 @@ using System.Xml.Serialization;
 namespace AvalonDock.Layout
 {
     [Serializable]
-    public abstract class LayoutElement : ILayoutElement
+    public abstract class LayoutElement : DependencyObject, ILayoutElement
     {
         internal LayoutElement()
         { }

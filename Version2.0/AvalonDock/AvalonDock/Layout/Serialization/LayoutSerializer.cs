@@ -120,6 +120,8 @@ namespace AvalonDock.Layout.Serialization
                     lcToFix.Content = previousDocument.Content;
             }
 
+
+            layout.CollectGarbage();
         }
 
         protected void StartDeserialization()

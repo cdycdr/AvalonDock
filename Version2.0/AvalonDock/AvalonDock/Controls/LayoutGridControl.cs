@@ -159,14 +159,14 @@ namespace AvalonDock.Controls
 
         void OnChildModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "DockWidth" && Orientation == System.Windows.Controls.Orientation.Horizontal)
+            if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockWidth" && Orientation == System.Windows.Controls.Orientation.Horizontal)
             {
                 var changedElement = sender as ILayoutPositionableElement;
                 var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
                 int indexOfChild = InternalChildren.IndexOf(childFromModel);
                 ColumnDefinitions[indexOfChild].Width = changedElement.DockWidth;
             }
-            else if (e.PropertyName == "DockHeight" && Orientation == System.Windows.Controls.Orientation.Vertical)
+            else if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockHeight" && Orientation == System.Windows.Controls.Orientation.Vertical)
             {
                 var changedElement = sender as ILayoutPositionableElement;
                 var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
@@ -176,7 +176,6 @@ namespace AvalonDock.Controls
             else if (e.PropertyName == "IsVisible" ||
                 e.PropertyName == "Orientation")
             {
-                //this.Dispatcher.BeginInvoke(new Action(() => UpdateRowColDefinitions()));
                 UpdateRowColDefinitions();
             }
         }
@@ -278,7 +277,14 @@ namespace AvalonDock.Controls
             #endregion
         }
 
-        protected abstract void FixChildrenDockLengths();
+        ReentrantFlag _fixingChildrenDockLengths = new ReentrantFlag();
+        protected void FixChildrenDockLengths()
+        {
+            using (_fixingChildrenDockLengths.Enter())
+                OnFixChildrenDockLengths();
+        }
+
+        protected abstract void OnFixChildrenDockLengths();
 
         #region Splitters
 
