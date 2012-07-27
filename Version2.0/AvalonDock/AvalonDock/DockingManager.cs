@@ -2091,7 +2091,8 @@ namespace AvalonDock
                     added = true;
                 }
 
-                LayoutUpdateStrategy.AfterInsertAnchorable(layout, anchorableToImport);
+                if (LayoutUpdateStrategy != null)
+                    LayoutUpdateStrategy.AfterInsertAnchorable(layout, anchorableToImport);
 
 
                 var anchorableItem = new LayoutAnchorableItem();
