@@ -115,6 +115,10 @@
       <Project>{B3FC3E21-5F2D-4581-AEA2-59F671CFFC21}</Project>
       <Name>AvalonDock.Themes.VS2010</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AvalonDock.Themes.Aero\AvalonDock.Themes.Aero.csproj">
+      <Project>{BA72CCE0-A9FB-4995-B496-7FEC5C87B85B}</Project>
+      <Name>AvalonDock.Themes.Aero</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
       <Project>{DB81988F-E0F2-45A0-A1FD-8C37F3D35244}</Project>
       <Name>AvalonDock</Name>
