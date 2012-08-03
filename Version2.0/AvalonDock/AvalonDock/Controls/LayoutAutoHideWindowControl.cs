@@ -46,6 +46,7 @@ namespace AvalonDock.Controls
 
         internal LayoutAutoHideWindowControl(LayoutAnchorControl anchor)
         {
+            _anchor = anchor;
             _model = anchor.Model as LayoutAnchorable;
             _side = (anchor.Model.Parent.Parent as LayoutAnchorSide).Side;
             this.Unloaded += (s, e) =>
@@ -58,9 +59,11 @@ namespace AvalonDock.Controls
 
                     var manager = Model.Root.Manager;
                     if (manager != null)
-                        manager.HideAutoHideWindow();
+                        manager.HideAutoHideWindow(_anchor);
                 };
         }
+
+        LayoutAnchorControl _anchor;
 
         LayoutAnchorable _model;
 
@@ -143,7 +146,7 @@ namespace AvalonDock.Controls
                 if (!_model.IsAutoHidden)
                 {
                     _model.PropertyChanged -= new System.ComponentModel.PropertyChangedEventHandler(_model_PropertyChanged);
-                    _manager.HideAutoHideWindow();
+                    _manager.HideAutoHideWindow(_anchor);
                 }
             }
         }
@@ -241,7 +244,7 @@ namespace AvalonDock.Controls
                         _model.IsActive)
                         return;
 
-                    Model.Root.Manager.HideAutoHideWindow();
+                    Model.Root.Manager.HideAutoHideWindow(_anchor);
                 };
             _closeTimer.Start();
         }

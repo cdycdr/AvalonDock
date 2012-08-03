@@ -199,5 +199,11 @@ namespace AvalonDock.TestApp
             else
                 toolWindow1.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
         }
+
+        private void dockManager_DocumentClosing(object sender, DocumentClosingEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to close the document?", "AvalonDock Sample", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                e.Cancel = true;
+        }
     }
 }

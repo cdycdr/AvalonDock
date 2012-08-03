@@ -1253,6 +1253,7 @@ namespace AvalonDock
         #endregion  
     
         #region AutoHide window
+        WeakReference _currentAutohiddenAnchor = null;
         internal void ShowAutoHideWindow(LayoutAnchorControl anchor)
         {
             if (_autohideArea == null)
@@ -1261,17 +1262,25 @@ namespace AvalonDock
             if (AutoHideWindow != null && AutoHideWindow.Model == anchor.Model)
                 return;
 
-            HideAutoHideWindow();
+            Debug.WriteLine("ShowAutoHideWindow()");
+
+            _currentAutohiddenAnchor = new WeakReference(anchor);
+
+            HideAutoHideWindow(anchor);
 
             SetAutoHideWindow(new LayoutAutoHideWindowControl(anchor));
         }
 
-        internal void HideAutoHideWindow()
+        internal void HideAutoHideWindow(LayoutAnchorControl anchor)
         {
             if (AutoHideWindow != null)
             {
-                AutoHideWindow.Dispose();
-                SetAutoHideWindow(null);
+                if (anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
+                {
+                    Debug.WriteLine("AutoHideWindow()");
+                    AutoHideWindow.Dispose();
+                    SetAutoHideWindow(null);
+                }
             }
         }
 

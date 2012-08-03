@@ -38,7 +38,7 @@
             </MenuItem>
         </Menu>
         
-        <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" AllowMixedOrientation="True">
+        <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
             <avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme/>
             </avalonDock:DockingManager.Theme>
