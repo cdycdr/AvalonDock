@@ -102,6 +102,7 @@ namespace AvalonDock.Layout
                 if (_autohideWidth != value)
                 {
                     RaisePropertyChanging("AutoHideWidth");
+                    value = Math.Max(value, _autohideMinWidth);
                     _autohideWidth = value;
                     RaisePropertyChanged("AutoHideWidth");
                 }
@@ -112,7 +113,7 @@ namespace AvalonDock.Layout
 
         #region AutoHideMinWidth
 
-        private double _autohideMinWidth = 25.0;
+        private double _autohideMinWidth = 100.0;
         public double AutoHideMinWidth
         {
             get { return _autohideMinWidth; }
@@ -121,6 +122,8 @@ namespace AvalonDock.Layout
                 if (_autohideMinWidth != value)
                 {
                     RaisePropertyChanging("AutoHideMinWidth");
+                    if (value < 0)
+                        throw new ArgumentException("value");
                     _autohideMinWidth = value;
                     RaisePropertyChanged("AutoHideMinWidth");
                 }
@@ -140,6 +143,7 @@ namespace AvalonDock.Layout
                 if (_autohideHeight != value)
                 {
                     RaisePropertyChanging("AutoHideHeight");
+                    value = Math.Max(value, _autohideMinHeight);
                     _autohideHeight = value;
                     RaisePropertyChanged("AutoHideHeight");
                 }
@@ -150,7 +154,7 @@ namespace AvalonDock.Layout
 
         #region AutoHideMinHeight
 
-        private double _autohideMinHeight = 0.0;
+        private double _autohideMinHeight = 100.0;
         public double AutoHideMinHeight
         {
             get { return _autohideMinHeight; }
@@ -159,6 +163,8 @@ namespace AvalonDock.Layout
                 if (_autohideMinHeight != value)
                 {
                     RaisePropertyChanging("AutoHideMinHeight");
+                    if (value < 0)
+                        throw new ArgumentException("value");
                     _autohideMinHeight = value;
                     RaisePropertyChanged("AutoHideMinHeight");
                 }

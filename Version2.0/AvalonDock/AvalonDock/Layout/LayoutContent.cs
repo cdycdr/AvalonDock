@@ -722,8 +722,5 @@ namespace AvalonDock.Layout
         }
 
         #endregion
-
-
-
     }
 }
