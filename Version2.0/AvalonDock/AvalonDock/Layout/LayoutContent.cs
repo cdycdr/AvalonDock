@@ -154,8 +154,9 @@ namespace AvalonDock.Layout
                 {
                     RaisePropertyChanging("IsActive");
                     bool oldValue = _isActive;
-                    _isActive = value;
 
+                    _isActive = value;
+                    
                     var root = Root;
                     if (root != null && _isActive)
                         root.ActiveContent = this;

@@ -38,8 +38,8 @@ namespace AvalonDock.Controls
         }
 
 
-        HwndSource _hwndSrc;
-        HwndSourceHook _hwndSrcHook;
+        //HwndSource _hwndSrc;
+        //HwndSourceHook _hwndSrcHook;
 
         void OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -61,33 +61,33 @@ namespace AvalonDock.Controls
             //_hwndSrc = null;
         }
 
-        protected virtual IntPtr FilterMessage(
-            IntPtr hwnd,
-            int msg,
-            IntPtr wParam,
-            IntPtr lParam,
-            ref bool handled
-            )
-        {
-            handled = false;
+        //protected virtual IntPtr FilterMessage(
+        //    IntPtr hwnd,
+        //    int msg,
+        //    IntPtr wParam,
+        //    IntPtr lParam,
+        //    ref bool handled
+        //    )
+        //{
+        //    handled = false;
 
-            switch (msg)
-            {
-                case Win32Helper.WM_ACTIVATE:
-                    if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
-                    {
-                        if (lParam == new WindowInteropHelper(this.Owner).Handle)
-                        {
-                            Win32Helper.SetActiveWindow(_hwndSrc.Handle);
-                            handled = true;
-                        }
+        //    switch (msg)
+        //    {
+        //        case Win32Helper.WM_ACTIVATE:
+        //            if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
+        //            {
+        //                if (lParam == new WindowInteropHelper(this.Owner).Handle)
+        //                {
+        //                    Win32Helper.SetActiveWindow(_hwndSrc.Handle);
+        //                    handled = true;
+        //                }
 
-                    }
-                    break;
-            }
+        //            }
+        //            break;
+        //    }
 
-            return IntPtr.Zero;
-        }
+        //    return IntPtr.Zero;
+        //}
 
 
         #region Documents

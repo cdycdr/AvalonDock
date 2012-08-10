@@ -217,8 +217,9 @@ namespace AvalonDock
         public event EventHandler LayoutChanging;
 
         void OnLayoutChanging(LayoutRoot newLayout)
-        { 
-            
+        {
+            if (LayoutChanging != null)
+                LayoutChanging(this, EventArgs.Empty);
         }
 
 
@@ -1209,13 +1210,13 @@ namespace AvalonDock
 
         #region LogicalChildren
 
-        List<object> _logicalChildren = new List<object>();
+        List<WeakReference> _logicalChildren = new List<WeakReference>();
 
         protected override System.Collections.IEnumerator LogicalChildren
         {
             get
             {
-                return _logicalChildren.GetEnumerator();
+                return _logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).GetEnumerator();
             }
         }
 
@@ -1223,10 +1224,11 @@ namespace AvalonDock
         void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
         {
             //System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
-
-            if (_logicalChildren.Contains(element))
-                throw new InvalidOperationException();
-            _logicalChildren.Add(element);
+#if DEBUG
+            if (_logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).Contains(element))
+                new InvalidOperationException();
+#endif
+            _logicalChildren.Add(new WeakReference(element));
             AddLogicalChild(element);
         }
 
@@ -1234,20 +1236,17 @@ namespace AvalonDock
         {
             //System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
 
-            if (_logicalChildren.Contains(element))
-            {
-                _logicalChildren.Remove(element);
-                RemoveLogicalChild(element);
-            }
+            var wrToRemove = _logicalChildren.FirstOrDefault(ch => ch.GetValueOrDefault<object>() == element);
+            if (wrToRemove != null)
+                _logicalChildren.Remove(wrToRemove);
+            RemoveLogicalChild(element);
         }
 
         void ClearLogicalChildrenList()
         {
-            foreach (var child in _logicalChildren.ToArray())
-            {
-                _logicalChildren.Remove(child);
+            foreach (var child in _logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).ToArray())
                 RemoveLogicalChild(child);
-            }
+            _logicalChildren.Clear();
         }
 
         #endregion  
@@ -1882,7 +1881,12 @@ namespace AvalonDock
                 {
                     (documentToRemove.Parent as ILayoutContainer).RemoveChild(
                         documentToRemove);
-                }                
+                }
+            }
+
+            if (Layout != null)
+            {
+                Layout.CollectGarbage();
             }
         }
 
@@ -2104,10 +2108,13 @@ namespace AvalonDock
                     LayoutUpdateStrategy.AfterInsertAnchorable(layout, anchorableToImport);
 
 
-                var anchorableItem = new LayoutAnchorableItem();
-                anchorableItem.Attach(anchorableToImport);
-                ApplyStyleToLayoutItem(anchorableItem);
-                _layoutItems.Add(anchorableItem);
+                //var anchorableItem = new LayoutAnchorableItem();
+                //anchorableItem.Attach(anchorableToImport);
+                //ApplyStyleToLayoutItem(anchorableItem);
+                //_layoutItems.Add(anchorableItem);
+
+                CreateAnchorableLayoutItem(anchorableToImport);
+
             }
 
             _suspendLayoutItemCreation = false;
@@ -2211,10 +2218,12 @@ namespace AvalonDock
 
                         if (root != null && root.Manager == this)
                         {
-                            var anchorableItem = new LayoutAnchorableItem();
-                            anchorableItem.Attach(anchorableToImport);
-                            ApplyStyleToLayoutItem(anchorableItem);
-                            _layoutItems.Add(anchorableItem);
+                            //var anchorableItem = new LayoutAnchorableItem();
+                            //anchorableItem.Attach(anchorableToImport);
+                            //ApplyStyleToLayoutItem(anchorableItem);
+                            //_layoutItems.Add(anchorableItem);
+                            CreateAnchorableLayoutItem(anchorableToImport);
+
                         }
 
                     }
@@ -2233,6 +2242,9 @@ namespace AvalonDock
                         anchorableToRemove);
                 }
             }
+
+            if (Layout != null)
+                Layout.CollectGarbage();
         }
 
         void DetachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
@@ -2619,7 +2631,6 @@ namespace AvalonDock
 
         #endregion
 
-
         #region LayoutItems
 
         List<LayoutItem> _layoutItems = new List<LayoutItem>();
@@ -2642,62 +2653,34 @@ namespace AvalonDock
             if (_suspendLayoutItemCreation)
                 return;
 
-            if (e.Element is LayoutContent)
-            {
-                var layoutItem = _layoutItems.First(item => item.LayoutElement == e.Element);
-                layoutItem.Detach();
-                _layoutItems.Remove(layoutItem);
-            }
-            else if (e.Element is ILayoutContainer)
-            {
-                foreach (var content in e.Element.Descendents().OfType<LayoutContent>())
-                {
-                    var itemToRemove = _layoutItems.First(item => item.LayoutElement == content);
-                    itemToRemove.Detach();
-                    _layoutItems.Remove(itemToRemove);
-                }
-            }
+            CollectLayoutItemsDeleted();
         }
 
         void Layout_ElementAdded(object sender, LayoutElementEventArgs e)
         {
             if (_suspendLayoutItemCreation)
                 return;
-            
-            if (e.Element is LayoutDocument)
+
+            foreach (var content in Layout.Descendents().OfType<LayoutContent>())
             {
-                var document = e.Element as LayoutDocument;
-                var documentItem = new LayoutDocumentItem();
-                documentItem.Attach(document);
-                ApplyStyleToLayoutItem(documentItem);
-                _layoutItems.Add(documentItem);
+                if (content is LayoutDocument)
+                    CreateDocumentLayoutItem(content as LayoutDocument);
+                else //if (content is LayoutAnchorable)
+                    CreateAnchorableLayoutItem(content as LayoutAnchorable);
             }
-            else if (e.Element is LayoutAnchorable)
+
+            CollectLayoutItemsDeleted();
+        }
+
+        void CollectLayoutItemsDeleted()
+        {
+            foreach (var itemToRemove in _layoutItems.Where(item => item.LayoutElement.Root != Layout).ToArray())
             {
-                var anchorable = e.Element as LayoutAnchorable;
-                var anchorableItem = new LayoutAnchorableItem();
-                anchorableItem.Attach(anchorable);
-                ApplyStyleToLayoutItem(anchorableItem);
-                _layoutItems.Add(anchorableItem);
-            }
-            else if (e.Element is ILayoutContainer)
-            {
-                foreach (var document in e.Element.Descendents().OfType<LayoutDocument>().ToArray())
-                {
-                    var documentItem = new LayoutDocumentItem();
-                    documentItem.Attach(document);
-                    ApplyStyleToLayoutItem(documentItem);
-                    _layoutItems.Add(documentItem);
-                }
-                foreach (var anchorable in e.Element.Descendents().OfType<LayoutAnchorable>().ToArray())
-                {
-                    var anchorableItem = new LayoutAnchorableItem();
-                    anchorableItem.Attach(anchorable);
-                    ApplyStyleToLayoutItem(anchorableItem);
-                    _layoutItems.Add(anchorableItem);
-                }                
+                itemToRemove.Detach();
+                _layoutItems.Remove(itemToRemove);
             }
         }
+
 
         void AttachLayoutItems()
         {
@@ -2731,6 +2714,28 @@ namespace AvalonDock
             else if (LayoutItemContainerStyleSelector != null)
                 layoutItem.Style = LayoutItemContainerStyleSelector.SelectStyle(layoutItem.Model, layoutItem);
             layoutItem._SetDefaultBindings();
+        }
+
+        void CreateAnchorableLayoutItem(LayoutAnchorable contentToAttach)
+        {
+            if (_layoutItems.Any(item => item.LayoutElement == contentToAttach))
+                return;
+
+            var layoutItem = new LayoutAnchorableItem();
+            layoutItem.Attach(contentToAttach);
+            ApplyStyleToLayoutItem(layoutItem);
+            _layoutItems.Add(layoutItem);
+        }
+
+        void CreateDocumentLayoutItem(LayoutDocument contentToAttach)
+        {
+            if (_layoutItems.Any(item => item.LayoutElement == contentToAttach))
+                return;
+
+            var layoutItem = new LayoutDocumentItem();
+            layoutItem.Attach(contentToAttach);
+            ApplyStyleToLayoutItem(layoutItem);
+            _layoutItems.Add(layoutItem);
         }
 
         #region LayoutItemContainerStyle
@@ -2815,7 +2820,6 @@ namespace AvalonDock
             return _layoutItems.FirstOrDefault(item => item.LayoutElement == content);
         }
         #endregion
-
 
         #region NavigatorWindow
         NavigatorWindow _navigatorWindow = null;

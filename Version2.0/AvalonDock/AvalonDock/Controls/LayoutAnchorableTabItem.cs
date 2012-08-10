@@ -43,6 +43,10 @@ namespace AvalonDock.Controls
 
         public LayoutAnchorableTabItem()
         {
+            this.Unloaded += (s, e) =>
+            {
+                UpdateLogicalParent();
+            };
         }
 
 

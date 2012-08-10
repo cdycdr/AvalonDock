@@ -42,6 +42,10 @@ namespace AvalonDock.Controls
 
         public LayoutDocumentTabItem()
         {
+            this.Unloaded += (s, e) =>
+                {
+                    UpdateLogicalParent();
+                };
         }
 
         #region Model
@@ -119,6 +123,8 @@ namespace AvalonDock.Controls
         }
 
         #endregion
+
+        
 
         void UpdateLogicalParent()
         {
@@ -242,5 +248,15 @@ namespace AvalonDock.Controls
             _isMouseDown = false;
         }
 
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle)
+            {
+                if (LayoutItem.CloseCommand.CanExecute(null))
+                    LayoutItem.CloseCommand.Execute(null);
+            }
+            
+            base.OnMouseDown(e);
+        }
     }
 }

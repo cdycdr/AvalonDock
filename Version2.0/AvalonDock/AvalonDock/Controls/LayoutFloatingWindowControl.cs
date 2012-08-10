@@ -75,7 +75,6 @@ namespace AvalonDock.Controls
                 });
 
                 _rootPresenter = new Border() { Child = Content, Focusable = true };
-                _rootPresenter.GotKeyboardFocus += new KeyboardFocusChangedEventHandler(_rootPresenter_GotKeyboardFocus);
                 _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("Background") { Source = _owner });
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;
@@ -85,10 +84,6 @@ namespace AvalonDock.Controls
                 return new HandleRef(this, _wpfContentHost.Handle);
             }
 
-            void _rootPresenter_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-            {
-                Debug.WriteLine("_rootPresenter_GotKeyboardFocus");
-            }
 
             protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
             {

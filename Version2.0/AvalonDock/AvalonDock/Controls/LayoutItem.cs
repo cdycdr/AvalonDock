@@ -91,6 +91,8 @@ namespace AvalonDock.Controls
         {
             LayoutElement.IsSelectedChanged -= new EventHandler(LayoutElement_IsSelectedChanged);
             LayoutElement.IsActiveChanged -= new EventHandler(LayoutElement_IsActiveChanged);
+            LayoutElement = null;
+            Model = null;
         }
 
         public LayoutContent LayoutElement
@@ -543,7 +545,7 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteCloseCommand(object parameter)
         {
-            return LayoutElement.CanClose;
+            return LayoutElement != null && LayoutElement.CanClose;
         }
 
         private void ExecuteCloseCommand(object parameter)
@@ -602,7 +604,7 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteFloatCommand(object anchorable)
         {
-            return LayoutElement.CanFloat && LayoutElement.FindParent<LayoutFloatingWindow>() == null;
+            return LayoutElement != null && LayoutElement.CanFloat && LayoutElement.FindParent<LayoutFloatingWindow>() == null;
         }
 
         private void ExecuteFloatCommand(object parameter)
@@ -664,7 +666,7 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteDockAsDocumentCommand(object parameter)
         {
-            return LayoutElement.FindParent<LayoutDocumentPane>() == null;
+            return LayoutElement != null && LayoutElement.FindParent<LayoutDocumentPane>() == null;
         }
 
         private void ExecuteDockAsDocumentCommand(object parameter)
@@ -720,6 +722,8 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteCloseAllButThisCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
             var root = LayoutElement.Root;
             if (root == null)
                 return false;
@@ -781,7 +785,7 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteActivateCommand(object parameter)
         {
-            return true;
+            return LayoutElement != null;
         }
 
         private void ExecuteActivateCommand(object parameter)
@@ -828,6 +832,8 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteNewVerticalTabGroupCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return ((parentDocumentGroup == null ||
@@ -896,6 +902,8 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteNewHorizontalTabGroupCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return ((parentDocumentGroup == null ||
@@ -963,6 +971,9 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteMoveToNextTabGroupCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
+
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return (parentDocumentGroup != null &&
@@ -1022,6 +1033,8 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteMoveToPreviousTabGroupCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return (parentDocumentGroup != null &&

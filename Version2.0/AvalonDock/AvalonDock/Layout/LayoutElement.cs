@@ -40,6 +40,8 @@ namespace AvalonDock.Layout
 
         [NonSerialized]
         private ILayoutContainer _parent = null;
+        [NonSerialized]
+        private ILayoutRoot _root = null;
         [XmlIgnore]
         public ILayoutContainer Parent
         {
@@ -49,14 +51,16 @@ namespace AvalonDock.Layout
                 if (_parent != value)
                 {
                     ILayoutContainer oldValue = _parent;
-                    ILayoutRoot oldRoot = Root;
+                    ILayoutRoot oldRoot = _root;
                     RaisePropertyChanging("Parent");
                     OnParentChanging(oldValue, value);
                     _parent = value;
                     OnParentChanged(oldValue, value);
-                    ILayoutRoot newRoot = Root;
-                    if (oldRoot != newRoot)
-                        OnRootChanged(oldRoot, newRoot);
+
+                    _root = Root;
+                    if (oldRoot != _root)
+                        OnRootChanged(oldRoot, _root);
+
                     RaisePropertyChanged("Parent");
 
                     var root = Root as LayoutRoot;

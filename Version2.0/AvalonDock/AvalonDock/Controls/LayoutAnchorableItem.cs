@@ -51,6 +51,7 @@ namespace AvalonDock.Controls
         internal override void Detach()
         {
             _anchorable.IsVisibleChanged -= new EventHandler(_anchorable_IsVisibleChanged);
+            _anchorable = null;
             base.Detach();
         }
 
@@ -146,6 +147,8 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteHideCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
             return _anchorable.CanHide;
         }
 
@@ -203,6 +206,9 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteAutoHideCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
+
             if (LayoutElement.FindParent<LayoutAnchorableFloatingWindow>() != null)
                 return false;//is floating
 
@@ -263,6 +269,8 @@ namespace AvalonDock.Controls
 
         private bool CanExecuteDockCommand(object parameter)
         {
+            if (LayoutElement == null)
+                return false;
             return LayoutElement.FindParent<LayoutAnchorableFloatingWindow>() != null;
         }
 

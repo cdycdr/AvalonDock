@@ -39,9 +39,9 @@
         </Menu>
         
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
-            <avalonDock:DockingManager.Theme>
+            <!--<avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme/>
-            </avalonDock:DockingManager.Theme>
+            </avalonDock:DockingManager.Theme>-->
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="100">

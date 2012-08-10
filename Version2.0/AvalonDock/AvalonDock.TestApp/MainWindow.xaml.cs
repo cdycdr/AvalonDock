@@ -46,7 +46,7 @@ namespace AvalonDock.TestApp
                         (byte)rnd.Next(0, 255), (byte)rnd.Next(0, 255), (byte)rnd.Next(0, 255)));
 
                     FocusedElement = Keyboard.FocusedElement == null ? string.Empty : Keyboard.FocusedElement.ToString();
-                    
+                    //Debug.WriteLine(string.Format("ActiveContent = {0}", dockManager.ActiveContent));
 
                 };
             timer.Start();
@@ -123,7 +123,7 @@ namespace AvalonDock.TestApp
         private void OnLayoutRootPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             var activeContent = ((LayoutRoot)sender).ActiveContent;
-            if (e.PropertyName == "ActiveContent" && activeContent != null)
+            if (e.PropertyName == "ActiveContent")
             {
                 Debug.WriteLine(string.Format("ActiveContent-> {0}", activeContent));
             }
