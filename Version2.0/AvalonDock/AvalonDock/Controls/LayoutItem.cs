@@ -223,7 +223,8 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnTitleChanged(DependencyPropertyChangedEventArgs e)
         {
-            LayoutElement.Title = (string)e.NewValue;
+            if (LayoutElement != null)
+                LayoutElement.Title = (string)e.NewValue;
         }
 
         #endregion
@@ -236,7 +237,8 @@ namespace AvalonDock.Controls
         
         private void OnToolTipChanged()
         {
-            LayoutElement.ToolTip = ToolTip;
+            if (LayoutElement != null)
+                LayoutElement.ToolTip = ToolTip;
         }
         #endregion
 
@@ -273,7 +275,8 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnIconSourceChanged(DependencyPropertyChangedEventArgs e)
         {
-            LayoutElement.IconSource = IconSource;
+            if (LayoutElement != null)
+                LayoutElement.IconSource = IconSource;
         }
 
         #endregion
@@ -287,7 +290,8 @@ namespace AvalonDock.Controls
 
         protected virtual void OnVisibilityChanged()
         {
-            if (Visibility == System.Windows.Visibility.Collapsed)
+            if (LayoutElement != null &&
+                Visibility == System.Windows.Visibility.Collapsed)
                 LayoutElement.Close();
         }
 
@@ -326,7 +330,8 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnContentIdChanged(DependencyPropertyChangedEventArgs e)
         {
-            LayoutElement.ContentId = (string)e.NewValue;
+            if (LayoutElement != null)
+                LayoutElement.ContentId = (string)e.NewValue;
         }
 
         #endregion
@@ -370,7 +375,8 @@ namespace AvalonDock.Controls
             {
                 using (_isSelectedReentrantFlag.Enter())
                 {
-                    LayoutElement.IsSelected = (bool)e.NewValue;
+                    if (LayoutElement != null)
+                        LayoutElement.IsSelected = (bool)e.NewValue;
                 }
             }
         }
@@ -416,7 +422,8 @@ namespace AvalonDock.Controls
             {
                 using (_isActiveReentrantFlag.Enter())
                 {
-                    LayoutElement.IsActive = (bool)e.NewValue;
+                    if (LayoutElement != null)
+                        LayoutElement.IsActive = (bool)e.NewValue;
                 }
             }
         }
@@ -456,7 +463,8 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnCanCloseChanged(DependencyPropertyChangedEventArgs e)
         {
-            LayoutElement.CanClose = (bool)e.NewValue;
+            if (LayoutElement != null)
+                LayoutElement.CanClose = (bool)e.NewValue;
         }
 
         #endregion
@@ -494,7 +502,8 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnCanFloatChanged(DependencyPropertyChangedEventArgs e)
         {
-            LayoutElement.CanFloat = (bool)e.NewValue;
+            if (LayoutElement != null)
+                LayoutElement.CanFloat = (bool)e.NewValue;
         }
 
         #endregion

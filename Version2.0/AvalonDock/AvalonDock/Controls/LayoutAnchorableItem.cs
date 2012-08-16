@@ -154,7 +154,8 @@ namespace AvalonDock.Controls
 
         private void ExecuteHideCommand(object parameter)
         {
-            LayoutElement.Root.Manager._ExecuteHideCommand(_anchorable);
+            if (_anchorable != null && _anchorable.Root != null && _anchorable.Root.Manager != null)
+                _anchorable.Root.Manager._ExecuteHideCommand(_anchorable);
         }
 
         #endregion
@@ -217,7 +218,8 @@ namespace AvalonDock.Controls
 
         private void ExecuteAutoHideCommand(object parameter)
         {
-            LayoutElement.Root.Manager._ExecuteAutoHideCommand(_anchorable);
+            if (_anchorable != null && _anchorable.Root != null && _anchorable.Root.Manager != null)
+                _anchorable.Root.Manager._ExecuteAutoHideCommand(_anchorable);
         }
 
         #endregion
@@ -286,7 +288,7 @@ namespace AvalonDock.Controls
 
         protected override void OnVisibilityChanged()
         {
-            if (_anchorable.Root != null)
+            if (_anchorable != null && _anchorable.Root != null)
             {
                 if (_visibilityReentrantFlag.CanEnter)
                 {
@@ -306,7 +308,7 @@ namespace AvalonDock.Controls
 
         void _anchorable_IsVisibleChanged(object sender, EventArgs e)
         {
-            if (_anchorable.Root != null)
+            if (_anchorable != null && _anchorable.Root != null)
             {
                 if (_visibilityReentrantFlag.CanEnter)
                 {
@@ -356,7 +358,8 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnCanHideChanged(DependencyPropertyChangedEventArgs e)
         {
-            _anchorable.CanHide = (bool)e.NewValue;
+            if (_anchorable != null)
+                _anchorable.CanHide = (bool)e.NewValue;
         }
 
         #endregion
