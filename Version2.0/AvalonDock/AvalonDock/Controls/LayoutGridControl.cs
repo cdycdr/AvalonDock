@@ -161,17 +161,23 @@ namespace AvalonDock.Controls
         {
             if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockWidth" && Orientation == System.Windows.Controls.Orientation.Horizontal)
             {
-                var changedElement = sender as ILayoutPositionableElement;
-                var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
-                int indexOfChild = InternalChildren.IndexOf(childFromModel);
-                ColumnDefinitions[indexOfChild].Width = changedElement.DockWidth;
+                if (ColumnDefinitions.Count == InternalChildren.Count)
+                {
+                    var changedElement = sender as ILayoutPositionableElement;
+                    var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
+                    int indexOfChild = InternalChildren.IndexOf(childFromModel);
+                    ColumnDefinitions[indexOfChild].Width = changedElement.DockWidth;
+                }
             }
             else if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockHeight" && Orientation == System.Windows.Controls.Orientation.Vertical)
             {
-                var changedElement = sender as ILayoutPositionableElement;
-                var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
-                int indexOfChild = InternalChildren.IndexOf(childFromModel);
-                RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
+                if (RowDefinitions.Count == InternalChildren.Count)
+                {
+                    var changedElement = sender as ILayoutPositionableElement;
+                    var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
+                    int indexOfChild = InternalChildren.IndexOf(childFromModel);
+                    RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
+                }
             }
             else if (e.PropertyName == "IsVisible" ||
                 e.PropertyName == "Orientation")
