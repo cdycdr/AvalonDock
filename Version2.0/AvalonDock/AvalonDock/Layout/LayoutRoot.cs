@@ -454,6 +454,14 @@ namespace AvalonDock.Layout
             do
             {
                 exitFlag = true;
+
+                //for each content that references via PreviousContainer a disconnected Pane set the property to null
+                foreach (var content in this.Descendents().OfType<ILayoutPreviousContainer>().Where(c => c.PreviousContainer != null && 
+                    (c.PreviousContainer.Parent == null || c.PreviousContainer.Parent.Root != this)))
+                {
+                    content.PreviousContainer = null;
+                }
+
                 //for each pane that is empty
                 foreach (var emptyPane in this.Descendents().OfType<ILayoutPane>().Where(p => p.ChildrenCount == 0))
                 {

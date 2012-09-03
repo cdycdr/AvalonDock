@@ -66,6 +66,12 @@ namespace AvalonDock.Controls
 
         bool _initialized;
         ChildrenTreeChange? _asyncRefreshCalled;
+
+        bool AsyncRefreshCalled
+        {
+            get { return _asyncRefreshCalled != null; }
+        }
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -159,6 +165,9 @@ namespace AvalonDock.Controls
 
         void OnChildModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (AsyncRefreshCalled)
+                return;
+
             if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockWidth" && Orientation == System.Windows.Controls.Orientation.Horizontal)
             {
                 if (ColumnDefinitions.Count == InternalChildren.Count)
@@ -179,8 +188,7 @@ namespace AvalonDock.Controls
                     RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
                 }
             }
-            else if (e.PropertyName == "IsVisible" ||
-                e.PropertyName == "Orientation")
+            else if (e.PropertyName == "IsVisible")
             {
                 UpdateRowColDefinitions();
             }
@@ -197,6 +205,8 @@ namespace AvalonDock.Controls
                 return;
 
             FixChildrenDockLengths();
+
+            Debug.Assert(InternalChildren.Count == _model.ChildrenCount + (_model.ChildrenCount - 1));
 
             #region Setup GridRows/Cols
             RowDefinitions.Clear();
