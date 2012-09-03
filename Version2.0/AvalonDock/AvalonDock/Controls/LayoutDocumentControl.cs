@@ -117,12 +117,10 @@ namespace AvalonDock.Controls
 
         #endregion
 
-        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-
             Model.IsActive = true;
-
-            base.OnGotKeyboardFocus(e);
+            base.OnPreviewGotKeyboardFocus(e);
         }
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)

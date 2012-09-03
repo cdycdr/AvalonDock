@@ -855,8 +855,9 @@ namespace AvalonDock.Controls
 
         private void ExecuteNewVerticalTabGroupCommand(object parameter)
         {
-            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            var layoutElement = LayoutElement;
+            var parentDocumentGroup = layoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = layoutElement.Parent as LayoutDocumentPane;
 
             if (parentDocumentGroup == null)
             {
@@ -867,9 +868,9 @@ namespace AvalonDock.Controls
             }
             parentDocumentGroup.Orientation = System.Windows.Controls.Orientation.Horizontal; 
             int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
-            parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(LayoutElement));
-            LayoutElement.IsActive = true;
-            LayoutElement.Root.CollectGarbage();
+            parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
+            layoutElement.IsActive = true;
+            layoutElement.Root.CollectGarbage();
         }
         #endregion
 
@@ -925,8 +926,9 @@ namespace AvalonDock.Controls
 
         private void ExecuteNewHorizontalTabGroupCommand(object parameter)
         {
-            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            var layoutElement = LayoutElement;
+            var parentDocumentGroup = layoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = layoutElement.Parent as LayoutDocumentPane;
 
             if (parentDocumentGroup == null)
             {
@@ -937,9 +939,9 @@ namespace AvalonDock.Controls
             }
             parentDocumentGroup.Orientation = System.Windows.Controls.Orientation.Vertical;
             int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
-            parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(LayoutElement));
-            LayoutElement.IsActive = true;
-            LayoutElement.Root.CollectGarbage();
+            parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
+            layoutElement.IsActive = true;
+            layoutElement.Root.CollectGarbage();
         }       
         #endregion
 
@@ -994,13 +996,14 @@ namespace AvalonDock.Controls
 
         private void ExecuteMoveToNextTabGroupCommand(object parameter)
         {
-            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            var layoutElement = LayoutElement;
+            var parentDocumentGroup = layoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = layoutElement.Parent as LayoutDocumentPane;
             int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
             var nextDocumentPane = parentDocumentGroup.Children[indexOfParentPane + 1] as LayoutDocumentPane;
-            nextDocumentPane.InsertChildAt(0, LayoutElement);
-            LayoutElement.IsActive = true;
-            LayoutElement.Root.CollectGarbage();
+            nextDocumentPane.InsertChildAt(0, layoutElement);
+            layoutElement.IsActive = true;
+            layoutElement.Root.CollectGarbage();
         }
 
         #endregion
@@ -1055,13 +1058,14 @@ namespace AvalonDock.Controls
 
         private void ExecuteMoveToPreviousTabGroupCommand(object parameter)
         {
-            var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
+            var layoutElement = LayoutElement;
+            var parentDocumentGroup = layoutElement.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentPane = layoutElement.Parent as LayoutDocumentPane;
             int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
             var nextDocumentPane = parentDocumentGroup.Children[indexOfParentPane - 1] as LayoutDocumentPane;
-            nextDocumentPane.InsertChildAt(0, LayoutElement);
-            LayoutElement.IsActive = true;
-            LayoutElement.Root.CollectGarbage();
+            nextDocumentPane.InsertChildAt(0, layoutElement);
+            layoutElement.IsActive = true;
+            layoutElement.Root.CollectGarbage();
         }
         #endregion
        

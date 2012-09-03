@@ -231,8 +231,8 @@ namespace AvalonDock.Controls
                 Top = mousePosition.Y - (windowArea.Height - clientArea.Height) / 2.0;
                 _attachDrag = false;
 
-                int lParam = ((int)mousePosition.X & (int)0xFFFF) | (((int)mousePosition.Y) << 16);
-                Win32Helper.SendMessage(windowHandle, Win32Helper.WM_NCLBUTTONDOWN, Win32Helper.HT_CAPTION, lParam);
+                IntPtr lParam = new IntPtr(((int)mousePosition.X & (int)0xFFFF) | (((int)mousePosition.Y) << 16));
+                Win32Helper.SendMessage(windowHandle, Win32Helper.WM_NCLBUTTONDOWN, new IntPtr(Win32Helper.HT_CAPTION), lParam);
             }
         }
 

@@ -172,9 +172,9 @@ namespace AvalonDock
         internal const int HT_CAPTION = 0x2;
 
         [DllImportAttribute("user32.dll")]
-        internal static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        internal static extern int SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
         [DllImportAttribute("user32.dll")]
-        internal static extern int PostMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        internal static extern int PostMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
 
         [DllImport("user32.dll")]
