@@ -205,5 +205,14 @@ namespace AvalonDock.TestApp
             if (MessageBox.Show("Are you sure you want to close the document?", "AvalonDock Sample", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 e.Cancel = true;
         }
+
+        private void OnDumpToConsole(object sender, RoutedEventArgs e)
+        {
+#if DEBUG
+            dockManager.Layout.ConsoleDump(0);
+#endif
+        }
+
+
     }
 }

@@ -31,6 +31,7 @@
                     <MenuItem Header="Layout_3" Click="OnLoadLayout"/>
                     <MenuItem Header="Layout_4" Click="OnLoadLayout"/>
                 </MenuItem>
+                <MenuItem Header="Dump To Console" Click="OnDumpToConsole"/>
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="WinForms Window" Click="OnShowWinformsWindow"/>
@@ -39,9 +40,9 @@
         </Menu>
         
         <avalonDock:DockingManager Grid.Row="1" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
-            <!--<avalonDock:DockingManager.Theme>
-                <avalonDock:AeroTheme/>
-            </avalonDock:DockingManager.Theme>-->
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:VS2010Theme/>
+            </avalonDock:DockingManager.Theme>
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="100">

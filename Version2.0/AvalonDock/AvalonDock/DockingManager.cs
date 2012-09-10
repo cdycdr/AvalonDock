@@ -1414,7 +1414,9 @@ namespace AvalonDock
                     fw as LayoutAnchorableFloatingWindow)
                     {
                         Width = fwWidth,
-                        Height = fwHeight
+                        Height = fwHeight,
+                        Left = contentModel.FloatingLeft,
+                        Top = contentModel.FloatingTop
                     };
             }
             else
@@ -1429,7 +1431,9 @@ namespace AvalonDock
                     fw as LayoutDocumentFloatingWindow)
                 {
                     Width = fwWidth,
-                    Height = fwHeight
+                    Height = fwHeight,
+                    Left = contentModel.FloatingLeft,
+                    Top = contentModel.FloatingTop
                 };
             }
             
@@ -1455,6 +1459,10 @@ namespace AvalonDock
 
             double fwWidth = paneAsPositionableElement.FloatingWidth;
             double fwHeight = paneAsPositionableElement.FloatingHeight;
+            double fwLeft = paneAsPositionableElement.FloatingLeft;
+            double fwTop = paneAsPositionableElement.FloatingTop;
+            
+            
 
             if (fwWidth == 0.0)
                 fwWidth = paneAsWithActualSize.ActualWidth;
@@ -1803,14 +1811,44 @@ namespace AvalonDock
                 documentPane = layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
             }
 
-            if (documentPane == null)
-                throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+            //if (documentPane == null)
+            //    throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
 
-            foreach (var documentToImport in listOfDocumentsToImport)
+            _suspendLayoutItemCreation = true;
+            foreach (var documentContentToImport in listOfDocumentsToImport)
             {
-                documentPane.Children.Add(new LayoutDocument() { Content = documentToImport });
+
+                //documentPane.Children.Add(new LayoutDocument() { Content = documentToImport });
+
+                var documentToImport = new LayoutDocument()
+                {
+                    Content = documentContentToImport
+                };
+
+                bool added = false;
+                if (LayoutUpdateStrategy != null)
+                {
+                    added = LayoutUpdateStrategy.BeforeInsertDocument(layout, documentToImport, documentPane);
+                }
+
+                if (!added)
+                {
+                    if (documentPane == null)
+                        throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+
+                    documentPane.Children.Add(documentToImport);
+                    added = true;
+                }
+
+                if (LayoutUpdateStrategy != null)
+                    LayoutUpdateStrategy.AfterInsertDocument(layout, documentToImport);
+
+
+                CreateDocumentLayoutItem(documentToImport);
+
             }
-            
+            _suspendLayoutItemCreation = true;
+        
 
             var documentsSourceAsNotifier = documentsSource as INotifyCollectionChanged;
             if (documentsSourceAsNotifier != null)
@@ -1861,14 +1899,47 @@ namespace AvalonDock
                         documentPane = Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
                     }
 
-                    if (documentPane == null)
-                        throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+                    //if (documentPane == null)
+                    //    throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+                    
+                    _suspendLayoutItemCreation = true;
 
-                    foreach (var documentToImport in e.NewItems)
+                    foreach (var documentContentToImport in e.NewItems)
                     {
-                        documentPane.Children.Add(new LayoutDocument() { Content = documentToImport });
-                    }
+                        var documentToImport = new LayoutDocument()
+                        {
+                            Content = documentContentToImport
+                        };
 
+                        bool added = false;
+                        if (LayoutUpdateStrategy != null)
+                        {
+                            added = LayoutUpdateStrategy.BeforeInsertDocument(Layout, documentToImport, documentPane);
+                        }
+
+                        if (!added)
+                        {
+                            if (documentPane == null)
+                                throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+
+                            documentPane.Children.Add(documentToImport);
+                            added = true;
+                        }
+
+                        if (LayoutUpdateStrategy != null)
+                        {
+                            LayoutUpdateStrategy.AfterInsertDocument(Layout, documentToImport);
+                        }
+
+
+                        var root = documentToImport.Root;
+
+                        if (root != null && root.Manager == this)
+                        {
+                            CreateDocumentLayoutItem(documentToImport);
+                        }
+                    }
+                    _suspendLayoutItemCreation = false;
                 }
             }
 
@@ -2108,11 +2179,6 @@ namespace AvalonDock
                     LayoutUpdateStrategy.AfterInsertAnchorable(layout, anchorableToImport);
 
 
-                //var anchorableItem = new LayoutAnchorableItem();
-                //anchorableItem.Attach(anchorableToImport);
-                //ApplyStyleToLayoutItem(anchorableItem);
-                //_layoutItems.Add(anchorableItem);
-
                 CreateAnchorableLayoutItem(anchorableToImport);
 
             }
@@ -2176,6 +2242,7 @@ namespace AvalonDock
                         //look for an available pane
                         anchorablePane = Layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault();
                     }
+
                     _suspendLayoutItemCreation = true;
                     foreach (var anchorableContentToImport in e.NewItems)
                     {
@@ -2218,12 +2285,7 @@ namespace AvalonDock
 
                         if (root != null && root.Manager == this)
                         {
-                            //var anchorableItem = new LayoutAnchorableItem();
-                            //anchorableItem.Attach(anchorableToImport);
-                            //ApplyStyleToLayoutItem(anchorableItem);
-                            //_layoutItems.Add(anchorableItem);
                             CreateAnchorableLayoutItem(anchorableToImport);
-
                         }
 
                     }
@@ -2814,8 +2876,12 @@ namespace AvalonDock
 
         #endregion
 
-
-        internal LayoutItem GetLayoutItemFromModel(LayoutContent content)
+        /// <summary>
+        /// Return the LayoutItem wrapper for the content passed as argument
+        /// </summary>
+        /// <param name="content">LayoutContent to search</param>
+        /// <returns>Either a LayoutAnchorableItem or LayoutDocumentItem which contains the LayoutContent passed as argument</returns>
+        public LayoutItem GetLayoutItemFromModel(LayoutContent content)
         {
             return _layoutItems.FirstOrDefault(item => item.LayoutElement == content);
         }

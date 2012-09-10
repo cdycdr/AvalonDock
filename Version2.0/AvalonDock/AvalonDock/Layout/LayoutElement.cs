@@ -132,5 +132,13 @@ namespace AvalonDock.Layout
             }
         }
 
+
+#if DEBUG
+        public virtual void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new String(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine(this.ToString());
+        }
+#endif
     }
 }

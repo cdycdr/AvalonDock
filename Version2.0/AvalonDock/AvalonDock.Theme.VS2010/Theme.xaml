@@ -6,7 +6,9 @@
     xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
     xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
     xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
-    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock">
+    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
+    xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
+    >
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
@@ -89,6 +91,8 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+                        <!--Following border is required to catch mouse events-->
+                        <Border Background="Transparent" Grid.RowSpan="2"/>
                         <Grid  Panel.ZIndex="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -304,6 +308,8 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        <!--Following border is required to catch mouse events-->
+                        <Border Background="Transparent" Grid.RowSpan="2"/>
                         <Border x:Name="ContentPanel" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -453,7 +459,8 @@
                                 Focusable="False"
                                 Grid.Column="1"
                                 DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                DropDownContextMenuDataContext="{Binding Path=LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                                DropDownContextMenuDataContext="{Binding Path=LayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_CxMenu_Hint}">
                                 <Image x:Name="PART_ImgMenuPin" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu.png"/>
                             </avalonDockControls:DropDownButton>
 
@@ -464,7 +471,9 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Command="{Binding Path=LayoutItem.AutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}" 
-                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_BtnAutoHide_Hint}"
+                                    >
                                 <Image x:Name="PART_ImgAutoHidePin" Source="/AvalonDock.Themes.VS2010;component/Images/PinAutoHide.png"/>
                             </Button>
                             <Button x:Name="PART_HidePin" 
@@ -474,7 +483,9 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" 
-                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_BtnClose_Hint}"
+                                    >
                                 <Image x:Name="PART_ImgHidePin" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
                             </Button>
 
@@ -741,47 +752,48 @@
     </DataTemplate>
 
     <ContextMenu x:Key="AvalonDock_ThemeVS2010_AnchorableContextMenu">
-        <MenuItem Header="Float" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Anchorable_Float}" 
                 Command="{Binding Path=FloatCommand}"/>
-        <MenuItem Header="Dock" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Anchorable_Dock}" 
                 Command="{Binding Path=DockCommand}"/>
-        <MenuItem Header="Dock as Tabbed Document" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Anchorable_DockAsDocument}" 
                 Command="{Binding Path=DockAsDocumentCommand}"/>
-        <MenuItem Header="Auto Hide" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Anchorable_AutoHide}" 
                 Command="{Binding Path=AutoHideCommand}"/>
-        <MenuItem Header="Close" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Anchorable_Hide}" 
                 Command="{Binding Path=CloseCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </ContextMenu>
 
     <ContextMenu x:Key="AvalonDock_ThemeVS2010_DocumentContextMenu">
-        <MenuItem Header="Close" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_Close}" 
                   Command="{Binding Path=CloseCommand}"
                   Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
-        <MenuItem Header="Close All But This" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_CloseAllButThis}" 
                 Command="{Binding Path=CloseAllButThisCommand}"/>
-        <MenuItem Header="Float" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_Float}" 
                 Command="{Binding Path=FloatCommand}"/>
-        <MenuItem Header="Dock as Tabbed Document" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_DockAsDocument}" 
                 Command="{Binding Path=DockAsDocumentCommand}"/>
-        <MenuItem Header="New Horizontal Tab Group" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_NewHorizontalTabGroup}" 
                 Command="{Binding Path=NewHorizontalTabGroupCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
             <MenuItem.Icon>
-                <Image Source="/AvalonDock.Themes.VS2010;component/Images/HTabGroup.png" Stretch="Uniform" Width="14"/>
+                <Image Source="/AvalonDock.Themes.Aero;component/Images/HTabGroup.png" Stretch="Uniform" Width="14"/>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="New Vertical Tab Group" 
+
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_NewVerticalTabGroup}" 
                 Command="{Binding Path=NewVerticalTabGroupCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
             <MenuItem.Icon>
-                <Image Source="/AvalonDock.Themes.VS2010;component/Images/VTabGroup.png" Stretch="Uniform" Width="14"/>
+                <Image Source="/AvalonDock.Themes.Aero;component/Images/VTabGroup.png" Stretch="Uniform" Width="14"/>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Move To Next Tab Group" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_MoveToNextTabGroup}" 
                 Command="{Binding Path=MoveToNextTabGroupCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
-        <MenuItem Header="Move To Previous Tab Group" 
+        <MenuItem Header="{x:Static avalonDockProperties:Resources.Document_MoveToPreviousTabGroup}" 
                 Command="{Binding Path=MoveToPreviousTabGroupCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </ContextMenu>
@@ -1050,7 +1062,8 @@
                                             VerticalContentAlignment="Center"
                                             HorizontalContentAlignment="Center"
                                             DropDownContextMenu="{Binding Model.Root.Manager.DocumentContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                            DropDownContextMenuDataContext="{Binding Path=RootDocumentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                                            DropDownContextMenuDataContext="{Binding Path=RootDocumentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Document_CxMenu_Hint}">
                                             <Image x:Name="PART_ImgPinMenu" Stretch="None" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu.png" Width="13"/>
                                         </avalonDockControls:DropDownButton>
 
@@ -1062,6 +1075,7 @@
                                             Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
                                             Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Window_Maximize}"
                                             Grid.Column="2">
                                             <Image x:Name="PART_ImgPinMaximize" Source="/AvalonDock.Themes.VS2010;component/Images/PinMaximize.png" Width="13" />
                                         </Button>
@@ -1074,6 +1088,7 @@
                                             Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
                                             Command="{x:Static shell:SystemCommands.RestoreWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Window_Restore}"
                                             Grid.Column="2">
                                             <Image x:Name="PART_ImgPinRestore" Source="/AvalonDock.Themes.VS2010;component/Images/PinRestore.png" Width="13" />
                                         </Button>
@@ -1085,6 +1100,7 @@
                                             Style="{StaticResource AvalonDock_ThemeVS2010_ButtonStyle}"
                                             Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Command="{Binding Path=RootDocumentLayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Document_Close}"
                                             Grid.Column="3">
                                             <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png" Width="13" />
                                         </Button>
@@ -1219,7 +1235,8 @@
                                             VerticalContentAlignment="Center"
                                             HorizontalContentAlignment="Center"
                                             DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
-                                            DropDownContextMenuDataContext="{Binding Path=SingleContentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                                            DropDownContextMenuDataContext="{Binding Path=SingleContentLayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_CxMenu_Hint}">
                                             <Image x:Name="PART_ImgPinMenu" Stretch="None" Source="/AvalonDock.Themes.VS2010;component/Images/PinMenu.png" Width="13"/>
                                         </avalonDockControls:DropDownButton>
 
@@ -1235,6 +1252,7 @@
                                             HorizontalContentAlignment="Center"
                                             Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Window_Maximize}"
                                             Grid.Column="2">
                                             <Image x:Name="PART_ImgPinMaximize" Source="/AvalonDock.Themes.VS2010;component/Images/PinMaximize.png" Width="13"/>
                                         </Button>
@@ -1249,6 +1267,7 @@
                                             HorizontalAlignment="Center"
                                             Command="{x:Static shell:SystemCommands.RestoreWindowCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Window_Restore}"
                                             Grid.Column="2">
                                             <Image  x:Name="PART_ImgPinRestore" Source="/AvalonDock.Themes.VS2010;component/Images/PinRestore.png" Width="13"/>
                                         </Button>
@@ -1262,6 +1281,7 @@
                                             HorizontalAlignment="Center"
                                             Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_BtnClose_Hint}"
                                             Grid.Column="3">
                                             <Image x:Name="PART_ImgPinClose" Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png" Width="13"/>
                                         </Button>

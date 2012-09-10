@@ -94,6 +94,19 @@ namespace AvalonDock.Layout
                 Orientation = (Orientation)Enum.Parse(typeof(Orientation), reader.Value, true);
             base.ReadXml(reader);
         }
+
+#if DEBUG
+        public override void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("AnchorablePaneGroup({0})", Orientation);
+
+            foreach (LayoutElement child in Children)
+                child.ConsoleDump(tab + 1);
+        }
+#endif
+    
+    
     }
 
 }

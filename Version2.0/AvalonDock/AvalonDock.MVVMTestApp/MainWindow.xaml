@@ -33,6 +33,8 @@
             <MenuItem Header="Layout">
                 <MenuItem Header="Load" Command="{Binding LoadLayoutCommand, ElementName=mainWindow}"/>
                 <MenuItem Header="Save" Command="{Binding SaveLayoutCommand, ElementName=mainWindow}"/>
+                <MenuItem Header="Dump to Console" Click="OnDumpToConsole"/>
+                
             </MenuItem>
         </Menu><!--AnchorablesSource="{Binding Tools}" DocumentsSource="{Binding Files}"-->
         <avalonDock:DockingManager x:Name="dockManager" 

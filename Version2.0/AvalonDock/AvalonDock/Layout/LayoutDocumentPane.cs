@@ -166,6 +166,18 @@ namespace AvalonDock.Layout
 
             base.ReadXml(reader);
         }
+
+
+#if DEBUG
+        public override void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("DocumentPane()");
+
+            foreach (LayoutElement child in Children)
+                child.ConsoleDump(tab + 1);
+        }
+#endif
     
     }
 }

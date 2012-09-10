@@ -83,8 +83,14 @@ namespace AvalonDock.Controls
             else if (code == Win32Helper.HCBT_ACTIVATE)
             {
                 //System.Diagnostics.Debug.WriteLine("HCBT_ACTIVATE");
-                if (Activate != null)
-                    Activate(this, EventArgs.Empty);
+                if (_insideActivateEvent.CanEnter)
+                {
+                    using (_insideActivateEvent.Enter())
+                    {
+                        if (Activate != null)
+                            Activate(this, EventArgs.Empty);
+                    }
+                }
             }
             
 
@@ -95,5 +101,6 @@ namespace AvalonDock.Controls
 
         public event EventHandler Activate;
 
+        ReentrantFlag _insideActivateEvent = new ReentrantFlag();
     }
 }

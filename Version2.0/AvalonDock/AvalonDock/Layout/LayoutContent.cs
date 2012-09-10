@@ -324,6 +324,8 @@ namespace AvalonDock.Layout
             parentAsContainer.RemoveChild(this);
             if (root != null)
                 root.CollectGarbage();
+
+            OnClosed();
         }
 
         /// <summary>

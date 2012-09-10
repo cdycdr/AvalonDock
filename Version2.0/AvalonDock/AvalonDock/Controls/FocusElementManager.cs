@@ -82,8 +82,8 @@ namespace AvalonDock.Controls
                 var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
                 if (elementToSetFocus != null)
                 {
-                    //SetFocusOnLastElement(elementToSetFocus);
-                    _lastFocusedElement = null;
+                    SetFocusOnLastElement(elementToSetFocus);
+                    //_lastFocusedElement = null;
                 }
             }
         }
@@ -172,7 +172,10 @@ namespace AvalonDock.Controls
                 focused = IntPtr.Zero != Win32Helper.SetFocus(handleToFocus);
 
             if (focused)
+            {
                 _lastFocusedElement = new WeakReference(model);
+                Debug.WriteLine("SetFocusOnLastElement(model={0})", model);
+            }
         }
 
         static WindowHookHandler _windowHandler = null;

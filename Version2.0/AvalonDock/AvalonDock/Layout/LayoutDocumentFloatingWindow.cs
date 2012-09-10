@@ -97,6 +97,17 @@ namespace AvalonDock.Layout
         {
             get { return RootDocument != null; }
         }
+
+
+#if DEBUG
+        public override void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("FloatingDocumentWindow()");
+
+            RootDocument.ConsoleDump(tab + 1);
+        }
+#endif
     }
 
 }

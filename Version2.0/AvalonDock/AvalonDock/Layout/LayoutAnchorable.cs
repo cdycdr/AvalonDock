@@ -545,5 +545,14 @@ namespace AvalonDock.Layout
             
             base.WriteXml(writer);
         }
+
+
+#if DEBUG
+        public override void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("Anchorable()");
+        }
+#endif
     }
 }

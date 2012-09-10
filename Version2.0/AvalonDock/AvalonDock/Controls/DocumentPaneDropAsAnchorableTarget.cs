@@ -63,13 +63,9 @@ namespace AvalonDock.Controls
                 case DropTargetType.DocumentPaneDockAsAnchorableBottom:
                     #region DropTargetType.DocumentPaneDockAsAnchorableBottom
                     {
-
-                        //var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-                        //var parentGroupPanel = targetModel.FindParent<LayoutPanel>();
-                        //if (parentGroup != null)
-                        //    parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                        //else
-                        //    parentGroupPanel = targetModel.Parent as LayoutPanel;
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.ChildrenCount == 1)
+                            parentGroupPanel.Orientation = System.Windows.Controls.Orientation.Vertical;
 
                         if (parentGroupPanel != null &&
                             parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Vertical)
@@ -95,12 +91,9 @@ namespace AvalonDock.Controls
                 case DropTargetType.DocumentPaneDockAsAnchorableTop:
                     #region DropTargetType.DocumentPaneDockAsAnchorableTop
                     {
-                        //var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-                        //var parentGroupPanel = targetModel.FindParent<LayoutPanel>();
-                        //if (parentGroup != null)
-                        //    parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                        //else
-                        //    parentGroupPanel = targetModel.Parent as LayoutPanel;
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.ChildrenCount == 1)
+                            parentGroupPanel.Orientation = System.Windows.Controls.Orientation.Vertical;
 
                         if (parentGroupPanel != null &&
                             parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Vertical)
@@ -127,14 +120,9 @@ namespace AvalonDock.Controls
                 case DropTargetType.DocumentPaneDockAsAnchorableLeft:
                     #region DropTargetType.DocumentPaneDockAsAnchorableLeft
                     {
-                        //LayoutPanel parentGroupPanel = null;
-                        //var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-                        //var parentGroupPanel = targetModel.FindParent<LayoutPanel>();
-
-                        //if (parentGroup != null)
-                        //    parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                        //else
-                        //    parentGroupPanel = targetModel.Parent as LayoutPanel;
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.ChildrenCount == 1)
+                            parentGroupPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
 
                         if (parentGroupPanel != null &&
                             parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Horizontal)
@@ -160,12 +148,9 @@ namespace AvalonDock.Controls
                 case DropTargetType.DocumentPaneDockAsAnchorableRight:
                     #region DropTargetType.DocumentPaneDockAsAnchorableRight
                     {
-                        //var parentGroup = targetModel.Parent as LayoutDocumentPaneGroup;
-                        //var parentGroupPanel = targetModel.FindParent<LayoutPanel>();
-                        //if (parentGroup != null)
-                        //    parentGroupPanel = parentGroup.Parent as LayoutPanel;
-                        //else
-                        //    parentGroupPanel = targetModel.Parent as LayoutPanel;
+                        if (parentGroupPanel != null &&
+                            parentGroupPanel.ChildrenCount == 1)
+                            parentGroupPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
 
                         if (parentGroupPanel != null &&
                             parentGroupPanel.Orientation == System.Windows.Controls.Orientation.Horizontal)

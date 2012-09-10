@@ -118,60 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Anchorable_AutoHide" xml:space="preserve">
-    <value>Auto Hide</value>
+    <value>Nascondi Automaticamente</value>
   </data>
   <data name="Anchorable_BtnAutoHide_Hint" xml:space="preserve">
-    <value>Auto Hide</value>
+    <value>Nascondi Automaticamente</value>
   </data>
   <data name="Anchorable_BtnClose_Hint" xml:space="preserve">
-    <value>Hide</value>
+    <value>Nascondi</value>
   </data>
   <data name="Anchorable_CxMenu_Hint" xml:space="preserve">
-    <value>Window Position</value>
+    <value>Posizione della Finestra</value>
   </data>
   <data name="Anchorable_Dock" xml:space="preserve">
-    <value>Dock</value>
+    <value>Ancora</value>
   </data>
   <data name="Anchorable_DockAsDocument" xml:space="preserve">
-    <value>Dock as Tabbed Document</value>
+    <value>Ancora come Documento</value>
   </data>
   <data name="Anchorable_Float" xml:space="preserve">
-    <value>Float</value>
+    <value>Finestra Mobile</value>
   </data>
   <data name="Anchorable_Hide" xml:space="preserve">
-    <value>Close</value>
+    <value>Chiudi</value>
   </data>
   <data name="Document_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Chiudi</value>
   </data>
   <data name="Document_CloseAllButThis" xml:space="preserve">
-    <value>Close All But This</value>
+    <value>Chiudi Tutti Tranne Questo</value>
   </data>
   <data name="Document_CxMenu_Hint" xml:space="preserve">
-    <value>Window Position</value>
+    <value>Posizione della Finestra</value>
   </data>
   <data name="Document_DockAsDocument" xml:space="preserve">
-    <value>Dock as Tabbed Document</value>
+    <value>Ancora come Documento</value>
   </data>
   <data name="Document_Float" xml:space="preserve">
-    <value>Float</value>
+    <value>Finestra Mobile</value>
   </data>
   <data name="Document_MoveToNextTabGroup" xml:space="preserve">
-    <value>Move To Next Tab Group</value>
+    <value>Muovi al Gruppo Successivo</value>
   </data>
   <data name="Document_MoveToPreviousTabGroup" xml:space="preserve">
-    <value>Move To Previous Tab Group</value>
+    <value>Muovi al Gruppo Precedente</value>
   </data>
   <data name="Document_NewHorizontalTabGroup" xml:space="preserve">
-    <value>New Horizontal Tab Group</value>
+    <value>Nuovo Gruppo Orizzontale</value>
   </data>
   <data name="Document_NewVerticalTabGroup" xml:space="preserve">
-    <value>New Vertical Tab Group</value>
+    <value>Nuovo Gruppo Verticale</value>
   </data>
   <data name="Window_Maximize" xml:space="preserve">
-    <value>Maximize</value>
+    <value>Ingrandisci</value>
   </data>
   <data name="Window_Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Ripristina</value>
   </data>
 </root>

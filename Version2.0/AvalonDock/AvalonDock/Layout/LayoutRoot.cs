@@ -598,6 +598,30 @@ namespace AvalonDock.Layout
 
             #endregion
 
+            #region collapse single child layout panels
+            do
+            {
+                exitFlag = true;
+                //for each panel that has only one child
+                foreach (var panelToCollapse in this.Descendents().OfType<LayoutPanel>().Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutPanel).ToArray())
+                {
+                    var singleChild = panelToCollapse.Children[0] as LayoutPanel;
+                    panelToCollapse.Orientation = singleChild.Orientation;
+                    panelToCollapse.RemoveChild(singleChild);
+                    while (singleChild.ChildrenCount > 0)
+                    {
+                        panelToCollapse.InsertChildAt(
+                            panelToCollapse.ChildrenCount, singleChild.Children[0]);
+                    }
+
+                    exitFlag = false;
+                    break;
+                }
+
+            }
+            while (!exitFlag);
+            #endregion
+
             #region Update ActiveContent and LastFocusedDocument properties
             UpdateActiveContentProperty();
             #endregion
@@ -640,5 +664,29 @@ namespace AvalonDock.Layout
         public event EventHandler<LayoutElementEventArgs> ElementRemoved;
 
         #endregion
+
+#if DEBUG
+        public override void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("RootPanel()");
+
+            RootPanel.ConsoleDump(tab + 1);
+
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("FloatingWindows()");
+
+            foreach (LayoutFloatingWindow fw in FloatingWindows)
+                fw.ConsoleDump(tab + 1);
+
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("Hidden()");
+
+            foreach (LayoutAnchorable hidden in Hidden)
+                hidden.ConsoleDump(tab + 1);
+        }
+#endif
+    
+    
     }
 }

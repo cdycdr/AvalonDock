@@ -87,9 +87,9 @@ namespace AvalonDock.Controls
                     Dispatcher.BeginInvoke(new Action(() =>
                         {
                             _asyncRefreshCalled = null;
-                            if (args.Change == ChildrenTreeChange.TreeChanged)
-                                FixChildrenDockLengths();
-                            else
+                            //if (args.Change == ChildrenTreeChange.TreeChanged)
+                            //    FixChildrenDockLengths();
+                            //else
                                 UpdateChildren();
                         }), DispatcherPriority.Background, null);
                 };
@@ -264,6 +264,9 @@ namespace AvalonDock.Controls
                     });
                     Grid.SetRow(InternalChildren[iChild], iRow);
 
+                    //if (RowDefinitions.Last().Height.Value == 0.0)
+                    //    System.Diagnostics.Debugger.Break();
+
                     //append row for splitter (if necessary)
                     if (iChild < InternalChildren.Count - 1)
                     {
@@ -285,6 +288,8 @@ namespace AvalonDock.Controls
                         {
                             Height = childModel.IsVisible && nextChildModelVisibleExist ? new GridLength(manager.GridSplitterHeight) : new GridLength(0.0, GridUnitType.Pixel)
                         });
+                        //if (RowDefinitions.Last().Height.Value == 0.0)
+                        //    System.Diagnostics.Debugger.Break();
                         Grid.SetRow(InternalChildren[iChild], iRow);
                     }
                 }

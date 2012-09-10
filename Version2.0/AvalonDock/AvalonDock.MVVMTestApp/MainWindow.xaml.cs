@@ -102,6 +102,13 @@ namespace AvalonDock.MVVMTestApp
 
         #endregion 
 
+        private void OnDumpToConsole(object sender, RoutedEventArgs e)
+        {
+#if DEBUG
+            dockManager.Layout.ConsoleDump(0);
+#endif
+        }
+
 
     }
 }

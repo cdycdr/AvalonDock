@@ -174,6 +174,14 @@ namespace AvalonDock.Layout
             get { return RootPanel != null; }
         }
 
-        
+#if DEBUG
+        public override void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("FloatingAnchorableWindow()");
+
+            RootPanel.ConsoleDump(tab + 1);
+        }
+#endif        
     }
 }

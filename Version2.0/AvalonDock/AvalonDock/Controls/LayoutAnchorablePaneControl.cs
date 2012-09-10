@@ -104,5 +104,14 @@ namespace AvalonDock.Controls
             _logicalChildren.Remove(element); 
             RemoveLogicalChild(element);
         }
+
+        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            if (!e.Handled)
+                _model.SelectedContent.IsActive = true;
+        }
+
     }
 }

@@ -245,5 +245,16 @@ namespace AvalonDock.Layout
         {
             get { return Children.All(a => a.CanClose);}
         }
+
+#if DEBUG
+        public override void ConsoleDump(int tab)
+        {
+            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+            System.Diagnostics.Debug.WriteLine("AnchorablePane()");
+
+            foreach (LayoutElement child in Children)
+                child.ConsoleDump(tab + 1);
+        }
+#endif
     }
 }
