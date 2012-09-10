@@ -238,9 +238,70 @@ namespace AvalonDock.Layout
                 root.Manager.LayoutUpdateStrategy.AfterInsertAnchorable(root as LayoutRoot, this);
             }
 
+            PreviousContainer = null;
+            PreviousContainerIndex = -1;
+
             RaisePropertyChanged("IsVisible");
             RaisePropertyChanged("IsHidden");
             NotifyIsVisibleChanged();
+        }
+
+        protected override void InternalDock()
+        {
+            var root = Root as LayoutRoot;
+            LayoutAnchorablePane anchorablePane = null;
+
+            if (root.ActiveContent != null &&
+                root.ActiveContent != this)
+            {
+                //look for active content parent pane
+                anchorablePane = root.ActiveContent.Parent as LayoutAnchorablePane;
+            }
+
+            if (anchorablePane == null)
+            {
+                //look for a pane on the right side
+                anchorablePane = root.Descendents().OfType<LayoutAnchorablePane>().Where(pane => !pane.IsHostedInFloatingWindow && pane.GetSide() == AnchorSide.Right).FirstOrDefault();
+            }
+
+            if (anchorablePane == null)
+            {
+                //look for an available pane
+                anchorablePane = root.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault();
+            }
+
+
+            bool added = false;
+            if (root.Manager.LayoutUpdateStrategy != null)
+            {
+                added = root.Manager.LayoutUpdateStrategy.BeforeInsertAnchorable(root, this, anchorablePane);
+            }
+
+            if (!added)
+            {
+                if (anchorablePane == null)
+                {
+                    var mainLayoutPanel = new LayoutPanel() { Orientation = Orientation.Horizontal };
+                    if (root.RootPanel != null)
+                    {
+                        mainLayoutPanel.Children.Add(root.RootPanel);
+                    }
+
+                    root.RootPanel = mainLayoutPanel;
+                    anchorablePane = new LayoutAnchorablePane() { DockWidth = new GridLength(200.0, GridUnitType.Pixel) };
+                    mainLayoutPanel.Children.Add(anchorablePane);
+                }
+
+                anchorablePane.Children.Add(this);
+                added = true;
+            }
+
+            if (root.Manager.LayoutUpdateStrategy != null)
+            {
+                root.Manager.LayoutUpdateStrategy.AfterInsertAnchorable(root, this);
+            }
+
+            base.InternalDock();
         }
 
         /// <summary>

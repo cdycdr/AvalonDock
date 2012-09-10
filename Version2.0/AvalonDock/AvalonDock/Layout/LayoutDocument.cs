@@ -79,5 +79,46 @@ namespace AvalonDock.Layout
             System.Diagnostics.Debug.WriteLine("Document()");
         }
 #endif
+
+
+        protected override void InternalDock()
+        {
+            var root = Root as LayoutRoot;
+            LayoutDocumentPane documentPane = null;
+            if (root.LastFocusedDocument != null &&
+                root.LastFocusedDocument != this)
+            {
+                documentPane = root.LastFocusedDocument.Parent as LayoutDocumentPane;
+            }
+
+            if (documentPane == null)
+            {
+                documentPane = root.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            }
+
+
+            bool added = false;
+            if (root.Manager.LayoutUpdateStrategy != null)
+            {
+                added = root.Manager.LayoutUpdateStrategy.BeforeInsertDocument(root, this, documentPane);
+            }
+
+            if (!added)
+            {
+                if (documentPane == null)
+                    throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+
+                documentPane.Children.Add(this);
+                added = true;
+            }
+
+            if (root.Manager.LayoutUpdateStrategy != null)
+            {
+                root.Manager.LayoutUpdateStrategy.AfterInsertDocument(root, this);
+            }
+
+            
+            base.InternalDock();
+        }
     }
 }

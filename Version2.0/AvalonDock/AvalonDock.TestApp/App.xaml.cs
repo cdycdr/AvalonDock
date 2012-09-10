@@ -17,7 +17,7 @@ namespace AvalonDock.TestApp
     {
         public App()
         {
-            Dispatcher.Thread.CurrentCulture = new System.Globalization.CultureInfo("it");
+            //Dispatcher.Thread.CurrentCulture = new System.Globalization.CultureInfo("it");
         }
     }
 }

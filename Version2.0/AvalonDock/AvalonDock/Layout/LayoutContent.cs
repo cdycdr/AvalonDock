@@ -683,10 +683,20 @@ namespace AvalonDock.Layout
 
                 IsSelected = true;
                 IsActive = true;
-
-
-                Root.CollectGarbage();
             }
+            else
+            {
+                InternalDock();
+            }
+
+                
+            Root.CollectGarbage();
+
+        }
+
+        protected virtual void InternalDock()
+        { 
+        
         }
 
 
