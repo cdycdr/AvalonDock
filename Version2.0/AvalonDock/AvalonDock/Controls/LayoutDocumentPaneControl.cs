@@ -117,7 +117,7 @@ namespace AvalonDock.Controls
         {
             base.OnMouseLeftButtonDown(e);
 
-            if (!e.Handled)
+            if (!e.Handled && _model.SelectedContent != null)
                 _model.SelectedContent.IsActive = true;
         }
     }
