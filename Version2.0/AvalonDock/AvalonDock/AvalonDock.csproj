@@ -215,6 +215,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.it.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.fr.resx" />
+    <EmbeddedResource Include="Properties\Resources.es.resx" />
     <None Include="AvalonDock.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

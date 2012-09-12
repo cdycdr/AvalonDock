@@ -33,6 +33,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using AvalonDock.Layout;
 using System.Diagnostics;
+using System.Windows.Documents;
 
 namespace AvalonDock.Controls
 {
@@ -74,7 +75,7 @@ namespace AvalonDock.Controls
                     Height = 1
                 });
 
-                _rootPresenter = new Border() { Child = Content, Focusable = true };
+                _rootPresenter = new Border() { Child = new AdornerDecorator() { Child = Content }, Focusable = true };
                 _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("Background") { Source = _owner });
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;

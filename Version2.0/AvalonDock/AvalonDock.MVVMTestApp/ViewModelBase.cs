@@ -17,8 +17,5 @@ namespace AvalonDock.MVVMTestApp
 
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-
-
     }
 }
