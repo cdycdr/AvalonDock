@@ -625,8 +625,6 @@ namespace AvalonDock
         /// </summary>
         protected virtual void OnDocumentHeaderTemplateChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (DocumentPaneMenuItemHeaderTemplate == null)
-                DocumentPaneMenuItemHeaderTemplate = DocumentHeaderTemplate;
         }
 
         /// <summary>
@@ -2594,7 +2592,9 @@ namespace AvalonDock
         {
             if (value != null &&
                 d.GetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty) != null)
-                return null; 
+                return null;
+            if (value == null)
+                return d.GetValue(DocumentHeaderTemplateProperty);
             
             return value;
         }
