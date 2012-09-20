@@ -835,7 +835,8 @@
                                     Margin="5,0,0,0" 
                                     Padding="-1"
                                     Visibility="Hidden" 
-                                    Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                    Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                    ToolTip="{x:Static avalonDockProperties:Resources.Document_Close}">
                                     <Image x:Name="PART_ImgPinClose" 
                                            Source="/AvalonDock.Themes.Aero;component/Images/PinClose_Dark.png"/>
                                 </Button>

@@ -78,7 +78,7 @@ namespace AvalonDock.Controls
             {
                 AcquireHwndFocusInMenuMode = false,
                 ParentWindow = hwndParent.Handle,
-                WindowStyle = Win32Helper.WS_CHILD | Win32Helper.WS_VISIBLE | Win32Helper.WS_CLIPSIBLINGS | Win32Helper.WS_CLIPCHILDREN | Win32Helper.WS_GROUP,
+                WindowStyle = Win32Helper.WS_CHILD | Win32Helper.WS_VISIBLE | Win32Helper.WS_CLIPSIBLINGS | Win32Helper.WS_CLIPCHILDREN, // | Win32Helper.WS_GROUP,
                 Width = 1,
                 Height = 1,
             });
@@ -89,10 +89,23 @@ namespace AvalonDock.Controls
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            Debug.Assert(hwnd == _internalHwndSource.Handle);
             if (msg == Win32Helper.WM_WINDOWPOSCHANGING)
             {
-                Win32Helper.SetWindowPos(_internalHwndSource.Handle, IntPtr.Zero, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
+                //Debug.WriteLine("AutoHide Window WM_WINDOWPOSCHANGING");
+                Win32Helper.SetWindowPos(_internalHwndSource.Handle, Win32Helper.HWND_TOP, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
+                //handled = true;
             }
+            //if (msg == Win32Helper.WM_WINDOWPOSCHANGING)
+            //{
+            //    Win32Helper.WINDOWPOS wpos = new Win32Helper.WINDOWPOS();
+            //    Marshal.PtrToStructure(lParam, wpos);
+
+            //    Debug.WriteLine("AutoHide Window WM_WINDOWPOSCHANGING Flags={0}, HwndAfter={1}", wpos.flags, wpos.hwndInsertAfter);
+            //    Win32Helper.SetWindowPos(_internalHwndSource.Handle, Win32Helper.HWND_TOP, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
+            //    handled = true;
+            //}
+
             else if (msg == Win32Helper.WM_KILLFOCUS)
             {
                 Debug.WriteLine("WM_KILLFOCUS");

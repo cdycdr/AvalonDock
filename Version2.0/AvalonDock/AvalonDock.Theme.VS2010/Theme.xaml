@@ -376,7 +376,7 @@
 									    Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor3}"/>
                                             <Setter Property="Panel.ZIndex" 
                                         Value="1" />
-                                        <Setter Property="Margin" Value="-1,-2,-1,0"/>
+                                        <Setter Property="Margin" Value="0,-2,-1,0"/>
                                         <Setter Property="Margin" TargetName="Content" Value="0,1,0,0"/>
                                     </Trigger>
                                     <MultiTrigger>
@@ -908,7 +908,8 @@
                                     Grid.Column="1" 
                                     Margin="5,0,0,0" 
                                     Visibility="Hidden" 
-                                    Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                    Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                    ToolTip="{x:Static avalonDockProperties:Resources.Document_Close}">
                                     <Image x:Name="PART_ImgPinClose" 
                                            Source="/AvalonDock.Themes.VS2010;component/Images/PinClose.png"/>
                                 </Button>

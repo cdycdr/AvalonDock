@@ -192,8 +192,7 @@ namespace AvalonDock.Controls
         internal void AttachDrag()
         {
             _attachDrag = true;
-            this.Activated += new EventHandler(OnActivated);
-            
+            this.Activated += new EventHandler(OnActivated);            
         }
 
         HwndSource _hwndSrc;
@@ -205,7 +204,7 @@ namespace AvalonDock.Controls
 
             _hwndSrc = HwndSource.FromDependencyObject(this) as HwndSource;
             _hwndSrcHook = new HwndSourceHook(FilterMessage);
-            _hwndSrc.AddHook(_hwndSrcHook);            
+            _hwndSrc.AddHook(_hwndSrcHook);
         }
 
         void OnUnloaded(object sender, RoutedEventArgs e)
@@ -361,14 +360,7 @@ namespace AvalonDock.Controls
                     break;
                 case Win32Helper.WM_MOVING:
                     {
-                        if (_dragService == null)
-                        {
-                            _dragService = new DragService(this);
-                            SetIsDragging(true);
-                        }
-
-                        var mousePosition = this.TransformToDeviceDPI(Win32Helper.GetMousePosition());
-                        _dragService.UpdateMouseLocation(mousePosition);
+                        UpdateDragPosition();
                     }
                     break;
                 case Win32Helper.WM_LBUTTONUP: //set as handled right button click on title area (after showing context menu)
@@ -384,6 +376,18 @@ namespace AvalonDock.Controls
              
 
             return IntPtr.Zero;
+        }
+
+        private void UpdateDragPosition()
+        {
+            if (_dragService == null)
+            {
+                _dragService = new DragService(this);
+                SetIsDragging(true);
+            }
+
+            var mousePosition = this.TransformToDeviceDPI(Win32Helper.GetMousePosition());
+            _dragService.UpdateMouseLocation(mousePosition);
         }
 
         bool _internalCloseFlag = false;

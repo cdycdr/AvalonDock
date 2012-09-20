@@ -1443,9 +1443,14 @@ namespace AvalonDock
             
             Layout.CollectGarbage();
 
-            if (startDrag)
-                fwc.AttachDrag();
-            fwc.Show();
+            UpdateLayout();
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (startDrag)
+                    fwc.AttachDrag();
+                fwc.Show();
+            }), DispatcherPriority.Send);
         }
 
         internal void StartDraggingFloatingWindowForPane(LayoutAnchorablePane paneModel)
@@ -1507,7 +1512,13 @@ namespace AvalonDock
             fw = new LayoutAnchorableFloatingWindow()
             {
                 RootPanel = new LayoutAnchorablePaneGroup(
-                    destPane)
+                    destPane) 
+                    {
+                        DockHeight = destPane.DockHeight,
+                        DockWidth = destPane.DockWidth,
+                        DockMinHeight = destPane.DockMinHeight,
+                        DockMinWidth = destPane.DockMinWidth,
+                    }
             };
 
             fwc = new LayoutAnchorableFloatingWindowControl(
@@ -1526,8 +1537,10 @@ namespace AvalonDock
 
             Layout.CollectGarbage();
 
+            InvalidateArrange();
+
             fwc.AttachDrag();
-            fwc.Show();
+            fwc.Show(); 
 
         }
 
@@ -1630,17 +1643,23 @@ namespace AvalonDock
 
                 foreach (var areaHost in this.FindVisualChildren<LayoutAnchorablePaneControl>())
                 {
-                    _areas.Add(new DropArea<LayoutAnchorablePaneControl>(
-                        areaHost,
-                        DropAreaType.AnchorablePane));
+                    if (areaHost.Model.Descendents().Any())
+                    {
+                        _areas.Add(new DropArea<LayoutAnchorablePaneControl>(
+                            areaHost,
+                            DropAreaType.AnchorablePane));
+                    }
                 }
             }
 
             foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneControl>())
             {
-                _areas.Add(new DropArea<LayoutDocumentPaneControl>(
-                    areaHost,
-                    DropAreaType.DocumentPane));
+                if (areaHost.Model.Descendents().Any())
+                {
+                    _areas.Add(new DropArea<LayoutDocumentPaneControl>(
+                        areaHost,
+                        DropAreaType.DocumentPane));
+                }
             }
 
             foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneGroupControl>())
@@ -1657,6 +1676,11 @@ namespace AvalonDock
             return _areas;
         }
 
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            _areas = null;
+            return base.ArrangeOverride(arrangeBounds);
+        }
 
         #endregion
 
@@ -2895,45 +2919,13 @@ namespace AvalonDock
             if (_navigatorWindow == null)
             {
                 _navigatorWindow = new NavigatorWindow(this) { Owner = Window.GetWindow(this), WindowStartupLocation = WindowStartupLocation.CenterOwner};//, ShowActivated = false };
-                //_navigatorWindow.IsVisibleChanged += (s, e) =>
-                //    {
-                //        if (!_navigatorWindow.IsVisible)
-                //        {
-                //            _navigatorWindow.Close();
-                //            _navigatorWindow = null;
-                //            Debug.WriteLine("CloseNavigatorWindow()");
-                //        }
-                //    };
             }
-            //Dispatcher.BeginInvoke(new Action(() =>
-            //    {
-                    _navigatorWindow.ShowDialog();
-                    _navigatorWindow = null;
-                //}));
+
+            _navigatorWindow.ShowDialog();
+            _navigatorWindow = null;
+            
             Debug.WriteLine("ShowNavigatorWindow()");
         }
-
-        //void HideNavigatorWindow()
-        //{
-        //    if (_navigatorWindow == null)
-        //        return;
-
-        //    if (_navigatorWindow.IsVisible)
-        //    {
-
-        //        if (_navigatorWindow.SelectedAnchorable != null &&
-        //            _navigatorWindow.SelectedAnchorable.ActivateCommand.CanExecute(null))
-        //            _navigatorWindow.SelectedAnchorable.ActivateCommand.Execute(null);
-        //        else if (_navigatorWindow.SelectedAnchorable == null &&
-        //            _navigatorWindow.SelectedDocument != null &&
-        //            _navigatorWindow.SelectedDocument.ActivateCommand.CanExecute(null))
-        //            _navigatorWindow.SelectedDocument.ActivateCommand.Execute(null);
-
-        //        _navigatorWindow.Hide();
-        //        Debug.WriteLine("HideNavigatorWindow()");
-        //    }
-
-        //}
 
         bool IsNavigatorWindowActive
         {
@@ -2953,34 +2945,11 @@ namespace AvalonDock
                         ShowNavigatorWindow();
                         e.Handled = true;
                     }
-                    //else
-                    //{
-                    //    _navigatorWindow.SelectNextDocument();
-                    //    e.Handled = true;
-                    //}
                 }
             }
 
-            //if (e.Key != Key.Tab && IsNavigatorWindowActive)
-            //{
-            //    HideNavigatorWindow();
-            //    e.Handled = true;
-            //}
-
             base.OnPreviewKeyDown(e);
         }
-
-        //protected override void OnPreviewKeyUp(KeyEventArgs e)
-        //{
-        //    Debug.WriteLine("OnPreviewKeyUp({0})", e.Key);
-        //    if (e.Key != Key.Tab && IsNavigatorWindowActive)
-        //    {
-        //        HideNavigatorWindow();
-        //        e.Handled = true;
-        //    }
-
-        //    base.OnPreviewKeyUp(e);
-        //}
 
         #endregion
 

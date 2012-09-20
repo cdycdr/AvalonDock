@@ -76,8 +76,6 @@ namespace AvalonDock.Controls
         {
             base.OnInitialized(e);
 
-            //UpdateChildren();
-
             _model.ChildrenTreeChanged += (s, args) =>
                 {
                     if (_asyncRefreshCalled.HasValue &&
@@ -87,10 +85,7 @@ namespace AvalonDock.Controls
                     Dispatcher.BeginInvoke(new Action(() =>
                         {
                             _asyncRefreshCalled = null;
-                            //if (args.Change == ChildrenTreeChange.TreeChanged)
-                            //    FixChildrenDockLengths();
-                            //else
-                                UpdateChildren();
+                            UpdateChildren();
                         }), DispatcherPriority.Background, null);
                 };
 

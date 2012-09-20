@@ -299,7 +299,6 @@ namespace AvalonDock.Controls
         void IOverlayWindow.DragEnter(LayoutFloatingWindowControl floatingWindow)
         {
             _floatingWindow = floatingWindow;
-            //Visibility = System.Windows.Visibility.Visible;
             EnableDropTargets();
         }
 

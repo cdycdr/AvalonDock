@@ -49,8 +49,16 @@ namespace AvalonDock.Layout
                     RaisePropertyChanging("DockWidth");
                     _dockWidth = value;
                     RaisePropertyChanged("DockWidth");
+
+                    OnDockWidthChanged();
                 }
             }
+        }
+
+
+        protected virtual void OnDockWidthChanged()
+        {
+        
         }
 
         GridLength _dockHeight = new GridLength(1.0, GridUnitType.Star);
@@ -67,8 +75,15 @@ namespace AvalonDock.Layout
                     RaisePropertyChanging("DockHeight");
                     _dockHeight = value;
                     RaisePropertyChanged("DockHeight");
+
+                    OnDockHeightChanged();
                 }
             }
+        }
+
+        protected virtual void OnDockHeightChanged()
+        { 
+            
         }
 
 

@@ -160,8 +160,7 @@ namespace AvalonDock.Layout
         public void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement)
         {
             int index = _children.IndexOf((T)oldElement);
-            _children.Remove((T)oldElement);
-            _children.Insert(index, (T)newElement);
+            _children[index] = (T)newElement;
         }
 
         public int ChildrenCount

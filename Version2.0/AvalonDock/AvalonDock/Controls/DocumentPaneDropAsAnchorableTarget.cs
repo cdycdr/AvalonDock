@@ -85,6 +85,8 @@ namespace AvalonDock.Controls
                         {
                             throw new NotImplementedException();
                         }
+
+
                     }
                     break;
                     #endregion

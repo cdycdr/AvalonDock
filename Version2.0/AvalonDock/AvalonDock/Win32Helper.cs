@@ -117,6 +117,26 @@ namespace AvalonDock
             ShowWindow = 0x0040,
         }
 
+        /// <summary>
+        ///     Special window handles
+        /// </summary>
+        internal static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        internal static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+        internal static readonly IntPtr HWND_TOP = new IntPtr(0);
+        internal static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal class WINDOWPOS
+        {
+            public IntPtr hwnd;
+            public IntPtr hwndInsertAfter;
+            public int x;
+            public int y;
+            public int cx;
+            public int cy;
+            public int flags;
+        }; 
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
@@ -126,18 +146,6 @@ namespace AvalonDock
 
         [DllImport("user32.dll")]
         internal static extern IntPtr SetFocus(IntPtr hWnd);
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WINDOWPOS
-        {
-            public IntPtr hwnd;
-            public IntPtr hwndInsertAfter;
-            public int x;
-            public int y;
-            public int cx;
-            public int cy;
-            public uint flags;
-        }
 
         internal const int WM_WINDOWPOSCHANGED = 0x0047;
         internal const int WM_WINDOWPOSCHANGING = 0x0046;
