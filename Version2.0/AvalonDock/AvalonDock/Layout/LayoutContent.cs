@@ -29,6 +29,7 @@ using System.Xml.Serialization;
 using System.Windows;
 using System.Globalization;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace AvalonDock.Layout
 {
@@ -315,8 +316,25 @@ namespace AvalonDock.Layout
         }
 
         /// <summary>
+        /// Test if the content can be closed
+        /// </summary>
+        /// <returns></returns>
+        internal bool TestCanClose()
+        {
+            CancelEventArgs args = new CancelEventArgs();
+
+            OnClosing(args);
+
+            if (args.Cancel)
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
         /// Close the content
         /// </summary>
+        /// <remarks>Please note that usually the anchorable is only hidden (not closed). By default when user click the X button it only hides the content.</remarks>
         public void Close()
         {
             var root = Root;
@@ -337,6 +355,21 @@ namespace AvalonDock.Layout
         {
             if (Closed != null)
                 Closed(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Event fired when the content is about to be closed (i.e. removed definitely from the layout)
+        /// </summary>
+        /// <remarks>Please note that LayoutAnchorable also can be hidden. Usually user hide anchorables when click the 'X' button. To completely close 
+        /// an anchorable the user should click the 'Close' menu item from the context menu. When an LayoutAnchorable is hidden its visibility changes to false and
+        /// IsHidden property is set to true.
+        /// Hanlde the Hiding event for the LayoutAnchorable to cancel the hide operation.</remarks>
+        public event EventHandler<CancelEventArgs> Closing;
+
+        protected virtual void OnClosing(CancelEventArgs args)
+        {
+            if (Closing != null)
+                Closing(this, args);
         }
 
         public System.Xml.Schema.XmlSchema GetSchema()

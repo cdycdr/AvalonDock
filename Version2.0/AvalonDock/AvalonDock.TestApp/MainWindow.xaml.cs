@@ -213,6 +213,28 @@ namespace AvalonDock.TestApp
 #endif
         }
 
+        private void OnReloadManager(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void OnUnloadManager(object sender, RoutedEventArgs e)
+        {
+            if (layoutRoot.Children.Contains(dockManager))
+                layoutRoot.Children.Remove(dockManager);
+        }
+
+        private void OnLoadManager(object sender, RoutedEventArgs e)
+        {
+            if (!layoutRoot.Children.Contains(dockManager))
+                layoutRoot.Children.Add(dockManager);
+        }
+
+        private void OnToolWindow1Hiding(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to hide this tool?", "AvalonDock", MessageBoxButton.YesNo)== MessageBoxResult.No)
+                e.Cancel = true;
+        }
+
 
     }
 }

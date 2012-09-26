@@ -43,6 +43,10 @@ namespace AvalonDock.Controls
 
         protected override void OnFixChildrenDockLengths()
         {
+            if (ActualWidth == 0.0 ||
+                ActualHeight == 0.0)
+                return;
+
             var modelAsPositionableElement = _model as ILayoutPositionableElementWithActualSize;
             #region Setup DockWidth/Height for children
             if (_model.Orientation == Orientation.Horizontal)
@@ -65,6 +69,7 @@ namespace AvalonDock.Controls
                             var childPositionableModelWidthActualSize = childPositionableModel as ILayoutPositionableElementWithActualSize;
 
                             var widthToSet = Math.Max(childPositionableModelWidthActualSize.ActualWidth, childPositionableModel.DockMinWidth);
+                            
                             widthToSet = Math.Min(widthToSet, ActualWidth / 2.0);
                             widthToSet = Math.Max(widthToSet, childPositionableModel.DockMinWidth);
         

@@ -181,8 +181,12 @@ namespace AvalonDock.Controls
                 var host = Content as FloatingWindowContentHost;
                 host.Dispose();
 
-                _hwndSrc.RemoveHook(_hwndSrcHook);
-                _hwndSrc.Dispose();
+                if (_hwndSrc != null)
+                {
+                    _hwndSrc.RemoveHook(_hwndSrcHook);
+                    _hwndSrc.Dispose();
+                    _hwndSrc = null;
+                }
             }
 
             base.OnClosed(e);
@@ -211,9 +215,12 @@ namespace AvalonDock.Controls
         {
             this.Unloaded -= new RoutedEventHandler(OnUnloaded);
 
-            _hwndSrc.RemoveHook(_hwndSrcHook);
-            _hwndSrc.Dispose();
-            _hwndSrc = null;
+            if (_hwndSrc != null)
+            {
+                _hwndSrc.RemoveHook(_hwndSrcHook);
+                _hwndSrc.Dispose();
+                _hwndSrc = null;
+            }
         }
 
         void OnActivated(object sender, EventArgs e)
@@ -247,7 +254,7 @@ namespace AvalonDock.Controls
                 new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.MinimizeWindow((Window)args.Parameter))));
             CommandBindings.Add(new CommandBinding(Microsoft.Windows.Shell.SystemCommands.RestoreWindowCommand,
                 new ExecutedRoutedEventHandler((s, args) => Microsoft.Windows.Shell.SystemCommands.RestoreWindow((Window)args.Parameter))));
-            Debug.Assert(this.Owner != null);
+            //Debug.Assert(this.Owner != null);
             base.OnInitialized(e);
         }
 
@@ -398,9 +405,16 @@ namespace AvalonDock.Controls
             Close();
         }
 
+
         protected bool CloseInitiatedByUser
         {
             get { return !_internalCloseFlag; }
+        }
+
+        internal bool KeepContentVisibleOnClose
+        {
+            get;
+            set;
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)

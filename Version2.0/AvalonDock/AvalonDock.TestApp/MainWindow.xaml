@@ -4,7 +4,7 @@
         xmlns:avalonDock="http://avalondock.codeplex.com"
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <Grid x:Name="layoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -32,6 +32,8 @@
                     <MenuItem Header="Layout_4" Click="OnLoadLayout"/>
                 </MenuItem>
                 <MenuItem Header="Dump To Console" Click="OnDumpToConsole"/>
+                <MenuItem Header="Unload Manager" Click="OnUnloadManager"/>
+                <MenuItem Header="Load Manager" Click="OnLoadManager"/>
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="WinForms Window" Click="OnShowWinformsWindow"/>
@@ -73,7 +75,7 @@
                     </avalonDock:LayoutDocumentPaneGroup>
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
                         <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1">
+                            <avalonDock:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1" Hiding="OnToolWindow1Hiding">
                                 <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
                             </avalonDock:LayoutAnchorable>
                             <avalonDock:LayoutAnchorable ContentId="toolWindow2" Title="Tool Window 2">

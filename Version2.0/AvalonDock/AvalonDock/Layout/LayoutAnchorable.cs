@@ -28,6 +28,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using System.Windows.Controls;
 using System.Globalization;
+using System.ComponentModel;
 
 namespace AvalonDock.Layout
 {
@@ -177,7 +178,7 @@ namespace AvalonDock.Layout
         /// Hide this contents
         /// </summary>
         /// <remarks>Add this content to <see cref="ILayoutRoot.Hidden"/> collection of parent root.</remarks>
-        public void Hide()
+        public void Hide(bool cancelable = true)
         {
             if (!IsVisible)
             {
@@ -185,6 +186,15 @@ namespace AvalonDock.Layout
                 IsActive = true;
                 return;
             }
+
+            if (cancelable)
+            {
+                CancelEventArgs args = new CancelEventArgs();
+                OnHiding(args);
+                if (args.Cancel)
+                    return;
+            }
+
             RaisePropertyChanging("IsHidden");
             RaisePropertyChanging("IsVisible");
             //if (Parent is ILayoutPane)
@@ -198,6 +208,15 @@ namespace AvalonDock.Layout
             RaisePropertyChanged("IsHidden");
             NotifyIsVisibleChanged();
         }
+
+        public event EventHandler<CancelEventArgs> Hiding;
+
+        protected virtual void OnHiding(CancelEventArgs args)
+        {
+            if (Hiding != null)
+                Hiding(this, args);
+        }
+
 
         /// <summary>
         /// Show the content

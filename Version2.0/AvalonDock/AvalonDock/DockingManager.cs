@@ -52,7 +52,7 @@ namespace AvalonDock
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
-            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
+            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.Auto;
         }
 
 
@@ -104,7 +104,10 @@ namespace AvalonDock
             }
 
             foreach (var fwc in _fwList.ToArray())
+            {
+                fwc.KeepContentVisibleOnClose = true;
                 fwc.InternalClose();
+            }
 
             _fwList.Clear();
 
@@ -124,7 +127,7 @@ namespace AvalonDock
             AttachDocumentsSource(newLayout, DocumentsSource);
             AttachAnchorablesSource(newLayout, AnchorablesSource);
 
-            if (IsInitialized)
+            if (IsLoaded)
             {
                 LayoutRootPanel = CreateUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
                 LeftSidePanel = CreateUIElementForModel(Layout.LeftSide) as LayoutAnchorSideControl;
@@ -223,17 +226,30 @@ namespace AvalonDock
         }
 
 
+        #region LayoutUpdateStrategy
+
         /// <summary>
-        /// Get or set the strategy object to use when insert an anchorable 
-        /// in layout
+        /// LayoutUpdateStrategy Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty LayoutUpdateStrategyProperty =
+            DependencyProperty.Register("LayoutUpdateStrategy", typeof(ILayoutUpdateStrategy), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ILayoutUpdateStrategy)null));
+
+        /// <summary>
+        /// Gets or sets the LayoutUpdateStrategy property.  This dependency property 
+        /// indicates the strategy class to call when AvalonDock needs to positionate a LayoutAnchorable inside an existing layout.
         /// </summary>
         /// <remarks>Sometimes it's impossible to automatically insert an anchorable in the layout without specifing the target parent pane.
         /// Set this property to an object that will be asked to insert the anchorable to the desidered position.</remarks>
         public ILayoutUpdateStrategy LayoutUpdateStrategy
         {
-            get;
-            set;
+            get { return (ILayoutUpdateStrategy)GetValue(LayoutUpdateStrategyProperty); }
+            set { SetValue(LayoutUpdateStrategyProperty, value); }
         }
+
+        #endregion
+
+
 
         #endregion
 
@@ -244,10 +260,8 @@ namespace AvalonDock
             SetupAutoHideArea();
         }
 
-        protected override void OnInitialized(EventArgs e)
+        void DockingManager_Loaded(object sender, RoutedEventArgs e)
         {
-            base.OnInitialized(e);
-
             if (Layout.Manager == this)
             {
                 LayoutRootPanel = CreateUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
@@ -262,10 +276,6 @@ namespace AvalonDock
                 }
             }
 
-        }
-
-        void DockingManager_Loaded(object sender, RoutedEventArgs e)
-        {
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 foreach (var fw in _fwList)
@@ -279,12 +289,14 @@ namespace AvalonDock
 
         void DockingManager_Unloaded(object sender, RoutedEventArgs e)
         {
+           
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 foreach (var fw in _fwList.ToArray())
                 {
                     fw.Owner = null;
-                    fw.InternalClose();
+                    fw.KeepContentVisibleOnClose = true;
+                    fw.Close();
                 }
 
                 DestroyOverlayWindow();
@@ -2020,6 +2032,9 @@ namespace AvalonDock
                     return;
             }
 
+            if (!document.TestCanClose())
+                return;
+
             document.Close();
 
             if (DocumentClosed != null)
@@ -2358,7 +2373,7 @@ namespace AvalonDock
         internal void _ExecuteCloseCommand(LayoutAnchorable anchorable)
         {
             var model = anchorable as LayoutAnchorable;
-            if (model != null)
+            if (model != null && model.TestCanClose())
             {
                 if (model.IsAutoHidden)
                     model.ToggleAutoHide();
@@ -2373,8 +2388,6 @@ namespace AvalonDock
             var model = anchorable as LayoutAnchorable;
             if (model != null)
             {
-                //if (model.IsAutoHidden)
-                //    model.ToggleAutoHide();
                 //by default hide the anchorable
                 model.Hide();
             }

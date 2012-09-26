@@ -57,6 +57,7 @@
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{Binding FileSize}"/>
                                 <TextBlock Text="{Binding LastModified}"/>
+                                <TextBox Text="test"/>
                             </StackPanel>
                         </DataTemplate>
                     </local:PanesTemplateSelector.FileStatsViewTemplate>

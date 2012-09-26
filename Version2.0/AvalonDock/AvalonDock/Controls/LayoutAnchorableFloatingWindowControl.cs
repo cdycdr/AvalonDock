@@ -225,7 +225,7 @@ namespace AvalonDock.Controls
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            if (CloseInitiatedByUser)
+            if (CloseInitiatedByUser && !KeepContentVisibleOnClose)
             {
                 e.Cancel = true;
                 _model.Descendents().OfType<LayoutAnchorable>().ToArray().ForEach<LayoutAnchorable>((a) => a.Hide());

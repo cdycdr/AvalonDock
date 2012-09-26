@@ -295,7 +295,7 @@ namespace AvalonDock.Controls
                     using (_visibilityReentrantFlag.Enter())
                     {
                         if (Visibility == System.Windows.Visibility.Hidden)
-                            _anchorable.Hide();
+                            _anchorable.Hide(false);
                         else if (Visibility == System.Windows.Visibility.Visible)
                             _anchorable.Show();
                     }

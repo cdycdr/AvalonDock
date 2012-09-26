@@ -127,6 +127,13 @@ namespace AvalonDock.Layout
 
         protected abstract bool GetVisibility();
 
+        protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
+        {
+            base.OnParentChanged(oldValue, newValue);
+
+            ComputeVisibility();
+        }
+
         #endregion
 
 
@@ -160,7 +167,8 @@ namespace AvalonDock.Layout
         public void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement)
         {
             int index = _children.IndexOf((T)oldElement);
-            _children[index] = (T)newElement;
+            _children.Insert(index, (T)newElement);
+            _children.RemoveAt(index + 1);
         }
 
         public int ChildrenCount

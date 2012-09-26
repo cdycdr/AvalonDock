@@ -84,10 +84,10 @@ namespace AvalonDock.Layout.Serialization
                     if (args.Content != null)
                         lcToFix.Content = args.Content;
                     else
-                        lcToFix.Hide();
+                        lcToFix.Hide(false);
                 }
                 else if (previousAchorable == null)
-                    lcToFix.Hide();
+                    lcToFix.Hide(false);
                 else
                 {
                     lcToFix.Content = previousAchorable.Content;
