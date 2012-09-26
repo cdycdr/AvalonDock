@@ -5,13 +5,13 @@ using System.Text;
 
 namespace AvalonDock.Controls
 {
-    class WeakDictionary<K,V> where K : class
+    class FullWeakDictionary<K,V> where K : class
     {
-        public WeakDictionary()
+        public FullWeakDictionary()
         {}
 
         List<WeakReference> _keys = new List<WeakReference>();
-        List<V> _values = new List<V>();
+        List<WeakReference> _values = new List<WeakReference>();
 
         public V this[K key]
         {
@@ -39,10 +39,10 @@ namespace AvalonDock.Controls
             CollectGarbage();
             int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<K>() == key);
             if (vIndex > -1)
-                _values[vIndex] = value;
+                _values[vIndex] = new WeakReference(value);
             else
             {
-                _values.Add(value);
+                _values.Add(new WeakReference(value));
                 _keys.Add(new WeakReference(key));
             }            
         }
@@ -54,7 +54,7 @@ namespace AvalonDock.Controls
             value = default(V);
             if (vIndex == -1)
                 return false;
-            value = _values[vIndex];
+            value = _values[vIndex].GetValueOrDefault<V>();
             return true;
         }
 
@@ -70,6 +70,18 @@ namespace AvalonDock.Controls
                 {
                     _keys.RemoveAt(vIndex);
                     _values.RemoveAt(vIndex);
+                }
+            }
+            while (vIndex >= 0);
+
+            vIndex = 0; 
+            do
+            {
+                vIndex = _values.FindIndex(vIndex, v => !v.IsAlive);
+                if (vIndex >= 0)
+                {
+                    _values.RemoveAt(vIndex);
+                    _keys.RemoveAt(vIndex);
                 }
             }
             while (vIndex >= 0);

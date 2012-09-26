@@ -37,11 +37,13 @@ using System.Windows.Threading;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAutoHideWindowControl : HwndHost, ILayoutControl
+    public class LayoutAutoHideWindowControl : HwndHost, ILayoutControl, IKeyboardInputSink
     {
         static LayoutAutoHideWindowControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(typeof(LayoutAutoHideWindowControl)));
+            UIElement.FocusableProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(true));
+            Control.IsTabStopProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(true));
         }
 
         internal LayoutAutoHideWindowControl(LayoutAnchorControl anchor)
@@ -83,7 +85,7 @@ namespace AvalonDock.Controls
                 Height = 1,
             });
 
-            _internalHwndSource.RootVisual = _internalGrid;
+            _internalHwndSource.RootVisual = _internalHostPresenter;
             return new HandleRef(this, _internalHwndSource.Handle);
         }
 
@@ -133,6 +135,7 @@ namespace AvalonDock.Controls
             }
         }
 
+        ContentPresenter _internalHostPresenter = null;
         Grid _internalGrid = null;
         LayoutAnchorableControl _internalHost = null;
         AnchorSide _side;
@@ -237,7 +240,9 @@ namespace AvalonDock.Controls
 
                 VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
             }
-            AddLogicalChild(_internalGrid);
+
+            _internalHostPresenter = new ContentPresenter() { Content = _internalGrid };
+            AddLogicalChild(_internalHostPresenter);
         }
 
         DispatcherTimer _closeTimer = null;
@@ -442,29 +447,31 @@ namespace AvalonDock.Controls
 
         protected override Size MeasureOverride(Size constraint)
         {
-            _internalGrid.Measure(constraint);
-            return _internalGrid.DesiredSize;
+            _internalHostPresenter.Measure(constraint);
+            return _internalHostPresenter.DesiredSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            _internalGrid.Arrange(new Rect(finalSize));
+            _internalHostPresenter.Arrange(new Rect(finalSize));
             return finalSize;
         }
 
-        IInputElement _lastFocusedElement = null;
+        WeakReference _lastFocusedElement = null;
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
             if (!e.Handled)
             {
-                if (e.NewFocus == _internalGrid)
+                if (e.NewFocus == _internalHostPresenter)
                 {
-                    Keyboard.Focus(_lastFocusedElement);
+                    var elementToFocus = _lastFocusedElement.GetValueOrDefault<IInputElement>();
+                    if (elementToFocus != null)
+                        Keyboard.Focus(elementToFocus);
                     e.Handled = true;
                 }
                 else
-                    _lastFocusedElement = e.NewFocus;
+                    _lastFocusedElement = new WeakReference(e.NewFocus);
             }
         }
 

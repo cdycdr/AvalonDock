@@ -30,6 +30,7 @@ using System.Windows;
 using System.Diagnostics;
 using AvalonDock.Layout;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace AvalonDock.Controls
 {
@@ -75,15 +76,27 @@ namespace AvalonDock.Controls
 
         }
 
+        static DispatcherOperation _setFocusAsyncOperation;
+
         static void _windowHandler_Activate(object sender, EventArgs e)
         {
+            //Debug.WriteLine("_windowHandler_Activate");
             if (Keyboard.FocusedElement == null && _lastFocusedElement != null && _lastFocusedElement.IsAlive)
             {
                 var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
                 if (elementToSetFocus != null)
                 {
-                    //SetFocusOnLastElement(elementToSetFocus);
-                    //_lastFocusedElement = null;
+                    _setFocusAsyncOperation = Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+                    {
+                        try
+                        {
+                            SetFocusOnLastElement(elementToSetFocus);
+                        }
+                        finally
+                        {
+                            _setFocusAsyncOperation = null;
+                        }
+                    }), DispatcherPriority.Background);
                 }   
             }
         }
@@ -123,7 +136,7 @@ namespace AvalonDock.Controls
             }
         }
 
-        static WeakDictionary<ILayoutElement, IInputElement> _modelFocusedElement = new WeakDictionary<ILayoutElement, IInputElement>();
+        static FullWeakDictionary<ILayoutElement, IInputElement> _modelFocusedElement = new FullWeakDictionary<ILayoutElement, IInputElement>();
         static WeakDictionary<ILayoutElement, IntPtr> _modelFocusedWindowHandle = new WeakDictionary<ILayoutElement, IntPtr>();
 
         /// <summary>
@@ -171,11 +184,13 @@ namespace AvalonDock.Controls
             if (_modelFocusedWindowHandle.GetValue(model, out handleToFocus))
                 focused = IntPtr.Zero != Win32Helper.SetFocus(handleToFocus);
 
+            Debug.WriteLine("SetFocusOnLastElement(focused={0}, model={1}, element={2})", focused, model, handleToFocus == IntPtr.Zero ? (objectToFocus == null ?  "" : objectToFocus.ToString()) : handleToFocus.ToString());
+           
             if (focused)
             {
                 _lastFocusedElement = new WeakReference(model);
-                Debug.WriteLine("SetFocusOnLastElement(model={0})", model);
             }
+
         }
 
         static WindowHookHandler _windowHandler = null;

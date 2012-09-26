@@ -52,7 +52,7 @@ namespace AvalonDock
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
-            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.Auto;
+                Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
         }
 
 
@@ -161,6 +161,8 @@ namespace AvalonDock
             CommandManager.InvalidateRequerySuggested();
         }
 
+        DispatcherOperation _setFocusAsyncOperation = null;
+
         void OnLayoutRootPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "RootPanel")
@@ -175,13 +177,19 @@ namespace AvalonDock
             {
                 if (Layout.ActiveContent != null)
                 {
+                    //Debug.WriteLine(new StackTrace().ToString());
+
                     //set focus on active element only after a layout pass is completed
                     //it's possible that it is not yet visible in the visual tree
-                    Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            if (Layout.ActiveContent != null)
-                                FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
-                        }), DispatcherPriority.Background);
+                    if (_setFocusAsyncOperation == null)
+                    {
+                        _setFocusAsyncOperation = Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                if (Layout.ActiveContent != null)
+                                    FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
+                                _setFocusAsyncOperation = null;
+                            }), DispatcherPriority.Background);
+                    }
                 }
 
                 if (!_insideInternalSetActiveContent)

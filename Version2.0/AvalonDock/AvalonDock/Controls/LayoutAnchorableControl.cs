@@ -121,6 +121,8 @@ namespace AvalonDock.Controls
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine(e.NewFocus);
+            System.Diagnostics.Debug.WriteLine(e.OldFocus);
             Model.IsActive = true;
 
             base.OnGotKeyboardFocus(e);
