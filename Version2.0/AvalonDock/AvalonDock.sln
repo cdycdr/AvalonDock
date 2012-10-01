@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test Projects", "Test Proje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.Themes.Aero", "AvalonDock.Themes.Aero\AvalonDock.Themes.Aero.csproj", "{BA72CCE0-A9FB-4995-B496-7FEC5C87B85B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.WinFormsTestApp", "AvalonDock.WinFormsTestApp\AvalonDock.WinFormsTestApp.csproj", "{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -77,6 +79,16 @@ Global
 		{BA72CCE0-A9FB-4995-B496-7FEC5C87B85B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BA72CCE0-A9FB-4995-B496-7FEC5C87B85B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BA72CCE0-A9FB-4995-B496-7FEC5C87B85B}.Release|x86.ActiveCfg = Release|Any CPU
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Debug|x86.ActiveCfg = Debug|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Debug|x86.Build.0 = Debug|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Release|Any CPU.ActiveCfg = Release|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Release|x86.ActiveCfg = Release|x86
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,5 +96,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AFD48591-D66C-47F3-86E7-ACE5AD3D4FE4} = {1D267DDB-F2DE-4B70-87C1-E93A0C2D73F4}
 		{339BC0D5-2A54-40ED-9850-7ED65182E6E1} = {1D267DDB-F2DE-4B70-87C1-E93A0C2D73F4}
+		{AB95D11D-7239-4F3D-88FB-278B7C8EB6DF} = {1D267DDB-F2DE-4B70-87C1-E93A0C2D73F4}
 	EndGlobalSection
 EndGlobal

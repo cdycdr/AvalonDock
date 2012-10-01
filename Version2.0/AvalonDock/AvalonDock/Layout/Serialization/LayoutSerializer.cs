@@ -83,7 +83,7 @@ namespace AvalonDock.Layout.Serialization
                     LayoutSerializationCallback(this, args);
                     if (args.Content != null)
                         lcToFix.Content = args.Content;
-                    else
+                    else if (args.Model.Content != null)
                         lcToFix.Hide(false);
                 }
                 else if (previousAchorable == null)
@@ -111,7 +111,7 @@ namespace AvalonDock.Layout.Serialization
                     LayoutSerializationCallback(this, args);
                     if (args.Content != null)
                         lcToFix.Content = args.Content;
-                    else
+                    else if (args.Model.Content != null)
                         lcToFix.Close();
                 }
                 else if (previousDocument == null)

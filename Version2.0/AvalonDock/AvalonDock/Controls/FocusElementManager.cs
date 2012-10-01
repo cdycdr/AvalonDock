@@ -45,11 +45,12 @@ namespace AvalonDock.Controls
                 InputManager.Current.EnterMenuMode += new EventHandler(InputManager_EnterMenuMode);
                 InputManager.Current.LeaveMenuMode += new EventHandler(InputManager_LeaveMenuMode);
                 _windowHandler = new WindowHookHandler();
-                _windowHandler.FocusChanged += new EventHandler<FocusChangeEventArgs>(_windowHandler_FocusChanged);
-                _windowHandler.Activate += new EventHandler(_windowHandler_Activate);
+                _windowHandler.FocusChanged += new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
+                _windowHandler.Activate += new EventHandler<WindowActivateEventArgs>(WindowActivating);
                 _windowHandler.Attach();
 
-                Application.Current.Exit += new ExitEventHandler(Current_Exit);
+                if (Application.Current != null)
+                    Application.Current.Exit += new ExitEventHandler(Current_Exit);
             }
 
             manager.PreviewGotKeyboardFocus += new KeyboardFocusChangedEventHandler(manager_PreviewGotKeyboardFocus);
@@ -67,8 +68,8 @@ namespace AvalonDock.Controls
                 InputManager.Current.LeaveMenuMode -= new EventHandler(InputManager_LeaveMenuMode);
                 if (_windowHandler != null)
                 {
-                    _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_windowHandler_FocusChanged);
-                    _windowHandler.Activate -= new EventHandler(_windowHandler_Activate);
+                    _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
+                    _windowHandler.Activate -= new EventHandler<WindowActivateEventArgs>(WindowActivating);
                     _windowHandler.Detach();
                     _windowHandler = null;
                 }
@@ -76,44 +77,17 @@ namespace AvalonDock.Controls
 
         }
 
-        static DispatcherOperation _setFocusAsyncOperation;
-
-        static void _windowHandler_Activate(object sender, EventArgs e)
-        {
-            //Debug.WriteLine("_windowHandler_Activate");
-            if (Keyboard.FocusedElement == null && _lastFocusedElement != null && _lastFocusedElement.IsAlive)
-            {
-                var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
-                if (elementToSetFocus != null)
-                {
-                    _setFocusAsyncOperation = Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
-                    {
-                        try
-                        {
-                            SetFocusOnLastElement(elementToSetFocus);
-                        }
-                        finally
-                        {
-                            _setFocusAsyncOperation = null;
-                        }
-                    }), DispatcherPriority.Background);
-                }   
-            }
-        }
-
-
-
         private static void Current_Exit(object sender, ExitEventArgs e)
         {
             Application.Current.Exit -= new ExitEventHandler(Current_Exit);
             if (_windowHandler != null)
             {
-                _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(_windowHandler_FocusChanged);
+                _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
+                _windowHandler.Activate -= new EventHandler<WindowActivateEventArgs>(WindowActivating);
                 _windowHandler.Detach();
                 _windowHandler = null;
             }
         }
-
 
         static void manager_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -195,7 +169,7 @@ namespace AvalonDock.Controls
 
         static WindowHookHandler _windowHandler = null;
 
-        static void _windowHandler_FocusChanged(object sender, FocusChangeEventArgs e)
+        static void WindowFocusChanging(object sender, FocusChangeEventArgs e)
         {
             foreach (var manager in _managers)
             {
@@ -225,6 +199,46 @@ namespace AvalonDock.Controls
 
             }
         }
+
+        static DispatcherOperation _setFocusAsyncOperation;
+
+        static void WindowActivating(object sender, WindowActivateEventArgs e)
+        {
+            Debug.WriteLine("WindowActivating");
+
+            if (Keyboard.FocusedElement == null && 
+                _lastFocusedElement != null && 
+                _lastFocusedElement.IsAlive)
+            {
+                var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
+                if (elementToSetFocus != null)
+                {
+                    var manager = elementToSetFocus.Root.Manager;
+                    if (manager == null)
+                        return;
+
+                    IntPtr parentHwnd;
+                    if (!manager.GetParentWindowHandle(out parentHwnd))
+                        return;
+
+                    if (e.HwndActivating != parentHwnd)
+                        return;
+
+                    _setFocusAsyncOperation = Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+                    {
+                        try
+                        {
+                            SetFocusOnLastElement(elementToSetFocus);
+                        }
+                        finally
+                        {
+                            _setFocusAsyncOperation = null;
+                        }
+                    }), DispatcherPriority.Background);
+                }
+            }
+        }
+
 
         static WeakReference _lastFocusedElementBeforeEnterMenuMode = null;
         static void InputManager_EnterMenuMode(object sender, EventArgs e)

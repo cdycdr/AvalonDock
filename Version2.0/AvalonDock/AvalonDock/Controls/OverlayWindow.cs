@@ -30,6 +30,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using AvalonDock.Layout;
 using System.Diagnostics;
+using AvalonDock.Themes;
 
 namespace AvalonDock.Controls
 {
@@ -50,7 +51,31 @@ namespace AvalonDock.Controls
         internal OverlayWindow(IOverlayWindowHost host)
         {
             _host = host;
+            UpdateThemeResources();
         }
+
+
+        internal void UpdateThemeResources(Theme oldTheme = null)
+        {
+            //If hosted in WPF than let Application class to update my resources
+            if (Application.Current != null)
+                return;
+
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (_host.Manager.Theme != null)
+            {
+                Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = _host.Manager.Theme.GetResourceUri() });
+            }
+        }
+
 
         Canvas _mainCanvasPanel;
         Grid _gridDockingManagerDropTargets;

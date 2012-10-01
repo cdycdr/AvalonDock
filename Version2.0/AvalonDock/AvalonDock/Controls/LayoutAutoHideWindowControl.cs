@@ -37,30 +37,49 @@ using System.Windows.Threading;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAutoHideWindowControl : HwndHost, ILayoutControl, IKeyboardInputSink
+    public class LayoutAutoHideWindowControl : HwndHost, ILayoutControl
     {
         static LayoutAutoHideWindowControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(typeof(LayoutAutoHideWindowControl)));
             UIElement.FocusableProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(true));
             Control.IsTabStopProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(true));
+            VisibilityProperty.OverrideMetadata(typeof(LayoutAutoHideWindowControl), new FrameworkPropertyMetadata(Visibility.Hidden));
         }
 
-        internal LayoutAutoHideWindowControl(LayoutAnchorControl anchor)
+        internal LayoutAutoHideWindowControl()
+        {
+        }
+
+        internal void Show(LayoutAnchorControl anchor)
         {
             _anchor = anchor;
             _model = anchor.Model as LayoutAnchorable;
             _side = (anchor.Model.Parent.Parent as LayoutAnchorSide).Side;
-            this.Unloaded += (s, e) =>
-                {
-                    if (_closeTimer != null)
-                    {
-                        _closeTimer.Stop();
-                        _closeTimer = null;
-                    }
+            _manager = _model.Root.Manager;
+            CreateInternalGrid();
 
-                    _manager.HideAutoHideWindow(_anchor);
-                };
+            _model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_model_PropertyChanged);
+
+            Visibility = System.Windows.Visibility.Visible;
+            InvalidateMeasure();
+            UpdateWindowPos();
+            Debug.WriteLine("LayoutAutoHideWindowControl.Show()");
+        }
+
+        internal void Hide()
+        {
+            if (_model == null)
+                return;
+
+            _model.PropertyChanged -= new System.ComponentModel.PropertyChangedEventHandler(_model_PropertyChanged);
+            
+            RemoveInternalGrid();
+            _anchor = null;
+            _model = null;
+            Visibility = System.Windows.Visibility.Hidden;
+
+            Debug.WriteLine("LayoutAutoHideWindowControl.Hide()");
         }
 
         LayoutAnchorControl _anchor;
@@ -73,61 +92,35 @@ namespace AvalonDock.Controls
         }
 
         HwndSource _internalHwndSource = null;
-
+        IntPtr parentWindowHandle;
         protected override System.Runtime.InteropServices.HandleRef BuildWindowCore(System.Runtime.InteropServices.HandleRef hwndParent)
         {
+            parentWindowHandle = hwndParent.Handle;
             _internalHwndSource = new HwndSource(new HwndSourceParameters()
             {
-                AcquireHwndFocusInMenuMode = false,
                 ParentWindow = hwndParent.Handle,
-                WindowStyle = Win32Helper.WS_CHILD | Win32Helper.WS_VISIBLE | Win32Helper.WS_CLIPSIBLINGS | Win32Helper.WS_CLIPCHILDREN, // | Win32Helper.WS_GROUP,
-                Width = 1,
-                Height = 1,
+                WindowStyle = Win32Helper.WS_CHILD | Win32Helper.WS_VISIBLE | Win32Helper.WS_CLIPSIBLINGS | Win32Helper.WS_CLIPCHILDREN,
+                Width = 0,
+                Height = 0,
             });
 
             _internalHwndSource.RootVisual = _internalHostPresenter;
+            AddLogicalChild(_internalHostPresenter);
+            Win32Helper.BringWindowToTop(_internalHwndSource.Handle);
             return new HandleRef(this, _internalHwndSource.Handle);
         }
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            Debug.Assert(hwnd == _internalHwndSource.Handle);
             if (msg == Win32Helper.WM_WINDOWPOSCHANGING)
             {
-                //Debug.WriteLine("AutoHide Window WM_WINDOWPOSCHANGING");
                 Win32Helper.SetWindowPos(_internalHwndSource.Handle, Win32Helper.HWND_TOP, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
-                //handled = true;
             }
-            //if (msg == Win32Helper.WM_WINDOWPOSCHANGING)
-            //{
-            //    Win32Helper.WINDOWPOS wpos = new Win32Helper.WINDOWPOS();
-            //    Marshal.PtrToStructure(lParam, wpos);
-
-            //    Debug.WriteLine("AutoHide Window WM_WINDOWPOSCHANGING Flags={0}, HwndAfter={1}", wpos.flags, wpos.hwndInsertAfter);
-            //    Win32Helper.SetWindowPos(_internalHwndSource.Handle, Win32Helper.HWND_TOP, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
-            //    handled = true;
-            //}
-
-            else if (msg == Win32Helper.WM_KILLFOCUS)
-            {
-                Debug.WriteLine("WM_KILLFOCUS");
-            }
-            else if (msg == Win32Helper.WM_SETFOCUS)
-            {
-                Debug.WriteLine("WM_SETFOCUS");
-            }
-
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
 
         protected override void DestroyWindowCore(System.Runtime.InteropServices.HandleRef hwnd)
         {
-            if (_closeTimer != null)
-            {
-                _closeTimer.Stop();
-                _closeTimer = null;
-            }
-
             if (_internalHwndSource != null)
             {
                 _internalHwndSource.Dispose();
@@ -135,23 +128,12 @@ namespace AvalonDock.Controls
             }
         }
 
-        ContentPresenter _internalHostPresenter = null;
+        ContentPresenter _internalHostPresenter = new ContentPresenter();
         Grid _internalGrid = null;
         LayoutAnchorableControl _internalHost = null;
         AnchorSide _side;
         LayoutGridResizerControl _resizer = null;
         DockingManager _manager;
-
-        protected override void OnInitialized(EventArgs e)
-        {
-            CreateInternalGrid();
-            SetupCloseTimer();
-
-            _manager = _model.Root.Manager;
-            _model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_model_PropertyChanged);
-
-            base.OnInitialized(e);
-        }
 
         void _model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -159,7 +141,6 @@ namespace AvalonDock.Controls
             {
                 if (!_model.IsAutoHidden)
                 {
-                    _model.PropertyChanged -= new System.ComponentModel.PropertyChangedEventHandler(_model_PropertyChanged);
                     _manager.HideAutoHideWindow(_anchor);
                 }
             }
@@ -167,8 +148,8 @@ namespace AvalonDock.Controls
 
         void CreateInternalGrid()
         {
-            var manager = _model.Root.Manager;
-            _internalGrid = new Grid() { FlowDirection = System.Windows.FlowDirection.LeftToRight };
+            var areaElement = _manager.GetAutoHideAreaElement();
+            _internalGrid = new Grid() { FlowDirection = System.Windows.FlowDirection.LeftToRight};
             _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("Background") { Source = this });
 
             _internalHost = new LayoutAnchorableControl() { Model = _model };
@@ -181,19 +162,20 @@ namespace AvalonDock.Controls
             _resizer.DragStarted += new System.Windows.Controls.Primitives.DragStartedEventHandler(OnResizerDragStarted);
             _resizer.DragDelta += new System.Windows.Controls.Primitives.DragDeltaEventHandler(OnResizerDragDelta);
             _resizer.DragCompleted += new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnResizerDragCompleted);
+            
             if (_side == AnchorSide.Right)
             {
-                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(manager.GridSplitterWidth)});
-                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() {
-                    Width = _model.AutoHideWidth == 0.0 ? new GridLength(_model.AutoHideMinWidth) : new GridLength(_model.AutoHideWidth, GridUnitType.Pixel),
-                    });
+                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(_manager.GridSplitterWidth)});
+                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition(){
+                    Width = _model.AutoHideWidth == 0.0 ? new GridLength(_model.AutoHideMinWidth) : new GridLength(_model.AutoHideWidth, GridUnitType.Pixel)});
 
-                _internalGrid.Children.Add(_resizer); Grid.SetColumn(_resizer, 0);
-                _internalGrid.Children.Add(_internalHost); Grid.SetColumn(_internalHost, 1);
+                Grid.SetColumn(_resizer, 0);
+                Grid.SetColumn(_internalHost, 1);
                 
                 _resizer.Cursor = Cursors.SizeWE;
 
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+                VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
             }
             else if (_side == AnchorSide.Left)
             {
@@ -201,14 +183,16 @@ namespace AvalonDock.Controls
                 {
                     Width = _model.AutoHideWidth == 0.0 ? new GridLength(_model.AutoHideMinWidth) : new GridLength(_model.AutoHideWidth, GridUnitType.Pixel),
                 });
-                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(manager.GridSplitterWidth) });
+                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(_manager.GridSplitterWidth) });
+                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
-                _internalGrid.Children.Add(_internalHost); Grid.SetColumn(_internalHost, 0);
-                _internalGrid.Children.Add(_resizer); Grid.SetColumn(_resizer, 1);
+                Grid.SetColumn(_internalHost, 0);
+                Grid.SetColumn(_resizer, 1);
 
                 _resizer.Cursor = Cursors.SizeWE;
 
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+                VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
             }
             else if (_side == AnchorSide.Top)
             {
@@ -216,144 +200,56 @@ namespace AvalonDock.Controls
                 {
                     Height = _model.AutoHideHeight == 0.0 ? new GridLength(_model.AutoHideMinHeight) : new GridLength(_model.AutoHideHeight, GridUnitType.Pixel),
                 });
-                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(manager.GridSplitterHeight) });
+                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(_manager.GridSplitterHeight) });
 
-                _internalGrid.Children.Add(_internalHost); Grid.SetRow(_internalHost, 0);
-                _internalGrid.Children.Add(_resizer); Grid.SetRow(_resizer, 1);
+                Grid.SetRow(_internalHost, 0);
+                Grid.SetRow(_resizer, 1);
 
                 _resizer.Cursor = Cursors.SizeNS;
 
                 VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+
             }
             else if (_side == AnchorSide.Bottom)
             {
-                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(manager.GridSplitterHeight) });
+                _internalGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(_manager.GridSplitterHeight) });
                 _internalGrid.RowDefinitions.Add(new RowDefinition()
                 {
                     Height = _model.AutoHideHeight == 0.0 ? new GridLength(_model.AutoHideMinHeight) : new GridLength(_model.AutoHideHeight, GridUnitType.Pixel),
                 });
 
-                _internalGrid.Children.Add(_resizer); Grid.SetRow(_resizer, 0);
-                _internalGrid.Children.Add(_internalHost); Grid.SetRow(_internalHost, 1);
+                Grid.SetRow(_resizer, 0);
+                Grid.SetRow(_internalHost, 1);
 
                 _resizer.Cursor = Cursors.SizeNS;
 
                 VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
             }
 
-            _internalHostPresenter = new ContentPresenter() { Content = _internalGrid };
-            AddLogicalChild(_internalHostPresenter);
-        }
 
-        DispatcherTimer _closeTimer = null;
-        void SetupCloseTimer()
+            _internalGrid.Children.Add(_resizer);
+            _internalGrid.Children.Add(_internalHost);
+            _internalHostPresenter.Content = _internalGrid;
+        }
+    
+        void RemoveInternalGrid()
         {
-            _closeTimer = new DispatcherTimer(DispatcherPriority.Background);
-            _closeTimer.Interval = TimeSpan.FromMilliseconds(1500);
-            _closeTimer.Tick += (s, e) =>
-                {
-                    if (IsWin32MouseOver ||
-                        _model.IsActive)
-                        return;
+            _resizer.DragStarted -= new System.Windows.Controls.Primitives.DragStartedEventHandler(OnResizerDragStarted);
+            _resizer.DragDelta -= new System.Windows.Controls.Primitives.DragDeltaEventHandler(OnResizerDragDelta);
+            _resizer.DragCompleted -= new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnResizerDragCompleted);
 
-                    Model.Root.Manager.HideAutoHideWindow(_anchor);
-                };
-            _closeTimer.Start();
+            _internalHostPresenter.Content = null;
         }
 
-        void OnResizerDragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+
+        protected override bool HasFocusWithinCore()
         {
-            LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
-            var rootVisual = this.FindVisualTreeRoot() as Visual;
-
-            var trToWnd = TransformToAncestor(rootVisual);
-            Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
-                trToWnd.Transform(new Point());
-
-            double delta;
-            if (_side == AnchorSide.Right || _side == AnchorSide.Left)
-                delta = Canvas.GetLeft(_resizerGhost) - _initialStartPoint.X;
-            else
-                delta = Canvas.GetTop(_resizerGhost) - _initialStartPoint.Y;
-
-            if (_side == AnchorSide.Right)
-            {
-                if (_model.AutoHideWidth == 0.0)
-                    _model.AutoHideWidth = _internalHost.ActualWidth - delta;
-                else
-                    _model.AutoHideWidth -= delta;
-
-                _internalGrid.ColumnDefinitions[1].Width = new GridLength(_model.AutoHideWidth, GridUnitType.Pixel);
-            }
-            else if (_side == AnchorSide.Left)
-            {
-                if (_model.AutoHideWidth == 0.0)
-                    _model.AutoHideWidth = _internalHost.ActualWidth + delta;
-                else
-                    _model.AutoHideWidth += delta;
-
-                _internalGrid.ColumnDefinitions[0].Width = new GridLength(_model.AutoHideWidth, GridUnitType.Pixel);
-            }
-            else if (_side == AnchorSide.Top)
-            {
-                if (_model.AutoHideHeight == 0.0)
-                    _model.AutoHideHeight = _internalHost.ActualHeight + delta;
-                else
-                    _model.AutoHideHeight += delta;
-
-                _internalGrid.RowDefinitions[0].Height = new GridLength(_model.AutoHideHeight, GridUnitType.Pixel);
-            }
-            else if (_side == AnchorSide.Bottom)
-            {
-                if (_model.AutoHideHeight == 0.0)
-                    _model.AutoHideHeight = _internalHost.ActualHeight - delta;
-                else
-                    _model.AutoHideHeight -= delta;
-
-                _internalGrid.RowDefinitions[1].Height = new GridLength(_model.AutoHideHeight, GridUnitType.Pixel);
-            }
-
-            HideResizerOverlayWindow();
-
-            InvalidateMeasure();
-            _closeTimer.Start();
+            return false;
         }
 
-        void OnResizerDragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
-            var rootVisual = this.FindVisualTreeRoot() as Visual;
-
-            var trToWnd = TransformToAncestor(rootVisual);
-            Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
-                trToWnd.Transform(new Point());
-
-            if (_side == AnchorSide.Right || _side == AnchorSide.Left)
-            {
-                if (FrameworkElement.GetFlowDirection(_internalHost) == System.Windows.FlowDirection.RightToLeft)
-                    transformedDelta.X = -transformedDelta.X;
-                Canvas.SetLeft(_resizerGhost, MathHelper.MinMax(_initialStartPoint.X + transformedDelta.X, 0.0, _resizerWindowHost.Width - _resizerGhost.Width));
-            }
-            else
-            {
-                Canvas.SetTop(_resizerGhost, MathHelper.MinMax(_initialStartPoint.Y + transformedDelta.Y, 0.0, _resizerWindowHost.Height - _resizerGhost.Height));
-            }
-        }
-
-        void OnResizerDragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
-        {
-            var resizer = sender as LayoutGridResizerControl;
-            ShowResizerOverlayWindow(resizer);
-            _closeTimer.Stop();
-        }
-
-        protected override System.Collections.IEnumerator LogicalChildren
-        {
-            get
-            {
-                return new UIElement[] { _internalGrid }.GetEnumerator();
-            }
-        }
+        #region Resizer
 
         Border _resizerGhost = null;
         Window _resizerWindowHost = null;
@@ -367,12 +263,12 @@ namespace AvalonDock.Controls
                 Opacity = splitter.OpacityWhileDragging
             };
 
-            var parentManager = Parent as DockingManager;
+            var areaElement = _manager.GetAutoHideAreaElement();
             var modelControlActualSize = this._internalHost.TransformActualSizeToAncestor();
 
-            Point ptTopLeftScreen = parentManager.GetAutoHideAreaElement().PointToScreenDPIWithoutFlowDirection(new Point());
+            Point ptTopLeftScreen = areaElement.PointToScreenDPIWithoutFlowDirection(new Point());
 
-            var managerSize = parentManager.GetAutoHideAreaElement().TransformActualSizeToAncestor();
+            var managerSize = areaElement.TransformActualSizeToAncestor();
 
             Size windowSize;
 
@@ -445,23 +341,133 @@ namespace AvalonDock.Controls
             }
         }
 
+        internal bool IsResizing
+        {
+            get;
+            private set;
+        }
+
+        void OnResizerDragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
+            var rootVisual = this.FindVisualTreeRoot() as Visual;
+
+            var trToWnd = TransformToAncestor(rootVisual);
+            Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
+                trToWnd.Transform(new Point());
+
+            double delta;
+            if (_side == AnchorSide.Right || _side == AnchorSide.Left)
+                delta = Canvas.GetLeft(_resizerGhost) - _initialStartPoint.X;
+            else
+                delta = Canvas.GetTop(_resizerGhost) - _initialStartPoint.Y;
+
+            if (_side == AnchorSide.Right)
+            {
+                if (_model.AutoHideWidth == 0.0)
+                    _model.AutoHideWidth = _internalHost.ActualWidth - delta;
+                else
+                    _model.AutoHideWidth -= delta;
+
+                _internalGrid.ColumnDefinitions[1].Width = new GridLength(_model.AutoHideWidth, GridUnitType.Pixel);
+            }
+            else if (_side == AnchorSide.Left)
+            {
+                if (_model.AutoHideWidth == 0.0)
+                    _model.AutoHideWidth = _internalHost.ActualWidth + delta;
+                else
+                    _model.AutoHideWidth += delta;
+
+                _internalGrid.ColumnDefinitions[0].Width = new GridLength(_model.AutoHideWidth, GridUnitType.Pixel);
+            }
+            else if (_side == AnchorSide.Top)
+            {
+                if (_model.AutoHideHeight == 0.0)
+                    _model.AutoHideHeight = _internalHost.ActualHeight + delta;
+                else
+                    _model.AutoHideHeight += delta;
+
+                _internalGrid.RowDefinitions[0].Height = new GridLength(_model.AutoHideHeight, GridUnitType.Pixel);
+            }
+            else if (_side == AnchorSide.Bottom)
+            {
+                if (_model.AutoHideHeight == 0.0)
+                    _model.AutoHideHeight = _internalHost.ActualHeight - delta;
+                else
+                    _model.AutoHideHeight -= delta;
+
+                _internalGrid.RowDefinitions[1].Height = new GridLength(_model.AutoHideHeight, GridUnitType.Pixel);
+            }
+
+            HideResizerOverlayWindow();
+
+            IsResizing = false;
+            InvalidateMeasure();
+        }
+
+        void OnResizerDragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
+            var rootVisual = this.FindVisualTreeRoot() as Visual;
+
+            var trToWnd = TransformToAncestor(rootVisual);
+            Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
+                trToWnd.Transform(new Point());
+
+            if (_side == AnchorSide.Right || _side == AnchorSide.Left)
+            {
+                if (FrameworkElement.GetFlowDirection(_internalHost) == System.Windows.FlowDirection.RightToLeft)
+                    transformedDelta.X = -transformedDelta.X;
+                Canvas.SetLeft(_resizerGhost, MathHelper.MinMax(_initialStartPoint.X + transformedDelta.X, 0.0, _resizerWindowHost.Width - _resizerGhost.Width));
+            }
+            else
+            {
+                Canvas.SetTop(_resizerGhost, MathHelper.MinMax(_initialStartPoint.Y + transformedDelta.Y, 0.0, _resizerWindowHost.Height - _resizerGhost.Height));
+            }
+        }
+
+        void OnResizerDragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            var resizer = sender as LayoutGridResizerControl;
+            ShowResizerOverlayWindow(resizer);
+            IsResizing = true;
+        }
+        #endregion
+
+        protected override System.Collections.IEnumerator LogicalChildren
+        {
+            get
+            {
+                if (_internalHostPresenter == null)
+                    return new UIElement[] { }.GetEnumerator();
+                return new UIElement[] { _internalHostPresenter }.GetEnumerator();
+            }
+        }
+
         protected override Size MeasureOverride(Size constraint)
         {
+            if (_internalHostPresenter == null)
+                return base.MeasureOverride(constraint);
+
             _internalHostPresenter.Measure(constraint);
+            //return base.MeasureOverride(constraint);
             return _internalHostPresenter.DesiredSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
+            if (_internalHostPresenter == null)
+                return base.ArrangeOverride(finalSize);
+
             _internalHostPresenter.Arrange(new Rect(finalSize));
-            return finalSize;
+            return base.ArrangeOverride(finalSize);// new Size(_internalHostPresenter.ActualWidth, _internalHostPresenter.ActualHeight);
         }
 
         WeakReference _lastFocusedElement = null;
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
-            if (!e.Handled)
+            if (!e.Handled && _internalHostPresenter != null)
             {
                 if (e.NewFocus == _internalHostPresenter)
                 {
@@ -474,7 +480,6 @@ namespace AvalonDock.Controls
                     _lastFocusedElement = new WeakReference(e.NewFocus);
             }
         }
-
 
         #region Background
 
@@ -497,7 +502,7 @@ namespace AvalonDock.Controls
 
         #endregion
 
-        bool IsWin32MouseOver
+        internal bool IsWin32MouseOver
         {
             get
             {

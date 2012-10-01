@@ -52,13 +52,15 @@ namespace AvalonDock
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
-                Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
+            //Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
         }
 
 
         public DockingManager()
         {
             Layout = new LayoutRoot() { RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup(new LayoutDocumentPane())) };
+
+
             this.Loaded += new RoutedEventHandler(DockingManager_Loaded);
             this.Unloaded += new RoutedEventHandler(DockingManager_Unloaded);
         }
@@ -142,7 +144,10 @@ namespace AvalonDock
                 }
 
                 foreach (var fw in _fwList)
-                    fw.Owner = Window.GetWindow(this);
+                {
+                    //fw.Owner = Window.GetWindow(this);
+                    //fw.SetParentToMainWindowOf(this);
+                }
             }
 
 
@@ -265,7 +270,7 @@ namespace AvalonDock
         {
             base.OnApplyTemplate();
 
-            SetupAutoHideArea();
+            SetupAutoHideWindow();
         }
 
         void DockingManager_Loaded(object sender, RoutedEventArgs e)
@@ -287,7 +292,10 @@ namespace AvalonDock
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 foreach (var fw in _fwList)
-                    fw.Owner = Window.GetWindow(this);
+                {
+                    //fw.Owner = Window.GetWindow(this);
+                    //fw.SetParentToMainWindowOf(this);
+                }
                 //create the overlaywindow if it's possible
                 if (IsVisible)
                     CreateOverlayWindow();
@@ -302,7 +310,8 @@ namespace AvalonDock
             {
                 foreach (var fw in _fwList.ToArray())
                 {
-                    fw.Owner = null;
+                    //fw.Owner = null;
+                    fw.SetParentWindowToNull();
                     fw.KeepContentVisibleOnClose = true;
                     fw.Close();
                 }
@@ -352,7 +361,11 @@ namespace AvalonDock
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return null;
                 var modelFW = model as LayoutAnchorableFloatingWindow;
-                var newFW = new LayoutAnchorableFloatingWindowControl(modelFW) { Owner = Window.GetWindow(this) };
+                var newFW = new LayoutAnchorableFloatingWindowControl(modelFW)
+                {
+                    //Owner = Window.GetWindow(this) 
+                };
+                newFW.SetParentToMainWindowOf(this);
 
                 var paneForExtentions = modelFW.RootPanel.Children.OfType<LayoutAnchorablePane>().FirstOrDefault();
                 if (paneForExtentions != null)
@@ -373,7 +386,11 @@ namespace AvalonDock
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return null;
                 var modelFW = model as LayoutDocumentFloatingWindow;
-                var newFW = new LayoutDocumentFloatingWindowControl(modelFW) { Owner = Window.GetWindow(this) };
+                var newFW = new LayoutDocumentFloatingWindowControl(modelFW)
+                {
+                    //Owner = Window.GetWindow(this) 
+                };
+                newFW.SetParentToMainWindowOf(this);
 
                 var paneForExtentions = modelFW.RootDocument;
                 if (paneForExtentions != null)
@@ -998,13 +1015,13 @@ namespace AvalonDock
 
         protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            //Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
+            Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
             base.OnPreviewGotKeyboardFocus(e);
         }
 
         protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            //Debug.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
+            Debug.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
             base.OnPreviewLostKeyboardFocus(e);
         }
 
@@ -1019,6 +1036,8 @@ namespace AvalonDock
             //Debug.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
             base.OnMouseMove(e);
         }
+
+        
 
         #region LayoutRootPanel
 
@@ -1270,46 +1289,44 @@ namespace AvalonDock
         #endregion  
     
         #region AutoHide window
-        WeakReference _currentAutohiddenAnchor = null;
         internal void ShowAutoHideWindow(LayoutAnchorControl anchor)
         {
-            if (_autohideArea == null)
-                return;
+            _autoHideWindowManager.ShowAutoHideWindow(anchor);
+            //if (_autohideArea == null)
+            //    return;
 
-            if (AutoHideWindow != null && AutoHideWindow.Model == anchor.Model)
-                return;
+            //if (AutoHideWindow != null && AutoHideWindow.Model == anchor.Model)
+            //    return;
 
-            Debug.WriteLine("ShowAutoHideWindow()");
+            //Debug.WriteLine("ShowAutoHideWindow()");
 
-            _currentAutohiddenAnchor = new WeakReference(anchor);
+            //_currentAutohiddenAnchor = new WeakReference(anchor);
 
-            HideAutoHideWindow(anchor);
+            //HideAutoHideWindow(anchor);
 
-            SetAutoHideWindow(new LayoutAutoHideWindowControl(anchor));
+            //SetAutoHideWindow(new LayoutAutoHideWindowControl(anchor));
+            //AutoHideWindow.Show();
         }
 
         internal void HideAutoHideWindow(LayoutAnchorControl anchor)
         {
-            if (AutoHideWindow != null)
-            {
-                if (anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
-                {
-                    Debug.WriteLine("AutoHideWindow()");
-                    AutoHideWindow.Dispose();
-                    SetAutoHideWindow(null);
-                }
-            }
+            _autoHideWindowManager.HideAutoWindow(anchor);
         }
+
+
+        void SetupAutoHideWindow()
+        {
+            _autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
+            SetAutoHideWindow(new LayoutAutoHideWindowControl());
+            _autoHideWindowManager = new AutoHideWindowManager(this, AutoHideWindow);
+        }
+
+        AutoHideWindowManager _autoHideWindowManager;
 
         FrameworkElement _autohideArea;
         internal FrameworkElement GetAutoHideAreaElement()
         {
             return _autohideArea;
-        }
-
-        void SetupAutoHideArea()
-        {
-            _autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
         }
 
         #region AutoHideWindow
@@ -1361,6 +1378,7 @@ namespace AvalonDock
                 ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
                 ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+            
         }
 
         #endregion
@@ -1368,6 +1386,105 @@ namespace AvalonDock
 
 
         #endregion
+        //#region AutoHide window
+        //WeakReference _currentAutohiddenAnchor = null;
+        //internal void ShowAutoHideWindow(LayoutAnchorControl anchor)
+        //{
+        //    if (_autohideArea == null)
+        //        return;
+
+        //    if (AutoHideWindow != null && AutoHideWindow.Model == anchor.Model)
+        //        return;
+
+        //    Debug.WriteLine("ShowAutoHideWindow()");
+
+        //    _currentAutohiddenAnchor = new WeakReference(anchor);
+
+        //    HideAutoHideWindow(anchor);
+
+        //    SetAutoHideWindow(new LayoutAutoHideWindowControl(anchor));
+        //}
+
+        //internal void HideAutoHideWindow(LayoutAnchorControl anchor)
+        //{
+        //    if (AutoHideWindow != null)
+        //    {
+        //        if (anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
+        //        {
+        //            Debug.WriteLine("AutoHideWindow()");
+        //            AutoHideWindow.Dispose();
+        //            SetAutoHideWindow(null);
+        //        }
+        //    }
+        //}
+
+        //FrameworkElement _autohideArea;
+        //internal FrameworkElement GetAutoHideAreaElement()
+        //{
+        //    return _autohideArea;
+        //}
+
+        //void SetupAutoHideArea()
+        //{
+        //    _autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
+        //}
+
+        //#region AutoHideWindow
+
+        ///// <summary>
+        ///// AutoHideWindow Read-Only Dependency Property
+        ///// </summary>
+        //private static readonly DependencyPropertyKey AutoHideWindowPropertyKey
+        //    = DependencyProperty.RegisterReadOnly("AutoHideWindow", typeof(LayoutAutoHideWindowControl), typeof(DockingManager),
+        //        new FrameworkPropertyMetadata((LayoutAutoHideWindowControl)null,
+        //            new PropertyChangedCallback(OnAutoHideWindowChanged)));
+
+        //public static readonly DependencyProperty AutoHideWindowProperty
+        //    = AutoHideWindowPropertyKey.DependencyProperty;
+
+        ///// <summary>
+        ///// Gets the AutoHideWindow property.  This dependency property 
+        ///// indicates the currently shown autohide window.
+        ///// </summary>
+        //public LayoutAutoHideWindowControl AutoHideWindow
+        //{
+        //    get { return (LayoutAutoHideWindowControl)GetValue(AutoHideWindowProperty); }
+        //}
+
+        ///// <summary>
+        ///// Provides a secure method for setting the AutoHideWindow property.  
+        ///// This dependency property indicates the currently shown autohide window.
+        ///// </summary>
+        ///// <param name="value">The new value for the property.</param>
+        //protected void SetAutoHideWindow(LayoutAutoHideWindowControl value)
+        //{
+        //    SetValue(AutoHideWindowPropertyKey, value);
+        //}
+
+        ///// <summary>
+        ///// Handles changes to the AutoHideWindow property.
+        ///// </summary>
+        //private static void OnAutoHideWindowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    ((DockingManager)d).OnAutoHideWindowChanged(e);
+        //}
+
+        ///// <summary>
+        ///// Provides derived classes an opportunity to handle changes to the AutoHideWindow property.
+        ///// </summary>
+        //protected virtual void OnAutoHideWindowChanged(DependencyPropertyChangedEventArgs e)
+        //{
+        //    if (e.OldValue != null)
+        //        ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+        //    if (e.NewValue != null)
+        //        ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+        //}
+
+        //#endregion
+
+
+
+        //#endregion
 
         #region Floating Windows
         List<LayoutFloatingWindowControl> _fwList = new List<LayoutFloatingWindowControl>();
@@ -1428,6 +1545,8 @@ namespace AvalonDock
                         })
                 };
 
+                Layout.FloatingWindows.Add(fw);
+                
                 fwc = new LayoutAnchorableFloatingWindowControl(
                     fw as LayoutAnchorableFloatingWindow)
                     {
@@ -1445,6 +1564,8 @@ namespace AvalonDock
                     RootDocument = anchorableDocument
                 };
 
+                Layout.FloatingWindows.Add(fw);
+                
                 fwc = new LayoutDocumentFloatingWindowControl(
                     fw as LayoutDocumentFloatingWindow)
                 {
@@ -1455,9 +1576,10 @@ namespace AvalonDock
                 };
             }
             
-            Layout.FloatingWindows.Add(fw);
 
-            fwc.Owner = Window.GetWindow(this);
+            //fwc.Owner = Window.GetWindow(this);
+            //fwc.SetParentToMainWindowOf(this);
+
 
             _fwList.Add(fwc);
             
@@ -1541,6 +1663,8 @@ namespace AvalonDock
                     }
             };
 
+            Layout.FloatingWindows.Add(fw);
+
             fwc = new LayoutAnchorableFloatingWindowControl(
                 fw as LayoutAnchorableFloatingWindow)
             {
@@ -1549,9 +1673,10 @@ namespace AvalonDock
             };
             
 
-            Layout.FloatingWindows.Add(fw);
 
-            fwc.Owner = Window.GetWindow(this);
+            //fwc.Owner = Window.GetWindow(this);
+            //fwc.SetParentToMainWindowOf(this);
+
 
             _fwList.Add(fwc);
 
@@ -1601,6 +1726,11 @@ namespace AvalonDock
         {
             Rect detectionRect = new Rect(this.PointToScreenDPIWithoutFlowDirection(new Point()), this.TransformActualSizeToAncestor());
             return detectionRect.Contains(dragPoint);
+        }
+
+        DockingManager IOverlayWindowHost.Manager
+        {
+            get { return this; }
         }
 
         OverlayWindow _overlayWindow = null;
@@ -2529,19 +2659,31 @@ namespace AvalonDock
         {
             var oldTheme = e.OldValue as Theme;
             var newTheme = e.NewValue as Theme;
-
+            var resources = Application.Current == null ? this.Resources : Application.Current.Resources;
             if (oldTheme != null)
             {
                 var resourceDictionaryToRemove =
-                    Application.Current.Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
                 if (resourceDictionaryToRemove != null)
-                    Application.Current.Resources.MergedDictionaries.Remove(
+                    resources.MergedDictionaries.Remove(
                         resourceDictionaryToRemove);
             }
 
             if (newTheme != null)
             {
-                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newTheme.GetResourceUri() });
+                resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newTheme.GetResourceUri() });
+            }
+
+            if (Application.Current == null)
+            {
+                foreach (var fwc in _fwList)
+                    fwc.UpdateThemeResources(oldTheme);
+
+                if (_navigatorWindow != null)
+                    _navigatorWindow.UpdateThemeResources();
+
+                if (_overlayWindow != null)
+                    _overlayWindow.UpdateThemeResources();
             }
         }
 
@@ -2939,7 +3081,11 @@ namespace AvalonDock
         {
             if (_navigatorWindow == null)
             {
-                _navigatorWindow = new NavigatorWindow(this) { Owner = Window.GetWindow(this), WindowStartupLocation = WindowStartupLocation.CenterOwner};//, ShowActivated = false };
+                _navigatorWindow = new NavigatorWindow(this)
+                { 
+                    Owner = Window.GetWindow(this),
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
             }
 
             _navigatorWindow.ShowDialog();

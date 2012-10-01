@@ -109,7 +109,10 @@ namespace AvalonDock.Controls
             base.OnMouseDown(e);
 
             if (!e.Handled)
-                _model.Root.Manager.ShowAutoHideWindow(this);    
+            {
+                _model.Root.Manager.ShowAutoHideWindow(this);
+                _model.IsActive = true;
+            }
         }
 
 

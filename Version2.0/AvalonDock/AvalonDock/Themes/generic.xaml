@@ -480,7 +480,7 @@
                                 Content="{TemplateBinding AutoHideWindow}"
                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                Grid.Column="1" Grid.Row="1"/>
+                                Grid.Column="1" Grid.Row="1"/> <!---->
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -816,7 +816,7 @@
     <Style x:Key="{x:Type avalonDockControls:LayoutAutoHideWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAutoHideWindowControl}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
     </Style>
-
+    
     <Style x:Key="{x:Type avalonDockControls:NavigatorWindow}" TargetType="{x:Type avalonDockControls:NavigatorWindow}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
         <Setter Property="SizeToContent" Value="WidthAndHeight"/>

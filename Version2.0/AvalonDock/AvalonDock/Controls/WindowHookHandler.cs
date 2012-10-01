@@ -82,13 +82,12 @@ namespace AvalonDock.Controls
             }
             else if (code == Win32Helper.HCBT_ACTIVATE)
             {
-                //System.Diagnostics.Debug.WriteLine("HCBT_ACTIVATE");
                 if (_insideActivateEvent.CanEnter)
                 {
                     using (_insideActivateEvent.Enter())
                     {
-                        if (Activate != null)
-                            Activate(this, EventArgs.Empty);
+                        //if (Activate != null)
+                        //    Activate(this, new WindowActivateEventArgs(wParam));
                     }
                 }
             }
@@ -99,7 +98,7 @@ namespace AvalonDock.Controls
 
         public event EventHandler<FocusChangeEventArgs> FocusChanged;
 
-        public event EventHandler Activate;
+        public event EventHandler<WindowActivateEventArgs> Activate;
 
         ReentrantFlag _insideActivateEvent = new ReentrantFlag();
     }

@@ -34,6 +34,7 @@ using System.Windows.Media;
 using AvalonDock.Layout;
 using System.Diagnostics;
 using System.Windows.Documents;
+using AvalonDock.Themes;
 
 namespace AvalonDock.Controls
 {
@@ -167,11 +168,37 @@ namespace AvalonDock.Controls
 
             #endregion
         }
-
+        
+        ILayoutElement _model;
+        
         protected LayoutFloatingWindowControl(ILayoutElement model)
         {
             this.Loaded += new RoutedEventHandler(OnLoaded);
             this.Unloaded += new RoutedEventHandler(OnUnloaded);
+            _model = model;
+            UpdateThemeResources();
+        }
+
+        internal virtual void UpdateThemeResources(Theme oldTheme = null)
+        {
+            //If hosted in WPF than let Application class to update my resources
+            if (Application.Current != null)
+                return;
+            
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            var manager = _model.Root.Manager;
+            if (manager.Theme != null)
+            {
+                Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = manager.Theme.GetResourceUri() });
+            }
         }
 
         protected override void OnClosed(EventArgs e)
@@ -205,6 +232,9 @@ namespace AvalonDock.Controls
         void OnLoaded(object sender, RoutedEventArgs e)
         {
             this.Loaded -= new RoutedEventHandler(OnLoaded);
+
+            this.SetParentToMainWindowOf(Model.Root.Manager);
+
 
             _hwndSrc = HwndSource.FromDependencyObject(this) as HwndSource;
             _hwndSrcHook = new HwndSourceHook(FilterMessage);
@@ -342,7 +372,7 @@ namespace AvalonDock.Controls
                 case Win32Helper.WM_ACTIVATE:
                     if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
                     {
-                        if (lParam == new WindowInteropHelper(this.Owner).Handle)
+                        if (lParam == this.GetParentWindowHandle())
                         {
                             Win32Helper.SetActiveWindow(_hwndSrc.Handle);
                             handled = true;

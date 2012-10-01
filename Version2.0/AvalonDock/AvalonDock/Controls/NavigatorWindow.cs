@@ -6,6 +6,7 @@ using System.Windows;
 using AvalonDock.Layout;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using AvalonDock.Themes;
 
 namespace AvalonDock.Controls
 {
@@ -35,11 +36,32 @@ namespace AvalonDock.Controls
 
             this.Loaded += new RoutedEventHandler(OnLoaded);
             this.Unloaded += new RoutedEventHandler(OnUnloaded);
+
+            UpdateThemeResources();
         }
 
 
-        //HwndSource _hwndSrc;
-        //HwndSourceHook _hwndSrcHook;
+        internal void UpdateThemeResources(Theme oldTheme = null)
+        {
+            //If hosted in WPF than let Application class to update my resources
+            if (Application.Current != null)
+                return;
+
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (_manager.Theme != null)
+            {
+                Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = _manager.Theme.GetResourceUri() });
+            }
+        }
+
 
         void OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -47,9 +69,8 @@ namespace AvalonDock.Controls
 
             this.Focus();
 
-            //_hwndSrc = HwndSource.FromDependencyObject(this) as HwndSource;
-            //_hwndSrcHook = new HwndSourceHook(FilterMessage);
-            //_hwndSrc.AddHook(_hwndSrcHook);
+            //this.SetParentToMainWindowOf(_manager);
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
         }
 
         void OnUnloaded(object sender, RoutedEventArgs e)

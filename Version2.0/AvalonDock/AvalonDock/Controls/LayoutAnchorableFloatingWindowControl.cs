@@ -55,6 +55,16 @@ namespace AvalonDock.Controls
             HideWindowCommand = new RelayCommand((p) => OnExecuteHideWindowCommand(p), (p) => CanExecuteHideWindowCommand(p));
         }
 
+        internal override void UpdateThemeResources(Themes.Theme oldTheme = null)
+        {
+            if (Application.Current != null)
+                return;
+
+            base.UpdateThemeResources(oldTheme);
+
+            if (_overlayWindow != null)
+                _overlayWindow.UpdateThemeResources(oldTheme);
+        }
 
         LayoutAnchorableFloatingWindow _model;
 
@@ -142,6 +152,11 @@ namespace AvalonDock.Controls
         {
             Rect detectionRect = new Rect(this.PointToScreenDPIWithoutFlowDirection(new Point()), this.TransformActualSizeToAncestor());
             return detectionRect.Contains(dragPoint);
+        }
+
+        DockingManager IOverlayWindowHost.Manager
+        {
+            get { return _model.Root.Manager; }
         }
 
         OverlayWindow _overlayWindow = null;
