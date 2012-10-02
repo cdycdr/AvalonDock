@@ -42,8 +42,8 @@ namespace AvalonDock.Controls
         {
             if (_managers.Count == 0)
             {
-                InputManager.Current.EnterMenuMode += new EventHandler(InputManager_EnterMenuMode);
-                InputManager.Current.LeaveMenuMode += new EventHandler(InputManager_LeaveMenuMode);
+                //InputManager.Current.EnterMenuMode += new EventHandler(InputManager_EnterMenuMode);
+                //InputManager.Current.LeaveMenuMode += new EventHandler(InputManager_LeaveMenuMode);
                 _windowHandler = new WindowHookHandler();
                 _windowHandler.FocusChanged += new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
                 _windowHandler.Activate += new EventHandler<WindowActivateEventArgs>(WindowActivating);
@@ -64,8 +64,8 @@ namespace AvalonDock.Controls
 
             if (_managers.Count == 0)
             {
-                InputManager.Current.EnterMenuMode -= new EventHandler(InputManager_EnterMenuMode);
-                InputManager.Current.LeaveMenuMode -= new EventHandler(InputManager_LeaveMenuMode);
+                //InputManager.Current.EnterMenuMode -= new EventHandler(InputManager_EnterMenuMode);
+                //InputManager.Current.LeaveMenuMode -= new EventHandler(InputManager_LeaveMenuMode);
                 if (_windowHandler != null)
                 {
                     _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
@@ -92,7 +92,9 @@ namespace AvalonDock.Controls
         static void manager_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var focusedElement = e.NewFocus as Visual;
-            if (focusedElement != null && !(focusedElement is LayoutAnchorableTabItem || focusedElement is LayoutDocumentTabItem))
+            if (focusedElement != null &&
+                !(focusedElement is LayoutAnchorableTabItem || focusedElement is LayoutDocumentTabItem) &&
+                !(focusedElement is ICommandSource))//Avoid tracking focus for elements like this
             {
                 var parentAnchorable = focusedElement.FindVisualAncestor<LayoutAnchorableControl>();
                 if (parentAnchorable != null)
@@ -152,7 +154,9 @@ namespace AvalonDock.Controls
             bool focused = false;
             IInputElement objectToFocus;
             if (_modelFocusedElement.GetValue(model, out objectToFocus))
+            {
                 focused = objectToFocus == Keyboard.Focus(objectToFocus);
+            }
 
             IntPtr handleToFocus;
             if (_modelFocusedWindowHandle.GetValue(model, out handleToFocus))
@@ -260,10 +264,12 @@ namespace AvalonDock.Controls
             if (_lastFocusedElementBeforeEnterMenuMode != null &&
                 _lastFocusedElementBeforeEnterMenuMode.IsAlive)
             {
-                var lastFocusedInputElement = _lastFocusedElementBeforeEnterMenuMode.Target as IInputElement;
+                var lastFocusedInputElement = _lastFocusedElementBeforeEnterMenuMode.GetValueOrDefault<UIElement>();
                 if (lastFocusedInputElement != null)
+                {
                     if (lastFocusedInputElement != Keyboard.Focus(lastFocusedInputElement))
                         Debug.WriteLine("Unable to activate the element");
+                }
             }
         }
 

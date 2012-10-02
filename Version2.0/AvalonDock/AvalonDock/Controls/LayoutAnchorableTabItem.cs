@@ -93,7 +93,6 @@ namespace AvalonDock.Controls
 
         #endregion
 
-
         #region LayoutItem
 
         /// <summary>
@@ -126,7 +125,6 @@ namespace AvalonDock.Controls
         }
 
         #endregion
-
 
         void UpdateLogicalParent()
         {

@@ -76,7 +76,15 @@
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
                         <avalonDock:LayoutAnchorablePane>
                             <avalonDock:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1" Hiding="OnToolWindow1Hiding">
-                                <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
+                                <StackPanel>
+                                    <Menu>
+                                        <MenuItem Header="Menu">
+                                            <MenuItem Header="Item 1"/>
+                                            <MenuItem Header="Item 2"/>
+                                        </MenuItem>
+                                    </Menu>
+                                    <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
+                                </StackPanel>
                             </avalonDock:LayoutAnchorable>
                             <avalonDock:LayoutAnchorable ContentId="toolWindow2" Title="Tool Window 2">
                                 <TextBlock Text="{Binding FocusedElement}"/>

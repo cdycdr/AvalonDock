@@ -10,6 +10,11 @@ namespace AvalonDock
 {
     static class WindowHelper
     {
+        public static bool IsAttachedToPresentationSource(this Visual element)
+        {
+            return PresentationSource.FromVisual(element as Visual) != null;
+        }
+
         public static void SetParentToMainWindowOf(this Window window, Visual element)
         {
             var wndParent = Window.GetWindow(element);
