@@ -35,6 +35,7 @@ namespace AvalonDock.Controls
     {
         static LayoutAnchorControl()
         {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutAnchorControl), new FrameworkPropertyMetadata(typeof(LayoutAnchorControl)));
             Control.IsHitTestVisibleProperty.AddOwner(typeof(LayoutAnchorControl), new FrameworkPropertyMetadata(true)); 
         }
 

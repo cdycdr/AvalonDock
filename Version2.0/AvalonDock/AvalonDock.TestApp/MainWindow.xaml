@@ -77,12 +77,12 @@
                         <avalonDock:LayoutAnchorablePane>
                             <avalonDock:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1" Hiding="OnToolWindow1Hiding">
                                 <StackPanel>
-                                    <Menu>
+                                    <!--<Menu>
                                         <MenuItem Header="Menu">
                                             <MenuItem Header="Item 1"/>
                                             <MenuItem Header="Item 2"/>
                                         </MenuItem>
-                                    </Menu>
+                                    </Menu>-->
                                     <TextBox Text="{Binding TestTimer, Mode=OneWay, StringFormat='Tool Window 1 Attached to Timer ->\{0\}'}"/>
                                 </StackPanel>
                             </avalonDock:LayoutAnchorable>

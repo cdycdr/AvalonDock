@@ -43,10 +43,10 @@ namespace AvalonDock.Controls
 
         public LayoutAnchorableTabItem()
         {
-            this.Unloaded += (s, e) =>
-            {
-                UpdateLogicalParent();
-            };
+            //this.Unloaded += (s, e) =>
+            //{
+            //    UpdateLogicalParent();
+            //};
         }
 
 
@@ -88,7 +88,7 @@ namespace AvalonDock.Controls
                 SetLayoutItem(Model.Root.Manager.GetLayoutItemFromModel(Model));
             else
                 SetLayoutItem(null);
-            UpdateLogicalParent();
+            //UpdateLogicalParent();
         }
 
         #endregion
@@ -126,29 +126,29 @@ namespace AvalonDock.Controls
 
         #endregion
 
-        void UpdateLogicalParent()
-        {
-            if (Model != null &&
-                Model.Content != null &&
-                Model.Content is UIElement)
-            {
-                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
-                    as ILogicalChildrenContainer;
-                if (oldLogicalParentPaneControl != null)
-                    oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
-            }
+        //void UpdateLogicalParent()
+        //{
+        //    if (Model != null &&
+        //        Model.Content != null &&
+        //        Model.Content is UIElement)
+        //    {
+        //        var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
+        //            as ILogicalChildrenContainer;
+        //        if (oldLogicalParentPaneControl != null)
+        //            oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
+        //    }
 
-            var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
-            if (Model != null &&
-                parentPaneControl != null &&
-                Model.Content != null &&
-                Model.Content is UIElement)
-            {
-                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
+        //    var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+        //    if (Model != null &&
+        //        parentPaneControl != null &&
+        //        Model.Content != null &&
+        //        Model.Content is UIElement)
+        //    {
+        //        ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
 
-                BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
-            }
-        }
+        //        BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
+        //    }
+        //}
 
 
         bool _isMouseDown = false;

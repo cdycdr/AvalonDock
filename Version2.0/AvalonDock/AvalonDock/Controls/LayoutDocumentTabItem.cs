@@ -44,7 +44,7 @@ namespace AvalonDock.Controls
         {
             this.Unloaded += (s, e) =>
                 {
-                    UpdateLogicalParent();
+                    //UpdateLogicalParent();
                 };
         }
 
@@ -86,7 +86,7 @@ namespace AvalonDock.Controls
                 SetLayoutItem(Model.Root.Manager.GetLayoutItemFromModel(Model));
             else
                 SetLayoutItem(null);
-            UpdateLogicalParent();
+            //UpdateLogicalParent();
         }
 
         #endregion
@@ -126,27 +126,27 @@ namespace AvalonDock.Controls
 
         
 
-        void UpdateLogicalParent()
-        {
-            if (Model != null && Model.Content != null && Model.Content is UIElement)
-            {
-                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
-                    as ILogicalChildrenContainer;
-                if (oldLogicalParentPaneControl != null)
-                    oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
-            }
+        //void UpdateLogicalParent()
+        //{
+        //    if (Model != null && Model.Content != null && Model.Content is UIElement)
+        //    {
+        //        var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
+        //            as ILogicalChildrenContainer;
+        //        if (oldLogicalParentPaneControl != null)
+        //            oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
+        //    }
 
-            var parentPaneControl = this.FindVisualAncestor<LayoutDocumentPaneControl>();
-            if (Model != null && 
-                parentPaneControl != null && 
-                Model.Content != null &&
-                Model.Content is UIElement)
-            {
-                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
-                BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
+        //    var parentPaneControl = this.FindVisualAncestor<LayoutDocumentPaneControl>();
+        //    if (Model != null && 
+        //        parentPaneControl != null && 
+        //        Model.Content != null &&
+        //        Model.Content is UIElement)
+        //    {
+        //        ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
+        //        BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
 
-            }        
-        }
+        //    }        
+        //}
 
         List<Rect> _otherTabsScreenArea = null;
         List<TabItem> _otherTabs = null;

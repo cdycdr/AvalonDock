@@ -11,7 +11,7 @@ namespace AvalonDock.Controls
     {
         DockingManager _manager;
 
-        internal AutoHideWindowManager(DockingManager manager, LayoutAutoHideWindowControl autohideWindow)
+        internal AutoHideWindowManager(DockingManager manager)
         {
             _manager = manager;
             SetupCloseTimer();
@@ -19,7 +19,7 @@ namespace AvalonDock.Controls
 
 
         WeakReference _currentAutohiddenAnchor = null;
-        
+       
         public void ShowAutoHideWindow(LayoutAnchorControl anchor)
         {
             StopCloseTimer();
@@ -28,13 +28,15 @@ namespace AvalonDock.Controls
             StartCloseTimer();
         }
 
-        public void HideAutoWindow(LayoutAnchorControl anchor)
+        public void HideAutoWindow(LayoutAnchorControl anchor = null)
         {
-            if (anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
+            if (anchor == null ||
+                anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
             {
                 StopCloseTimer();
             }
-        
+            else
+                System.Diagnostics.Debug.Assert(false);
         }
 
         DispatcherTimer _closeTimer = null;

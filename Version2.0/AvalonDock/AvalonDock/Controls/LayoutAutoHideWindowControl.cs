@@ -53,6 +53,9 @@ namespace AvalonDock.Controls
 
         internal void Show(LayoutAnchorControl anchor)
         {
+            if (_model != null)
+                throw new InvalidOperationException();
+
             _anchor = anchor;
             _model = anchor.Model as LayoutAnchorable;
             _side = (anchor.Model.Parent.Parent as LayoutAnchorSide).Side;
@@ -77,6 +80,7 @@ namespace AvalonDock.Controls
             RemoveInternalGrid();
             _anchor = null;
             _model = null;
+            _manager = null;
             Visibility = System.Windows.Visibility.Hidden;
 
             Debug.WriteLine("LayoutAutoHideWindowControl.Hide()");

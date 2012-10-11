@@ -86,7 +86,7 @@ namespace AvalonDock.Controls
                         {
                             _asyncRefreshCalled = null;
                             UpdateChildren();
-                        }), DispatcherPriority.Background, null);
+                        }), DispatcherPriority.Normal, null);
                 };
 
             this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
@@ -201,7 +201,7 @@ namespace AvalonDock.Controls
 
             FixChildrenDockLengths();
 
-            Debug.Assert(InternalChildren.Count == _model.ChildrenCount + (_model.ChildrenCount - 1));
+            //Debug.Assert(InternalChildren.Count == _model.ChildrenCount + (_model.ChildrenCount - 1));
 
             #region Setup GridRows/Cols
             RowDefinitions.Clear();

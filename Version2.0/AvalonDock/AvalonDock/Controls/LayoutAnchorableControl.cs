@@ -84,38 +84,48 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
-            UpdateLogicalParent();
+            //UpdateLogicalParent();
             //SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
         }
 
-        void UpdateLogicalParent()
-        {
-            var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+        //void UpdateLogicalParent()
+        //{
+        //    var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+        //    if (parentPaneControl == null)
+        //        throw new InvalidOperationException();
+            
+        //    try
+        //    {
+        //        if (Model != null &&
+        //            Model.Content != null &&
+        //            Model.Content is UIElement)
+        //        {
+        //            var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
+        //                as ILogicalChildrenContainer;
 
-            if (Model != null &&
-                Model.Content != null &&
-                Model.Content is UIElement)
-            {
-                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
-                    as ILogicalChildrenContainer;
+        //            if (oldLogicalParentPaneControl == parentPaneControl)
+        //                return;
 
-                if (oldLogicalParentPaneControl == parentPaneControl)
-                    return;
+        //            if (oldLogicalParentPaneControl != null)
+        //                oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
+        //        }
 
-                if (oldLogicalParentPaneControl != null)
-                    oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
-            }
+        //        if (Model != null &&
+        //            parentPaneControl != null &&
+        //            Model.Content != null &&
+        //            Model.Content is UIElement)
+        //        {
+        //            ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
+        //            //BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        if (Model != null && Model.Content is DependencyObject)
+        //            BindingHelper.RebindInactiveBindings(Model.Content as DependencyObject);
+        //    }
 
-            if (Model != null &&
-                parentPaneControl != null &&
-                Model.Content != null &&
-                Model.Content is UIElement)
-            {
-                ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
-                BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
-            }
-
-        }
+        //}
 
         #endregion
 

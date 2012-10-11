@@ -52,7 +52,6 @@ namespace AvalonDock
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
-            //Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
         }
 
 
@@ -285,7 +284,7 @@ namespace AvalonDock
                 if (!DesignerProperties.GetIsInDesignMode(this))
                 {
                     foreach (var fw in Layout.FloatingWindows)
-                        _fwList.Add(CreateUIElementForModel(fw) as LayoutAnchorableFloatingWindowControl);
+                        _fwList.Add(CreateUIElementForModel(fw) as LayoutFloatingWindowControl);
                 }
             }
 
@@ -308,6 +307,8 @@ namespace AvalonDock
            
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
+                _autoHideWindowManager.HideAutoWindow();
+
                 foreach (var fw in _fwList.ToArray())
                 {
                     //fw.Owner = null;
@@ -1265,6 +1266,9 @@ namespace AvalonDock
             if (_logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).Contains(element))
                 new InvalidOperationException();
 #endif
+            if (_logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).Contains(element))
+                return;
+
             _logicalChildren.Add(new WeakReference(element));
             AddLogicalChild(element);
         }
@@ -1317,8 +1321,16 @@ namespace AvalonDock
         void SetupAutoHideWindow()
         {
             _autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
+            
+            if (_autoHideWindowManager != null)
+                _autoHideWindowManager.HideAutoWindow();
+            else
+                _autoHideWindowManager = new AutoHideWindowManager(this);
+
+            if (AutoHideWindow != null)
+                AutoHideWindow.Dispose();
+
             SetAutoHideWindow(new LayoutAutoHideWindowControl());
-            _autoHideWindowManager = new AutoHideWindowManager(this, AutoHideWindow);
         }
 
         AutoHideWindowManager _autoHideWindowManager;
@@ -2925,8 +2937,17 @@ namespace AvalonDock
         {
             foreach (var itemToRemove in _layoutItems.Where(item => item.LayoutElement.Root != Layout).ToArray())
             {
+
+                if (itemToRemove != null &&
+                    itemToRemove.Model != null &&
+                    itemToRemove.Model is UIElement)
+                {
+                    //((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(itemToRemove.Model as UIElement);
+                }
+
                 itemToRemove.Detach();
                 _layoutItems.Remove(itemToRemove);
+
             }
         }
 
@@ -2937,17 +2958,19 @@ namespace AvalonDock
             {
                 foreach (var document in Layout.Descendents().OfType<LayoutDocument>().ToArray())
                 {
-                    var documentItem = new LayoutDocumentItem();
-                    documentItem.Attach(document);
-                    ApplyStyleToLayoutItem(documentItem);
-                    _layoutItems.Add(documentItem);
+                    CreateDocumentLayoutItem(document);
+                    //var documentItem = new LayoutDocumentItem();
+                    //documentItem.Attach(document);
+                    //ApplyStyleToLayoutItem(documentItem);
+                    //_layoutItems.Add(documentItem);
                 }
                 foreach (var anchorable in Layout.Descendents().OfType<LayoutAnchorable>().ToArray())
                 {
-                    var anchorableItem = new LayoutAnchorableItem();
-                    anchorableItem.Attach(anchorable);
-                    ApplyStyleToLayoutItem(anchorableItem);
-                    _layoutItems.Add(anchorableItem);
+                    CreateAnchorableLayoutItem(anchorable);
+                    //var anchorableItem = new LayoutAnchorableItem();
+                    //anchorableItem.Attach(anchorable);
+                    //ApplyStyleToLayoutItem(anchorableItem);
+                    //_layoutItems.Add(anchorableItem);
                 }
 
                 Layout.ElementAdded += new EventHandler<LayoutElementEventArgs>(Layout_ElementAdded);
@@ -2974,6 +2997,14 @@ namespace AvalonDock
             layoutItem.Attach(contentToAttach);
             ApplyStyleToLayoutItem(layoutItem);
             _layoutItems.Add(layoutItem);
+
+            if (contentToAttach != null &&
+                contentToAttach.Content != null &&
+                contentToAttach.Content is UIElement)
+            {
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(contentToAttach.Content);
+            }
+
         }
 
         void CreateDocumentLayoutItem(LayoutDocument contentToAttach)
@@ -2985,6 +3016,14 @@ namespace AvalonDock
             layoutItem.Attach(contentToAttach);
             ApplyStyleToLayoutItem(layoutItem);
             _layoutItems.Add(layoutItem);
+
+            if (contentToAttach != null &&
+                contentToAttach.Content != null &&
+                contentToAttach.Content is UIElement)
+            {
+                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(contentToAttach.Content);
+            }
+
         }
 
         #region LayoutItemContainerStyle
