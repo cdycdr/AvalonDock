@@ -1017,6 +1017,7 @@ namespace AvalonDock
         protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
+
             base.OnPreviewGotKeyboardFocus(e);
         }
 
@@ -2933,22 +2934,30 @@ namespace AvalonDock
             CollectLayoutItemsDeleted();
         }
 
+
+        DispatcherOperation _collectLayoutItemsOperations = null;
         void CollectLayoutItemsDeleted()
         {
-            foreach (var itemToRemove in _layoutItems.Where(item => item.LayoutElement.Root != Layout).ToArray())
-            {
-
-                if (itemToRemove != null &&
-                    itemToRemove.Model != null &&
-                    itemToRemove.Model is UIElement)
+            if (_collectLayoutItemsOperations != null)
+                return;
+            _collectLayoutItemsOperations = Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    //((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(itemToRemove.Model as UIElement);
-                }
+                    _collectLayoutItemsOperations = null;
+                    foreach (var itemToRemove in _layoutItems.Where(item => item.LayoutElement.Root != Layout).ToArray())
+                    {
 
-                itemToRemove.Detach();
-                _layoutItems.Remove(itemToRemove);
+                        if (itemToRemove != null &&
+                            itemToRemove.Model != null &&
+                            itemToRemove.Model is UIElement)
+                        {
+                            //((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(itemToRemove.Model as UIElement);
+                        }
 
-            }
+                        itemToRemove.Detach();
+                        _layoutItems.Remove(itemToRemove);
+
+                    }
+                }));
         }
 
 

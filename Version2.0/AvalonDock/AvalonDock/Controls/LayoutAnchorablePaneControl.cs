@@ -75,11 +75,6 @@ namespace AvalonDock.Controls
             get { return _model; }
         }
 
-        protected override void OnGotFocus(RoutedEventArgs e)
-        {
-            base.OnGotFocus(e);
-        }
-
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             _model.SelectedContent.IsActive = true;
@@ -111,6 +106,15 @@ namespace AvalonDock.Controls
 
             if (!e.Handled)
                 _model.SelectedContent.IsActive = true;
+        }
+
+        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+
+            if (!e.Handled)
+                _model.SelectedContent.IsActive = true;
+
         }
 
     }

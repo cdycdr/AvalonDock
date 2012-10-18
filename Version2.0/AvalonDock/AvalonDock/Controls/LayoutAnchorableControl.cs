@@ -137,10 +137,6 @@ namespace AvalonDock.Controls
             base.OnGotKeyboardFocus(e);
         }
 
-        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        {
-            base.OnLostKeyboardFocus(e);
-        }
 
 
     }

@@ -63,11 +63,14 @@ namespace AvalonDock.Controls
         {
             base.OnGotKeyboardFocus(e);
             System.Diagnostics.Debug.WriteLine("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus);
-            if (!e.Handled && e.NewFocus is TabItem)
-            {
-                FocusElementManager.SetFocusOnLastElement(_model.SelectedContent);
-                e.Handled = true;
-            }
+            //if (!e.Handled && e.NewFocus is TabItem)
+            //{
+            //    FocusElementManager.SetFocusOnLastElement(_model.SelectedContent);
+            //    e.Handled = true;
+            //}
+            if (_model.SelectedContent != null)
+                _model.SelectedContent.IsActive = true;
+
         }
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
@@ -119,6 +122,15 @@ namespace AvalonDock.Controls
 
             if (!e.Handled && _model.SelectedContent != null)
                 _model.SelectedContent.IsActive = true;
+        }
+
+        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+
+            if (!e.Handled && _model.SelectedContent != null)
+                _model.SelectedContent.IsActive = true;
+
         }
     }
 }
