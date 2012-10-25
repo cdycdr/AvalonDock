@@ -98,7 +98,7 @@ namespace AvalonDock.Controls
 
         public event EventHandler<FocusChangeEventArgs> FocusChanged;
 
-        public event EventHandler<WindowActivateEventArgs> Activate;
+        //public event EventHandler<WindowActivateEventArgs> Activate;
 
         ReentrantFlag _insideActivateEvent = new ReentrantFlag();
     }

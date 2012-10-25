@@ -97,6 +97,8 @@
     <Compile Include="Controls\Shell\WindowChrome.cs" />
     <Compile Include="Controls\Shell\WindowChromeWorker.cs" />
     <Compile Include="Converters\ActivateCommandLayoutItemFromLayoutModelConverter.cs" />
+    <Compile Include="Converters\AutoHideCommandLayoutItemFromLayoutModelConverter.cs" />
+    <Compile Include="Converters\HideCommandLayoutItemFromLayoutModelConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\LayoutItemFromLayoutModelConverter.cs" />
     <Compile Include="Converters\NullToDoNothingConverter.cs" />

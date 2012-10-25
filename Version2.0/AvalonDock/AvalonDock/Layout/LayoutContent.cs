@@ -176,7 +176,8 @@ namespace AvalonDock.Layout
         /// </summary>
         protected virtual void OnIsActiveChanged(bool oldValue, bool newValue)
         {
-            LastActivationTimeStamp = DateTime.Now;
+            if (newValue)
+                LastActivationTimeStamp = DateTime.Now;
 
             if (IsActiveChanged != null)
                 IsActiveChanged(this, EventArgs.Empty);
@@ -698,6 +699,7 @@ namespace AvalonDock.Layout
                 var currentContainer = Parent as ILayoutContainer;
                 var currentContainerIndex = (currentContainer is ILayoutGroup) ? (currentContainer as ILayoutGroup).IndexOfChild(this) : -1;
                 var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
+                
                 if (PreviousContainerIndex < previousContainerAsLayoutGroup.ChildrenCount)
                     previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
                 else

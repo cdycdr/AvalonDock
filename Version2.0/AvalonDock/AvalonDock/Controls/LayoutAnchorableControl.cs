@@ -84,50 +84,47 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
-            //UpdateLogicalParent();
-            //SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
+            if (Model != null)
+                SetLayoutItem(Model.Root.Manager.GetLayoutItemFromModel(Model));
+            else
+                SetLayoutItem(null);
         }
 
-        //void UpdateLogicalParent()
-        //{
-        //    var parentPaneControl = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
-        //    if (parentPaneControl == null)
-        //        throw new InvalidOperationException();
-            
-        //    try
-        //    {
-        //        if (Model != null &&
-        //            Model.Content != null &&
-        //            Model.Content is UIElement)
-        //        {
-        //            var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
-        //                as ILogicalChildrenContainer;
+        #endregion
 
-        //            if (oldLogicalParentPaneControl == parentPaneControl)
-        //                return;
+        #region LayoutItem
 
-        //            if (oldLogicalParentPaneControl != null)
-        //                oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
-        //        }
+        /// <summary>
+        /// LayoutItem Read-Only Dependency Property
+        /// </summary>
+        private static readonly DependencyPropertyKey LayoutItemPropertyKey
+            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof(LayoutItem), typeof(LayoutAnchorableControl),
+                new FrameworkPropertyMetadata((LayoutItem)null));
 
-        //        if (Model != null &&
-        //            parentPaneControl != null &&
-        //            Model.Content != null &&
-        //            Model.Content is UIElement)
-        //        {
-        //            ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
-        //            //BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (Model != null && Model.Content is DependencyObject)
-        //            BindingHelper.RebindInactiveBindings(Model.Content as DependencyObject);
-        //    }
+        public static readonly DependencyProperty LayoutItemProperty
+            = LayoutItemPropertyKey.DependencyProperty;
 
-        //}
+        /// <summary>
+        /// Gets the LayoutItem property.  This dependency property 
+        /// indicates the LayoutItem attached to this tag item.
+        /// </summary>
+        public LayoutItem LayoutItem
+        {
+            get { return (LayoutItem)GetValue(LayoutItemProperty); }
+        }
+
+        /// <summary>
+        /// Provides a secure method for setting the LayoutItem property.  
+        /// This dependency property indicates the LayoutItem attached to this tag item.
+        /// </summary>
+        /// <param name="value">The new value for the property.</param>
+        protected void SetLayoutItem(LayoutItem value)
+        {
+            SetValue(LayoutItemPropertyKey, value);
+        }
 
         #endregion
+
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {

@@ -13,7 +13,7 @@ using System.Windows.Markup;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AvalonDock.Themes.Aero")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("Copyright © 2007-2012, Adolfo Marinucci")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -52,7 +52,7 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.1618")]
-[assembly: AssemblyFileVersion("2.0.1618")]
+[assembly: AssemblyVersion("2.0.1683")]
+[assembly: AssemblyFileVersion("2.0.1683")]
 
 [assembly: XmlnsDefinition("http://avalondock.codeplex.com", "AvalonDock.Themes")]

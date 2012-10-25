@@ -220,10 +220,19 @@ namespace AvalonDock.Controls
         }
 
         bool _attachDrag = false;
-        internal void AttachDrag()
+        internal void AttachDrag(bool onActivated = true)
         {
-            _attachDrag = true;
-            this.Activated += new EventHandler(OnActivated);            
+            if (onActivated)
+            {
+                _attachDrag = true;
+                this.Activated += new EventHandler(OnActivated);
+            }
+            else
+            {
+                IntPtr windowHandle = new WindowInteropHelper(this).Handle;
+                IntPtr lParam = new IntPtr(((int)Left & (int)0xFFFF) | (((int)Top) << 16));
+                Win32Helper.SendMessage(windowHandle, Win32Helper.WM_NCLBUTTONDOWN, new IntPtr(Win32Helper.HT_CAPTION), lParam);
+            }
         }
 
         HwndSource _hwndSrc;

@@ -46,7 +46,7 @@ namespace AvalonDock.Controls
                 //InputManager.Current.LeaveMenuMode += new EventHandler(InputManager_LeaveMenuMode);
                 _windowHandler = new WindowHookHandler();
                 _windowHandler.FocusChanged += new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
-                _windowHandler.Activate += new EventHandler<WindowActivateEventArgs>(WindowActivating);
+                //_windowHandler.Activate += new EventHandler<WindowActivateEventArgs>(WindowActivating);
                 _windowHandler.Attach();
 
                 if (Application.Current != null)
@@ -69,7 +69,7 @@ namespace AvalonDock.Controls
                 if (_windowHandler != null)
                 {
                     _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
-                    _windowHandler.Activate -= new EventHandler<WindowActivateEventArgs>(WindowActivating);
+                    //_windowHandler.Activate -= new EventHandler<WindowActivateEventArgs>(WindowActivating);
                     _windowHandler.Detach();
                     _windowHandler = null;
                 }
@@ -83,7 +83,7 @@ namespace AvalonDock.Controls
             if (_windowHandler != null)
             {
                 _windowHandler.FocusChanged -= new EventHandler<FocusChangeEventArgs>(WindowFocusChanging);
-                _windowHandler.Activate -= new EventHandler<WindowActivateEventArgs>(WindowActivating);
+                //_windowHandler.Activate -= new EventHandler<WindowActivateEventArgs>(WindowActivating);
                 _windowHandler.Detach();
                 _windowHandler = null;
             }

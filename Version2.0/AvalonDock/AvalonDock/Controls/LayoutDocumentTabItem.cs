@@ -42,10 +42,6 @@ namespace AvalonDock.Controls
 
         public LayoutDocumentTabItem()
         {
-            this.Unloaded += (s, e) =>
-                {
-                    //UpdateLogicalParent();
-                };
         }
 
         #region Model
@@ -123,30 +119,6 @@ namespace AvalonDock.Controls
         }
 
         #endregion
-
-        
-
-        //void UpdateLogicalParent()
-        //{
-        //    if (Model != null && Model.Content != null && Model.Content is UIElement)
-        //    {
-        //        var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(Model.Content as UIElement)
-        //            as ILogicalChildrenContainer;
-        //        if (oldLogicalParentPaneControl != null)
-        //            oldLogicalParentPaneControl.InternalRemoveLogicalChild(Model.Content);
-        //    }
-
-        //    var parentPaneControl = this.FindVisualAncestor<LayoutDocumentPaneControl>();
-        //    if (Model != null && 
-        //        parentPaneControl != null && 
-        //        Model.Content != null &&
-        //        Model.Content is UIElement)
-        //    {
-        //        ((ILogicalChildrenContainer)parentPaneControl).InternalAddLogicalChild(Model.Content);
-        //        BindingHelper.RebindInactiveBindings(Model.Content as UIElement);
-
-        //    }        
-        //}
 
         List<Rect> _otherTabsScreenArea = null;
         List<TabItem> _otherTabs = null;

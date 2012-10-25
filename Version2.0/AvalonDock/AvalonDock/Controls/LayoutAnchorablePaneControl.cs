@@ -32,7 +32,7 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutAnchorablePaneControl : TabControl, ILayoutControl, ILogicalChildrenContainer
+    public class LayoutAnchorablePaneControl : TabControl, ILayoutControl//, ILogicalChildrenContainer
     {
         static LayoutAnchorablePaneControl()
         {
@@ -59,15 +59,6 @@ namespace AvalonDock.Controls
             modelWithAtcualSize.ActualHeight = ActualHeight;
         }
 
-        List<object> _logicalChildren = new List<object>();
-        protected override System.Collections.IEnumerator LogicalChildren
-        {
-            get
-            {
-                return _logicalChildren.GetEnumerator();
-            }
-        }
-
         LayoutAnchorablePane _model;
 
         public ILayoutElement Model
@@ -82,29 +73,11 @@ namespace AvalonDock.Controls
             base.OnGotKeyboardFocus(e);
         }
 
-        void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
-        {
-            if (_logicalChildren.Contains(element))
-                throw new InvalidOperationException();
-
-            _logicalChildren.Add(element);
-            AddLogicalChild(element);
-        }
-
-        void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
-        {
-            if (!_logicalChildren.Contains(element))
-                throw new InvalidOperationException();
-
-            _logicalChildren.Remove(element); 
-            RemoveLogicalChild(element);
-        }
-
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
 
-            if (!e.Handled)
+            if (!e.Handled && _model.SelectedContent != null)
                 _model.SelectedContent.IsActive = true;
         }
 
@@ -112,7 +85,7 @@ namespace AvalonDock.Controls
         {
             base.OnMouseRightButtonDown(e);
 
-            if (!e.Handled)
+            if (!e.Handled && _model.SelectedContent != null)
                 _model.SelectedContent.IsActive = true;
 
         }

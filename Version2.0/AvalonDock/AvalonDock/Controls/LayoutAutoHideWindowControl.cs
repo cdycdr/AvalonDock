@@ -108,17 +108,27 @@ namespace AvalonDock.Controls
                 Height = 0,
             });
 
+            _internalHost_ContentRendered = false;
+            _internalHwndSource.ContentRendered += _internalHwndSource_ContentRendered;
             _internalHwndSource.RootVisual = _internalHostPresenter;
             AddLogicalChild(_internalHostPresenter);
             Win32Helper.BringWindowToTop(_internalHwndSource.Handle);
             return new HandleRef(this, _internalHwndSource.Handle);
         }
 
+        private bool _internalHost_ContentRendered = false;
+
+        void _internalHwndSource_ContentRendered(object sender, EventArgs e)
+        {
+            _internalHost_ContentRendered = true;
+        }
+
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == Win32Helper.WM_WINDOWPOSCHANGING)
             {
-                Win32Helper.SetWindowPos(_internalHwndSource.Handle, Win32Helper.HWND_TOP, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
+                if (_internalHost_ContentRendered)
+                    Win32Helper.SetWindowPos(_internalHwndSource.Handle, Win32Helper.HWND_TOP, 0, 0, 0, 0, Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
             }
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
@@ -127,9 +137,17 @@ namespace AvalonDock.Controls
         {
             if (_internalHwndSource != null)
             {
+                _internalHwndSource.ContentRendered -= _internalHwndSource_ContentRendered;
                 _internalHwndSource.Dispose();
                 _internalHwndSource = null;
             }
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+
         }
 
         ContentPresenter _internalHostPresenter = new ContentPresenter();
@@ -152,13 +170,13 @@ namespace AvalonDock.Controls
 
         void CreateInternalGrid()
         {
-            var areaElement = _manager.GetAutoHideAreaElement();
             _internalGrid = new Grid() { FlowDirection = System.Windows.FlowDirection.LeftToRight};
             _internalGrid.SetBinding(Grid.BackgroundProperty, new Binding("Background") { Source = this });
 
-            _internalHost = new LayoutAnchorableControl() { Model = _model };
-            _internalHost.SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
 
+            _internalHost = new LayoutAnchorableControl() { Model = _model, Style = AnchorableStyle };
+            _internalHost.SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
+            
             KeyboardNavigation.SetTabNavigation(_internalGrid, KeyboardNavigationMode.Cycle);
             
             _resizer = new LayoutGridResizerControl();
@@ -188,7 +206,6 @@ namespace AvalonDock.Controls
                     Width = _model.AutoHideWidth == 0.0 ? new GridLength(_model.AutoHideMinWidth) : new GridLength(_model.AutoHideWidth, GridUnitType.Pixel),
                 });
                 _internalGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(_manager.GridSplitterWidth) });
-                _internalGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
                 Grid.SetColumn(_internalHost, 0);
                 Grid.SetColumn(_resizer, 1);
@@ -534,5 +551,28 @@ namespace AvalonDock.Controls
                 return false;
             }
         }
+
+        #region AnchorableStyle
+
+        /// <summary>
+        /// AnchorableStyle Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty AnchorableStyleProperty =
+            DependencyProperty.Register("AnchorableStyle", typeof(Style), typeof(LayoutAutoHideWindowControl),
+                new FrameworkPropertyMetadata((Style)null));
+
+        /// <summary>
+        /// Gets or sets the AnchorableStyle property. This dependency property 
+        /// indicates the style to apply to the LayoutAnchorableControl hosted in this auto hide window.
+        /// </summary>
+        public Style AnchorableStyle
+        {
+            get { return (Style)GetValue(AnchorableStyleProperty); }
+            set { SetValue(AnchorableStyleProperty, value); }
+        }
+
+        #endregion
+
+
     }
 }

@@ -8,7 +8,7 @@
     <ProjectGuid>{BA72CCE0-A9FB-4995-B496-7FEC5C87B85B}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AvalonDock.Themes.Aero</RootNamespace>
+    <RootNamespace>AvalonDock.Themes</RootNamespace>
     <AssemblyName>AvalonDock.Themes.Aero</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
