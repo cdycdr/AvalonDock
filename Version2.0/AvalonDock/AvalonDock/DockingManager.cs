@@ -1817,12 +1817,9 @@ namespace AvalonDock
 
             foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneControl>())
             {
-                if (areaHost.Model.Descendents().Any())
-                {
-                    _areas.Add(new DropArea<LayoutDocumentPaneControl>(
-                        areaHost,
-                        DropAreaType.DocumentPane));
-                }
+                _areas.Add(new DropArea<LayoutDocumentPaneControl>(
+                    areaHost,
+                    DropAreaType.DocumentPane));
             }
 
             foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneGroupControl>())
