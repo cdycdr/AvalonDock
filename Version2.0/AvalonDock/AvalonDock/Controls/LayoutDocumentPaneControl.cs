@@ -32,7 +32,7 @@ using AvalonDock.Layout;
 
 namespace AvalonDock.Controls
 {
-    public class LayoutDocumentPaneControl : TabControl, ILayoutControl, ILogicalChildrenContainer
+    public class LayoutDocumentPaneControl : TabControl, ILayoutControl//, ILogicalChildrenContainer
     {
         static LayoutDocumentPaneControl()
         {
@@ -98,23 +98,23 @@ namespace AvalonDock.Controls
             get { return _model; }
         }
 
-        void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
-        {
-            if (_logicalChildren.Contains(element))
-                throw new InvalidOperationException();
+        //void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
+        //{
+        //    if (_logicalChildren.Contains(element))
+        //        throw new InvalidOperationException();
 
-            _logicalChildren.Add(element);
-            AddLogicalChild(element);
-        }
+        //    _logicalChildren.Add(element);
+        //    AddLogicalChild(element);
+        //}
 
-        void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
-        {
-            if (!_logicalChildren.Contains(element))
-                throw new InvalidOperationException();
+        //void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
+        //{
+        //    if (!_logicalChildren.Contains(element))
+        //        throw new InvalidOperationException();
 
-            _logicalChildren.Remove(element);
-            RemoveLogicalChild(element);
-        }
+        //    _logicalChildren.Remove(element);
+        //    RemoveLogicalChild(element);
+        //}
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {

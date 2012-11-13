@@ -75,34 +75,34 @@ namespace AvalonDock.Controls
             get { return _model; }
         }
 
-        protected override void OnVisualParentChanged(DependencyObject oldParent)
-        {
-            base.OnVisualParentChanged(oldParent);
+        //protected override void OnVisualParentChanged(DependencyObject oldParent)
+        //{
+        //    base.OnVisualParentChanged(oldParent);
 
-            var contentModel = _model;
+        //    var contentModel = _model;
 
-            if (oldParent != null && contentModel != null && contentModel.Content is UIElement)
-            {
-                var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutAnchorablePaneControl>();
-                if (oldParentPaneControl != null)
-                {
-                    ((ILogicalChildrenContainer)oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
-                }
-            }
+        //    if (oldParent != null && contentModel != null && contentModel.Content is UIElement)
+        //    {
+        //        var oldParentPaneControl = oldParent.FindVisualAncestor<LayoutAnchorablePaneControl>();
+        //        if (oldParentPaneControl != null)
+        //        {
+        //            ((ILogicalChildrenContainer)oldParentPaneControl).InternalRemoveLogicalChild(contentModel.Content);
+        //        }
+        //    }
 
-            if (contentModel.Content != null && contentModel.Content is UIElement)
-            {
-                var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as UIElement)
-                    as ILogicalChildrenContainer;
-                if (oldLogicalParentPaneControl != null)
-                    oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
-            }
+        //    if (contentModel.Content != null && contentModel.Content is UIElement)
+        //    {
+        //        var oldLogicalParentPaneControl = LogicalTreeHelper.GetParent(contentModel.Content as UIElement)
+        //            as ILogicalChildrenContainer;
+        //        if (oldLogicalParentPaneControl != null)
+        //            oldLogicalParentPaneControl.InternalRemoveLogicalChild(contentModel.Content);
+        //    }
 
-            if (contentModel != null && contentModel.Content != null && contentModel.Root != null && contentModel.Content is UIElement)
-            {
-                ((ILogicalChildrenContainer)contentModel.Root.Manager).InternalAddLogicalChild(contentModel.Content);
-            }
-        }
+        //    if (contentModel != null && contentModel.Content != null && contentModel.Root != null && contentModel.Content is UIElement)
+        //    {
+        //        ((ILogicalChildrenContainer)contentModel.Root.Manager).InternalAddLogicalChild(contentModel.Content);
+        //    }
+        //}
 
 
         protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)

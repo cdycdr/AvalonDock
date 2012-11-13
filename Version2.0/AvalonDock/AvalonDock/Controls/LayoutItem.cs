@@ -31,6 +31,7 @@ using AvalonDock.Commands;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace AvalonDock.Controls
 {
@@ -180,8 +181,6 @@ namespace AvalonDock.Controls
             IsActive = LayoutElement.IsActive;
         }
 
-
-
         internal void _ClearDefaultBindings()
         {
             ClearDefaultBindings();
@@ -191,6 +190,26 @@ namespace AvalonDock.Controls
         {
             SetDefaultBindings();
         }
+
+        ContentPresenter _view = null;
+        public ContentPresenter View
+        {
+            get
+            {
+                if (_view == null)
+                {
+                    _view = new ContentPresenter();
+
+                    _view.SetBinding(ContentPresenter.ContentProperty, new Binding("Content") { Source = LayoutElement });
+                    _view.SetBinding(ContentPresenter.ContentTemplateProperty, new Binding("LayoutItemTemplate") { Source =  LayoutElement.Root.Manager});
+                    _view.SetBinding(ContentPresenter.ContentTemplateSelectorProperty, new Binding("LayoutItemTemplateSelector") { Source = LayoutElement.Root.Manager });
+                    LayoutElement.Root.Manager.InternalAddLogicalChild(_view);
+                }
+
+                return _view;
+            }
+        }
+
 
         #region Title
 
@@ -1075,5 +1094,7 @@ namespace AvalonDock.Controls
         }
         #endregion
        
+
+
     }
 }

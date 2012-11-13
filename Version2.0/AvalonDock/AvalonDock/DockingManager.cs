@@ -45,7 +45,7 @@ namespace AvalonDock
 {
     [ContentProperty("Layout")]
     [TemplatePart(Name="PART_AutoHideArea")]
-    public class DockingManager : Control, IOverlayWindowHost, ILogicalChildrenContainer
+    public class DockingManager : Control, IOverlayWindowHost//, ILogicalChildrenContainer
     {
         static DockingManager()
         {
@@ -1075,9 +1075,9 @@ namespace AvalonDock
         protected virtual void OnLayoutRootPanelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+                InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+                InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -1116,9 +1116,9 @@ namespace AvalonDock
         protected virtual void OnRightSidePanelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+                InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+                InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -1157,9 +1157,9 @@ namespace AvalonDock
         protected virtual void OnLeftSidePanelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+                InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+                InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -1198,9 +1198,9 @@ namespace AvalonDock
         protected virtual void OnTopSidePanelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+                InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+                InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -1239,9 +1239,9 @@ namespace AvalonDock
         protected virtual void OnBottomSidePanelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+                InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+                InternalAddLogicalChild(e.NewValue);
         }
 
         #endregion
@@ -1260,7 +1260,7 @@ namespace AvalonDock
         }
 
 
-        void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
+        internal void InternalAddLogicalChild(object element)
         {
             //System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
 #if DEBUG
@@ -1274,7 +1274,7 @@ namespace AvalonDock
             AddLogicalChild(element);
         }
 
-        void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
+        internal void InternalRemoveLogicalChild(object element)
         {
             //System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
 
@@ -1388,9 +1388,9 @@ namespace AvalonDock
         protected virtual void OnAutoHideWindowChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
-                ((ILogicalChildrenContainer)this).InternalRemoveLogicalChild(e.OldValue);
+                InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
+                InternalAddLogicalChild(e.NewValue);
             
         }
 
@@ -3008,7 +3008,7 @@ namespace AvalonDock
                 contentToAttach.Content != null &&
                 contentToAttach.Content is UIElement)
             {
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(contentToAttach.Content);
+                InternalAddLogicalChild(contentToAttach.Content);
             }
 
         }
@@ -3027,7 +3027,7 @@ namespace AvalonDock
                 contentToAttach.Content != null &&
                 contentToAttach.Content is UIElement)
             {
-                ((ILogicalChildrenContainer)this).InternalAddLogicalChild(contentToAttach.Content);
+                InternalAddLogicalChild(contentToAttach.Content);
             }
 
         }

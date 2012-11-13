@@ -27,10 +27,10 @@ using System.Text;
 
 namespace AvalonDock.Controls
 {
-    interface ILogicalChildrenContainer
-    {
-        void InternalAddLogicalChild(object element);
+    //interface ILogicalChildrenContainer
+    //{
+    //    void InternalAddLogicalChild(object element);
 
-        void InternalRemoveLogicalChild(object element);
-    }
+    //    void InternalRemoveLogicalChild(object element);
+    //}
 }

@@ -81,7 +81,7 @@ namespace AvalonDock.Controls
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;
                 _manager = _owner.Model.Root.Manager;
-                ((ILogicalChildrenContainer)_manager).InternalAddLogicalChild(_rootPresenter);
+                _manager.InternalAddLogicalChild(_rootPresenter);
 
                 return new HandleRef(this, _wpfContentHost.Handle);
             }
@@ -94,7 +94,7 @@ namespace AvalonDock.Controls
             }
             protected override void DestroyWindowCore(HandleRef hwnd)
             {
-                ((ILogicalChildrenContainer)_manager).InternalRemoveLogicalChild(_rootPresenter);
+                _manager.InternalRemoveLogicalChild(_rootPresenter);
                 if (_wpfContentHost != null)
                 {
                     _wpfContentHost.Dispose();

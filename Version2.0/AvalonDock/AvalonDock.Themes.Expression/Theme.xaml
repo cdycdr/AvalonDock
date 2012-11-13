@@ -692,9 +692,10 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter Content="{Binding Model.Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                        <ContentPresenter Content="{Binding LayoutItem.View, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <!--<ContentPresenter Content="{Binding Model.Content, RelativeSource={RelativeSource TemplatedParent}}" 
                                           ContentTemplate="{Binding LayoutItemTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
-                                          ContentTemplateSelector="{Binding LayoutItemTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
+                                          ContentTemplateSelector="{Binding LayoutItemTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>-->
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -822,11 +823,16 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <ContentPresenter 
+                            <!--<ContentPresenter 
                                 Content="{Binding Model.Content, RelativeSource={RelativeSource TemplatedParent}}" 
                                 ContentTemplate="{Binding LayoutItemTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                 ContentTemplateSelector="{Binding LayoutItemTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
-                                />
+                                />-->
+                            <ContentPresenter 
+                                Grid.Row="1"
+                                FlowDirection="{TemplateBinding FlowDirection}"
+                                Content="{Binding LayoutItem.View, RelativeSource={RelativeSource TemplatedParent}}"/>
+
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -1142,12 +1148,18 @@
                                                         DropDownContextMenuDataContext="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </Grid>
                                         </Grid>
-
                                         <ContentPresenter 
+                                            Grid.Row="1"
+                                            FlowDirection="{TemplateBinding FlowDirection}"
+                                            Content="{Binding LayoutItem.View, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+
+                                        <!--<ContentPresenter 
                                             Content="{Binding Model.Content, RelativeSource={RelativeSource TemplatedParent}}" 
                                             ContentTemplate="{Binding LayoutItemTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                             ContentTemplateSelector="{Binding LayoutItemTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
-                                            Grid.Row="1"/>
+                                            Grid.Row="1"/>-->
+                                        
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
