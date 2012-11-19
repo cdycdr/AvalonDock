@@ -38,7 +38,8 @@ namespace AvalonDock.Controls
 
 
         public MenuItemEx()
-        { }
+        {
+        }
 
         #region IconTemplate
 

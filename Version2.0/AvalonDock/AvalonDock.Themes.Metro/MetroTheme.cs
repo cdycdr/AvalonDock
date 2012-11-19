@@ -25,12 +25,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock.Controls
+namespace AvalonDock.Themes
 {
-    //interface ILogicalChildrenContainer
-    //{
-    //    void InternalAddLogicalChild(object element);
-
-    //    void InternalRemoveLogicalChild(object element);
-    //}
+    public class MetroTheme : Theme
+    {
+        public override Uri GetResourceUri()
+        {
+            return new Uri(
+                "/AvalonDock.Themes.Metro;component/Theme.xaml", 
+                UriKind.Relative);  
+        }
+    }
 }

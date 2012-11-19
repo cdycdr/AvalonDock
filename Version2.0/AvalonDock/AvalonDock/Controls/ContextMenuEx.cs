@@ -26,11 +26,21 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows;
 
 namespace AvalonDock.Controls
 {
     public class ContextMenuEx : ContextMenu
     {
+        static ContextMenuEx()
+        {
+        }
+
+        public ContextMenuEx()
+        {
+
+        }
+
         protected override System.Windows.DependencyObject GetContainerForItemOverride()
         {
             return new MenuItemEx();

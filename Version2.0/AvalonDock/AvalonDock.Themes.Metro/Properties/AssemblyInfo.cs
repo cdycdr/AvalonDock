@@ -8,12 +8,12 @@ using System.Windows.Markup;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AvalonDock.Themes.Aero")]
+[assembly: AssemblyTitle("AvalonDock.Themes.Metro")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AvalonDock.Themes.Aero")]
-[assembly: AssemblyCopyright("Copyright © 2007-2012, Adolfo Marinucci")]
+[assembly: AssemblyProduct("AvalonDock.Themes.Metro")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
