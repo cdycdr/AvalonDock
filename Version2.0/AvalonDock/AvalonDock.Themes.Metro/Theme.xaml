@@ -195,7 +195,7 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
                                 <Grid SnapsToDevicePixels="true"
-                                       Margin="4">
+                                       Margin="0,4,4,4">
                                     <Border x:Name="Bd" 
                                           BorderBrush="{TemplateBinding BorderBrush}"
    				                          BorderThickness="0,3,0,0" 

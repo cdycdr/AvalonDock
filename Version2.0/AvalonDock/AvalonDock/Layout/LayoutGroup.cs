@@ -142,6 +142,12 @@ namespace AvalonDock.Layout
             if (oldIndex == newIndex)
                 return;
             _children.Move(oldIndex, newIndex);
+            ChildMoved(oldIndex, newIndex);
+        }
+
+        protected virtual void ChildMoved(int oldIndex, int newIndex)
+        { 
+        
         }
 
         public void RemoveChildAt(int childIndex)

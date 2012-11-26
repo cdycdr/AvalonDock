@@ -81,6 +81,18 @@ namespace AvalonDock.Layout
             }
         }
 
+        protected override void ChildMoved(int oldIndex, int newIndex)
+        {
+            if (_selectedIndex == oldIndex)
+            {
+                RaisePropertyChanging("SelectedContentIndex");
+                _selectedIndex = newIndex;
+                RaisePropertyChanged("SelectedContentIndex");
+            }
+
+
+            base.ChildMoved(oldIndex, newIndex);
+        }
 
         public LayoutContent SelectedContent
         {
