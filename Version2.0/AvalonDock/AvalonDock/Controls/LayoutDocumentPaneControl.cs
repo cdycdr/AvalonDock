@@ -63,13 +63,10 @@ namespace AvalonDock.Controls
         {
             base.OnGotKeyboardFocus(e);
             System.Diagnostics.Debug.WriteLine("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus);
-            //if (!e.Handled && e.NewFocus is TabItem)
-            //{
-            //    FocusElementManager.SetFocusOnLastElement(_model.SelectedContent);
-            //    e.Handled = true;
-            //}
-            if (_model.SelectedContent != null)
-                _model.SelectedContent.IsActive = true;
+
+
+            //if (_model.SelectedContent != null)
+            //    _model.SelectedContent.IsActive = true;
 
         }
 
@@ -97,24 +94,6 @@ namespace AvalonDock.Controls
         {
             get { return _model; }
         }
-
-        //void ILogicalChildrenContainer.InternalAddLogicalChild(object element)
-        //{
-        //    if (_logicalChildren.Contains(element))
-        //        throw new InvalidOperationException();
-
-        //    _logicalChildren.Add(element);
-        //    AddLogicalChild(element);
-        //}
-
-        //void ILogicalChildrenContainer.InternalRemoveLogicalChild(object element)
-        //{
-        //    if (!_logicalChildren.Contains(element))
-        //        throw new InvalidOperationException();
-
-        //    _logicalChildren.Remove(element);
-        //    RemoveLogicalChild(element);
-        //}
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {
