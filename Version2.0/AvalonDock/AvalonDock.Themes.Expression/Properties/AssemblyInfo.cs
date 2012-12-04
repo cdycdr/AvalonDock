@@ -67,7 +67,7 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.1745")]
-[assembly: AssemblyFileVersion("2.0.1745")]
+[assembly: AssemblyVersion("2.0.1746")]
+[assembly: AssemblyFileVersion("2.0.1746")]
 
 [assembly: XmlnsDefinition("http://avalondock.codeplex.com", "AvalonDock.Themes")]
