@@ -1024,7 +1024,7 @@
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
-                    ResizeBorderThickness="3"
+                    ResizeBorderThickness="10"
                     CaptionHeight="18"
                     CornerRadius="3"
                     GlassFrameThickness="0"
@@ -1186,7 +1186,7 @@
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
-                    ResizeBorderThickness="3"
+                    ResizeBorderThickness="10"
                     CaptionHeight="18"
                     CornerRadius="7"
                     GlassFrameThickness="0"/>
@@ -1430,7 +1430,7 @@
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome
-                    ResizeBorderThickness="3"
+                    ResizeBorderThickness="10"
                     CaptionHeight="16"
                     CornerRadius="3,3,3,3"
                     GlassFrameThickness="4"/>

@@ -29,8 +29,28 @@ namespace AvalonDock.MVVMTestApp
             InitializeComponent();
 
             this.DataContext = Workspace.This;
+
+            this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+            this.Unloaded += new RoutedEventHandler(MainWindow_Unloaded);
         }
 
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var serializer = new AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
+            serializer.LayoutSerializationCallback += (s, args) =>
+            {
+                args.Content = args.Content;
+            };
+
+            if (File.Exists(@".\AvalonDock.config"))
+                serializer.Deserialize(@".\AvalonDock.config");
+        }
+
+        void MainWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var serializer = new AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
+            serializer.Serialize(@".\AvalonDock.config");
+        }
 
         #region LoadLayoutCommand
         RelayCommand _loadLayoutCommand = null;

@@ -28,6 +28,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace AvalonDock.Layout
 {
@@ -123,5 +124,52 @@ namespace AvalonDock.Layout
             Debug.Fail("Unable to find the side for an element, possible layout problem!");
             return AnchorSide.Right;
         }
+
+
+        internal static void KeepInsideNearestMonitor(this ILayoutElementForFloatingWindow paneInsideFloatingWindow)
+        {
+            Win32Helper.RECT r = new Win32Helper.RECT();
+            r.Left = (int)paneInsideFloatingWindow.FloatingLeft;
+            r.Top = (int)paneInsideFloatingWindow.FloatingTop;
+            r.Bottom = r.Top + (int)paneInsideFloatingWindow.FloatingHeight;
+            r.Right = r.Left + (int)paneInsideFloatingWindow.FloatingWidth;
+
+            uint MONITOR_DEFAULTTONEAREST = 0x00000002;
+            uint MONITOR_DEFAULTTONULL = 0x00000000;
+
+            System.IntPtr monitor = Win32Helper.MonitorFromRect(ref r, MONITOR_DEFAULTTONULL);
+            if (monitor == System.IntPtr.Zero)
+            {
+                System.IntPtr nearestmonitor = Win32Helper.MonitorFromRect(ref r, MONITOR_DEFAULTTONEAREST);
+                if (nearestmonitor != System.IntPtr.Zero)
+                {
+                    Win32Helper.MonitorInfo monitorInfo = new Win32Helper.MonitorInfo();
+                    monitorInfo.Size = Marshal.SizeOf(monitorInfo);
+                    Win32Helper.GetMonitorInfo(nearestmonitor, monitorInfo);
+
+                    if (paneInsideFloatingWindow.FloatingLeft < monitorInfo.Work.Left)
+                    {
+                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.Work.Left + 10;
+                    }
+
+                    if (paneInsideFloatingWindow.FloatingLeft + paneInsideFloatingWindow.FloatingWidth > monitorInfo.Work.Right)
+                    {
+                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.Work.Right - (paneInsideFloatingWindow.FloatingWidth + 10);
+                    }
+
+                    if (paneInsideFloatingWindow.FloatingTop < monitorInfo.Work.Top)
+                    {
+                        paneInsideFloatingWindow.FloatingTop = monitorInfo.Work.Top + 10;
+                    }
+
+                    if (paneInsideFloatingWindow.FloatingTop + paneInsideFloatingWindow.FloatingHeight > monitorInfo.Work.Bottom)
+                    {
+                        paneInsideFloatingWindow.FloatingTop = monitorInfo.Work.Bottom - (paneInsideFloatingWindow.FloatingHeight + 10);
+                    }
+                }
+            }
+
+        }
+
     }
 }

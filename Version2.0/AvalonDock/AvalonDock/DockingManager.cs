@@ -272,8 +272,10 @@ namespace AvalonDock
             SetupAutoHideWindow();
         }
 
-        void DockingManager_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnInitialized(EventArgs e)
         {
+            base.OnInitialized(e);
+
             if (Layout.Manager == this)
             {
                 LayoutRootPanel = CreateUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
@@ -281,25 +283,24 @@ namespace AvalonDock
                 TopSidePanel = CreateUIElementForModel(Layout.TopSide) as LayoutAnchorSideControl;
                 RightSidePanel = CreateUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
                 BottomSidePanel = CreateUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
-                if (!DesignerProperties.GetIsInDesignMode(this))
-                {
-                    foreach (var fw in Layout.FloatingWindows)
-                        _fwList.Add(CreateUIElementForModel(fw) as LayoutFloatingWindowControl);
-                }
             }
 
+
+        }
+
+        void DockingManager_Loaded(object sender, RoutedEventArgs e)
+        {
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                foreach (var fw in _fwList)
-                {
-                    //fw.Owner = Window.GetWindow(this);
-                    //fw.SetParentToMainWindowOf(this);
-                }
+                //load windows not already loaded!
+                foreach (var fw in Layout.FloatingWindows.Where(fw => !_fwList.Any(fwc => fwc.Model == fw)))
+                    _fwList.Add(CreateUIElementForModel(fw) as LayoutFloatingWindowControl);
+
                 //create the overlaywindow if it's possible
                 if (IsVisible)
                     CreateOverlayWindow();
                 FocusElementManager.SetupFocusManagement(this);
-            } 
+            }
         }
 
         void DockingManager_Unloaded(object sender, RoutedEventArgs e)
@@ -371,6 +372,9 @@ namespace AvalonDock
                 var paneForExtentions = modelFW.RootPanel.Children.OfType<LayoutAnchorablePane>().FirstOrDefault();
                 if (paneForExtentions != null)
                 {
+                    //ensure that floating window position is inside current (or nearest) monitor
+                    paneForExtentions.KeepInsideNearestMonitor();
+
                     newFW.Left = paneForExtentions.FloatingLeft;
                     newFW.Top = paneForExtentions.FloatingTop;
                     newFW.Width = paneForExtentions.FloatingWidth;
@@ -396,6 +400,9 @@ namespace AvalonDock
                 var paneForExtentions = modelFW.RootDocument;
                 if (paneForExtentions != null)
                 {
+                    //ensure that floating window position is inside current (or nearest) monitor
+                    paneForExtentions.KeepInsideNearestMonitor();
+                    
                     newFW.Left = paneForExtentions.FloatingLeft;
                     newFW.Top = paneForExtentions.FloatingTop;
                     newFW.Width = paneForExtentions.FloatingWidth;

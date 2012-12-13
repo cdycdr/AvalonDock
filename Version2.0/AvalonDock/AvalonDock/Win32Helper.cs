@@ -390,5 +390,77 @@ namespace AvalonDock
             return new IntPtr(GetWindowLong(childHandle, -8));
         }
 
+
+        //Monitor Patch #13440
+        
+        /// <summary>
+        /// The MonitorFromRect function retrieves a handle to the display monitor that 
+        /// has the largest area of intersection with a specified rectangle.
+        /// </summary>
+        /// <param name="lprc">Pointer to a RECT structure that specifies the rectangle of interest in 
+        /// virtual-screen coordinates</param>
+        /// <param name="dwFlags">Determines the function's return value if the rectangle does not intersect 
+        /// any display monitor</param>
+        /// <returns>
+        /// If the rectangle intersects one or more display monitor rectangles, the return value 
+        /// is an HMONITOR handle to the display monitor that has the largest area of intersection with the rectangle.
+        /// If the rectangle does not intersect a display monitor, the return value depends on the value of dwFlags.
+        /// </returns>
+        [DllImport("user32.dll")]
+        public static extern IntPtr MonitorFromRect([In] ref RECT lprc, uint dwFlags);
+
+        /// <summary>
+        /// The MonitorFromWindow function retrieves a handle to the display monitor that has the largest area of intersection with the bounding rectangle of a specified window. 
+        /// </summary>
+        /// <param name="hwnd">A handle to the window of interest.</param>
+        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
+        /// <returns>If the window intersects one or more display monitor rectangles, the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window. 
+        /// If the window does not intersect a display monitor, the return value depends on the value of dwFlags.
+        /// </returns>
+        [DllImport("user32.dll")]
+        public static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+
+
+        /// <summary>
+        /// The MONITORINFO structure contains information about a display monitor.
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public class MonitorInfo
+        {
+            /// <summary>
+            /// The size of the structure, in bytes. 
+            /// </summary>
+            public int Size = Marshal.SizeOf(typeof(MonitorInfo));
+            /// <summary>
+            /// A RECT structure that specifies the display monitor rectangle, expressed 
+            /// in virtual-screen coordinates. 
+            /// Note that if the monitor is not the primary display monitor, 
+            /// some of the rectangle's coordinates may be negative values. 
+            /// </summary>
+            public RECT Monitor;
+            /// <summary>
+            /// A RECT structure that specifies the work area rectangle of the display monitor, 
+            /// expressed in virtual-screen coordinates. Note that if the monitor is not the primary 
+            /// display monitor, some of the rectangle's coordinates may be negative values.
+            /// </summary>
+            public RECT Work;
+            /// <summary>
+            /// A set of flags that represent attributes of the display monitor. 
+            /// </summary>
+            public uint Flags;
+        }
+
+        /// <summary>
+        /// The GetMonitorInfo function retrieves information about a display monitor. 
+        /// </summary>
+        /// <param name="hMonitor">Handle to the display monitor of interest.</param>
+        /// <param name="lpmi">Pointer to a MONITORINFO or MONITORINFOEX structure that receives 
+        /// information about the specified display monitor</param>
+        /// <returns>If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.</returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetMonitorInfo(IntPtr hMonitor, [In, Out] MonitorInfo lpmi);
+
     }
 }

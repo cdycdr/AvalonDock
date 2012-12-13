@@ -27,6 +27,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using System.Runtime.InteropServices;
 
 namespace AvalonDock.Controls
 {
@@ -120,7 +121,6 @@ namespace AvalonDock.Controls
             while (target != null && !(target is T));
             return target as T;
         }
-
 
     }
 }
