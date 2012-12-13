@@ -24,13 +24,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace AvalonDock.Layout.Serialization
 {
-    public class LayoutSerializationCallbackEventArgs : EventArgs
+    public class LayoutSerializationCallbackEventArgs : CancelEventArgs
     {
         public LayoutSerializationCallbackEventArgs(LayoutContent model, object previousContent)
         {
+            Cancel = false;
             Model = model;
             Content = previousContent;
         }
