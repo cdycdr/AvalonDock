@@ -1,27 +1,18 @@
-//Copyright (c) 2007-2010, Adolfo Marinucci
-//All rights reserved.
+﻿/************************************************************************
 
-//Redistribution and use in source and binary forms, with or without modification, 
-//are permitted provided that the following conditions are met:
-//
-//* Redistributions of source code must retain the above copyright notice, 
-//  this list of conditions and the following disclaimer.
-//* Redistributions in binary form must reproduce the above copyright notice, 
-//  this list of conditions and the following disclaimer in the documentation 
-//  and/or other materials provided with the distribution.
-//* Neither the name of Adolfo Marinucci nor the names of its contributors may 
-//  be used to endorse or promote products derived from this software without 
-//  specific prior written permission.
-//
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-//AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-//WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-//IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-//INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
-//PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
-//HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-//OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
-//EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -100,12 +91,12 @@ namespace AvalonDock
         { 
             SetContainsActiveDocument(
                 Items.Cast<ManagedContent>().FirstOrDefault(d => d.IsActiveDocument) != null);
-            
+
             if (Items.Count > 0)
                 Debug.WriteLine(string.Format("{0} ContainsActiveDocument ={1}", (Items[0] as ManagedContent).Title, ContainsActiveDocument));
         }
 
-        
+
         /// <summary>
         /// ContainsActiveDocument Read-Only Dependency Property
         /// </summary>
@@ -154,7 +145,7 @@ namespace AvalonDock
         }
 
         #endregion
-     
+
         protected override void OnInitialized(EventArgs e)
         {
             this.CommandBindings.Add(
@@ -172,7 +163,7 @@ namespace AvalonDock
 
         #region DocumentPane Commands
 
-        //#region Show Document Window List Command
+        // #region Show Document Window List Command
 
         //public static RoutedCommand ShowDocumentsListMenuCommand = new RoutedCommand();
 
@@ -190,9 +181,9 @@ namespace AvalonDock
         //    e.CanExecute = true;
         //}
 
-        //#endregion
+        // #endregion
 
-        //#region Close Command
+        // #region Close Command
 
         ////ApplicationCommands.Close command....
 
@@ -208,7 +199,7 @@ namespace AvalonDock
         //    e.CanExecute = true;
         //}
 
-        //#endregion
+        // #endregion
 
         #region Commands
 
@@ -301,7 +292,7 @@ namespace AvalonDock
             var activeContent = SelectedItem as ManagedContent;
             var oldContainerPane = activeContent.ContainerPane as DocumentPane;
             var newContainerPane = new DocumentPane();
-            
+
             oldContainerPane.RemoveContent(activeContent);
             newContainerPane.Items.Add(activeContent);
 
@@ -326,7 +317,7 @@ namespace AvalonDock
             newContainerPane.Items.Add(activeContent);
 
             GetManager().Anchor(newContainerPane, this, AnchorStyle.Right);
-            
+
             activeContent.Activate();
             newContainerPane.RefreshContainsActiveContentProperty();
             newContainerPane.RefreshContainsActiveDocumentProperty();
@@ -395,7 +386,7 @@ namespace AvalonDock
                     cxMenuDocuments.Placement = PlacementMode.MousePoint;
                     cxMenuDocuments.PlacementTarget = this;
                 }
-                
+
                 cxMenuDocuments.IsOpen = true;
                 cxMenuDocuments.Closed += new RoutedEventHandler(cxMenuDocuments_Closed);
             }
@@ -470,7 +461,7 @@ namespace AvalonDock
         internal DocumentPaneResizingPanel GetParentDocumentPaneResizingPanel()
         {
             ResizingPanel parentPanel = LogicalTreeHelper.GetParent(this) as ResizingPanel;
-            
+
             if (parentPanel == null)
                 return null;
 
@@ -625,7 +616,7 @@ namespace AvalonDock
             {
                 cxOptions = TryFindResource(new ComponentResourceKey(typeof(DockingManager), ContextMenuElement.DocumentPane)) as ContextMenu;
             }
-           
+
             return base.OpenOptionsMenu(menuTarget);
         }
     }

@@ -1,8 +1,24 @@
-﻿<ResourceDictionary 
+﻿<!--***********************************************************************************
+
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************************-->
+
+<ResourceDictionary 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ad="clr-namespace:AvalonDock">
-    
+
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="/AvalonDock;component/themes/generic.xaml"/>
 
@@ -145,7 +161,7 @@
                                 >
 								<ContentPresenter 
                                     x:Name="PART_SelectedContent"
-                                    
+
                                     Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedItem.Content}"
 								    KeyboardNavigation.TabNavigation="Local"
 								    KeyboardNavigation.DirectionalNavigation="Contained"
@@ -209,7 +225,7 @@
     <Style x:Key="{x:Type ad:FloatingDockablePane}" TargetType="{x:Type ad:FloatingDockablePane}" BasedOn="{StaticResource {x:Type ad:DockablePane}}">
 
     </Style>
-    
+
     <!--DocumentTabItemStyle-->
     <Style x:Key="DocumentTabItemStyle" TargetType="{x:Type ad:ManagedContent}">
         <Setter Property="Background"
@@ -272,7 +288,7 @@
                                     />
                             <Setter Property="BorderBrush" TargetName="tabItemIntBorder" Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorder}}}"/>
                             <Setter Property="Stroke" TargetName="tabItemIntPathBorder" Value="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderBorder}}}"/>
-                           
+
                         </Trigger>
                         <DataTrigger Binding="{Binding Path=IsActiveDocument, RelativeSource={RelativeSource Self}}" Value="True">
                             <Setter Property="TextBlock.FontWeight" TargetName="tabItemTitle" Value="Bold"/>

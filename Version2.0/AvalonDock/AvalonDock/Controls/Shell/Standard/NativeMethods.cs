@@ -509,7 +509,7 @@ namespace Standard
         SETMOUSESPEED       = 0x0071,
         GETSCREENSAVERRUNNING = 0x0072,
         GETDESKWALLPAPER    = 0x0073,
-    
+
         GETAUDIODESCRIPTION = 0x0074,
         SETAUDIODESCRIPTION = 0x0075,
 
@@ -542,7 +542,7 @@ namespace Standard
         SETSNAPSIZING             = 0x008F,
         GETDOCKMOVING             = 0x0090,
         SETDOCKMOVING             = 0x0091,
-        
+
         GETACTIVEWINDOWTRACKING       = 0x1000,
         SETACTIVEWINDOWTRACKING       = 0x1001,
         GETMENUANIMATION              = 0x1002,
@@ -583,10 +583,10 @@ namespace Standard
         SETDROPSHADOW                 = 0x1025,
         GETBLOCKSENDINPUTRESETS       = 0x1026,
         SETBLOCKSENDINPUTRESETS       = 0x1027,
-        
+
         GETUIEFFECTS                  = 0x103E,
         SETUIEFFECTS                  = 0x103F,
-        
+
         GETDISABLEOVERLAPPEDCONTENT   = 0x1040,
         SETDISABLEOVERLAPPEDCONTENT   = 0x1041,
         GETCLIENTAREAANIMATION        = 0x1042,
@@ -595,7 +595,7 @@ namespace Standard
         SETCLEARTYPE                  = 0x1049,
         GETSPEECHRECOGNITION          = 0x104A,
         SETSPEECHRECOGNITION          = 0x104B,
-        
+
         GETFOREGROUNDLOCKTIMEOUT      = 0x2000,
         SETFOREGROUNDLOCKTIMEOUT      = 0x2001,
         GETACTIVEWNDTRKTIMEOUT        = 0x2002,
@@ -604,7 +604,7 @@ namespace Standard
         SETFOREGROUNDFLASHCOUNT       = 0x2005,
         GETCARETWIDTH                 = 0x2006,
         SETCARETWIDTH                 = 0x2007,
-        
+
         GETMOUSECLICKLOCKTIME         = 0x2008,
         SETMOUSECLICKLOCKTIME         = 0x2009,
         GETFONTSMOOTHINGTYPE          = 0x200A,
@@ -2452,7 +2452,7 @@ namespace Standard
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("gdi32.dll")]
         public static extern CombineRgnResult CombineRgn(IntPtr hrgnDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, RGN fnCombineMode);
-        
+
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("shell32.dll", EntryPoint = "CommandLineToArgvW", CharSet = CharSet.Unicode)]
         private static extern IntPtr _CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string cmdLine, out int numArgs);
@@ -3387,7 +3387,7 @@ namespace Standard
         }
 
 
-        //#define DWM_SIT_DISPLAYFRAME    0x00000001  // Display a window frame around the provided bitmap
+        // #define DWM_SIT_DISPLAYFRAME    0x00000001  // Display a window frame around the provided bitmap
 
         [DllImport("dwmapi.dll", EntryPoint="DwmGetCompositionTimingInfo")]
         private static extern HRESULT _DwmGetCompositionTimingInfo(IntPtr hwnd, ref DWM_TIMING_INFO pTimingInfo);

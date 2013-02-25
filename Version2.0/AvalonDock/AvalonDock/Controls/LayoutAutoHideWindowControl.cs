@@ -1,24 +1,18 @@
-﻿//Copyright (c) 2007-2012, Adolfo Marinucci
-//All rights reserved.
+﻿/************************************************************************
 
-//Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
-//following conditions are met:
+   AvalonDock
 
-//* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+   Copyright (C) 2007-2013 Xceed Software Inc.
 
-//* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
-//disclaimer in the documentation and/or other materials provided with the distribution.
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
 
-//* Neither the name of Adolfo Marinucci nor the names of its contributors may be used to endorse or promote products
-//derived from this software without specific prior written permission.
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
 
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-//INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-//IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
-//EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-//LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-//STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
-//EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -76,7 +70,7 @@ namespace AvalonDock.Controls
                 return;
 
             _model.PropertyChanged -= new System.ComponentModel.PropertyChangedEventHandler(_model_PropertyChanged);
-            
+
             RemoveInternalGrid();
             _anchor = null;
             _model = null;
@@ -176,15 +170,15 @@ namespace AvalonDock.Controls
 
             _internalHost = new LayoutAnchorableControl() { Model = _model, Style = AnchorableStyle };
             _internalHost.SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
-            
+
             KeyboardNavigation.SetTabNavigation(_internalGrid, KeyboardNavigationMode.Cycle);
-            
+
             _resizer = new LayoutGridResizerControl();
 
             _resizer.DragStarted += new System.Windows.Controls.Primitives.DragStartedEventHandler(OnResizerDragStarted);
             _resizer.DragDelta += new System.Windows.Controls.Primitives.DragDeltaEventHandler(OnResizerDragDelta);
             _resizer.DragCompleted += new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnResizerDragCompleted);
-            
+
             if (_side == AnchorSide.Right)
             {
                 _internalGrid.ColumnDefinitions.Add(new ColumnDefinition(){ Width = new GridLength(_manager.GridSplitterWidth)});
@@ -193,7 +187,7 @@ namespace AvalonDock.Controls
 
                 Grid.SetColumn(_resizer, 0);
                 Grid.SetColumn(_internalHost, 1);
-                
+
                 _resizer.Cursor = Cursors.SizeWE;
 
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
@@ -254,7 +248,7 @@ namespace AvalonDock.Controls
             _internalGrid.Children.Add(_internalHost);
             _internalHostPresenter.Content = _internalGrid;
         }
-    
+
         void RemoveInternalGrid()
         {
             _resizer.DragStarted -= new System.Windows.Controls.Primitives.DragStartedEventHandler(OnResizerDragStarted);

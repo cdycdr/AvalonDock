@@ -1,4 +1,20 @@
-﻿using System;
+﻿/************************************************************************
+
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
+
+using System;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,7 +97,7 @@ namespace AvalonDockTest
 
             //CommandManager.AddPreviewCanExecuteHandler(_dockingManager, new CanExecuteRoutedEventHandler(OnCanExecuteCommand));
             CommandManager.AddPreviewExecutedHandler(_dockingManager, new ExecutedRoutedEventHandler(ExecuteCommand));
-           
+
         }
 
         void ExecuteCommand(object sender, ExecutedRoutedEventArgs e)
@@ -99,14 +115,14 @@ namespace AvalonDockTest
             {
                 if (sender == _dockingManager )
                 { 
-                
+
                 }
             }
         }
 
         void _PropGridHost_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            
+
         }
 
 
@@ -115,7 +131,7 @@ namespace AvalonDockTest
             int i = 1;
 
             IEnumerable<DemoDocument> docs = _dockingManager.Documents.Cast<DemoDocument>().Where<DemoDocument>(d => d.IsChanged);
-            
+
 
             int baseCount = _dockingManager.Documents.Length;
             while (i <= 4)
@@ -257,7 +273,7 @@ namespace AvalonDockTest
         {
             if (_dockingManager != null)
                 _dockingManager.PropertyChanged -= new PropertyChangedEventHandler(_dockingManager_PropertyChanged);
-            
+
             DependencyPropertyDescriptor prop =
                 DependencyPropertyDescriptor.FromProperty(DockableContent.StatePropertyKey.DependencyProperty, typeof(DockableContent));
             prop.RemoveValueChanged(_propertiesWindow, this.OnLogEventStateChanged);
@@ -315,7 +331,7 @@ namespace AvalonDockTest
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
- 
+
 
         }
 

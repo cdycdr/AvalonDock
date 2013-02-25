@@ -4,7 +4,7 @@
   <?define ProductShortName = "AvalonDock" ?>
   <?define ProductVersion = "1.2.2689" ?>
   <?define ProductVersionText = "1.2 (Build 2689)" ?>
-  <?define Manufacturer = "Adolfo Marinucci" ?>
+  <?define Manufacturer = "Xceed Software Inc." ?>
   <?define UpgradeCode = "2A6BB7EF-1411-4104-972F-ED81CBEA73C4" ?>
   <?define ToolboxControlsInstallerPackageGuid = "{2c298b35-07da-45f1-96a3-be55d91c8d7a}" ?>
   <?define AssemblyFolders = "Software\Microsoft\.NETFramework\AssemblyFolders" ?>

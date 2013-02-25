@@ -1,24 +1,18 @@
-﻿//Copyright (c) 2007-2012, Adolfo Marinucci
-//All rights reserved.
+﻿/************************************************************************
 
-//Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
-//following conditions are met:
+   AvalonDock
 
-//* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+   Copyright (C) 2007-2013 Xceed Software Inc.
 
-//* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
-//disclaimer in the documentation and/or other materials provided with the distribution.
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
 
-//* Neither the name of Adolfo Marinucci nor the names of its contributors may be used to endorse or promote products
-//derived from this software without specific prior written permission.
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
 
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-//INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-//IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
-//EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-//LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-//STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
-//EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -157,7 +151,7 @@ namespace AvalonDock.Layout
                     bool oldValue = _isActive;
 
                     _isActive = value;
-                    
+
                     var root = Root;
                     if (root != null && _isActive)
                         root.ActiveContent = this;
@@ -297,7 +291,7 @@ namespace AvalonDock.Layout
 
             //if (root != null && _isActive && newValue == null)
             //    root.ActiveContent = null;
-            
+
             base.OnParentChanging(oldValue, newValue);
         }
 
@@ -423,7 +417,7 @@ namespace AvalonDock.Layout
 
             //if (IconSource != null)
             //    writer.WriteAttributeString("IconSource", IconSource.ToString());
-            
+
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
 
@@ -432,7 +426,7 @@ namespace AvalonDock.Layout
 
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
-          
+
 
             if (ToolTip != null && ToolTip is string)
                 if (!string.IsNullOrWhiteSpace((string)ToolTip))
@@ -453,7 +447,7 @@ namespace AvalonDock.Layout
                 writer.WriteAttributeString("CanClose", CanClose.ToString());
             if (!CanFloat)
                 writer.WriteAttributeString("CanFloat", CanFloat.ToString());
-        
+
             if (LastActivationTimeStamp != null)
                 writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
 
@@ -699,7 +693,7 @@ namespace AvalonDock.Layout
                 var currentContainer = Parent as ILayoutContainer;
                 var currentContainerIndex = (currentContainer is ILayoutGroup) ? (currentContainer as ILayoutGroup).IndexOfChild(this) : -1;
                 var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
-                
+
                 if (PreviousContainerIndex < previousContainerAsLayoutGroup.ChildrenCount)
                     previousContainerAsLayoutGroup.InsertChildAt(PreviousContainerIndex, this);
                 else
@@ -724,14 +718,14 @@ namespace AvalonDock.Layout
                 InternalDock();
             }
 
-                
+
             Root.CollectGarbage();
 
         }
 
         protected virtual void InternalDock()
         { 
-        
+
         }
 
 

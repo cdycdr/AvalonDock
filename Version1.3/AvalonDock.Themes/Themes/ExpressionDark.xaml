@@ -1,4 +1,20 @@
-﻿<ResourceDictionary    
+﻿<!--***********************************************************************************
+
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************************-->
+
+<ResourceDictionary    
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
@@ -10,7 +26,7 @@
         <ResourceDictionary Source="/AvalonDock;component/themes/generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    
+
     <!--Default brushes-->
     <!-- ManagedContentTabControlNormalBorderBrush -->
     <SolidColorBrush x:Key="ManagedContentTabControlNormalBorderBrush"
@@ -23,7 +39,7 @@
 
     <!--Foregroung Colors-->
     <SolidColorBrush x:Key="LightForegroundBrush" Color="White"/>
-    
+
     <SolidColorBrush x:Key="DarkForegroundBrush" Color="Black"/>
 
     <!--Brushes for tab item header-->
@@ -65,7 +81,7 @@
     <!-- ManagedContentTabItemDisabledBackground -->
     <SolidColorBrush x:Key="ManagedContentTabItemDisabledBackground"
                      Color="#FFF5F4EA"/>
-    
+
     <!-- ManagedContentTabItemSelectedBorderBackround -->
     <SolidColorBrush x:Key="ManagedContentTabItemSelectedBorderBackround" 
                      Color="White"/>
@@ -77,7 +93,7 @@
     <!--ManagedContentTabItemSelectedBorderBrush -->
     <SolidColorBrush x:Key="ManagedContentTabItemSelectedBorderBrush"
                      Color="White"/>
-    
+
     <!--ManagedContentTabItemHotBorderBrush -->
     <SolidColorBrush x:Key="ManagedContentTabItemHotBorderBrush"
                      Color="White"/>
@@ -100,7 +116,7 @@
     <!--DockablePaneTitleBackground-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:AvalonDockBrushes.DockablePaneTitleBackground}}"
                      Color="Transparent"/>
-    
+
     <!--DockablePaneTitleForeground-->
     <SolidColorBrush 
         x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:AvalonDockBrushes.DockablePaneTitleForeground}}" 
@@ -115,7 +131,7 @@
     <!--DocumentHeaderBackground-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:AvalonDockBrushes.DocumentHeaderBackground}}" 
                      Color="#333333"/>
-        
+
     <!--DocumentHeaderBorderBrushMouseOver-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:AvalonDockBrushes.DocumentHeaderBorderBrushMouseOver}}" 
                      Color="#595959"/>
@@ -197,7 +213,7 @@
     <SolidColorBrush 
         x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:AvalonDockBrushes.DocumentHeaderBorderSelected}}" 
         Color="#CED4DF"/>
-    
+
     <!--DocumentHeaderBorderSelectedActivated-->
     <SolidColorBrush 
         x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type ad:DockingManager}, ResourceId={x:Static ad:AvalonDockBrushes.DocumentHeaderBorderSelectedActivated}}" 
@@ -283,7 +299,7 @@
 						    x:Name="PART_DragArea" 
                             Background="{StaticResource ManagedContentTabItemNormalBackground}"   
                             CornerRadius="3,0,0,0"
-                            
+
                             >
                             <Grid Margin="4,2,4,2">
                                 <Grid.ColumnDefinitions>
@@ -460,7 +476,7 @@
         </Setter>
 
     </Style>
-    
+
     <!--DocumentTabItemStyle-->
     <Style x:Key="DocumentTabItemStyle" TargetType="{x:Type ad:ManagedContent}">
         <Setter Property="Template">
@@ -489,7 +505,7 @@
 							        Foreground="{DynamicResource {ComponentResourceKey {x:Type ad:DockingManager}, {x:Static ad:AvalonDockBrushes.DocumentHeaderForeground}}}"/>
 
                                 <ad:ImageEx Source="/AvalonDock;component/resources/Images/Locked.png" x:Name="PART_LockedIcon" Margin="2,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Width="6"/>
-                            
+
                             <Button x:Name="PART_CloseButton"  Visibility="Collapsed" Margin="6,0,2,0" 
                                     Style="{StaticResource PaneHeaderCommandStyle}" 
                                     Width="14"
@@ -511,7 +527,7 @@
                                     TargetName="PART_CloseButton"
                                     Value="Visible"/>
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" SourceName="tabItemIntBorder" Value="True"/>
@@ -595,7 +611,7 @@
                             <Setter Property="Source" Value="/AvalonDock;component/resources/Images\PinDocMenu.png" TargetName="ShowContextMenuIcon"/>
                         </DataTrigger>
 
-                        
+
                         <EventTrigger RoutedEvent="Window.Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
@@ -661,8 +677,8 @@
                             </Trigger.Value>
                             <Setter TargetName="PART_Border" Property="CornerRadius" Value="0,0,2,2"/>
                         </Trigger>
-                        
-                        
+
+
                         <Trigger Property="IsMouseOver"
 								 Value="true">
                             <Setter Property="Background" 
@@ -758,7 +774,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-   
+
     <!--DockableFloatingWindow-->
     <Style x:Key="{x:Type ad:DockableFloatingWindow}" TargetType="{x:Type ad:DockableFloatingWindow}">
         <Setter Property="ResizeMode" Value="NoResize" />
@@ -804,7 +820,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}">
                                 <ContentPresenter  />
                             </Border>
-                            
+
                             <Border x:Name="PART_MoveAnchor" 
                                     Grid.Row="1" 
                                     Grid.Column="1" 
@@ -939,7 +955,7 @@
     <SolidColorBrush x:Key="NavigatorWindowBackground" Color="#666666"/>
 
     <SolidColorBrush x:Key="NavigatorWindowDocumentsBackground" Color="#333333"/>
-    
+
     <SolidColorBrush x:Key="NavigatorWindowSelectedContentBackground" Color="#BDBDBD"/>    
 
     <DataTemplate x:Key="NavigatorWindowDocumentsListItemTemplate" DataType="{x:Type ad:NavigatorWindowDocumentItem}">

@@ -1,27 +1,18 @@
-//Copyright (c) 2007-2010, Adolfo Marinucci
-//All rights reserved.
+﻿/************************************************************************
 
-//Redistribution and use in source and binary forms, with or without modification, 
-//are permitted provided that the following conditions are met:
-//
-//* Redistributions of source code must retain the above copyright notice, 
-//  this list of conditions and the following disclaimer.
-//* Redistributions in binary form must reproduce the above copyright notice, 
-//  this list of conditions and the following disclaimer in the documentation 
-//  and/or other materials provided with the distribution.
-//* Neither the name of Adolfo Marinucci nor the names of its contributors may 
-//  be used to endorse or promote products derived from this software without 
-//  specific prior written permission.
-//
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-//AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-//WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-//IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-//INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
-//PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
-//HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-//OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
-//EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -71,7 +62,7 @@ namespace AvalonDock
         Right
     }
 
-   
+
     /// <summary>
     /// Defines a pane that can contain contents of type <see cref="DockableContent"/>
     /// </summary>
@@ -123,7 +114,7 @@ namespace AvalonDock
 
         void DockablePane_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         void DockablePane_Unloaded(object sender, RoutedEventArgs e)
@@ -187,7 +178,7 @@ namespace AvalonDock
 
                                 e.Handled = true;
                             }
-                            
+
                         }
                     };
             }
@@ -199,7 +190,7 @@ namespace AvalonDock
                 optionsMenuPopupElement.MouseLeftButtonDown += (s, e) => { OpenOptionsMenu(s as UIElement); e.Handled = true; };
             }
 
-            
+
         }
 
 
@@ -366,7 +357,7 @@ namespace AvalonDock
         //    if (cxOptions != null)
         //    {
         //        var selectedContent = cxOptions.DataContext as DockableContent;
-                
+
         //        if (selectedContent != null)
         //        {
         //            (selectedContent.ContainerPane as DockablePane).IsOptionsMenuOpen =
@@ -388,12 +379,12 @@ namespace AvalonDock
             if (!e.Handled && SelectedItem != null)
             {
                 FocusContent();
-                
+
                 if (((DockableContent)SelectedItem).State != DockableContentState.AutoHide)
                 {
                     //ptStartDrag = e.MouseDevice.GetPosition(this);
                     ptStartDrag = e.GetPosition((IInputElement)System.Windows.Media.VisualTreeHelper.GetParent(this));
-                   
+
                     isMouseDown = true;
                 }
             }
@@ -403,7 +394,7 @@ namespace AvalonDock
         {
             //Point ptMouseMove = e.GetPosition(this);
             Point ptMouseMove = e.GetPosition((IInputElement)System.Windows.Media.VisualTreeHelper.GetParent(this));
-                   
+
 
             if (!e.Handled && isMouseDown && e.LeftButton == MouseButtonState.Pressed)
             {
@@ -419,7 +410,7 @@ namespace AvalonDock
                         {
                             isMouseDown = false;
                             ReleaseMouseCapture();
-                            
+
                             manager.Drag(this, this.PointToScreenDPI(e.GetPosition(this)), e.GetPosition(this));
                             e.Handled = true;
                         }
@@ -438,15 +429,15 @@ namespace AvalonDock
         protected virtual void OnHeaderMouseEnter(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
-           
+
         }
         protected virtual void OnHeaderMouseLeave(object sender, MouseEventArgs e)
         {
             isMouseDown = false;
-           
+
         }
         #endregion
-           
+
         #region Commands
 
 
@@ -505,7 +496,7 @@ namespace AvalonDock
             return true;
         }
 
- 
+
 	    #endregion    
 
 
@@ -630,8 +621,8 @@ namespace AvalonDock
 
 
 	    #endregion    
-    
-    
+
+
 
     }
 }

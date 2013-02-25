@@ -1,4 +1,20 @@
-﻿<ResourceDictionary 
+﻿<!--***********************************************************************************
+
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************************-->
+
+<ResourceDictionary 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ad="clr-namespace:AvalonDock">
@@ -7,7 +23,7 @@
         <ResourceDictionary Source="/AvalonDock;component/Resources/Brushes.xaml"/>
         <ResourceDictionary Source="/AvalonDock;component/Resources/Common.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style TargetType="{x:Type ad:NavigatorWindow}">
         <Style.Resources>
             <Style x:Key="listItemStyle" TargetType="ListBoxItem">
@@ -42,7 +58,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <DataTemplate x:Key="listContentTemplate" DataType="{x:Type ad:NavigatorWindowItem}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="Transparent">
 					<ad:AlignedImage>
@@ -53,7 +69,7 @@
 						</Border>
 					</ad:AlignedImage>
                     <TextBlock Margin="4,0,0,0" Text="{Binding Path=Title}"/>
-                    
+
                 </StackPanel>
             </DataTemplate>
 
@@ -118,7 +134,7 @@
                                           Height="300"
                                         >
                                     </ListBox>
-                                        
+
                                 </StackPanel>
                                 </Grid>
                             </StackPanel>
@@ -130,7 +146,7 @@
                                     </Border.Background>
                                 </Border>
                             </Border>
-                            
+
                             <Border BorderThickness="0,0,0,1" CornerRadius="0,0,5,5" Background="#FFADD8E6" BorderBrush="DarkGray" Height="30" VerticalAlignment="Bottom">
                                 <TextBlock Margin="20, 5, 0, 0" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedContent.InfoTip}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
                             </Border>

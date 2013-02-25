@@ -1,4 +1,4 @@
-/**************************************************************************\
+﻿/**************************************************************************\
     Copyright Microsoft Corporation. All Rights Reserved.
 \**************************************************************************/
 
@@ -114,7 +114,7 @@ namespace Standard
             // Reasonbly sized buffer, don't try to copy large streams in bulk.
             var buffer = new byte[4096];
             long cbWritten = 0;
-            
+
             while (cbWritten < cb)
             {
                 int cbRead = _source.Read(buffer, 0, buffer.Length);

@@ -1,7 +1,23 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<!--***********************************************************************************
+
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************************-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    
+
+
     <SolidColorBrush x:Key="AvalonDock_Expression_BaseColor1"
                      Color="#5C5C5C"/>
 
@@ -16,7 +32,7 @@
 
     <SolidColorBrush x:Key="AvalonDock_Expression_BaseColor5" 
                      Color="#666666"/>
-    
+
     <!--<LinearGradientBrush x:Key="AvalonDock_Expression_BaseColor6"
                          StartPoint="0,0"
                          EndPoint="0,1">

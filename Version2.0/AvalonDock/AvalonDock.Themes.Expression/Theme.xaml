@@ -1,4 +1,20 @@
-﻿<ResourceDictionary
+﻿<!--***********************************************************************************
+
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************************-->
+
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:localThemes="clr-namespace:AvalonDock.Themes"
@@ -10,7 +26,7 @@
     xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
     xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock"
     xmlns:localControls="clr-namespace:AvalonDock.Themes.Controls"
-    
+
     >
 
     <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -39,7 +55,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
 
     </Style>
 
@@ -967,7 +983,7 @@
 
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
-                
+
             </Setter.Value>
         </Setter>
     </Style>
@@ -992,7 +1008,7 @@
                                 Padding="3"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{DynamicResource AvalonDock_Expression_BaseColor10}">
-                            
+
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -1159,7 +1175,7 @@
                                             ContentTemplate="{Binding LayoutItemTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                             ContentTemplateSelector="{Binding LayoutItemTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                             Grid.Row="1"/>-->
-                                        
+
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
@@ -1179,7 +1195,7 @@
                                     <Trigger Property="IsEnabled" Value="false">
                                         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                                     </Trigger>
-                                    
+
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
@@ -1239,7 +1255,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="{x:Type avalonDockControls:NavigatorWindow}" TargetType="{x:Type avalonDockControls:NavigatorWindow}">
         <Setter Property="Background" Value="{DynamicResource AvalonDock_Expression_BaseColor13}"/>
         <Setter Property="Foreground" Value="{DynamicResource AvalonDock_Expression_BaseColor2}"/>

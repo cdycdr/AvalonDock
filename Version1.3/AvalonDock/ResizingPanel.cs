@@ -1,27 +1,18 @@
-//Copyright (c) 2007-2010, Adolfo Marinucci
-//All rights reserved.
+﻿/************************************************************************
 
-//Redistribution and use in source and binary forms, with or without modification, 
-//are permitted provided that the following conditions are met:
-//
-//* Redistributions of source code must retain the above copyright notice, 
-//  this list of conditions and the following disclaimer.
-//* Redistributions in binary form must reproduce the above copyright notice, 
-//  this list of conditions and the following disclaimer in the documentation 
-//  and/or other materials provided with the distribution.
-//* Neither the name of Adolfo Marinucci nor the names of its contributors may 
-//  be used to endorse or promote products derived from this software without 
-//  specific prior written permission.
-//
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-//AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-//WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-//IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-//INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
-//PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
-//HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-//OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
-//EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -144,7 +135,7 @@ namespace AvalonDock
         public static readonly DependencyProperty EffectiveSizeProperty =
             DependencyProperty.RegisterAttached("EffectiveSize", typeof(Size), typeof(ResizingPanel), new FrameworkPropertyMetadata(new Size()));
 
- 
+
         List<Resizer> _splitterList = new List<Resizer>();
 
         /// <summary>
@@ -541,7 +532,7 @@ namespace AvalonDock
                     ResizingPanel.SetResizeWidth(c, new GridLength(1.0 * c.GetStarValue() / sumStars, GridUnitType.Star));
                 });                
             }
-            
+
         }
 
         Size[] _childrenFinalSizes = null;
@@ -605,7 +596,7 @@ namespace AvalonDock
             }
 
             Debug.Assert(!(visibleChildren.Last<FrameworkElement>() is Resizer));
-                
+
 
             _childrenFinalSizes = new Size[visibleChildren.Count];
 
@@ -795,7 +786,7 @@ namespace AvalonDock
 
         bool setupSplitters = false;
         bool splitterListIsDirty = false;
- 
+
         void SetupSplitters()
         {
             if (!splitterListIsDirty)
@@ -885,7 +876,7 @@ namespace AvalonDock
             var trToWnd = TransformToAncestor(wnd);
             Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
                 trToWnd.Transform(new Point());
-            
+
 
             if (Orientation == System.Windows.Controls.Orientation.Horizontal)
             {
@@ -1009,7 +1000,7 @@ namespace AvalonDock
             //        prevChildren.Count<FrameworkElement>(c => delta > 0 ? true : (Orientation == Orientation.Horizontal ? currentSizes[visibleChildren.IndexOf(c)].Width > c.MinWidth : currentSizes[visibleChildren.IndexOf(c)].Height > c.MinHeight));
             //    int nextChildrenCountWithNoMinLen =
             //        nextChildren.Count<FrameworkElement>(c => delta < 0 ? true : (Orientation == Orientation.Horizontal ? currentSizes[visibleChildren.IndexOf(c)].Width > c.MinWidth : currentSizes[visibleChildren.IndexOf(c)].Height > c.MinHeight));
-                
+
             //    delta = remDelta / 2.0;
 
             //    for (i = 0; i < currentSizes.Length; i++)
@@ -1025,7 +1016,7 @@ namespace AvalonDock
             //                double s = delta / prevChildrenCountWithNoMinLen;
             //                if (currentSizes[i].Width + s < child.MinWidth)
             //                    s = child.MinWidth - currentSizes[i].Width;
-                            
+
             //                currentSizes[i].Width += s;
             //                remDelta -= s;
             //            }
@@ -1079,7 +1070,7 @@ namespace AvalonDock
             //        totalSizeForStarts += Orientation == Orientation.Horizontal ? currentSizes[i].Width : currentSizes[i].Height;
             //    }
             //}
-                
+
 
             //double starsScaleFactor = totalStartsSum / totalSizeForStarts;
 
@@ -1403,8 +1394,8 @@ namespace AvalonDock
             };
 
             panelHostResizer.Children.Add(_resizerGhost);
-            
-            
+
+
             _resizerWindowHost = new Window()
             {
                 ResizeMode = ResizeMode.NoResize,
@@ -1537,7 +1528,7 @@ namespace AvalonDock
             InvalidateMeasure();
         }
 
-        
+
 
 
     }

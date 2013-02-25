@@ -1,4 +1,20 @@
-﻿using System;
+﻿/************************************************************************
+
+   AvalonDock
+
+   Copyright (C) 2007-2013 Xceed Software Inc.
+
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
+
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
+
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +30,7 @@ namespace AvalonDock
         {
             Pane.ShowHeaderProperty.OverrideMetadata(typeof(FloatingDocumentPane), new FrameworkPropertyMetadata(false));
         }
-        
+
         internal FloatingDocumentPane(DocumentFloatingWindow floatingWindow, DocumentContent documentToTransfer)
         {
             _floatingWindow = floatingWindow;
@@ -73,7 +89,7 @@ namespace AvalonDock
                 //remove content from container pane
                 _previousPane.RemoveContent(_arrayIndexPreviousPane);
             }
-            
+
 
             //add content to my temporary pane
             Items.Add(_documentToTransfer);
@@ -102,7 +118,7 @@ namespace AvalonDock
             _documentToTransfer.SetIsFloating(false);
             base.OnUnloaded(sender, e);
         }
-        
+
 
         DocumentFloatingWindow _floatingWindow = null;
 
@@ -142,7 +158,7 @@ namespace AvalonDock
 
             foreach (var cntToRedock in contentsToRedock)
                 cntToRedock.Show();
-            
+
             base.Dock();
         }
     }

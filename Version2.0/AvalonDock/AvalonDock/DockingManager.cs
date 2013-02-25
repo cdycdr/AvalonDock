@@ -1,24 +1,18 @@
-﻿//Copyright (c) 2007-2012, Adolfo Marinucci
-//All rights reserved.
+﻿/************************************************************************
 
-//Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
-//following conditions are met:
+   AvalonDock
 
-//* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+   Copyright (C) 2007-2013 Xceed Software Inc.
 
-//* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following 
-//disclaimer in the documentation and/or other materials provided with the distribution.
+   This program is provided to you under the terms of the New BSD
+   License (BSD) as published at http://avalondock.codeplex.com/license 
 
-//* Neither the name of Adolfo Marinucci nor the names of its contributors may be used to endorse or promote products
-//derived from this software without specific prior written permission.
+   For more features, controls, and fast professional support,
+   pick up AvalonDock in Extended WPF Toolkit Plus at http://xceed.com/wpf_toolkit
 
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-//INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-//IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
-//EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-//LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-//STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
-//EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
+
+  **********************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -305,7 +299,7 @@ namespace AvalonDock
 
         void DockingManager_Unloaded(object sender, RoutedEventArgs e)
         {
-           
+
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 _autoHideWindowManager.HideAutoWindow();
@@ -402,7 +396,7 @@ namespace AvalonDock
                 {
                     //ensure that floating window position is inside current (or nearest) monitor
                     paneForExtentions.KeepInsideNearestMonitor();
-                    
+
                     newFW.Left = paneForExtentions.FloatingLeft;
                     newFW.Top = paneForExtentions.FloatingTop;
                     newFW.Width = paneForExtentions.FloatingWidth;
@@ -423,7 +417,7 @@ namespace AvalonDock
             return null;
         }
 
-        
+
 
         #region DocumentPaneTemplate
 
@@ -1046,7 +1040,7 @@ namespace AvalonDock
             base.OnMouseMove(e);
         }
 
-        
+
 
         #region LayoutRootPanel
 
@@ -1299,7 +1293,7 @@ namespace AvalonDock
         }
 
         #endregion  
-    
+
         #region AutoHide window
         internal void ShowAutoHideWindow(LayoutAnchorControl anchor)
         {
@@ -1329,7 +1323,7 @@ namespace AvalonDock
         void SetupAutoHideWindow()
         {
             _autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
-            
+
             if (_autoHideWindowManager != null)
                 _autoHideWindowManager.HideAutoWindow();
             else
@@ -1398,7 +1392,7 @@ namespace AvalonDock
                 InternalRemoveLogicalChild(e.OldValue);
             if (e.NewValue != null)
                 InternalAddLogicalChild(e.NewValue);
-            
+
         }
 
         #endregion
@@ -1406,7 +1400,7 @@ namespace AvalonDock
 
 
         #endregion
-        //#region AutoHide window
+        // #region AutoHide window
         //WeakReference _currentAutohiddenAnchor = null;
         //internal void ShowAutoHideWindow(LayoutAnchorControl anchor)
         //{
@@ -1449,7 +1443,7 @@ namespace AvalonDock
         //    _autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
         //}
 
-        //#region AutoHideWindow
+        // #region AutoHideWindow
 
         ///// <summary>
         ///// AutoHideWindow Read-Only Dependency Property
@@ -1500,11 +1494,11 @@ namespace AvalonDock
         //        ((ILogicalChildrenContainer)this).InternalAddLogicalChild(e.NewValue);
         //}
 
-        //#endregion
+        // #endregion
 
 
 
-        //#endregion
+        // #endregion
 
         #region Floating Windows
         List<LayoutFloatingWindowControl> _fwList = new List<LayoutFloatingWindowControl>();
@@ -1566,7 +1560,7 @@ namespace AvalonDock
                 };
 
                 Layout.FloatingWindows.Add(fw);
-                
+
                 fwc = new LayoutAnchorableFloatingWindowControl(
                     fw as LayoutAnchorableFloatingWindow)
                     {
@@ -1585,7 +1579,7 @@ namespace AvalonDock
                 };
 
                 Layout.FloatingWindows.Add(fw);
-                
+
                 fwc = new LayoutDocumentFloatingWindowControl(
                     fw as LayoutDocumentFloatingWindow)
                 {
@@ -1595,14 +1589,14 @@ namespace AvalonDock
                     Top = contentModel.FloatingTop
                 };
             }
-            
+
 
             //fwc.Owner = Window.GetWindow(this);
             //fwc.SetParentToMainWindowOf(this);
 
 
             _fwList.Add(fwc);
-            
+
             Layout.CollectGarbage();
 
             UpdateLayout();
@@ -1626,8 +1620,8 @@ namespace AvalonDock
             double fwHeight = paneAsPositionableElement.FloatingHeight;
             double fwLeft = paneAsPositionableElement.FloatingLeft;
             double fwTop = paneAsPositionableElement.FloatingTop;
-            
-            
+
+
 
             if (fwWidth == 0.0)
                 fwWidth = paneAsWithActualSize.ActualWidth;
@@ -1691,7 +1685,7 @@ namespace AvalonDock
                 Width = fwWidth,
                 Height = fwHeight
             };
-            
+
 
 
             //fwc.Owner = Window.GetWindow(this);
@@ -1717,7 +1711,7 @@ namespace AvalonDock
                 yield break;
 
             IntPtr windowParentHanlde = new WindowInteropHelper(parentWindow).Handle;
-            
+
             IntPtr currentHandle = Win32Helper.GetWindow(windowParentHanlde, (uint)Win32Helper.GetWindow_Cmd.GW_HWNDFIRST);
             while (currentHandle != IntPtr.Zero)
             {
@@ -2037,7 +2031,7 @@ namespace AvalonDock
 
             }
             _suspendLayoutItemCreation = true;
-        
+
 
             var documentsSourceAsNotifier = documentsSource as INotifyCollectionChanged;
             if (documentsSourceAsNotifier != null)
@@ -2090,7 +2084,7 @@ namespace AvalonDock
 
                     //if (documentPane == null)
                     //    throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
-                    
+
                     _suspendLayoutItemCreation = true;
 
                     foreach (var documentContentToImport in e.NewItems)
@@ -2799,7 +2793,7 @@ namespace AvalonDock
                 return null;
             if (value == null)
                 return d.GetValue(DocumentHeaderTemplateProperty);
-            
+
             return value;
         }
 
@@ -3142,7 +3136,7 @@ namespace AvalonDock
 
             _navigatorWindow.ShowDialog();
             _navigatorWindow = null;
-            
+
             Debug.WriteLine("ShowNavigatorWindow()");
         }
 
@@ -3151,7 +3145,7 @@ namespace AvalonDock
             get { return _navigatorWindow != null; }
         }
 
-        
+
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             Debug.WriteLine("OnPreviewKeyDown({0})", e.Key);
