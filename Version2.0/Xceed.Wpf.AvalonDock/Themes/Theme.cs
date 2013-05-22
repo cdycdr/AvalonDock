@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace AvalonDock.Themes
+namespace Xceed.Wpf.AvalonDock.Themes
 {
     public abstract class Theme : DependencyObject
     {

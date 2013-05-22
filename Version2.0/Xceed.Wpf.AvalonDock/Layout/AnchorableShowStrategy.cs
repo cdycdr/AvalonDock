@@ -19,10 +19,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [Flags]
-    public enum AnchorableShowStrategy : uint
+    public enum AnchorableShowStrategy : byte
     {
         Most  = 0x0001,
         Left  = 0x0002,

@@ -20,9 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Controls;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Converters
+namespace Xceed.Wpf.AvalonDock.Converters
 {
     [ValueConversion(typeof(AnchorSide), typeof(Orientation))] 
     public class AnchorSideToOrientationConverter : IValueConverter

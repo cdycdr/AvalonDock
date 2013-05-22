@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     class WindowActivateEventArgs : EventArgs
     {

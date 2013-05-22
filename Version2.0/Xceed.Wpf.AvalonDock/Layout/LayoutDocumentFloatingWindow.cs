@@ -21,7 +21,7 @@ using System.Text;
 using System.Windows.Markup;
 using System.Diagnostics;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [ContentProperty("RootDocument")]
     [Serializable]
@@ -93,13 +93,13 @@ namespace AvalonDock.Layout
         }
 
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine("FloatingDocumentWindow()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "FloatingDocumentWindow()" );
 
-            RootDocument.ConsoleDump(tab + 1);
+          RootDocument.ConsoleDump(tab + 1);
         }
 #endif
     }

@@ -23,7 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [ContentProperty("Children")]
     [Serializable]
@@ -75,14 +75,14 @@ namespace AvalonDock.Layout
             base.ReadXml(reader);
         }
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine("DocumentPaneGroup({0})", Orientation);
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( string.Format( "DocumentPaneGroup({0})", Orientation ) );
 
-            foreach (LayoutElement child in Children)
-                child.ConsoleDump(tab + 1);
+          foreach (LayoutElement child in Children)
+              child.ConsoleDump(tab + 1);
         }
 #endif
     }

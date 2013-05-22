@@ -22,9 +22,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using AvalonDock;
-using AvalonDock.Layout;
-using AvalonDock.Layout.Serialization;
+using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
+using Xceed.Wpf.AvalonDock;
 
 namespace AvalonDock.WinFormsTestApp
 {
@@ -73,18 +73,51 @@ namespace AvalonDock.WinFormsTestApp
 
         private void menuItemAero_Click(object sender, EventArgs e)
         {
-            _dockingManager.Theme = new AvalonDock.Themes.AeroTheme();
+          _dockingManager.Theme = new Xceed.Wpf.AvalonDock.Themes.AeroTheme();
+          this.SetChecked( menuItemAero );
         }
 
         private void menuItemVS2010_Click(object sender, EventArgs e)
         {
-            _dockingManager.Theme = new AvalonDock.Themes.VS2010Theme();
+          _dockingManager.Theme = new Xceed.Wpf.AvalonDock.Themes.VS2010Theme();
+          this.SetChecked( menuItemVS2010 );
         }
 
-        private void menuItemDefault_Click(object sender, EventArgs e)
+        private void menuItemMetro_Click( object sender, EventArgs e )
         {
-            _dockingManager.Theme = null;
+          _dockingManager.Theme = new Xceed.Wpf.AvalonDock.Themes.MetroTheme();
+          this.SetChecked( menuItemMetro );
         }
+
+        private void menuItemGeneric_Click(object sender, EventArgs e)
+        {
+            _dockingManager.Theme = new Xceed.Wpf.AvalonDock.Themes.GenericTheme();
+            this.SetChecked( menuItemGeneric );
+        }
+
+        private void menuItemExpressionDark_Click( object sender, EventArgs e )
+        {
+          _dockingManager.Theme = new Xceed.Wpf.AvalonDock.Themes.ExpressionDarkTheme();
+          this.SetChecked( menuItemExpressionDark );
+        }
+
+        private void menuItemExpressionLight_Click( object sender, EventArgs e )
+        {
+          _dockingManager.Theme = new Xceed.Wpf.AvalonDock.Themes.ExpressionLightTheme();
+          this.SetChecked( menuItemExpressionLight );
+        }
+
+        private void SetChecked( ToolStripMenuItem toCheck )
+        {
+          menuItemAero.Checked = false;
+          menuItemGeneric.Checked = false;
+          menuItemVS2010.Checked = false;
+          menuItemExpressionDark.Checked = false;
+          menuItemMetro.Checked = false;
+
+          toCheck.Checked = true;
+        }
+
 
     }
 }

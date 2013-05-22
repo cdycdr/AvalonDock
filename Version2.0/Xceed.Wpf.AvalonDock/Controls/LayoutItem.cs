@@ -19,15 +19,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Input;
-using AvalonDock.Commands;
+using Xceed.Wpf.AvalonDock.Commands;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Controls;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public abstract class LayoutItem : FrameworkElement
     {
@@ -54,7 +54,7 @@ namespace AvalonDock.Controls
             LayoutElement.IsActiveChanged+=new EventHandler(LayoutElement_IsActiveChanged);
 
             DataContext = this;
-            System.Diagnostics.Debug.WriteLine(string.Format("Attach({0})", LayoutElement.Title));
+            System.Diagnostics.Trace.WriteLine( string.Format( "Attach({0})", LayoutElement.Title ) );
         }
 
 
@@ -85,7 +85,7 @@ namespace AvalonDock.Controls
 
         internal virtual void Detach()
         {
-            System.Diagnostics.Debug.WriteLine(string.Format("Detach({0})", LayoutElement.Title));
+          System.Diagnostics.Trace.WriteLine( string.Format( "Detach({0})", LayoutElement.Title ) );
             LayoutElement.IsSelectedChanged -= new EventHandler(LayoutElement_IsSelectedChanged);
             LayoutElement.IsActiveChanged -= new EventHandler(LayoutElement_IsActiveChanged);
             LayoutElement = null;
@@ -570,8 +570,8 @@ namespace AvalonDock.Controls
         private bool CanExecuteCloseCommand(object parameter)
         {
 #if DEBUG
-            if (LayoutElement != null)
-                System.Diagnostics.Debug.WriteLine(string.Format("CanExecuteCloseCommand({0}) = {1}", LayoutElement.Title, LayoutElement.CanClose));
+          if( LayoutElement != null )
+            System.Diagnostics.Trace.WriteLine( string.Format( "CanExecuteCloseCommand({0}) = {1}", LayoutElement.Title, LayoutElement.CanClose ) );
 #endif
             return LayoutElement != null && LayoutElement.CanClose;
         }

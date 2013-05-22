@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     public interface ILayoutOrientableGroup : ILayoutGroup
     {

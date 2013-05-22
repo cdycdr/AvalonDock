@@ -21,9 +21,9 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
-    internal static class TransformExtentions
+    internal static class TransformExtensions
     {
         public static Point PointToScreenDPI(this Visual visual, Point pt)
         {

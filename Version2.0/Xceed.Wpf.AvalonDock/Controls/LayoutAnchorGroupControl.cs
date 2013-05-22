@@ -20,10 +20,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutAnchorGroupControl : Control, ILayoutControl
     {

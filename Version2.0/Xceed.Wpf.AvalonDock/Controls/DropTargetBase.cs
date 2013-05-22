@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     abstract class DropTargetBase : DependencyObject
     {

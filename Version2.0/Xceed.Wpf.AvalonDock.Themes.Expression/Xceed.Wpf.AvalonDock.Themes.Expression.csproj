@@ -5,16 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{89286EB4-B4A1-418C-839A-067B00F442D8}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <ProjectGuid>{488DD8F7-9D3C-4F53-BD1F-84A095D9BC10}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AvalonDock.Themes.Metro</RootNamespace>
-    <AssemblyName>AvalonDock.Themes.Metro</AssemblyName>
+    <RootNamespace>Xceed.Wpf.AvalonDock.Themes</RootNamespace>
+    <AssemblyName>Xceed.Wpf.AvalonDock.Themes.Expression</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,54 +31,82 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
+    <Compile Include="AssemblyVersionInfo.cs" />
+    <Compile Include="AssemblyVersionInfoCommon.cs" />
+    <Compile Include="Controls\SplineBorder.cs" />
+    <Compile Include="Controls\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MetroTheme.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
+    <Compile Include="ExpressionLightTheme.cs" />
+    <Compile Include="ExpressionDarkTheme.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Brushes.xaml">
+    <ProjectReference Include="..\Xceed.Wpf.AvalonDock\Xceed.Wpf.AvalonDock.csproj">
+      <Project>{DB81988F-E0F2-45A0-A1FD-8C37F3D35244}</Project>
+      <Name>Xceed.Wpf.AvalonDock</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="LightBrushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DarkBrushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Include="Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DarkTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinAutoHide.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinAutoHide_Light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinClose_Light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PinMenu_Light.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\DockAnchorableBottom.png" />
@@ -101,30 +126,25 @@
     <Resource Include="Images\DockPaneLargeEmpty.png" />
     <Resource Include="Images\HTabGroup.png" />
     <Resource Include="Images\Locked.png" />
-    <Resource Include="Images\PinAutoHide.png" />
     <Resource Include="Images\PinAutoHide_Black.png" />
     <Resource Include="Images\PinAutoHide_Dark.png" />
-    <Resource Include="Images\PinClose.png" />
     <Resource Include="Images\PinClose_Black.png" />
     <Resource Include="Images\PinClose_Dark.png" />
-    <Resource Include="Images\PinDocMenu.png" />
     <Resource Include="Images\PinDocMenu_Black.png" />
-    <Resource Include="Images\PinMaximize.png" />
+    <Resource Include="Images\PinDocMenu_Dark.png" />
     <Resource Include="Images\PinMaximize_Black.png" />
     <Resource Include="Images\PinMaximize_Dark.png" />
-    <Resource Include="Images\PinMenu.png" />
     <Resource Include="Images\PinMenu_Black.png" />
     <Resource Include="Images\PinMenu_Dark.png" />
-    <Resource Include="Images\PinRestore.png" />
     <Resource Include="Images\PinRestore_Black.png" />
     <Resource Include="Images\PinRestore_Dark.png" />
     <Resource Include="Images\VTabGroup.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
-      <Project>{DB81988F-E0F2-45A0-A1FD-8C37F3D35244}</Project>
-      <Name>AvalonDock</Name>
-    </ProjectReference>
+    <Resource Include="Images\PinMaximize.png" />
+    <Resource Include="Images\PinMaximize_Light.png" />
+    <Resource Include="Images\PinRestore.png" />
+    <Resource Include="Images\PinRestore_Light.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

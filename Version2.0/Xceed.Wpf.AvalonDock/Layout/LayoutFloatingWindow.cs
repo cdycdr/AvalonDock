@@ -22,7 +22,7 @@ using System.Windows.Markup;
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [Serializable]
     [XmlInclude(typeof(LayoutAnchorableFloatingWindow))]

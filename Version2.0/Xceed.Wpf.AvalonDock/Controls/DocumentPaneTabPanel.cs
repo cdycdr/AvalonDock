@@ -20,9 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class DocumentPaneTabPanel : Panel
     {
@@ -96,7 +96,7 @@ namespace AvalonDock.Controls
             //    var contentModel = LayoutDocumentTabItem.GetDraggingItem().Model;
             //    var manager = contentModel.Root.Manager;
             //    LayoutDocumentTabItem.ResetDraggingItem();
-            //    System.Diagnostics.Debug.WriteLine("OnMouseLeave()");
+          //    System.Diagnostics.Trace.WriteLine("OnMouseLeave()");
 
 
             //    manager.StartDraggingFloatingWindowForContent(contentModel);

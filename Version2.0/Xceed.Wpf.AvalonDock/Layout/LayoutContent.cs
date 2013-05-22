@@ -25,7 +25,7 @@ using System.Globalization;
 using System.Windows.Media;
 using System.ComponentModel;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [ContentProperty("Content")]
     [Serializable]

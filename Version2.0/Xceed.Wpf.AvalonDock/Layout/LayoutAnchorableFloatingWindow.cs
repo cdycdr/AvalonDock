@@ -22,7 +22,7 @@ using System.Windows.Markup;
 using System.Diagnostics;
 using System.Xml.Serialization;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [Serializable]
     [ContentProperty("RootPanel")]
@@ -168,13 +168,13 @@ namespace AvalonDock.Layout
             get { return RootPanel != null; }
         }
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine("FloatingAnchorableWindow()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "FloatingAnchorableWindow()" );
 
-            RootPanel.ConsoleDump(tab + 1);
+          RootPanel.ConsoleDump(tab + 1);
         }
 #endif        
     }

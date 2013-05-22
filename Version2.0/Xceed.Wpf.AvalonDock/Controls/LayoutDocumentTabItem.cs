@@ -21,11 +21,11 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Diagnostics;
 using System.Windows.Media;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutDocumentTabItem : Control
     {

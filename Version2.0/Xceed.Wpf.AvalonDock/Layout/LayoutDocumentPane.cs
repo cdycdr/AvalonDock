@@ -21,7 +21,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows.Markup;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [ContentProperty("Children")]
     [Serializable]
@@ -174,14 +174,14 @@ namespace AvalonDock.Layout
         }
 
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine("DocumentPane()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "DocumentPane()" );
 
-            foreach (LayoutElement child in Children)
-                child.ConsoleDump(tab + 1);
+          foreach (LayoutElement child in Children)
+              child.ConsoleDump(tab + 1);
         }
 #endif
 

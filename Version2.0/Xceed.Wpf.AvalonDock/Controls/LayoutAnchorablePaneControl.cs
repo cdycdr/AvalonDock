@@ -22,9 +22,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Data;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutAnchorablePaneControl : TabControl, ILayoutControl//, ILogicalChildrenContainer
     {

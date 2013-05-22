@@ -25,7 +25,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Diagnostics;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class DropDownControlArea : UserControl
     {

@@ -19,14 +19,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock.Themes
+namespace Xceed.Wpf.AvalonDock.Themes
 {
     public class ExpressionDarkTheme : Theme
     {
         public override Uri GetResourceUri()
         {
             return new Uri(
-                "/AvalonDock.Themes.Expression;component/DarkTheme.xaml",
+                "/Xceed.Wpf.AvalonDock.Themes.Expression;component/DarkTheme.xaml",
                 UriKind.Relative);
         }
     }

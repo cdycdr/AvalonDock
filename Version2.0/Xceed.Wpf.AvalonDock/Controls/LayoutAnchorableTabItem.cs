@@ -22,11 +22,11 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutAnchorableTabItem : Control
     {
@@ -181,7 +181,7 @@ namespace AvalonDock.Controls
                 _draggingItem != this &&
                 e.LeftButton == MouseButtonState.Pressed)
             {
-                //Debug.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
+              //Trace.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
 
                 var model = Model;
                 var container = model.Parent as ILayoutContainer;

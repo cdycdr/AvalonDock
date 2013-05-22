@@ -20,9 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     internal interface IDropTarget
     {

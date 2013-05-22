@@ -19,10 +19,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using AvalonDock.Layout;
-using AvalonDock.Controls;
+using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Controls;
 
-namespace AvalonDock.Converters
+namespace Xceed.Wpf.AvalonDock.Converters
 {
     public class HideCommandLayoutItemFromLayoutModelConverter : IValueConverter
     {

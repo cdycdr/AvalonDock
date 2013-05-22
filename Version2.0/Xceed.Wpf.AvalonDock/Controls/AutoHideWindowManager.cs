@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     class AutoHideWindowManager
     {

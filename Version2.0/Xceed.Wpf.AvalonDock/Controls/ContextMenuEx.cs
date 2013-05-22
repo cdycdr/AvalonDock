@@ -22,7 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class ContextMenuEx : ContextMenu
     {

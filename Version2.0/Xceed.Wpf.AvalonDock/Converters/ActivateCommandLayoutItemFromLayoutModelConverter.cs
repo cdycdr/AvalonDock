@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Converters
+namespace Xceed.Wpf.AvalonDock.Converters
 {
     public class ActivateCommandLayoutItemFromLayoutModelConverter : IValueConverter
     {

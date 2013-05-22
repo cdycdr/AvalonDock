@@ -22,11 +22,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Diagnostics;
-using AvalonDock.Themes;
+using Xceed.Wpf.AvalonDock.Themes;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class OverlayWindow : Window, IOverlayWindow
     {
@@ -51,10 +51,6 @@ namespace AvalonDock.Controls
 
         internal void UpdateThemeResources(Theme oldTheme = null)
         {
-            //If hosted in WPF than let Application class to update my resources
-            if (Application.Current != null)
-                return;
-
             if (oldTheme != null)
             {
                 var resourceDictionaryToRemove =
@@ -157,14 +153,14 @@ namespace AvalonDock.Controls
 
         internal void EnableDropTargets()
         {
-            //Debug.WriteLine("EnableDropTargets()");
+          //Trace.WriteLine("EnableDropTargets()");
             if (_mainCanvasPanel != null)
                 _mainCanvasPanel.Visibility = System.Windows.Visibility.Visible;
         }
 
         internal void HideDropTargets()
         {
-            //Debug.WriteLine("HideDropTargets()");
+          //Trace.WriteLine("HideDropTargets()");
             if (_mainCanvasPanel != null)
                 _mainCanvasPanel.Visibility = System.Windows.Visibility.Hidden;
 

@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock
+namespace Xceed.Wpf.AvalonDock
 {
     public class DocumentClosingEventArgs : CancelEventArgs
     {

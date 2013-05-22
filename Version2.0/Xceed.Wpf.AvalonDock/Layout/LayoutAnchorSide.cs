@@ -20,9 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows.Markup;
-using AvalonDock.Controls;
+using Xceed.Wpf.AvalonDock.Controls;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [ContentProperty("Children")]
     [Serializable]

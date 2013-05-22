@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace AvalonDock.Converters
+namespace Xceed.Wpf.AvalonDock.Converters
 {
     public class NullToDoNothingConverter : IValueConverter
     {

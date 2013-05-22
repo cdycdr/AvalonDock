@@ -31,7 +31,7 @@ using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
-using AvalonDock.Layout.Serialization;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace AvalonDock.MVVMTestApp
 {
@@ -52,7 +52,7 @@ namespace AvalonDock.MVVMTestApp
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var serializer = new AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
+          var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer( dockManager );
             serializer.LayoutSerializationCallback += (s, args) =>
             {
                 args.Content = args.Content;
@@ -64,7 +64,7 @@ namespace AvalonDock.MVVMTestApp
 
         void MainWindow_Unloaded(object sender, RoutedEventArgs e)
         {
-            var serializer = new AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
+          var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer( dockManager );
             serializer.Serialize(@".\AvalonDock.config");
         }
 
@@ -140,9 +140,8 @@ namespace AvalonDock.MVVMTestApp
 
         private void OnDumpToConsole(object sender, RoutedEventArgs e)
         {
-#if DEBUG
-            dockManager.Layout.ConsoleDump(0);
-#endif
+          // Uncomment when TRACE is activated on AvalonDock project
+            //dockManager.Layout.ConsoleDump(0);
         }
 
 

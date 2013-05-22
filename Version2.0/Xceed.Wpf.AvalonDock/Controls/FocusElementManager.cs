@@ -22,11 +22,11 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows;
 using System.Diagnostics;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     internal static class FocusElementManager
     {
@@ -156,7 +156,7 @@ namespace AvalonDock.Controls
             if (_modelFocusedWindowHandle.GetValue(model, out handleToFocus))
                 focused = IntPtr.Zero != Win32Helper.SetFocus(handleToFocus);
 
-            Debug.WriteLine("SetFocusOnLastElement(focused={0}, model={1}, element={2})", focused, model, handleToFocus == IntPtr.Zero ? (objectToFocus == null ?  "" : objectToFocus.ToString()) : handleToFocus.ToString());
+            Trace.WriteLine( string.Format( "SetFocusOnLastElement(focused={0}, model={1}, element={2})", focused, model, handleToFocus == IntPtr.Zero ? ( objectToFocus == null ? "" : objectToFocus.ToString() ) : handleToFocus.ToString() ) );
 
             if (focused)
             {
@@ -202,7 +202,7 @@ namespace AvalonDock.Controls
 
         static void WindowActivating(object sender, WindowActivateEventArgs e)
         {
-            Debug.WriteLine("WindowActivating");
+            Trace.WriteLine("WindowActivating");
 
             if (Keyboard.FocusedElement == null && 
                 _lastFocusedElement != null && 

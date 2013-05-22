@@ -23,7 +23,7 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Runtime.InteropServices;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public static class Extentions
     {

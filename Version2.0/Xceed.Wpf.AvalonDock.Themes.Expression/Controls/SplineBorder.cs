@@ -28,7 +28,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AvalonDock.Themes.Controls
+namespace Xceed.Wpf.AvalonDock.Themes.Controls
 {
     public class SplineBorder : Control
     {

@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     class FocusChangeEventArgs : EventArgs
     {

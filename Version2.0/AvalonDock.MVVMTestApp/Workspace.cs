@@ -23,7 +23,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace AvalonDock.MVVMTestApp
 {

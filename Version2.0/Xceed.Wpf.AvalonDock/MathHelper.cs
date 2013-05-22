@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock
+namespace Xceed.Wpf.AvalonDock
 {
     internal static class MathHelper
     {

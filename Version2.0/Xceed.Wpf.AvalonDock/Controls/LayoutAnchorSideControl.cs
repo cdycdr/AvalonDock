@@ -21,9 +21,9 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows;
 using System.Collections.ObjectModel;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutAnchorSideControl : Control, ILayoutControl
     {

@@ -22,9 +22,9 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Data;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutDocumentPaneControl : TabControl, ILayoutControl//, ILogicalChildrenContainer
     {
@@ -56,7 +56,7 @@ namespace AvalonDock.Controls
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
-            System.Diagnostics.Debug.WriteLine("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus);
+            System.Diagnostics.Trace.WriteLine( string.Format( "OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus ) );
 
 
             //if (_model.SelectedContent != null)

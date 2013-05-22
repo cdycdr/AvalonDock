@@ -25,11 +25,11 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Data;
 using System.Windows.Media;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Diagnostics;
 using System.Windows.Threading;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutAutoHideWindowControl : HwndHost, ILayoutControl
     {
@@ -61,7 +61,7 @@ namespace AvalonDock.Controls
             Visibility = System.Windows.Visibility.Visible;
             InvalidateMeasure();
             UpdateWindowPos();
-            Debug.WriteLine("LayoutAutoHideWindowControl.Show()");
+            Trace.WriteLine("LayoutAutoHideWindowControl.Show()");
         }
 
         internal void Hide()
@@ -77,7 +77,7 @@ namespace AvalonDock.Controls
             _manager = null;
             Visibility = System.Windows.Visibility.Hidden;
 
-            Debug.WriteLine("LayoutAutoHideWindowControl.Hide()");
+            Trace.WriteLine("LayoutAutoHideWindowControl.Hide()");
         }
 
         LayoutAnchorControl _anchor;

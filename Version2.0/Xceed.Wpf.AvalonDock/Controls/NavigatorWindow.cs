@@ -19,12 +19,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using AvalonDock.Themes;
+using Xceed.Wpf.AvalonDock.Themes;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class NavigatorWindow : Window
     {
@@ -59,10 +59,6 @@ namespace AvalonDock.Controls
 
         internal void UpdateThemeResources(Theme oldTheme = null)
         {
-            //If hosted in WPF than let Application class to update my resources
-            if (Application.Current != null)
-                return;
-
             if (oldTheme != null)
             {
                 var resourceDictionaryToRemove =
@@ -232,7 +228,7 @@ namespace AvalonDock.Controls
             if (SelectedDocument != null &&
                 SelectedDocument.ActivateCommand.CanExecute(null))
             {
-                System.Diagnostics.Debug.WriteLine("OnSelectedDocumentChanged()");
+              System.Diagnostics.Trace.WriteLine( "OnSelectedDocumentChanged()" );
                 SelectedDocument.ActivateCommand.Execute(null);
                 Hide();
             }

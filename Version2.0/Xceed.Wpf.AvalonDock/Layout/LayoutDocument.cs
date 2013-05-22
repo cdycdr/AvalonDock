@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [Serializable]
     public class LayoutDocument : LayoutContent
@@ -66,11 +66,11 @@ namespace AvalonDock.Layout
         }
 
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine("Document()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "Document()" );
         }
 #endif
 

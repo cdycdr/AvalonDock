@@ -23,7 +23,7 @@ using System.Windows.Markup;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [ContentProperty("Children")]
     [Serializable]
@@ -253,14 +253,14 @@ namespace AvalonDock.Layout
             get { return Children.All(a => a.CanClose);}
         }
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine("AnchorablePane()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "AnchorablePane()" );
 
-            foreach (LayoutElement child in Children)
-                child.ConsoleDump(tab + 1);
+          foreach (LayoutElement child in Children)
+              child.ConsoleDump(tab + 1);
         }
 #endif
     }

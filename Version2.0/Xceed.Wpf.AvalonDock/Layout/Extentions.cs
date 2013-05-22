@@ -24,9 +24,9 @@ using System.Windows.Media.Media3D;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
-    public static class Extentions
+    public static class Extensions
     {
         public static IEnumerable<ILayoutElement> Descendents(this ILayoutElement element)
         {

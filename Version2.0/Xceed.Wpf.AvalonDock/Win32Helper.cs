@@ -21,7 +21,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace AvalonDock
+namespace Xceed.Wpf.AvalonDock
 {
     internal static class Win32Helper
     {
@@ -298,7 +298,7 @@ namespace AvalonDock
         internal static int MakeLParam(int LoWord, int HiWord)
         {
 
-        //System.Diagnostics.Debug.WriteLine("LoWord: " + LoWord2(((HiWord << 16) |
+          //System.Diagnostics.Trace.WriteLine("LoWord: " + LoWord2(((HiWord << 16) |
          //(LoWord & 0xffff))));
 
             return (int) ((HiWord << 16) | (LoWord & 0xffff));

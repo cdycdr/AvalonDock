@@ -19,14 +19,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock.Themes
+namespace Xceed.Wpf.AvalonDock.Themes
 {
     public class MetroTheme : Theme
     {
         public override Uri GetResourceUri()
         {
             return new Uri(
-                "/AvalonDock.Themes.Metro;component/Theme.xaml", 
+                "/Xceed.Wpf.AvalonDock.Themes.Metro;component/Theme.xaml", 
                 UriKind.Relative);  
         }
     }

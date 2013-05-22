@@ -25,17 +25,17 @@ using System.ComponentModel;
 using System.Windows.Interop;
 using System.Diagnostics;
 
-using AvalonDock.Layout;
-using AvalonDock.Controls;
+using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Controls;
 using System.Windows.Input;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Windows.Data;
 using System.Windows.Threading;
-using AvalonDock.Commands;
-using AvalonDock.Themes;
+using Xceed.Wpf.AvalonDock.Commands;
+using Xceed.Wpf.AvalonDock.Themes;
 
-namespace AvalonDock
+namespace Xceed.Wpf.AvalonDock
 {
     [ContentProperty("Layout")]
     [TemplatePart(Name="PART_AutoHideArea")]
@@ -363,16 +363,16 @@ namespace AvalonDock
                 };
                 newFW.SetParentToMainWindowOf(this);
 
-                var paneForExtentions = modelFW.RootPanel.Children.OfType<LayoutAnchorablePane>().FirstOrDefault();
-                if (paneForExtentions != null)
+                var paneForExtensions = modelFW.RootPanel.Children.OfType<LayoutAnchorablePane>().FirstOrDefault();
+                if (paneForExtensions != null)
                 {
                     //ensure that floating window position is inside current (or nearest) monitor
-                    paneForExtentions.KeepInsideNearestMonitor();
+                    paneForExtensions.KeepInsideNearestMonitor();
 
-                    newFW.Left = paneForExtentions.FloatingLeft;
-                    newFW.Top = paneForExtentions.FloatingTop;
-                    newFW.Width = paneForExtentions.FloatingWidth;
-                    newFW.Height = paneForExtentions.FloatingHeight;
+                    newFW.Left = paneForExtensions.FloatingLeft;
+                    newFW.Top = paneForExtensions.FloatingTop;
+                    newFW.Width = paneForExtensions.FloatingWidth;
+                    newFW.Height = paneForExtensions.FloatingHeight;
                 }
 
                 newFW.ShowInTaskbar = false;
@@ -391,16 +391,16 @@ namespace AvalonDock
                 };
                 newFW.SetParentToMainWindowOf(this);
 
-                var paneForExtentions = modelFW.RootDocument;
-                if (paneForExtentions != null)
+                var paneForExtensions = modelFW.RootDocument;
+                if (paneForExtensions != null)
                 {
                     //ensure that floating window position is inside current (or nearest) monitor
-                    paneForExtentions.KeepInsideNearestMonitor();
+                    paneForExtensions.KeepInsideNearestMonitor();
 
-                    newFW.Left = paneForExtentions.FloatingLeft;
-                    newFW.Top = paneForExtentions.FloatingTop;
-                    newFW.Width = paneForExtentions.FloatingWidth;
-                    newFW.Height = paneForExtentions.FloatingHeight;
+                    newFW.Left = paneForExtensions.FloatingLeft;
+                    newFW.Top = paneForExtensions.FloatingTop;
+                    newFW.Width = paneForExtensions.FloatingWidth;
+                    newFW.Height = paneForExtensions.FloatingHeight;
                 }
 
                 newFW.ShowInTaskbar = false;
@@ -1011,32 +1011,32 @@ namespace AvalonDock
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             //if (e.NewFocus is Grid)
-            //    Debug.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
+          //    Trace.WriteLine(string.Format("DockingManager.OnGotKeyboardFocus({0})", e.NewFocus));
             base.OnGotKeyboardFocus(e);
         }
 
         protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
+          Trace.WriteLine( string.Format( "DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus ) );
 
             base.OnPreviewGotKeyboardFocus(e);
         }
 
         protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            Debug.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
+          Trace.WriteLine( string.Format( "DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus ) );
             base.OnPreviewLostKeyboardFocus(e);
         }
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {
-            Debug.WriteLine(string.Format("DockingManager.OnMouseLeftButtonDown([{0}])", e.GetPosition(this)));
+          Trace.WriteLine( string.Format( "DockingManager.OnMouseLeftButtonDown([{0}])", e.GetPosition( this ) ) );
             base.OnMouseLeftButtonDown(e);
         }
 
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
         {
-            //Debug.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
+          //Trace.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
             base.OnMouseMove(e);
         }
 
@@ -1263,7 +1263,7 @@ namespace AvalonDock
 
         internal void InternalAddLogicalChild(object element)
         {
-            //System.Diagnostics.Debug.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
+          //System.Diagnostics.Trace.WriteLine("[{0}]InternalAddLogicalChild({1})", this, element);
 #if DEBUG
             if (_logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).Contains(element))
                 new InvalidOperationException();
@@ -1277,7 +1277,7 @@ namespace AvalonDock
 
         internal void InternalRemoveLogicalChild(object element)
         {
-            //System.Diagnostics.Debug.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
+          //System.Diagnostics.Trace.WriteLine("[{0}]InternalRemoveLogicalChild({1})", this, element);
 
             var wrToRemove = _logicalChildren.FirstOrDefault(ch => ch.GetValueOrDefault<object>() == element);
             if (wrToRemove != null)
@@ -1304,7 +1304,7 @@ namespace AvalonDock
             //if (AutoHideWindow != null && AutoHideWindow.Model == anchor.Model)
             //    return;
 
-            //Debug.WriteLine("ShowAutoHideWindow()");
+          //Trace.WriteLine("ShowAutoHideWindow()");
 
             //_currentAutohiddenAnchor = new WeakReference(anchor);
 
@@ -1410,7 +1410,7 @@ namespace AvalonDock
         //    if (AutoHideWindow != null && AutoHideWindow.Model == anchor.Model)
         //        return;
 
-        //    Debug.WriteLine("ShowAutoHideWindow()");
+        //    Trace.WriteLine("ShowAutoHideWindow()");
 
         //    _currentAutohiddenAnchor = new WeakReference(anchor);
 
@@ -1425,7 +1425,7 @@ namespace AvalonDock
         //    {
         //        if (anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
         //        {
-        //            Debug.WriteLine("AutoHideWindow()");
+        //            Trace.WriteLine("AutoHideWindow()");
         //            AutoHideWindow.Dispose();
         //            SetAutoHideWindow(null);
         //        }
@@ -1772,7 +1772,7 @@ namespace AvalonDock
 
         IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
         {
-            //Debug.WriteLine("ShowOverlayWindow");
+          //Trace.WriteLine("ShowOverlayWindow");
             CreateOverlayWindow();
             _overlayWindow.Owner = draggingWindow;
             _overlayWindow.EnableDropTargets();
@@ -1782,7 +1782,7 @@ namespace AvalonDock
 
         void IOverlayWindowHost.HideOverlayWindow()
         {
-            //Debug.WriteLine("HideOverlayWindow");
+          //Trace.WriteLine("HideOverlayWindow");
             _areas = null;
             _overlayWindow.Owner = null;
             _overlayWindow.HideDropTargets();
@@ -2670,7 +2670,7 @@ namespace AvalonDock
         {
             var oldTheme = e.OldValue as Theme;
             var newTheme = e.NewValue as Theme;
-            var resources = Application.Current == null ? this.Resources : Application.Current.Resources;
+            var resources = this.Resources;
             if (oldTheme != null)
             {
                 var resourceDictionaryToRemove =
@@ -2685,17 +2685,14 @@ namespace AvalonDock
                 resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newTheme.GetResourceUri() });
             }
 
-            if (Application.Current == null)
-            {
-                foreach (var fwc in _fwList)
-                    fwc.UpdateThemeResources(oldTheme);
+            foreach (var fwc in _fwList)
+                fwc.UpdateThemeResources(oldTheme);
 
-                if (_navigatorWindow != null)
-                    _navigatorWindow.UpdateThemeResources();
+            if (_navigatorWindow != null)
+                _navigatorWindow.UpdateThemeResources();
 
-                if (_overlayWindow != null)
-                    _overlayWindow.UpdateThemeResources();
-            }
+            if (_overlayWindow != null)
+                _overlayWindow.UpdateThemeResources();
         }
 
         #endregion
@@ -3137,7 +3134,7 @@ namespace AvalonDock
             _navigatorWindow.ShowDialog();
             _navigatorWindow = null;
 
-            Debug.WriteLine("ShowNavigatorWindow()");
+            Trace.WriteLine( "ShowNavigatorWindow()" );
         }
 
         bool IsNavigatorWindowActive
@@ -3148,7 +3145,7 @@ namespace AvalonDock
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            Debug.WriteLine("OnPreviewKeyDown({0})", e.Key);
+          Trace.WriteLine( string.Format( "OnPreviewKeyDown({0})", e.Key ) );
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
                 if (e.IsDown && e.Key == Key.Tab)

@@ -20,9 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace AvalonDock
+namespace Xceed.Wpf.AvalonDock
 {
-    internal static class Extentions
+    internal static class Extensions
     {
         public static bool Contains(this IEnumerable collection, object item)
         {

@@ -24,7 +24,7 @@ using System.Windows.Controls;
 using System.Globalization;
 using System.ComponentModel;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [Serializable]
     public class LayoutAnchorable : LayoutContent
@@ -624,11 +624,11 @@ namespace AvalonDock.Layout
         }
 
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine("Anchorable()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "Anchorable()" );
         }
 #endif
     }

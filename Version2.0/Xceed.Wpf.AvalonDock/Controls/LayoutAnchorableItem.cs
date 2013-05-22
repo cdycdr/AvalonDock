@@ -18,13 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Input;
 using System.Windows;
-using AvalonDock.Commands;
+using Xceed.Wpf.AvalonDock.Commands;
 using System.Windows.Data;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class LayoutAnchorableItem : LayoutItem
     {

@@ -29,14 +29,15 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
 using System.Windows.Threading;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
-using AvalonDock.Layout.Serialization;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using System.Resources;
 using System.Collections;
+using Xceed.Wpf.AvalonDock;
 
 namespace AvalonDock.TestApp
 {
@@ -224,9 +225,8 @@ namespace AvalonDock.TestApp
 
         private void OnDumpToConsole(object sender, RoutedEventArgs e)
         {
-#if DEBUG
-            dockManager.Layout.ConsoleDump(0);
-#endif
+          // Uncomment when TRACE is activated on AvalonDock project
+            // dockManager.Layout.ConsoleDump(0);
         }
 
         private void OnReloadManager(object sender, RoutedEventArgs e)

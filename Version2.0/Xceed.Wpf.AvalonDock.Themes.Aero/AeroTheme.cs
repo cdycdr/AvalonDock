@@ -19,14 +19,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AvalonDock.Themes
+namespace Xceed.Wpf.AvalonDock.Themes
 {
     public class AeroTheme : Theme
     {
         public override Uri GetResourceUri()
         {
             return new Uri(
-                "/AvalonDock.Themes.Aero;component/Theme.xaml", 
+                "/Xceed.Wpf.AvalonDock.Themes.Aero;component/Theme.xaml", 
                 UriKind.Relative);  
         }
     }

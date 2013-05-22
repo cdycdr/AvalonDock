@@ -25,12 +25,12 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 using System.Diagnostics;
 using System.Windows.Documents;
-using AvalonDock.Themes;
+using Xceed.Wpf.AvalonDock.Themes;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public abstract class LayoutFloatingWindowControl : Window, ILayoutControl
     {
@@ -83,7 +83,7 @@ namespace AvalonDock.Controls
 
             protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
             {
-                Debug.WriteLine("FloatingWindowContentHost.GotKeyboardFocus");
+                Trace.WriteLine("FloatingWindowContentHost.GotKeyboardFocus");
                 base.OnGotKeyboardFocus(e);
             }
             protected override void DestroyWindowCore(HandleRef hwnd)
@@ -100,10 +100,10 @@ namespace AvalonDock.Controls
                 switch (msg)
                 {
                     case Win32Helper.WM_SETFOCUS:
-                        Debug.WriteLine("FloatingWindowContentHost.WM_SETFOCUS");
+                        Trace.WriteLine("FloatingWindowContentHost.WM_SETFOCUS");
                         break;
                     case Win32Helper.WM_KILLFOCUS:
-                        Debug.WriteLine("FloatingWindowContentHost.WM_KILLFOCUS");
+                        Trace.WriteLine("FloatingWindowContentHost.WM_KILLFOCUS");
                         break;
                 }                
                 return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
@@ -175,10 +175,6 @@ namespace AvalonDock.Controls
 
         internal virtual void UpdateThemeResources(Theme oldTheme = null)
         {
-            //If hosted in WPF than let Application class to update my resources
-            if (Application.Current != null)
-                return;
-
             if (oldTheme != null)
             {
                 var resourceDictionaryToRemove =
@@ -339,7 +335,7 @@ namespace AvalonDock.Controls
         /// </summary>
         protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
         {
-            //Debug.WriteLine("IsDragging={0}", e.NewValue);
+          //Trace.WriteLine("IsDragging={0}", e.NewValue);
         }
 
         #endregion

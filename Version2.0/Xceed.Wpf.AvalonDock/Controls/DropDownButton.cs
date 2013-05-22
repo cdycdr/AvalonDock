@@ -24,7 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Diagnostics;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     public class DropDownButton : ToggleButton
     {

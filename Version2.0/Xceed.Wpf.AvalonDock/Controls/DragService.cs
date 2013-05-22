@@ -21,9 +21,9 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows;
 using System.Diagnostics;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
-namespace AvalonDock.Controls
+namespace Xceed.Wpf.AvalonDock.Controls
 {
     class DragService
     {

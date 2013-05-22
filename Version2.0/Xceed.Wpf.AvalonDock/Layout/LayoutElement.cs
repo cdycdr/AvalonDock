@@ -22,7 +22,7 @@ using System.Windows;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace AvalonDock.Layout
+namespace Xceed.Wpf.AvalonDock.Layout
 {
     [Serializable]
     public abstract class LayoutElement : DependencyObject, ILayoutElement
@@ -127,11 +127,11 @@ namespace AvalonDock.Layout
         }
 
 
-#if DEBUG
+#if TRACE
         public virtual void ConsoleDump(int tab)
         {
-            System.Diagnostics.Debug.Write(new String(' ', tab * 4));
-            System.Diagnostics.Debug.WriteLine(this.ToString());
+          System.Diagnostics.Trace.Write( new String( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( this.ToString() );
         }
 #endif
     }

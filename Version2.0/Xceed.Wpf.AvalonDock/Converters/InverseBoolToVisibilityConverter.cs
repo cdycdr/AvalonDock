@@ -21,7 +21,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows;
 
-namespace AvalonDock.Converters
+namespace Xceed.Wpf.AvalonDock.Converters
 {
     [ValueConversion(typeof(bool), typeof(Visibility))] 
     public class InverseBoolToVisibilityConverter : IValueConverter 

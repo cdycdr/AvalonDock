@@ -19,10 +19,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using AvalonDock.Controls;
+using Xceed.Wpf.AvalonDock.Controls;
 using System.Windows;
 
-namespace AvalonDock.Layout.Serialization
+namespace Xceed.Wpf.AvalonDock.Layout.Serialization
 {
     public abstract class LayoutSerializer
     {
