@@ -36,22 +36,31 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #region Title
 
-        private string _title = null;
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register( "Title", typeof( string ), typeof( LayoutContent ), new UIPropertyMetadata( null, OnTitlePropertyChanged, CoerceTitleValue ) );
+
         public string Title
         {
-            get { return _title; }
-            set
-            {
-                if (_title != value)
-                {
-                    RaisePropertyChanging("Title");
-                    _title = value;
-                    RaisePropertyChanged("Title");
-                }
-            }
+          get { return ( string )GetValue( TitleProperty ); }
+          set { SetValue( TitleProperty, value ); }
         }
 
-        #endregion
+        private static object CoerceTitleValue( DependencyObject obj, object value )
+        {
+          var lc = ( LayoutContent )obj;
+          if( value != lc.Title )
+          {
+            lc.RaisePropertyChanging( LayoutContent.TitleProperty.Name );
+          }
+          return value;
+        }
+
+        private static void OnTitlePropertyChanged( DependencyObject obj, DependencyPropertyChangedEventArgs args )
+        {
+          ( ( LayoutContent )obj ).RaisePropertyChanged( LayoutContent.TitleProperty.Name );
+        }
+
+        #endregion //Title
 
         #region Content
         [NonSerialized]
