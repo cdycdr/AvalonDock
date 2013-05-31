@@ -352,9 +352,17 @@ namespace Xceed.Wpf.AvalonDock.Controls
                 posElement.FloatingTop = Top;
                 posElement.FloatingWidth = Width;
                 posElement.FloatingHeight = Height;
-                posElement.IsMaximized = this.WindowState == System.Windows.WindowState.Maximized;
             }
         }
+
+        void UpdateMaximizedState( bool isMaximized )
+        {
+          foreach( var posElement in Model.Descendents().OfType<ILayoutElementForFloatingWindow>() )
+          {
+            posElement.IsMaximized = isMaximized;
+          }
+        }
+
 
         protected virtual IntPtr FilterMessage(
             IntPtr hwnd,
@@ -405,6 +413,14 @@ namespace Xceed.Wpf.AvalonDock.Controls
                         _dragService.Abort();
                         _dragService = null;
                         SetIsDragging(false);
+                    }
+                    break;
+              case Win32Helper.WM_SYSCOMMAND:
+                    IntPtr wMaximize = new IntPtr( Win32Helper.SC_MAXIMIZE );
+                    IntPtr wRestore = new IntPtr( Win32Helper.SC_RESTORE );
+                    if( wParam == wMaximize || wParam == wRestore )
+                    {
+                      UpdateMaximizedState( wParam == wMaximize );
                     }
                     break;
             }

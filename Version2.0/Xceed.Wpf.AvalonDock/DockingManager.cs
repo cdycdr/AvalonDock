@@ -377,6 +377,11 @@ namespace Xceed.Wpf.AvalonDock
 
                 newFW.ShowInTaskbar = false;
                 newFW.Show();
+                // Do not set the WindowState before showing or it will be lost
+                if( paneForExtensions != null && paneForExtensions.IsMaximized )
+                {
+                  newFW.WindowState = WindowState.Maximized;
+                }
                 return newFW;
             }
 
@@ -405,6 +410,11 @@ namespace Xceed.Wpf.AvalonDock
 
                 newFW.ShowInTaskbar = false;
                 newFW.Show();
+                // Do not set the WindowState before showing or it will be lost
+                if( paneForExtensions != null && paneForExtensions.IsMaximized )
+                {
+                  newFW.WindowState = WindowState.Maximized;
+                }
                 return newFW;
             }
 
