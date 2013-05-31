@@ -48,7 +48,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
         private static object CoerceTitleValue( DependencyObject obj, object value )
         {
           var lc = ( LayoutContent )obj;
-          if( value != lc.Title )
+          if( ( ( string )value ) != lc.Title )
           {
             lc.RaisePropertyChanging( LayoutContent.TitleProperty.Name );
           }
