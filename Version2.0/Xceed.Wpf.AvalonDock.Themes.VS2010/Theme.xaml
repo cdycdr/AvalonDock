@@ -777,7 +777,7 @@
         <MenuItem Header="{x:Static avalonDockProperties:Resources.Anchorable_AutoHide}" 
                 Command="{Binding Path=AutoHideCommand}"/>
         <MenuItem Header="{x:Static avalonDockProperties:Resources.Anchorable_Hide}" 
-                Command="{Binding Path=CloseCommand}"
+                Command="{Binding Path=HideCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </ContextMenu>
 
